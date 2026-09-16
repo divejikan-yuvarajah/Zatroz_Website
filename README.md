@@ -2,7 +2,7 @@
 
 Company marketing site for **Zatroz** — a service-based IT studio helping SMEs improve how they sell, serve customers, and manage everyday work.
 
-**Current stage:** Project folder structure documented (Step 08). Design system and marketing pages are not built yet. No public deployment yet.
+**Current stage:** Cursor project rules added (Step 09). Design system and marketing pages are not built yet. No public deployment yet.
 
 ## Goal
 
@@ -25,6 +25,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Project initialization    | [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md)                                                                                                     |
 | Quality checks            | [`docs/setup/quality-checks.md`](docs/setup/quality-checks.md)                                                                                                                     |
 | Folder structure          | [`docs/architecture/folder-structure.md`](docs/architecture/folder-structure.md)                                                                                                   |
+| Cursor workflow           | [`docs/setup/cursor-workflow.md`](docs/setup/cursor-workflow.md)                                                                                                                   |
 | Git workflow              | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md)                                                                                                                         |
 | Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md)                                                                     |
 
@@ -38,6 +39,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Next.js app                       | Starter merged to `main` (see `docs/setup/project-initialization.md`)          |
 | Quality scripts                   | `npm run check` / `npm run build` documented in `docs/setup/quality-checks.md` |
 | Folder structure                  | Documented in `docs/architecture/folder-structure.md`                          |
+| Cursor project rules              | `.cursor/rules/` + `docs/setup/cursor-workflow.md`                             |
 | Production deployment             | Not started                                                                    |
 
 ## Local tools

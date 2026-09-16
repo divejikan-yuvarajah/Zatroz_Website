@@ -1,0 +1,18 @@
+---
+description: Core Zatroz project workflow for every agent session
+alwaysApply: true
+---
+
+# Zatroz — project core
+
+- **Purpose:** Marketing site for Zatroz that generates qualified project enquiries (Next.js App Router, React, TypeScript, Tailwind).
+- **One step at a time:** Execute only the step the user names from the prompt pack. Do not advance to the next step automatically.
+- **Read before edit:** Check `docs/progress.md`, relevant planning/setup docs, and existing code before changing files. Keep `AGENTS.md` Next.js guidance intact.
+- **Preserve work:** Do not replace the repo, erase Git history, force-push, discard unrelated changes, or overwrite user edits.
+- **Stack:** Reuse the installed versions and lockfile. Explain any new dependency before adding it. Do not upgrade the framework during unrelated steps.
+- **Honesty:** Distinguish completed work, proposals, missing inputs, and checks actually run. Never claim build/browser/commit/push success without evidence.
+- **Secrets:** No credentials in chat, source, screenshots, logs, or commits. Use placeholders in examples.
+- **Scope:** Do not build future pages, auth, admin, databases, animation systems, or fake integrations ahead of their step.
+- **Checks:** Prefer `npm run check` and `npm run build` as documented in `docs/setup/quality-checks.md`.
+- **Git:** Prepare a suggested commit; commit/push only when the user asks. Prefer per-step branches and PR review (`docs/setup/git-workflow.md`).
+- **Structure:** Follow `docs/architecture/folder-structure.md` for where code and assets belong.

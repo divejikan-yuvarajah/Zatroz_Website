@@ -1,0 +1,16 @@
+---
+description: Content and design guidance for copy, branding, CTAs, and visual work on the Zatroz marketing site
+alwaysApply: false
+---
+
+# Zatroz — content and design
+
+Use when writing copy, placing brand assets, or building visual UI.
+
+- **Colours (direction):** orange `#FF3B10`, charcoal `#111111`, warm white `#F7F5F2`. Use **dark text** on the orange primary button.
+- After Step 11 creates design tokens, use those tokens instead of inventing new ones.
+- Use the **real approved logo** only; do not redraw or invent brand marks.
+- Do **not** invent client logos, testimonials, awards, statistics, or delivery promises. Mark unknowns as TODO.
+- Do **not** publish package prices until founders confirm stable inclusions/exclusions.
+- Keep routes and CTAs consistent with `docs/planning/03-sitemap.md`, `navigation-spec.md`, and `visitor-journeys.md` (primary CTA: Start a project → Contact).
+- Content inventory and assets: `docs/content/`.

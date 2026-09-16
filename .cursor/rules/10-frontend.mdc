@@ -1,0 +1,17 @@
+---
+description: Frontend UI guidance for React/Next.js components, layouts, pages, and styling in this Zatroz site
+alwaysApply: false
+---
+
+# Zatroz — frontend
+
+Use when editing UI under `src/app`, `src/components`, or related styles.
+
+- Prefer **semantic HTML** (`header`, `nav`, `main`, `section`, `footer`, one clear `h1` per page).
+- Build **responsive** layouts; content should work from ~320px upward.
+- Support **keyboard** use: real buttons/links, visible focus, no click-only `div` controls.
+- Keep components **small**; thin route files compose sections (`docs/architecture/folder-structure.md`).
+- Default to **Server Components**. Add `"use client"` only for real browser interaction.
+- Never import `src/server/**` from client components or shared secret-bearing barrels.
+- When motion is added later: prefer CSS first; respect `prefers-reduced-motion`; do not hide required content behind animation.
+- Run `npm run check` after meaningful UI changes when practical.
