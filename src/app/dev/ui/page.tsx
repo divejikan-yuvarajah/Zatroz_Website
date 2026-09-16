@@ -1,0 +1,289 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Design tokens — local preview",
+  description: "Local Zatroz token gallery. Not for production or search.",
+  robots: { index: false, follow: false },
+};
+
+const swatches: {
+  name: string;
+  token: string;
+  hex: string;
+  className: string;
+}[] = [
+  { name: "Brand", token: "brand", hex: "#FF3B10", className: "bg-brand" },
+  {
+    name: "Brand hover",
+    token: "brand-hover",
+    hex: "#FF572E",
+    className: "bg-brand-hover",
+  },
+  {
+    name: "Brand strong",
+    token: "brand-strong",
+    hex: "#C42B0A",
+    className: "bg-brand-strong",
+  },
+  {
+    name: "Brand soft",
+    token: "brand-soft",
+    hex: "#FFF0EA",
+    className: "bg-brand-soft",
+  },
+  { name: "Ink", token: "ink", hex: "#111111", className: "bg-ink" },
+  { name: "Canvas", token: "canvas", hex: "#F7F5F2", className: "bg-canvas" },
+  {
+    name: "Surface",
+    token: "surface",
+    hex: "#FFFFFF",
+    className: "bg-surface",
+  },
+  {
+    name: "Surface muted",
+    token: "surface-muted",
+    hex: "#EEEAE4",
+    className: "bg-surface-muted",
+  },
+  {
+    name: "Surface inverse",
+    token: "surface-inverse",
+    hex: "#1C1C1C",
+    className: "bg-surface-inverse",
+  },
+  {
+    name: "Text body",
+    token: "text-body",
+    hex: "#3F3D3A",
+    className: "bg-text-body",
+  },
+  {
+    name: "Text muted",
+    token: "text-muted",
+    hex: "#68645F",
+    className: "bg-text-muted",
+  },
+  {
+    name: "Success",
+    token: "success",
+    hex: "#166534",
+    className: "bg-success",
+  },
+  {
+    name: "Warning",
+    token: "warning",
+    hex: "#854D0E",
+    className: "bg-warning",
+  },
+  { name: "Error", token: "error", hex: "#B91C1C", className: "bg-error" },
+];
+
+const spaces: { label: string; token: string; className: string }[] = [
+  { label: "4px", token: "--space-1", className: "w-1" },
+  { label: "8px", token: "--space-2", className: "w-2" },
+  { label: "12px", token: "--space-3", className: "w-3" },
+  { label: "16px", token: "--space-4", className: "w-4" },
+  { label: "24px", token: "--space-5", className: "w-6" },
+  { label: "32px", token: "--space-6", className: "w-8" },
+  { label: "48px", token: "--space-7", className: "w-12" },
+  { label: "64px", token: "--space-8", className: "w-16" },
+  { label: "80px", token: "--space-9", className: "w-20" },
+  { label: "96px", token: "--space-10", className: "w-24" },
+  { label: "128px", token: "--space-11", className: "w-32" },
+];
+
+export default function DevUiPage() {
+  if (process.env.NODE_ENV !== "development") {
+    notFound();
+  }
+
+  return (
+    <div className="bg-canvas text-text-body">
+      <div className="mx-auto max-w-container px-gutter py-section">
+        <header className="max-w-reading">
+          <p className="ds-support mb-3 font-medium">Example · local only</p>
+          <h1>Zatroz design tokens</h1>
+          <p className="mt-4">
+            Token preview for colour, type, spacing, surfaces, and keyboard
+            focus. This route is for local development. It is not a marketing
+            page and contains no private data.
+          </p>
+        </header>
+
+        <section className="mt-section" aria-labelledby="colour-heading">
+          <h2 id="colour-heading">Colour</h2>
+          <ul className="mt-6 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-3 md:grid-cols-4">
+            {swatches.map((swatch) => (
+              <li key={swatch.token}>
+                <figure className="m-0">
+                  <div
+                    className={`h-16 rounded-md border border-border-subtle ${swatch.className}`}
+                  />
+                  <figcaption className="ds-support mt-2">
+                    <span className="block font-medium text-ink">
+                      {swatch.name}
+                    </span>
+                    {swatch.token} · {swatch.hex}
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mt-section" aria-labelledby="type-heading">
+          <h2 id="type-heading">Typography</h2>
+          <p className="ds-support mt-2">
+            One family (Manrope, with a system fallback). Heading size is
+            visual; HTML level stays semantic.
+          </p>
+          <div className="mt-6 space-y-6">
+            <div>
+              <p className="ds-support">
+                Display size H1 · ~40–88px · not a second page title
+              </p>
+              <p className="ds-h1 mt-1">Digital solutions for everyday work</p>
+            </div>
+            <div>
+              <p className="ds-support">Display size H2 · ~30–56px</p>
+              <p className="ds-h2 mt-1">
+                A long heading should wrap instead of overflowing the viewport
+                or using hardcoded line breaks
+              </p>
+            </div>
+            <div>
+              <p className="ds-support">Display size H3 · ~22–32px</p>
+              <p className="ds-h3 mt-1">Service groups and delivery steps</p>
+            </div>
+            <div>
+              <p className="ds-support">Body · ~16–18px · line-height 1.6</p>
+              <p className="mt-1 max-w-reading">
+                Body copy uses the text-body token on canvas or white surfaces.
+                This paragraph is an example only. It is not a client story or a
+                result claim.
+              </p>
+            </div>
+            <p className="ds-support">Supporting text · ~14px</p>
+          </div>
+        </section>
+
+        <section className="mt-section" aria-labelledby="space-heading">
+          <h2 id="space-heading">Spacing</h2>
+          <p className="ds-support mt-2">
+            Rem scale at the default root size. Bars are examples, not page
+            layout.
+          </p>
+          <ul className="mt-6 list-none space-y-2 p-0">
+            {spaces.map((space) => (
+              <li key={space.token} className="flex items-center gap-3">
+                <div
+                  className={`h-3 ${space.className} shrink-0 rounded-sm bg-brand`}
+                />
+                <span className="ds-support">
+                  {space.label} · {space.token}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mt-section" aria-labelledby="surface-heading">
+          <h2 id="surface-heading">Surfaces</h2>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            <div className="rounded-md border border-border-subtle bg-surface p-6 text-text-body shadow-soft">
+              <h3>Light surface</h3>
+              <p className="mt-3">
+                Ink headings and body text on white. Small links use
+                brand-strong, not bright brand orange.
+              </p>
+              <p className="mt-3">
+                <a
+                  className="font-medium text-brand-strong underline"
+                  href="#focus-heading"
+                >
+                  Example in-page link
+                </a>
+              </p>
+              <p className="ds-support mt-3">Muted supporting copy on light.</p>
+            </div>
+            <div className="rounded-md bg-ink p-6 text-text-inverse-body">
+              <h3 className="text-text-inverse">Charcoal section</h3>
+              <p className="mt-3">
+                Inverse body token on ink. Do not reuse light-surface orange
+                links here without a separate check.
+              </p>
+              <p className="mt-3">
+                <a
+                  className="font-medium text-text-inverse underline"
+                  href="#focus-heading"
+                >
+                  Example inverse link
+                </a>
+              </p>
+              <p className="mt-3 text-text-inverse-muted">
+                Inverse muted supporting copy.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 rounded-md bg-success-soft p-4 text-success">
+            Example success message on success-soft. Not a real enquiry result.
+          </div>
+          <div className="mt-3 rounded-md bg-warning-soft p-4 text-warning">
+            Example warning message on warning-soft.
+          </div>
+          <div className="mt-3 rounded-md bg-error-soft p-4 text-error">
+            Example error message on error-soft.
+          </div>
+        </section>
+
+        <section className="mt-section" aria-labelledby="focus-heading">
+          <h2 id="focus-heading">Focus and native controls</h2>
+          <p className="ds-support mt-2 max-w-reading">
+            Tab through these native controls. They are unstyled examples for
+            focus inspection, not the reusable Button or form APIs (later
+            steps).
+          </p>
+          <div className="mt-6 flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                className="ds-transition rounded-sm bg-brand px-4 py-3 font-medium text-ink"
+              >
+                Example primary (dark text on brand)
+              </button>
+              <button
+                type="button"
+                className="ds-transition rounded-sm bg-surface px-4 py-3 font-medium text-ink ring-1 ring-border-control"
+              >
+                Example secondary
+              </button>
+            </div>
+            <div className="rounded-md bg-ink p-6">
+              <button
+                type="button"
+                className="rounded-sm bg-surface-inverse px-4 py-3 font-medium text-text-inverse ring-1 ring-border-inverse"
+              >
+                Example on charcoal
+              </button>
+            </div>
+            <label className="flex max-w-reading flex-col gap-2 text-ink">
+              Example text field
+              <input
+                type="text"
+                name="preview-example"
+                autoComplete="off"
+                className="min-h-11 rounded-sm border border-border-control bg-surface px-3 py-2 text-base text-text-body"
+                defaultValue="Example value"
+              />
+            </label>
+            <label className="flex items-center gap-2 text-ink">
+              <input type="checkbox" name="preview-check" />
+              Example checkbox
+            </label>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}

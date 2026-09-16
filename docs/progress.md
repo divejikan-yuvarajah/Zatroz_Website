@@ -13,7 +13,11 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 07   | Repeatable quality checks      | **Implemented**                                                           | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
 | 08   | Documented folder structure    | **Implemented**                                                           | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
 | 09   | Cursor project rules           | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending) | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
-| 10   | Safe environment configuration | **Implemented** (on branch `setup/10-environment`)                        | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
+| 10   | Safe environment configuration | **Implemented**                                                           | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
+| 11   | Design system                  | **Implemented** (on branch `feature/11-design-system`)                    | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
+| 12   | Reusable UI primitives         | Not started                                                               | —          | —                                                                                                                         |
+| 13   | Accessible form components     | Not started                                                               | —          | —                                                                                                                         |
+| 14   | Shared website layout          | Not started                                                               | —          | —                                                                                                                         |
 
 ---
 
@@ -115,9 +119,19 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 09    | `.cursor/rules/` + cursor workflow doc                    |
 | 10    | Safe env example + server `getSiteUrl()`                  |
 
-**Ready for Step 11 (design system):** technical foundation through Step 10 is in place on the step branches. Merge open PRs (09, 10) into `main` before starting Step 11 from updated `main`.
+**Ready for Step 11 (design system):** Steps 01–10 are merged to `main` (through PR #5).
 
 **Still pending (content/business):** service capacity, founder profiles, logo/assets, LinkedIn URL, production domain, approved project stories, legal Privacy/Terms.
+
+### Step 11 (2026-09-17)
+
+- Branch: `feature/11-design-system` from updated `main`.
+- Central tokens in `src/styles/tokens.css`; Tailwind v4 `@theme` mapping in `globals.css`.
+- Manrope via `next/font/google` (400/500/600/700). No local WOFF2 was supplied. IBM Plex Mono not added.
+- Guarded `/dev/ui` token preview (`notFound()` unless development; noindex).
+- Contrast pairs recorded in `docs/design/contrast-checks.md`. Brand hex unchanged; white-on-orange is forbidden.
+- Checks: `npm run check` passed; `npm run build` passed; Manrope present in HTML/CSS on `http://localhost:3000` (existing dev server). Production `npm run start` on **http://localhost:3011**: `/` 200, `/dev/ui` **404**. Viewport/zoom/reduced-motion visual pass **not run** (no browser automation); use the manual list in the Step 11 report.
+- No Button/Card/Form APIs, navigation, footer, or marketing pages.
 
 ---
 
