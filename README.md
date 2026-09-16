@@ -31,7 +31,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | --- | --- |
 | Scope, content inventory, sitemap | Documented |
 | Local Node / npm / Git | Verified (see local-environment doc) |
-| GitHub remote | Configured as `origin` when present — first push may still be pending |
+| GitHub remote | `origin` → `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` |
 | Next.js app | Not started (Step 06) |
 | Production deployment | Not started |
 

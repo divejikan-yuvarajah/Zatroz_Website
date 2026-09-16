@@ -8,7 +8,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 02 | Content and asset inventory | **Implemented** | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below |
 | 03 | Sitemap and visitor journeys | **Implemented** | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md` |
 | 04 | Verified local toolchain | **Implemented** | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed |
-| 05 | Local Git and GitHub workflow | **Implemented (local)** — first commit/push pending your review | 2026-09-16 | `.gitignore`, `README.md`, `docs/setup/git-workflow.md`; `origin` set; commit/push not run by agent |
+| 05 | Local Git and GitHub workflow | **Implemented** | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main` |
 | 06 | Working Next.js starter | Not started | — | — |
 | 07 | Repeatable quality checks | Not started | — | — |
 | 08 | Documented folder structure | Not started | — | — |
@@ -49,9 +49,10 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 
 - Initialized local Git on `main` (was not a repository before).
 - Added `.gitignore`, `README.md`, and `docs/setup/git-workflow.md`.
-- Set `origin` to `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` (user-supplied empty repo).
+- Set `origin` to `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` (user-supplied repo).
 - Tracked-file review: planning/content/setup docs only; no `.env`, credentials, or raw private asset folders found.
-- **Not run by agent:** initial commit and `git push -u origin main` (left for your review).
+- User created initial local commit `Set up the folder`.
+- Remote already had an `Initial commit` with a stub README; merged with `--allow-unrelated-histories`, kept the project README, then pushed to `origin/main`.
 - Global Git identity already present on this machine; local identity not modified.
 
 ---
