@@ -1,7 +1,7 @@
 # Zatroz design system
 
 **Step:** 11  
-**Status:** Tokens implemented in CSS. Reusable Button/Card/Form components come in later steps.
+**Status:** Tokens implemented in CSS. Button, Card, and related primitives are Step 12 (`docs/design/ui-components.md`). Form components are a later step.
 
 Raw values live in `src/styles/tokens.css`. Tailwind v4 maps them in `src/app/globals.css` via `@theme inline`. Do not add a second colour palette in components.
 

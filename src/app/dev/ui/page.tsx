@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
+import { Card } from "@/components/ui/card";
+import { Container } from "@/components/ui/container";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { TextLink } from "@/components/ui/text-link";
+import { UiInteractions } from "@/components/dev/ui-interactions";
 
 export const metadata: Metadata = {
-  title: "Design tokens — local preview",
-  description: "Local Zatroz token gallery. Not for production or search.",
+  title: "Design tokens and UI — local preview",
+  description:
+    "Local Zatroz token and component gallery. Not for production or search.",
   robots: { index: false, follow: false },
 };
 
@@ -99,191 +109,335 @@ export default function DevUiPage() {
   }
 
   return (
-    <div className="bg-canvas text-text-body">
-      <div className="mx-auto max-w-container px-gutter py-section">
-        <header className="max-w-reading">
-          <p className="ds-support mb-3 font-medium">Example · local only</p>
-          <h1>Zatroz design tokens</h1>
-          <p className="mt-4">
-            Token preview for colour, type, spacing, surfaces, and keyboard
-            focus. This route is for local development. It is not a marketing
-            page and contains no private data.
-          </p>
-        </header>
+    <>
+      <div className="bg-canvas text-text-body">
+        <div className="mx-auto max-w-container px-gutter py-section">
+          <header className="max-w-reading">
+            <p className="ds-support mb-3 font-medium">Example · local only</p>
+            <h1>Zatroz design tokens</h1>
+            <p className="mt-4">
+              Token preview for colour, type, spacing, surfaces, and keyboard
+              focus. This route is for local development. It is not a marketing
+              page and contains no private data.
+            </p>
+          </header>
 
-        <section className="mt-section" aria-labelledby="colour-heading">
-          <h2 id="colour-heading">Colour</h2>
-          <ul className="mt-6 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-3 md:grid-cols-4">
-            {swatches.map((swatch) => (
-              <li key={swatch.token}>
-                <figure className="m-0">
+          <section className="mt-section" aria-labelledby="colour-heading">
+            <h2 id="colour-heading">Colour</h2>
+            <ul className="mt-6 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-3 md:grid-cols-4">
+              {swatches.map((swatch) => (
+                <li key={swatch.token}>
+                  <figure className="m-0">
+                    <div
+                      className={`h-16 rounded-md border border-border-subtle ${swatch.className}`}
+                    />
+                    <figcaption className="ds-support mt-2">
+                      <span className="block font-medium text-ink">
+                        {swatch.name}
+                      </span>
+                      {swatch.token} · {swatch.hex}
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mt-section" aria-labelledby="type-heading">
+            <h2 id="type-heading">Typography</h2>
+            <p className="ds-support mt-2">
+              One family (Manrope, with a system fallback). Heading size is
+              visual; HTML level stays semantic.
+            </p>
+            <div className="mt-6 space-y-6">
+              <div>
+                <p className="ds-support">
+                  Display size H1 · ~40–88px · not a second page title
+                </p>
+                <p className="ds-h1 mt-1">
+                  Digital solutions for everyday work
+                </p>
+              </div>
+              <div>
+                <p className="ds-support">Display size H2 · ~30–56px</p>
+                <p className="ds-h2 mt-1">
+                  A long heading should wrap instead of overflowing the viewport
+                  or using hardcoded line breaks
+                </p>
+              </div>
+              <div>
+                <p className="ds-support">Display size H3 · ~22–32px</p>
+                <p className="ds-h3 mt-1">Service groups and delivery steps</p>
+              </div>
+              <div>
+                <p className="ds-support">Body · ~16–18px · line-height 1.6</p>
+                <p className="mt-1 max-w-reading">
+                  Body copy uses the text-body token on canvas or white
+                  surfaces. This paragraph is an example only. It is not a
+                  client story or a result claim.
+                </p>
+              </div>
+              <p className="ds-support">Supporting text · ~14px</p>
+            </div>
+          </section>
+
+          <section className="mt-section" aria-labelledby="space-heading">
+            <h2 id="space-heading">Spacing</h2>
+            <p className="ds-support mt-2">
+              Rem scale at the default root size. Bars are examples, not page
+              layout.
+            </p>
+            <ul className="mt-6 list-none space-y-2 p-0">
+              {spaces.map((space) => (
+                <li key={space.token} className="flex items-center gap-3">
                   <div
-                    className={`h-16 rounded-md border border-border-subtle ${swatch.className}`}
+                    className={`h-3 ${space.className} shrink-0 rounded-sm bg-brand`}
                   />
-                  <figcaption className="ds-support mt-2">
-                    <span className="block font-medium text-ink">
-                      {swatch.name}
-                    </span>
-                    {swatch.token} · {swatch.hex}
-                  </figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </section>
+                  <span className="ds-support">
+                    {space.label} · {space.token}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-        <section className="mt-section" aria-labelledby="type-heading">
-          <h2 id="type-heading">Typography</h2>
-          <p className="ds-support mt-2">
-            One family (Manrope, with a system fallback). Heading size is
-            visual; HTML level stays semantic.
-          </p>
-          <div className="mt-6 space-y-6">
-            <div>
-              <p className="ds-support">
-                Display size H1 · ~40–88px · not a second page title
-              </p>
-              <p className="ds-h1 mt-1">Digital solutions for everyday work</p>
+          <section className="mt-section" aria-labelledby="surface-heading">
+            <h2 id="surface-heading">Surfaces</h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div className="rounded-md border border-border-subtle bg-surface p-6 text-text-body shadow-soft">
+                <h3>Light surface</h3>
+                <p className="mt-3">
+                  Ink headings and body text on white. Small links use
+                  brand-strong, not bright brand orange.
+                </p>
+                <p className="mt-3">
+                  <a
+                    className="font-medium text-brand-strong underline"
+                    href="#focus-heading"
+                  >
+                    Example in-page link
+                  </a>
+                </p>
+                <p className="ds-support mt-3">
+                  Muted supporting copy on light.
+                </p>
+              </div>
+              <div className="rounded-md bg-ink p-6 text-text-inverse-body">
+                <h3 className="text-text-inverse">Charcoal section</h3>
+                <p className="mt-3">
+                  Inverse body token on ink. Do not reuse light-surface orange
+                  links here without a separate check.
+                </p>
+                <p className="mt-3">
+                  <a
+                    className="font-medium text-text-inverse underline"
+                    href="#focus-heading"
+                  >
+                    Example inverse link
+                  </a>
+                </p>
+                <p className="mt-3 text-text-inverse-muted">
+                  Inverse muted supporting copy.
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="ds-support">Display size H2 · ~30–56px</p>
-              <p className="ds-h2 mt-1">
-                A long heading should wrap instead of overflowing the viewport
-                or using hardcoded line breaks
-              </p>
+            <div className="mt-6 rounded-md bg-success-soft p-4 text-success">
+              Example success message on success-soft. Not a real enquiry
+              result.
             </div>
-            <div>
-              <p className="ds-support">Display size H3 · ~22–32px</p>
-              <p className="ds-h3 mt-1">Service groups and delivery steps</p>
+            <div className="mt-3 rounded-md bg-warning-soft p-4 text-warning">
+              Example warning message on warning-soft.
             </div>
-            <div>
-              <p className="ds-support">Body · ~16–18px · line-height 1.6</p>
-              <p className="mt-1 max-w-reading">
-                Body copy uses the text-body token on canvas or white surfaces.
-                This paragraph is an example only. It is not a client story or a
-                result claim.
-              </p>
+            <div className="mt-3 rounded-md bg-error-soft p-4 text-error">
+              Example error message on error-soft.
             </div>
-            <p className="ds-support">Supporting text · ~14px</p>
-          </div>
-        </section>
+          </section>
 
-        <section className="mt-section" aria-labelledby="space-heading">
-          <h2 id="space-heading">Spacing</h2>
-          <p className="ds-support mt-2">
-            Rem scale at the default root size. Bars are examples, not page
-            layout.
-          </p>
-          <ul className="mt-6 list-none space-y-2 p-0">
-            {spaces.map((space) => (
-              <li key={space.token} className="flex items-center gap-3">
-                <div
-                  className={`h-3 ${space.className} shrink-0 rounded-sm bg-brand`}
+          <section className="mt-section" aria-labelledby="focus-heading">
+            <h2 id="focus-heading">Focus and native controls</h2>
+            <p className="ds-support mt-2 max-w-reading">
+              Tab through these native controls. They are unstyled examples for
+              focus inspection, not the reusable Button or form APIs (later
+              steps).
+            </p>
+            <div className="mt-6 flex flex-col gap-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  className="ds-transition rounded-sm bg-brand px-4 py-3 font-medium text-ink"
+                >
+                  Example primary (dark text on brand)
+                </button>
+                <button
+                  type="button"
+                  className="ds-transition rounded-sm bg-surface px-4 py-3 font-medium text-ink ring-1 ring-border-control"
+                >
+                  Example secondary
+                </button>
+              </div>
+              <div className="rounded-md bg-ink p-6">
+                <button
+                  type="button"
+                  className="rounded-sm bg-surface-inverse px-4 py-3 font-medium text-text-inverse ring-1 ring-border-inverse"
+                >
+                  Example on charcoal
+                </button>
+              </div>
+              <label className="flex max-w-reading flex-col gap-2 text-ink">
+                Example text field
+                <input
+                  type="text"
+                  name="preview-example"
+                  autoComplete="off"
+                  className="min-h-11 rounded-sm border border-border-control bg-surface px-3 py-2 text-base text-text-body"
+                  defaultValue="Example value"
                 />
-                <span className="ds-support">
-                  {space.label} · {space.token}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="mt-section" aria-labelledby="surface-heading">
-          <h2 id="surface-heading">Surfaces</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <div className="rounded-md border border-border-subtle bg-surface p-6 text-text-body shadow-soft">
-              <h3>Light surface</h3>
-              <p className="mt-3">
-                Ink headings and body text on white. Small links use
-                brand-strong, not bright brand orange.
-              </p>
-              <p className="mt-3">
-                <a
-                  className="font-medium text-brand-strong underline"
-                  href="#focus-heading"
-                >
-                  Example in-page link
-                </a>
-              </p>
-              <p className="ds-support mt-3">Muted supporting copy on light.</p>
+              </label>
+              <label className="flex items-center gap-2 text-ink">
+                <input type="checkbox" name="preview-check" />
+                Example checkbox
+              </label>
             </div>
-            <div className="rounded-md bg-ink p-6 text-text-inverse-body">
-              <h3 className="text-text-inverse">Charcoal section</h3>
-              <p className="mt-3">
-                Inverse body token on ink. Do not reuse light-surface orange
-                links here without a separate check.
-              </p>
-              <p className="mt-3">
-                <a
-                  className="font-medium text-text-inverse underline"
-                  href="#focus-heading"
-                >
-                  Example inverse link
-                </a>
-              </p>
-              <p className="mt-3 text-text-inverse-muted">
-                Inverse muted supporting copy.
-              </p>
-            </div>
-          </div>
-          <div className="mt-6 rounded-md bg-success-soft p-4 text-success">
-            Example success message on success-soft. Not a real enquiry result.
-          </div>
-          <div className="mt-3 rounded-md bg-warning-soft p-4 text-warning">
-            Example warning message on warning-soft.
-          </div>
-          <div className="mt-3 rounded-md bg-error-soft p-4 text-error">
-            Example error message on error-soft.
-          </div>
-        </section>
-
-        <section className="mt-section" aria-labelledby="focus-heading">
-          <h2 id="focus-heading">Focus and native controls</h2>
-          <p className="ds-support mt-2 max-w-reading">
-            Tab through these native controls. They are unstyled examples for
-            focus inspection, not the reusable Button or form APIs (later
-            steps).
-          </p>
-          <div className="mt-6 flex flex-col gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                className="ds-transition rounded-sm bg-brand px-4 py-3 font-medium text-ink"
-              >
-                Example primary (dark text on brand)
-              </button>
-              <button
-                type="button"
-                className="ds-transition rounded-sm bg-surface px-4 py-3 font-medium text-ink ring-1 ring-border-control"
-              >
-                Example secondary
-              </button>
-            </div>
-            <div className="rounded-md bg-ink p-6">
-              <button
-                type="button"
-                className="rounded-sm bg-surface-inverse px-4 py-3 font-medium text-text-inverse ring-1 ring-border-inverse"
-              >
-                Example on charcoal
-              </button>
-            </div>
-            <label className="flex max-w-reading flex-col gap-2 text-ink">
-              Example text field
-              <input
-                type="text"
-                name="preview-example"
-                autoComplete="off"
-                className="min-h-11 rounded-sm border border-border-control bg-surface px-3 py-2 text-base text-text-body"
-                defaultValue="Example value"
-              />
-            </label>
-            <label className="flex items-center gap-2 text-ink">
-              <input type="checkbox" name="preview-check" />
-              Example checkbox
-            </label>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
-    </div>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="components-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="components-heading"
+            eyebrow="Example · local only"
+            description="Reusable primitives for later pages. Labels are examples, not client proof."
+          >
+            Components
+          </SectionHeading>
+
+          <h3 className="mt-10">Buttons and links</h3>
+          <p className="ds-support mt-2 max-w-reading">
+            Primary uses ink on brand. Secondary and quiet are for light
+            surfaces only. Links go to this page, home, or in-page targets.
+          </p>
+          <div className="mt-6 flex max-w-xl flex-wrap gap-3">
+            <Button>Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="quiet">Quiet</Button>
+            <Button size="compact">Compact</Button>
+            <Button variant="secondary" size="compact">
+              Compact secondary
+            </Button>
+            <Button loading>Wide loading label stays this width</Button>
+            <Button disabled>Disabled</Button>
+          </div>
+          <p className="mt-6 max-w-xl">
+            Long label wrap example:{" "}
+            <Button className="mt-2">
+              A deliberately long action label that must wrap on a narrow screen
+              without being clipped
+            </Button>
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink href="/">Home (button link)</ButtonLink>
+            <ButtonLink href="#components-heading" variant="secondary">
+              In-page target
+            </ButtonLink>
+          </div>
+          <p className="mt-6 max-w-reading">
+            Body text with a <TextLink href="/">text link to home</TextLink> and
+            another{" "}
+            <TextLink href="#colour-heading">in-page text link</TextLink>.
+          </p>
+          <UiInteractions />
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="dark"
+        aria-labelledby="dark-components-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="dark-components-heading"
+            tone="inverse"
+            eyebrow="Example · charcoal"
+            description="Inverse text links are supported here. Secondary and quiet buttons are not used on charcoal."
+          >
+            Dark surface
+          </SectionHeading>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button>Primary on charcoal</Button>
+            <ButtonLink href="/" variant="primary">
+              Button link on charcoal
+            </ButtonLink>
+          </div>
+          <p className="mt-6 max-w-reading">
+            Inverse{" "}
+            <TextLink href="#components-heading" surface="inverse">
+              text link
+            </TextLink>{" "}
+            on charcoal.
+          </p>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="badge-card-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            visualLevel={3}
+            id="badge-card-heading"
+            description="Heading level stays 2; the visual scale is smaller. No empty eyebrow is rendered."
+          >
+            Badges and cards
+          </SectionHeading>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <Badge>Neutral</Badge>
+            <Badge variant="accent">Accent</Badge>
+            <Badge variant="success">Success example</Badge>
+            <Badge variant="warning">Warning example</Badge>
+            <Badge variant="error">Error example</Badge>
+          </div>
+          <div className="mt-8 grid min-w-0 gap-6 md:grid-cols-2">
+            <Card>
+              <h3>Card with a link inside</h3>
+              <p className="mt-3">
+                The card itself is not clickable.{" "}
+                <TextLink href="/">Read the starter home</TextLink>
+              </p>
+            </Card>
+            <Card as="article">
+              <h3>Article card</h3>
+              <p className="mt-3">
+                Example grouping only. No nested buttons inside a wrapping link.
+              </p>
+            </Card>
+          </div>
+          <div className="mt-8 min-w-0 max-w-sm">
+            <Card>
+              <h3>Narrow layout</h3>
+              <p className="mt-3">
+                Container and card children can shrink. Long words wrap rather
+                than forcing horizontal scroll.
+              </p>
+              <Button className="mt-4">Narrow card action</Button>
+            </Card>
+          </div>
+          <p className="mt-8 max-w-reading">
+            Reading-width example: about 65ch. Do not nest a second Container
+            inside another Container (that doubles the gutters).
+          </p>
+        </Container>
+      </Section>
+    </>
   );
 }

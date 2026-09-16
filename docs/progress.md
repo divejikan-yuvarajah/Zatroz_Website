@@ -2,22 +2,22 @@
 
 Track setup progress honestly. Mark a step **Implemented** only when its deliverable files exist. Business decisions may remain pending.
 
-| Step | Result                         | Status                                                                    | Date       | Evidence                                                                                                                  |
-| ---- | ------------------------------ | ------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 01   | Scope and decision register    | **Implemented**                                                           | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
-| 02   | Content and asset inventory    | **Implemented**                                                           | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
-| 03   | Sitemap and visitor journeys   | **Implemented**                                                           | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
-| 04   | Verified local toolchain       | **Implemented**                                                           | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
-| 05   | Local Git and GitHub workflow  | **Implemented**                                                           | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
-| 06   | Working Next.js starter        | **Implemented**                                                           | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
-| 07   | Repeatable quality checks      | **Implemented**                                                           | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
-| 08   | Documented folder structure    | **Implemented**                                                           | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
-| 09   | Cursor project rules           | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending) | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
-| 10   | Safe environment configuration | **Implemented**                                                           | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
-| 11   | Design system                  | **Implemented** (on branch `feature/11-design-system`)                    | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
-| 12   | Reusable UI primitives         | Not started                                                               | —          | —                                                                                                                         |
-| 13   | Accessible form components     | Not started                                                               | —          | —                                                                                                                         |
-| 14   | Shared website layout          | Not started                                                               | —          | —                                                                                                                         |
+| Step | Result                         | Status                                                                       | Date       | Evidence                                                                                                                  |
+| ---- | ------------------------------ | ---------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 01   | Scope and decision register    | **Implemented**                                                              | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
+| 02   | Content and asset inventory    | **Implemented**                                                              | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
+| 03   | Sitemap and visitor journeys   | **Implemented**                                                              | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
+| 04   | Verified local toolchain       | **Implemented**                                                              | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
+| 05   | Local Git and GitHub workflow  | **Implemented**                                                              | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
+| 06   | Working Next.js starter        | **Implemented**                                                              | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
+| 07   | Repeatable quality checks      | **Implemented**                                                              | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
+| 08   | Documented folder structure    | **Implemented**                                                              | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
+| 09   | Cursor project rules           | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending)    | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
+| 10   | Safe environment configuration | **Implemented**                                                              | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
+| 11   | Design system                  | **Implemented** (on branch `feature/11-design-system`)                       | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
+| 12   | Reusable UI primitives         | **Implemented** (on branch `feature/12-ui-components`; merge may be pending) | 2026-09-17 | `src/components/ui/*`, `src/lib/cn.ts`, `/dev/ui` gallery, `docs/design/ui-components.md`                                 |
+| 13   | Accessible form components     | Not started                                                                  | —          | —                                                                                                                         |
+| 14   | Shared website layout          | Not started                                                                  | —          | —                                                                                                                         |
 
 ---
 
@@ -132,6 +132,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Contrast pairs recorded in `docs/design/contrast-checks.md`. Brand hex unchanged; white-on-orange is forbidden.
 - Checks: `npm run check` passed; `npm run build` passed; Manrope present in HTML/CSS on `http://localhost:3000` (existing dev server). Production `npm run start` on **http://localhost:3011**: `/` 200, `/dev/ui` **404**. Viewport/zoom/reduced-motion visual pass **not run** (no browser automation); use the manual list in the Step 11 report.
 - No Button/Card/Form APIs, navigation, footer, or marketing pages.
+
+### Step 12 (2026-09-17)
+
+- Branch: `feature/12-ui-components` from `feature/11-design-system` (`origin/main` still at Step 10 / PR #5).
+- Added primitives: Button, ButtonLink, TextLink, Badge, Card, Container, Section, SectionHeading; shared `button-styles.ts` and `src/lib/cn.ts`.
+- Interactive gallery demo only in `src/components/dev/ui-interactions.tsx` (local counter, loading, form default vs submit). Nothing is sent or saved.
+- Primary button: ink on brand. Secondary and quiet are **light-surface only** (not used on charcoal).
+- `/dev/ui` extended; homepage not turned into a gallery.
+- Checks: `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3012**: `/` 200, `/dev/ui` **404**. Viewport/keyboard/zoom/reduced-motion visual pass **not run** (no browser automation); use the manual list in the Step 12 report.
+- No navigation, footer, hero, dialogs, FAQ, or service/project cards.
 
 ---
 
