@@ -4,12 +4,12 @@ Prepared for Divejikan and the Zatroz founding team · 16 September 2026
 
 Continue in the existing `zatroz-website` repository. This pack builds the header, mobile navigation, footer, and structured content foundation using the design system and components from Steps 11–14.
 
-| Step | Deliverable | Suggested branch |
-| --- | --- | --- |
-| 15 | Desktop navigation and Services disclosure | `feature/15-desktop-navigation` |
-| 16 | Accessible mobile navigation | `feature/16-mobile-navigation` |
-| 17 | Responsive company footer | `feature/17-footer` |
-| 18 | Typed, validated shared content | `feature/18-content-structure` |
+| Step | Deliverable                                | Suggested branch                |
+| ---- | ------------------------------------------ | ------------------------------- |
+| 15   | Desktop navigation and Services disclosure | `feature/15-desktop-navigation` |
+| 16   | Accessible mobile navigation               | `feature/16-mobile-navigation`  |
+| 17   | Responsive company footer                  | `feature/17-footer`             |
+| 18   | Typed, validated shared content            | `feature/18-content-structure`  |
 
 Run one step at a time. Review and merge its checkpoint before the next step. This file supplies instructions; the website changes and tests have not been executed in your local project.
 
@@ -51,22 +51,22 @@ At the end, report what changed, files changed, actual verification, pending inp
 
 ### Navigation destinations
 
-| Item | Canonical destination |
-| --- | --- |
-| Logo / Home | `/` |
-| Services overview | `/services` |
-| Websites and E-commerce | `/services/websites-ecommerce` |
-| Web and Mobile Applications | `/services/web-mobile-apps` |
-| Business Systems | `/services/business-systems` |
-| AI and Automation | `/services/ai-automation` |
-| Custom Software | `/services/custom-software` |
-| UI/UX Design | `/services/ui-ux-design` |
-| Work | `/work` |
-| About | `/about` |
-| Process | `/process` |
-| Start a project / Contact | `/contact` |
-| Privacy | `/privacy` |
-| Terms | `/terms` |
+| Item                        | Canonical destination          |
+| --------------------------- | ------------------------------ |
+| Logo / Home                 | `/`                            |
+| Services overview           | `/services`                    |
+| Websites and E-commerce     | `/services/websites-ecommerce` |
+| Web and Mobile Applications | `/services/web-mobile-apps`    |
+| Business Systems            | `/services/business-systems`   |
+| AI and Automation           | `/services/ai-automation`      |
+| Custom Software             | `/services/custom-software`    |
+| UI/UX Design                | `/services/ui-ux-design`       |
+| Work                        | `/work`                        |
+| About                       | `/about`                       |
+| Process                     | `/process`                     |
+| Start a project / Contact   | `/contact`                     |
+| Privacy                     | `/privacy`                     |
+| Terms                       | `/terms`                       |
 
 The logo links Home. Desktop navigation contains Services, Work, About, Process, and the project CTA. The Services area has an overview link plus a separate disclosure button for the six service groups. The mobile panel also includes Home explicitly. Policies belong in the footer.
 
@@ -264,17 +264,17 @@ Update footer.md, progress, and a concise launch-content gap list. Suggested com
 
 ### Proposed content model
 
-| Record | Important fields |
-| --- | --- |
-| Site | Brand name, approved description, CTA labels, approved logo assets |
-| Contact | Display text, canonical destination/value, confirmation state, approved social URLs |
-| Route | Stable key, canonical path, implementation state |
-| Navigation | ID, label, route key, order, child references |
-| Service | Stable ID, one of six approved slugs, title, draft/approved copy, summary, deliverables, related project IDs |
-| Project | ID, slug, title, work status, actual contribution, story fields, media, approved links, publication state |
-| Founder | ID, approved name/role/bio, portrait, approved professional URLs, publication state |
-| FAQ | ID, question, answer, optional service relationship, publication state |
-| Media | Public path, dimensions where known, alt text, optional caption, approval state |
+| Record     | Important fields                                                                                             |
+| ---------- | ------------------------------------------------------------------------------------------------------------ |
+| Site       | Brand name, approved description, CTA labels, approved logo assets                                           |
+| Contact    | Display text, canonical destination/value, confirmation state, approved social URLs                          |
+| Route      | Stable key, canonical path, implementation state                                                             |
+| Navigation | ID, label, route key, order, child references                                                                |
+| Service    | Stable ID, one of six approved slugs, title, draft/approved copy, summary, deliverables, related project IDs |
+| Project    | ID, slug, title, work status, actual contribution, story fields, media, approved links, publication state    |
+| Founder    | ID, approved name/role/bio, portrait, approved professional URLs, publication state                          |
+| FAQ        | ID, question, answer, optional service relationship, publication state                                       |
+| Media      | Public path, dimensions where known, alt text, optional caption, approval state                              |
 
 Keep **work status** separate from **publication state**. A prototype can be approved for publication; a client project may still be a private draft. Route implementation is a third, separate concern.
 
