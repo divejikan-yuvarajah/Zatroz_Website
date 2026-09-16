@@ -8,10 +8,10 @@
 
 ## Environment used
 
-| Tool | Version |
-| --- | --- |
-| Node.js | v24.10.0 (see `.nvmrc`) |
-| npm | 11.6.1 |
+| Tool       | Version                 |
+| ---------- | ----------------------- |
+| Node.js    | v24.10.0 (see `.nvmrc`) |
+| npm        | 11.6.1                  |
 | OS / shell | Windows 11 / PowerShell |
 
 `.nvmrc` records `24.10.0` for nvm users. **On Windows, `.nvmrc` alone does not install Node** — use the official installer or nvm-windows if you manage versions that way.
@@ -22,15 +22,15 @@
 
 ## Installed package versions (resolved)
 
-| Package | Version |
-| --- | --- |
-| next | 16.3.5 |
-| react | 19.2.8 |
-| react-dom | 19.2.8 |
-| typescript | 5.9.3 |
-| eslint | 9.39.5 |
-| eslint-config-next | 16.3.5 |
-| tailwindcss | 4.3.3 |
+| Package              | Version                                                  |
+| -------------------- | -------------------------------------------------------- |
+| next                 | 16.3.5                                                   |
+| react                | 19.2.8                                                   |
+| react-dom            | 19.2.8                                                   |
+| typescript           | 5.9.3                                                    |
+| eslint               | 9.39.5                                                   |
+| eslint-config-next   | 16.3.5                                                   |
+| tailwindcss          | 4.3.3                                                    |
 | @tailwindcss/postcss | (caret range in package.json; installed with Tailwind 4) |
 
 Package name: **`zatroz-website`**.  
@@ -66,14 +66,14 @@ Framework agent guidance from the scaffold (`AGENTS.md`, `CLAUDE.md`) was retain
 
 ## Verification results (2026-09-16)
 
-| Check | Result |
-| --- | --- |
-| `npm install` | Succeeded (0 vulnerabilities reported) |
-| `npm run build` | Succeeded — route `/` static |
-| `npm run dev` → `http://localhost:3000` | HTTP 200; page contains “Zatroz”; `lang="en"` present |
-| Hot reload | Confirmed after a temporary page text change |
-| Browser visual review | **Manual** — open `http://localhost:3000` yourself while `npm run dev` runs |
-| `npm run start` (production server) | **Not run** in this step after build; optional local check: `npm run build` then `npm run start` |
+| Check                                   | Result                                                                                           |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `npm install`                           | Succeeded (0 vulnerabilities reported)                                                           |
+| `npm run build`                         | Succeeded — route `/` static                                                                     |
+| `npm run dev` → `http://localhost:3000` | HTTP 200; page contains “Zatroz”; `lang="en"` present                                            |
+| Hot reload                              | Confirmed after a temporary page text change                                                     |
+| Browser visual review                   | **Manual** — open `http://localhost:3000` yourself while `npm run dev` runs                      |
+| `npm run start` (production server)     | **Not run** in this step after build; optional local check: `npm run build` then `npm run start` |
 
 ---
 

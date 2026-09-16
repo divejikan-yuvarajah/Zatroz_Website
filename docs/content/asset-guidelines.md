@@ -14,11 +14,11 @@ Rules for naming, exporting, describing, and storing Zatroz website assets.
 
 ## Where files live
 
-| Location | Allowed content |
-| --- | --- |
-| Outside Git / private owner storage | Raw camera files, unapproved screenshots, private customer data, signed permission docs |
-| Repository private docs (if ever used) | Registers and notes — not secrets |
-| `public/` | **Approved** assets only |
+| Location                               | Allowed content                                                                         |
+| -------------------------------------- | --------------------------------------------------------------------------------------- |
+| Outside Git / private owner storage    | Raw camera files, unapproved screenshots, private customer data, signed permission docs |
+| Repository private docs (if ever used) | Registers and notes — not secrets                                                       |
+| `public/`                              | **Approved** assets only                                                                |
 
 Anything in `public/` may later be reachable by direct URL. Do not put unapproved or private material there.
 
@@ -26,12 +26,12 @@ Anything in `public/` may later be reachable by direct URL. Do not put unapprove
 
 ## Formats
 
-| Asset type | Preferred export |
-| --- | --- |
-| Logos / icons | SVG when possible; otherwise PNG with transparency |
+| Asset type                | Preferred export                                     |
+| ------------------------- | ---------------------------------------------------- |
+| Logos / icons             | SVG when possible; otherwise PNG with transparency   |
 | Photographs / screenshots | JPEG or WebP for photos; PNG/WebP for UI screenshots |
-| Social share image | PNG or JPEG ≈ 1200×630 |
-| Fonts (later) | Self-hosted WOFF2 with retained licence files |
+| Social share image        | PNG or JPEG ≈ 1200×630                               |
+| Fonts (later)             | Self-hosted WOFF2 with retained licence files        |
 
 Record **actual pixel dimensions** from real files when they are supplied (width × height). Do not invent dimensions.
 

@@ -2,18 +2,18 @@
 
 Track setup progress honestly. Mark a step **Implemented** only when its deliverable files exist. Business decisions may remain pending.
 
-| Step | Result | Status | Date | Evidence |
-| --- | --- | --- | --- | --- |
-| 01 | Scope and decision register | **Implemented** | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md` |
-| 02 | Content and asset inventory | **Implemented** | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below |
-| 03 | Sitemap and visitor journeys | **Implemented** | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md` |
-| 04 | Verified local toolchain | **Implemented** | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed |
-| 05 | Local Git and GitHub workflow | **Implemented** | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main` |
-| 06 | Working Next.js starter | **Implemented** (on branch `setup/06-nextjs`) | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
-| 07 | Repeatable quality checks | Not started | — | — |
-| 08 | Documented folder structure | Not started | — | — |
-| 09 | Cursor project rules | Not started | — | — |
-| 10 | Safe environment configuration | Not started | — | — |
+| Step | Result                         | Status                                         | Date       | Evidence                                                                                                                  |
+| ---- | ------------------------------ | ---------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 01   | Scope and decision register    | **Implemented**                                | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
+| 02   | Content and asset inventory    | **Implemented**                                | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
+| 03   | Sitemap and visitor journeys   | **Implemented**                                | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
+| 04   | Verified local toolchain       | **Implemented**                                | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
+| 05   | Local Git and GitHub workflow  | **Implemented**                                | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
+| 06   | Working Next.js starter        | **Implemented**                                | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
+| 07   | Repeatable quality checks      | **Implemented** (on branch `setup/07-quality`) | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
+| 08   | Documented folder structure    | Not started                                    | —          | —                                                                                                                         |
+| 09   | Cursor project rules           | Not started                                    | —          | —                                                                                                                         |
+| 10   | Safe environment configuration | Not started                                    | —          | —                                                                                                                         |
 
 ---
 
@@ -63,6 +63,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Simple Zatroz starter page; system fonts; no demo marketing links; no `output: "export"`.
 - Checks: `npm run build` succeeded (twice); `npm run dev` returned HTTP 200 with “Zatroz”; hot reload confirmed.
 - Browser visual review left as a manual check for you.
+
+### Step 07 (2026-09-16)
+
+- Branch: `setup/07-quality` (from updated `main` after PR #1 merge).
+- Added Prettier `3.9.7` and `eslint-config-prettier` `10.1.8`; kept Next Core Web Vitals + TypeScript ESLint via CLI.
+- Scripts: `lint`, `lint:fix`, `typecheck` (`next typegen && tsc --noEmit`), `format`, `format:check`, `check`.
+- Added `.prettierrc.json`, `.prettierignore`, `.vscode/settings.json`, `docs/setup/quality-checks.md`.
+- Ran initial `npm run format` (mostly markdown whitespace/table alignment; business meaning unchanged).
+- Checks: `npm run check` passed; `npm run build` passed.
+- Did not add Husky, lint-staged, or a test framework.
 
 ---
 

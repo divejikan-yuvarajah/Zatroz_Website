@@ -2,7 +2,7 @@
 
 Company marketing site for **Zatroz** — a service-based IT studio helping SMEs improve how they sell, serve customers, and manage everyday work.
 
-**Current stage:** Next.js starter initialized (Step 06). Planning docs for Steps 01–05 are in `docs/`. Design system and marketing pages are not built yet. No public deployment yet.
+**Current stage:** Quality tooling configured (Step 07) on top of the Next.js starter. Design system and marketing pages are not built yet. No public deployment yet.
 
 ## Goal
 
@@ -14,34 +14,38 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 
 ## Document map
 
-| Area | Path |
-| --- | --- |
-| Progress checklist | [`docs/progress.md`](docs/progress.md) |
-| Launch scope | [`docs/planning/01-project-scope.md`](docs/planning/01-project-scope.md) |
-| Decision register | [`docs/planning/decision-register.md`](docs/planning/decision-register.md) |
-| Sitemap / journeys / nav | [`docs/planning/03-sitemap.md`](docs/planning/03-sitemap.md), [`visitor-journeys.md`](docs/planning/visitor-journeys.md), [`navigation-spec.md`](docs/planning/navigation-spec.md) |
-| Content & assets | [`docs/content/`](docs/content/) |
-| Local environment | [`docs/setup/local-environment.md`](docs/setup/local-environment.md) |
-| Project initialization | [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md) |
-| Git workflow | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md) |
-| Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md) |
+| Area                      | Path                                                                                                                                                                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Progress checklist        | [`docs/progress.md`](docs/progress.md)                                                                                                                                             |
+| Launch scope              | [`docs/planning/01-project-scope.md`](docs/planning/01-project-scope.md)                                                                                                           |
+| Decision register         | [`docs/planning/decision-register.md`](docs/planning/decision-register.md)                                                                                                         |
+| Sitemap / journeys / nav  | [`docs/planning/03-sitemap.md`](docs/planning/03-sitemap.md), [`visitor-journeys.md`](docs/planning/visitor-journeys.md), [`navigation-spec.md`](docs/planning/navigation-spec.md) |
+| Content & assets          | [`docs/content/`](docs/content/)                                                                                                                                                   |
+| Local environment         | [`docs/setup/local-environment.md`](docs/setup/local-environment.md)                                                                                                               |
+| Project initialization    | [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md)                                                                                                     |
+| Quality checks            | [`docs/setup/quality-checks.md`](docs/setup/quality-checks.md)                                                                                                                     |
+| Git workflow              | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md)                                                                                                                         |
+| Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md)                                                                     |
 
 ## Setup status
 
-| Item | Status |
-| --- | --- |
-| Scope, content inventory, sitemap | Documented |
-| Local Node / npm / Git | Verified (see local-environment doc) |
-| GitHub remote | `origin` → `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` |
-| Next.js app | Starter on branch `setup/06-nextjs` (see `docs/setup/project-initialization.md`) |
-| Production deployment | Not started |
+| Item                              | Status                                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| Scope, content inventory, sitemap | Documented                                                                     |
+| Local Node / npm / Git            | Verified (see local-environment doc)                                           |
+| GitHub remote                     | `origin` → `https://github.com/divejikan-yuvarajah/Zatroz_Website.git`         |
+| Next.js app                       | Starter merged to `main` (see `docs/setup/project-initialization.md`)          |
+| Quality scripts                   | `npm run check` / `npm run build` documented in `docs/setup/quality-checks.md` |
+| Production deployment             | Not started                                                                    |
 
 ## Local tools
 
-See [`docs/setup/local-environment.md`](docs/setup/local-environment.md) and [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md).
+See [`docs/setup/local-environment.md`](docs/setup/local-environment.md), [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md), and [`docs/setup/quality-checks.md`](docs/setup/quality-checks.md).
 
 ```powershell
 npm install
+npm run check
+npm run build
 npm run dev
 ```
 

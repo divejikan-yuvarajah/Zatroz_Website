@@ -1,0 +1,48 @@
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+
+# Lockfiles (keep lockfile meaning stable; do not reformat)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Private / raw materials
+private/
+raw-assets/
+
+# Binary and unsupported assets
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.avif
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
+*.pdf
+*.docx
+*.psd
+*.ai
+*.sketch
+
+# Large external reference export (planning source text)
+docs/reference/
+docs/prompts/*.docx
+
+# Editor / OS
+.DS_Store
+Thumbs.db

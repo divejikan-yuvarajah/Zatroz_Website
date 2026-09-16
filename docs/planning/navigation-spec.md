@@ -8,14 +8,14 @@
 
 ## Desktop navigation
 
-| Item | Type | Destination / behaviour |
-| --- | --- | --- |
-| Logo (Zatroz) | Link | `/` (Home) |
-| Services | Link (optional disclosure of six groups) | `/services` and/or service detail links |
-| Work | Link | `/work` |
-| About | Link | `/about` |
-| Process | Link | `/process` |
-| Start a project | Primary CTA link | `/contact` |
+| Item            | Type                                     | Destination / behaviour                 |
+| --------------- | ---------------------------------------- | --------------------------------------- |
+| Logo (Zatroz)   | Link                                     | `/` (Home)                              |
+| Services        | Link (optional disclosure of six groups) | `/services` and/or service detail links |
+| Work            | Link                                     | `/work`                                 |
+| About           | Link                                     | `/about`                                |
+| Process         | Link                                     | `/process`                              |
+| Start a project | Primary CTA link                         | `/contact`                              |
 
 Notes:
 
@@ -27,14 +27,14 @@ Notes:
 
 ## Footer
 
-| Item | Destination |
-| --- | --- |
-| Logo / short blurb | Home / none |
+| Item                             | Destination                 |
+| -------------------------------- | --------------------------- |
+| Logo / short blurb               | Home / none                 |
 | Email, WhatsApp, approved social | Confirmed contact URLs only |
-| Services list (optional compact) | Service routes |
-| Process | `/process` |
-| **Privacy** | `/privacy` |
-| **Terms** | `/terms` |
+| Services list (optional compact) | Service routes              |
+| Process                          | `/process`                  |
+| **Privacy**                      | `/privacy`                  |
+| **Terms**                        | `/terms`                    |
 
 Privacy and Terms live in the footer for launch.
 
@@ -44,15 +44,15 @@ Privacy and Terms live in the footer for launch.
 
 When implemented as an overlay/drawer:
 
-| Requirement | Detail |
-| --- | --- |
-| Destinations | All primary destinations: Services, Work, About, Process, Start a project (and Home via logo) |
-| Open control | Visible button with accessible name (for example “Menu”) |
-| Close control | Visible close control |
-| Escape | Closes the menu |
-| Focus | Move focus into the menu when opened; **return focus** to the open trigger when closed |
+| Requirement     | Detail                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Destinations    | All primary destinations: Services, Work, About, Process, Start a project (and Home via logo)                       |
+| Open control    | Visible button with accessible name (for example “Menu”)                                                            |
+| Close control   | Visible close control                                                                                               |
+| Escape          | Closes the menu                                                                                                     |
+| Focus           | Move focus into the menu when opened; **return focus** to the open trigger when closed                              |
 | Modal behaviour | If overlay traps interaction, use appropriate dialog/modal semantics; do not lose page scroll position unexpectedly |
-| Primary CTA | Start a project remains reachable inside the menu |
+| Primary CTA     | Start a project remains reachable inside the menu                                                                   |
 
 Do not implement this menu in Step 03.
 
@@ -60,13 +60,13 @@ Do not implement this menu in Step 03.
 
 ## CTA placement consistency
 
-| Placement | Control | Destination |
-| --- | --- | --- |
-| Header | Start a project | `/contact` |
-| Service pages | Discuss… | `/contact?service=<allowlisted-slug>` |
-| Project stories | Discuss a similar project | `/contact` (± mapped service) |
-| Hero secondary | Explore our work | `/work` |
-| Secondary interest | Chat on WhatsApp | External WhatsApp link (interest only) |
+| Placement          | Control                   | Destination                            |
+| ------------------ | ------------------------- | -------------------------------------- |
+| Header             | Start a project           | `/contact`                             |
+| Service pages      | Discuss…                  | `/contact?service=<allowlisted-slug>`  |
+| Project stories    | Discuss a similar project | `/contact` (± mapped service)          |
+| Hero secondary     | Explore our work          | `/work`                                |
+| Secondary interest | Chat on WhatsApp          | External WhatsApp link (interest only) |
 
 ---
 

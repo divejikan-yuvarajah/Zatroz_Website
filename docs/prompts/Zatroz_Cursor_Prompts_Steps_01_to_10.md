@@ -39,25 +39,25 @@ At completion, report: what changed and why; files changed; checks with actual r
 
 These are the working baseline from the website plan. Step 1 records their status and any changes.
 
-| Topic | Baseline |
-| --- | --- |
-| Company | Zatroz, a service-based IT startup with three founders |
-| Audience | SMEs and local businesses in Sri Lanka, with room for international clients |
-| Main goal | Generate qualified project enquiries |
-| Primary CTA | Start a project |
-| Secondary CTAs | Explore our work; Chat on WhatsApp |
-| Launch language | English; keep content suitable for later Tamil/Sinhala expansion |
-| Frontend | Next.js App Router, React, TypeScript, Tailwind CSS |
-| Content | Repository-managed content; no CMS at launch |
-| Backend later | Next.js server endpoint, Supabase PostgreSQL enquiries, Resend notifications |
-| Spam protection later | Turnstile verification and rate limiting |
-| Hosting later | GitHub and Vercel, with a plan suitable for business use |
-| Design direction | Warm-white editorial layout, charcoal sections, original business workflow illustrations |
-| Main colours | Orange `#FF3B10`, charcoal `#111111`, warm white `#F7F5F2` |
-| Typography later | Manrope; optional IBM Plex Mono for limited labels |
-| Hero direction | “Connected business” with three labelled business examples |
-| Motion later | CSS first; limited GSAP; respect reduced-motion preferences |
-| Launch exclusions | Customer login, sign-up, custom admin, payments on Zatroz's own site, live AI chatbot, file uploads |
+| Topic                 | Baseline                                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
+| Company               | Zatroz, a service-based IT startup with three founders                                              |
+| Audience              | SMEs and local businesses in Sri Lanka, with room for international clients                         |
+| Main goal             | Generate qualified project enquiries                                                                |
+| Primary CTA           | Start a project                                                                                     |
+| Secondary CTAs        | Explore our work; Chat on WhatsApp                                                                  |
+| Launch language       | English; keep content suitable for later Tamil/Sinhala expansion                                    |
+| Frontend              | Next.js App Router, React, TypeScript, Tailwind CSS                                                 |
+| Content               | Repository-managed content; no CMS at launch                                                        |
+| Backend later         | Next.js server endpoint, Supabase PostgreSQL enquiries, Resend notifications                        |
+| Spam protection later | Turnstile verification and rate limiting                                                            |
+| Hosting later         | GitHub and Vercel, with a plan suitable for business use                                            |
+| Design direction      | Warm-white editorial layout, charcoal sections, original business workflow illustrations            |
+| Main colours          | Orange `#FF3B10`, charcoal `#111111`, warm white `#F7F5F2`                                          |
+| Typography later      | Manrope; optional IBM Plex Mono for limited labels                                                  |
+| Hero direction        | “Connected business” with three labelled business examples                                          |
+| Motion later          | CSS first; limited GSAP; respect reduced-motion preferences                                         |
+| Launch exclusions     | Customer login, sign-up, custom admin, payments on Zatroz's own site, live AI chatbot, file uploads |
 
 The company may build commerce and AI tools **for clients**; this does not mean the Zatroz marketing website needs its own checkout or AI service.
 
@@ -65,18 +65,18 @@ Use dark text on the bright orange primary button. Do not assume white small tex
 
 ### Step map
 
-| Step | Result | Suggested branch after Git setup |
-| --- | --- | --- |
-| 01 | Scope and decision register | Included in first commit |
-| 02 | Content and asset inventory | Included in first commit |
-| 03 | Sitemap and visitor journeys | Included in first commit |
-| 04 | Verified local toolchain | Included in first commit |
-| 05 | Local Git and GitHub workflow | Initial `main` checkpoint |
-| 06 | Working Next.js starter | `setup/06-nextjs` |
-| 07 | Repeatable quality checks | `setup/07-quality` |
-| 08 | Documented folder structure | `setup/08-structure` |
-| 09 | Cursor project rules | `setup/09-cursor-rules` |
-| 10 | Safe environment configuration | `setup/10-environment` |
+| Step | Result                         | Suggested branch after Git setup |
+| ---- | ------------------------------ | -------------------------------- |
+| 01   | Scope and decision register    | Included in first commit         |
+| 02   | Content and asset inventory    | Included in first commit         |
+| 03   | Sitemap and visitor journeys   | Included in first commit         |
+| 04   | Verified local toolchain       | Included in first commit         |
+| 05   | Local Git and GitHub workflow  | Initial `main` checkpoint        |
+| 06   | Working Next.js starter        | `setup/06-nextjs`                |
+| 07   | Repeatable quality checks      | `setup/07-quality`               |
+| 08   | Documented folder structure    | `setup/08-structure`             |
+| 09   | Cursor project rules           | `setup/09-cursor-rules`          |
+| 10   | Safe environment configuration | `setup/10-environment`           |
 
 ## Step 01 — Confirm project scope
 
@@ -518,17 +518,17 @@ Next.js exposes `NEXT_PUBLIC_` variables to browser bundles and freezes those va
 
 ### Planned environment contract
 
-| Variable | Classification | Required when |
-| --- | --- | --- |
-| `SITE_URL` | Public-safe value, read on server | Production metadata and URL generation; localhost during setup |
-| `SUPABASE_URL` | Server configuration, not itself a secret | Enquiry persistence in later steps |
-| `SUPABASE_SECRET_KEY` | Server secret | Enquiry persistence in later steps |
-| `RESEND_API_KEY` | Server secret | Email delivery in later steps |
-| `ENQUIRY_FROM_EMAIL` | Server configuration | Verified notification sender is configured |
-| `ENQUIRY_NOTIFICATION_EMAIL` | Server configuration | Team notification recipient is confirmed |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public | Contact spam protection is implemented |
-| `TURNSTILE_SECRET_KEY` | Server secret | Server verification is implemented |
-| `CRON_SECRET` | Server secret | Protected notification retry job is implemented |
+| Variable                         | Classification                            | Required when                                                  |
+| -------------------------------- | ----------------------------------------- | -------------------------------------------------------------- |
+| `SITE_URL`                       | Public-safe value, read on server         | Production metadata and URL generation; localhost during setup |
+| `SUPABASE_URL`                   | Server configuration, not itself a secret | Enquiry persistence in later steps                             |
+| `SUPABASE_SECRET_KEY`            | Server secret                             | Enquiry persistence in later steps                             |
+| `RESEND_API_KEY`                 | Server secret                             | Email delivery in later steps                                  |
+| `ENQUIRY_FROM_EMAIL`             | Server configuration                      | Verified notification sender is configured                     |
+| `ENQUIRY_NOTIFICATION_EMAIL`     | Server configuration                      | Team notification recipient is confirmed                       |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                                    | Contact spam protection is implemented                         |
+| `TURNSTILE_SECRET_KEY`           | Server secret                             | Server verification is implemented                             |
+| `CRON_SECRET`                    | Server secret                             | Protected notification retry job is implemented                |
 
 `SUPABASE_SECRET_KEY` is our planned application variable name, to be mapped to the supported server credential issued during the later setup. Never put a publishable key there as a substitute. No public Supabase client or login is needed for this marketing-site architecture.
 
