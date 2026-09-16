@@ -4,12 +4,12 @@ Prepared for Divejikan and the Zatroz founding team · 16 September 2026
 
 This pack continues the 72-step roadmap and the Steps 01–10 prompt file. It creates the visual and component foundation for Zatroz. Execute one numbered prompt at a time, review the result, and commit that step before moving forward.
 
-| Step | Work | Suggested branch |
-| --- | --- | --- |
-| 11 | Design system: colours, typography, spacing, focus, surfaces | `feature/11-design-system` |
-| 12 | Reusable UI: buttons, links, badges, cards, containers, headings | `feature/12-ui-components` |
-| 13 | Accessible form components and local interaction examples | `feature/13-form-components` |
-| 14 | Main website layout and shared page structure | `feature/14-site-layout` |
+| Step | Work                                                             | Suggested branch             |
+| ---- | ---------------------------------------------------------------- | ---------------------------- |
+| 11   | Design system: colours, typography, spacing, focus, surfaces     | `feature/11-design-system`   |
+| 12   | Reusable UI: buttons, links, badges, cards, containers, headings | `feature/12-ui-components`   |
+| 13   | Accessible form components and local interaction examples        | `feature/13-form-components` |
+| 14   | Main website layout and shared page structure                    | `feature/14-site-layout`     |
 
 Navigation is Step 15, mobile navigation Step 16, and the footer Step 17. The complete Contact page and enquiry form come later. Database creation remains Steps 44–46. This pack does not move those features ahead of their agreed order.
 
@@ -82,28 +82,28 @@ Use `npm run dev` for local visual checks, and `npm run start` after a successfu
 
 These values come from the Zatroz plan. The token names are proposed implementation names; use equivalent existing semantic names if already established.
 
-| Token | Value | Purpose |
-| --- | --- | --- |
-| `brand` | `#FF3B10` | Main accent; primary button with dark text |
-| `brand-hover` | `#FF572E` | Bright button hover with dark text |
-| `brand-strong` | `#C42B0A` | Small links on light surfaces; optional white-text button |
-| `brand-soft` | `#FFF0EA` | Quiet selected surface |
-| `ink` | `#111111` | Heading text and charcoal sections |
-| `canvas` | `#F7F5F2` | Page background |
-| `surface` | `#FFFFFF` | White panels and controls |
-| `surface-muted` | `#EEEAE4` | Quiet background areas |
-| `surface-inverse` | `#1C1C1C` | Panels within dark sections |
-| `border-subtle` | `#D8D3CD` | Decorative separators |
-| `border-control` | `#817B74` | Meaningful input boundary on light surfaces |
-| `border-inverse` | `#3A3A3A` | Decorative dark separators |
-| `text-body` | `#3F3D3A` | Body copy on light surfaces |
-| `text-muted` | `#68645F` | Secondary copy on light surfaces |
-| `text-inverse` | `#FFFFFF` | Headings on charcoal |
-| `text-inverse-body` | `#D6D6D6` | Body copy on charcoal |
-| `text-inverse-muted` | `#A8A8A8` | Secondary copy on charcoal |
-| `success` / `success-soft` | `#166534` / `#F0FDF4` | Success message text / surface |
-| `warning` / `warning-soft` | `#854D0E` / `#FFFBEB` | Warning message text / surface |
-| `error` / `error-soft` | `#B91C1C` / `#FEF2F2` | Error message text / surface |
+| Token                      | Value                 | Purpose                                                   |
+| -------------------------- | --------------------- | --------------------------------------------------------- |
+| `brand`                    | `#FF3B10`             | Main accent; primary button with dark text                |
+| `brand-hover`              | `#FF572E`             | Bright button hover with dark text                        |
+| `brand-strong`             | `#C42B0A`             | Small links on light surfaces; optional white-text button |
+| `brand-soft`               | `#FFF0EA`             | Quiet selected surface                                    |
+| `ink`                      | `#111111`             | Heading text and charcoal sections                        |
+| `canvas`                   | `#F7F5F2`             | Page background                                           |
+| `surface`                  | `#FFFFFF`             | White panels and controls                                 |
+| `surface-muted`            | `#EEEAE4`             | Quiet background areas                                    |
+| `surface-inverse`          | `#1C1C1C`             | Panels within dark sections                               |
+| `border-subtle`            | `#D8D3CD`             | Decorative separators                                     |
+| `border-control`           | `#817B74`             | Meaningful input boundary on light surfaces               |
+| `border-inverse`           | `#3A3A3A`             | Decorative dark separators                                |
+| `text-body`                | `#3F3D3A`             | Body copy on light surfaces                               |
+| `text-muted`               | `#68645F`             | Secondary copy on light surfaces                          |
+| `text-inverse`             | `#FFFFFF`             | Headings on charcoal                                      |
+| `text-inverse-body`        | `#D6D6D6`             | Body copy on charcoal                                     |
+| `text-inverse-muted`       | `#A8A8A8`             | Secondary copy on charcoal                                |
+| `success` / `success-soft` | `#166534` / `#F0FDF4` | Success message text / surface                            |
+| `warning` / `warning-soft` | `#854D0E` / `#FFFBEB` | Warning message text / surface                            |
+| `error` / `error-soft`     | `#B91C1C` / `#FEF2F2` | Error message text / surface                              |
 
 Dark text on the primary orange is intentional. White on `#FF3B10` is about 3.57:1, so it fails normal text contrast; dark `#111111` on that orange is about 5.29:1. Check actual pairs and states, not isolated hex values. Normal text needs at least 4.5:1; eligible large text needs 3:1. See [W3C text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html). Meaningful control boundaries need suitable contrast against adjacent colours; pale decorative borders are insufficient for identifying white inputs. See [W3C non-text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html).
 
@@ -163,16 +163,16 @@ Tailwind's theme mapping depends on the installed version; use [the official the
 
 ### Component contract
 
-| Component | Purpose | Main requirements |
-| --- | --- | --- |
-| `Button` | Perform an action | Native button; primary/secondary/quiet; sizes; disabled/loading |
-| `ButtonLink` | Navigate with button styling | Real link; shared appearance; no pretend disabled button semantics |
-| `TextLink` | Inline/navigation text link | Visible affordance; internal and external destinations |
-| `Badge` | Display a short label | Static text; not an interactive control or live announcement |
-| `Card` | Group related content | Simple semantic wrapper; no automatically clickable div |
-| `Container` | Set width and gutters | Default/reading widths; responsive tokens |
-| `Section` | Set surface and vertical spacing | Light/dark/muted; semantic choice; no implicit main |
-| `SectionHeading` | Compose heading and introduction | Explicit heading level, optional eyebrow and description |
+| Component        | Purpose                          | Main requirements                                                  |
+| ---------------- | -------------------------------- | ------------------------------------------------------------------ |
+| `Button`         | Perform an action                | Native button; primary/secondary/quiet; sizes; disabled/loading    |
+| `ButtonLink`     | Navigate with button styling     | Real link; shared appearance; no pretend disabled button semantics |
+| `TextLink`       | Inline/navigation text link      | Visible affordance; internal and external destinations             |
+| `Badge`          | Display a short label            | Static text; not an interactive control or live announcement       |
+| `Card`           | Group related content            | Simple semantic wrapper; no automatically clickable div            |
+| `Container`      | Set width and gutters            | Default/reading widths; responsive tokens                          |
+| `Section`        | Set surface and vertical spacing | Light/dark/muted; semantic choice; no implicit main                |
+| `SectionHeading` | Compose heading and introduction | Explicit heading level, optional eyebrow and description           |
 
 ### Copy into Cursor
 
@@ -231,15 +231,15 @@ For Zatroz, prefer standalone control hit areas of at least 44×44 CSS pixels. T
 
 ### Planned form building blocks
 
-| Component | Responsibility |
-| --- | --- |
-| `TextInput` | Native text/email/tel input with consistent states |
-| `TextArea` | Native resizable multiline control |
-| `SelectField` | Native single-select with an accessible label and empty option |
-| `CheckboxField` | Native checkbox with a clickable visible label |
-| `FormField` | Label, required/optional wording, hint, and error association |
-| `ErrorSummary` | Focusable summary with links to invalid controls |
-| `InlineStatus` | Visible idle/loading/demo-success/error feedback with suitable announcements |
+| Component       | Responsibility                                                               |
+| --------------- | ---------------------------------------------------------------------------- |
+| `TextInput`     | Native text/email/tel input with consistent states                           |
+| `TextArea`      | Native resizable multiline control                                           |
+| `SelectField`   | Native single-select with an accessible label and empty option               |
+| `CheckboxField` | Native checkbox with a clickable visible label                               |
+| `FormField`     | Label, required/optional wording, hint, and error association                |
+| `ErrorSummary`  | Focusable summary with links to invalid controls                             |
+| `InlineStatus`  | Visible idle/loading/demo-success/error feedback with suitable announcements |
 
 Use persistent visible labels, and explain errors in words rather than colour alone. See [W3C control labelling](https://www.w3.org/WAI/tutorials/forms/labels/) and [W3C form validation](https://www.w3.org/WAI/tutorials/forms/validation/).
 
@@ -298,13 +298,13 @@ Use existing tests for the important interaction risks if a harness already exis
 
 ### Layout ownership
 
-| Layer | Owns | Must avoid |
-| --- | --- | --- |
-| Root layout | `html`, `body`, fonts, global CSS, shared shell | Becoming a client component for future menu state |
+| Layer       | Owns                                                                                   | Must avoid                                        |
+| ----------- | -------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Root layout | `html`, `body`, fonts, global CSS, shared shell                                        | Becoming a client component for future menu state |
 | `SiteShell` | Skip link, one main landmark, optional future header/footer slots, minimum page height | Repeated/nested main landmarks or fake navigation |
-| Page | Its H1, sections, content, deliberate heading hierarchy | A second main wrapper |
-| `Section` | Surface and vertical rhythm | Forcing all content into a fixed height |
-| `Container` | Horizontal gutters and max width | Preventing full-width section backgrounds |
+| Page        | Its H1, sections, content, deliberate heading hierarchy                                | A second main wrapper                             |
+| `Section`   | Surface and vertical rhythm                                                            | Forcing all content into a fixed height           |
+| `Container` | Horizontal gutters and max width                                                       | Preventing full-width section backgrounds         |
 
 ### Copy into Cursor
 
