@@ -42,6 +42,7 @@
 | D-034 | Contact service preselect    | `/contact?service=` with six allowlisted slugs; unknown → Not sure                     | Proposed    | Engineering            | Safer deep links from services                     | Implement only with untrusted-query handling                     |
 | D-035 | Node toolchain               | Keep installed Node **v24.10.0** (Active LTS) with npm 11.6.1                          | Proposed    | Engineering            | Meets Next.js ≥20.9; matches pack Node 24 baseline | Re-verify at Step 06 scaffold                                    |
 | D-036 | GitHub repository            | `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` as `origin`                | Proposed    | Founders               | User-created remote for this project               | Confirm visibility (private recommended) and first push succeeds |
+| D-037 | Environment contract         | Variables in `.env.example` / `docs/setup/environment-variables.md`                    | Proposed    | Engineering            | Safe blanks until integrations                     | Secrets only in ignored `.env.local` / host dashboards later     |
 
 ---
 

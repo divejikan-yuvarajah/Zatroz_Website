@@ -2,18 +2,18 @@
 
 Track setup progress honestly. Mark a step **Implemented** only when its deliverable files exist. Business decisions may remain pending.
 
-| Step | Result                         | Status                                                          | Date       | Evidence                                                                                                                  |
-| ---- | ------------------------------ | --------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 01   | Scope and decision register    | **Implemented**                                                 | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
-| 02   | Content and asset inventory    | **Implemented**                                                 | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
-| 03   | Sitemap and visitor journeys   | **Implemented**                                                 | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
-| 04   | Verified local toolchain       | **Implemented**                                                 | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
-| 05   | Local Git and GitHub workflow  | **Implemented**                                                 | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
-| 06   | Working Next.js starter        | **Implemented**                                                 | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
-| 07   | Repeatable quality checks      | **Implemented**                                                 | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
-| 08   | Documented folder structure    | **Implemented** (branch pushed; merge to `main` may be pending) | 2026-09-17 | `docs/architecture/folder-structure.md` + organisational dirs with `.gitkeep`; no empty route pages                       |
-| 09   | Cursor project rules           | **Implemented** (on branch `setup/09-cursor-rules`)             | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
-| 10   | Safe environment configuration | Not started                                                     | —          | —                                                                                                                         |
+| Step | Result                         | Status                                                                    | Date       | Evidence                                                                                                                  |
+| ---- | ------------------------------ | ------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 01   | Scope and decision register    | **Implemented**                                                           | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
+| 02   | Content and asset inventory    | **Implemented**                                                           | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
+| 03   | Sitemap and visitor journeys   | **Implemented**                                                           | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
+| 04   | Verified local toolchain       | **Implemented**                                                           | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
+| 05   | Local Git and GitHub workflow  | **Implemented**                                                           | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
+| 06   | Working Next.js starter        | **Implemented**                                                           | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
+| 07   | Repeatable quality checks      | **Implemented**                                                           | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
+| 08   | Documented folder structure    | **Implemented**                                                           | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
+| 09   | Cursor project rules           | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending) | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
+| 10   | Safe environment configuration | **Implemented** (on branch `setup/10-environment`)                        | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
 
 ---
 
@@ -89,6 +89,35 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Added `docs/setup/cursor-workflow.md` (rules guide only; not a secret store; no `.cursorrules`).
 - Left framework `AGENTS.md` unchanged. No application behaviour changes.
 - Rule activation in Cursor UI: **not verified** by the agent — open Customize → Rules after pull.
+
+### Step 10 (2026-09-17)
+
+- Branch: `setup/10-environment` (from `setup/09-cursor-rules`).
+- Added `.env.example` (safe blanks), `.cursorignore`, `server-only`, `src/server/env.ts` + `resolve-site-url.ts`, `docs/setup/environment-variables.md`.
+- Created `.env.local` from the example (blank integrations); file is gitignored — contents not printed.
+- `getSiteUrl()` falls back to localhost when unset; rejects bad `SITE_URL`; does not require future service secrets on import.
+- Checks: `git check-ignore` OK for `.env.local`; `.env.example` not ignored; no private env in `git ls-files`; `resolveSiteUrl` script passed (localhost, example.com, invalid/ftp); `npm run check` passed; `npm run build` passed with blank integration values; production `next start` on port 3001 returned HTTP 200 with “Zatroz” (port 3000 was already in use).
+- Browser look-and-feel beyond HTTP content: **manual** if you want a visual pass.
+- No Supabase/Resend/Turnstile/cron clients or enquiry API.
+
+---
+
+## Steps 01–10 summary (evidence)
+
+| Step  | Evidence snapshot                                         |
+| ----- | --------------------------------------------------------- |
+| 01–03 | Planning docs under `docs/planning/` and `docs/content/`  |
+| 04    | `docs/setup/local-environment.md` — Node 24.10.0 verified |
+| 05    | GitHub `origin` connected; commits on `main`              |
+| 06    | Next.js 16.3.5 starter; build + localhost verified        |
+| 07    | `npm run check` / `build` quality scripts                 |
+| 08    | Folder architecture + placeholders                        |
+| 09    | `.cursor/rules/` + cursor workflow doc                    |
+| 10    | Safe env example + server `getSiteUrl()`                  |
+
+**Ready for Step 11 (design system):** technical foundation through Step 10 is in place on the step branches. Merge open PRs (09, 10) into `main` before starting Step 11 from updated `main`.
+
+**Still pending (content/business):** service capacity, founder profiles, logo/assets, LinkedIn URL, production domain, approved project stories, legal Privacy/Terms.
 
 ---
 
