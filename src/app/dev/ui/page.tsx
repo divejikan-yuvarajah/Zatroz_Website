@@ -459,6 +459,79 @@ export default function DevUiPage() {
           </div>
         </Container>
       </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="layout-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="layout-specimen-heading"
+            eyebrow="Example · layout"
+            description="Specimen only. Not a marketing page. Check short copy, long wrapping text, and the charcoal band below."
+          >
+            Layout specimen
+          </SectionHeading>
+          <p className="mt-6 max-w-reading">
+            Short example: this paragraph is brief so a short page can still
+            fill a tall window through the shared shell, without a fixed page
+            height.
+          </p>
+          <p className="mt-4 max-w-reading">
+            Long example: layout checks need wrapping text. This paragraph is
+            filler so you can judge line length, zoom, and scrolling. It is not
+            a client story, a result claim, or a service promise. Repeat the
+            idea until the block is taller than a phone screen: the document
+            should scroll as a whole. Do not clip overflow to hide a layout
+            problem. Nested scrolling inside main is not used here.
+          </p>
+          <p className="mt-4 max-w-reading">
+            Another long example: keep grid and flex children able to shrink
+            (`min-w-0`). Words wrap. Horizontal scrolling at 320px is a defect
+            unless a genuine table or code sample needs it later.
+          </p>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="layout-reading-heading"
+      >
+        <Container width="reading">
+          <SectionHeading level={2} id="layout-reading-heading">
+            Reading-width section
+          </SectionHeading>
+          <p className="mt-4">
+            This inner Container uses the reading width (about 65ch). Gutters
+            match the default Container so header, footer, and page content can
+            line up later. Do not nest a second Container inside this one.
+          </p>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="dark"
+        aria-labelledby="layout-dark-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="layout-dark-heading"
+            tone="inverse"
+            description="The charcoal background is full-bleed. The inner Container keeps the same horizontal gutters."
+          >
+            Dark full-width section
+          </SectionHeading>
+          <p className="mt-4 max-w-reading">
+            Example inverse body copy. No prices, testimonials, or invented
+            project results.
+          </p>
+        </Container>
+      </Section>
     </>
   );
 }
