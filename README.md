@@ -2,7 +2,7 @@
 
 Company marketing site for **Zatroz** — a service-based IT studio helping SMEs improve how they sell, serve customers, and manage everyday work.
 
-**Current stage:** Design tokens (Step 11) on branch `feature/11-design-system`. Marketing pages are not built. No public deployment yet.
+**Current stage:** Reusable UI primitives (Step 12) on branch `feature/12-ui-components`. Marketing pages are not built. No public deployment yet.
 
 ## Goal
 
@@ -27,7 +27,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Folder structure          | [`docs/architecture/folder-structure.md`](docs/architecture/folder-structure.md)                                                                                                   |
 | Cursor workflow           | [`docs/setup/cursor-workflow.md`](docs/setup/cursor-workflow.md)                                                                                                                   |
 | Environment variables     | [`docs/setup/environment-variables.md`](docs/setup/environment-variables.md)                                                                                                       |
-| Design system             | [`docs/design/design-system.md`](docs/design/design-system.md), [`contrast-checks.md`](docs/design/contrast-checks.md)                                                             |
+| Design system             | [`docs/design/design-system.md`](docs/design/design-system.md), [`contrast-checks.md`](docs/design/contrast-checks.md), [`ui-components.md`](docs/design/ui-components.md)         |
 | Git workflow              | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md)                                                                                                                         |
 | Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md)                                                                     |
 | Prompt pack (Steps 11–14) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_11_to_14.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_11_to_14.md)                                                                     |
@@ -45,6 +45,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Cursor project rules              | `.cursor/rules/` + `docs/setup/cursor-workflow.md`                             |
 | Environment example               | `.env.example` (copy to `.env.local`; see environment-variables doc)           |
 | Design tokens                     | `docs/design/`; local preview `/dev/ui` in `npm run dev` only                  |
+| UI primitives                     | `src/components/ui/`; documented in `docs/design/ui-components.md`             |
 | Production deployment             | Not started                                                                    |
 
 ## Local tools
