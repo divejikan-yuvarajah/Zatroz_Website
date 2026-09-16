@@ -2,7 +2,7 @@
 
 Company marketing site for **Zatroz** — a service-based IT studio helping SMEs improve how they sell, serve customers, and manage everyday work.
 
-**Current stage:** Planning and local setup (Steps 01–05). No public website is deployed yet. No Next.js application has been scaffolded in this repository yet.
+**Current stage:** Next.js starter initialized (Step 06). Planning docs for Steps 01–05 are in `docs/`. Design system and marketing pages are not built yet. No public deployment yet.
 
 ## Goal
 
@@ -22,6 +22,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Sitemap / journeys / nav | [`docs/planning/03-sitemap.md`](docs/planning/03-sitemap.md), [`visitor-journeys.md`](docs/planning/visitor-journeys.md), [`navigation-spec.md`](docs/planning/navigation-spec.md) |
 | Content & assets | [`docs/content/`](docs/content/) |
 | Local environment | [`docs/setup/local-environment.md`](docs/setup/local-environment.md) |
+| Project initialization | [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md) |
 | Git workflow | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md) |
 | Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md) |
 
@@ -32,12 +33,19 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Scope, content inventory, sitemap | Documented |
 | Local Node / npm / Git | Verified (see local-environment doc) |
 | GitHub remote | `origin` → `https://github.com/divejikan-yuvarajah/Zatroz_Website.git` |
-| Next.js app | Not started (Step 06) |
+| Next.js app | Starter on branch `setup/06-nextjs` (see `docs/setup/project-initialization.md`) |
 | Production deployment | Not started |
 
 ## Local tools
 
-See [`docs/setup/local-environment.md`](docs/setup/local-environment.md). After Step 06 you will use `npm run dev` and open `http://localhost:3000`.
+See [`docs/setup/local-environment.md`](docs/setup/local-environment.md) and [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md).
+
+```powershell
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`. Stop the server with Ctrl+C.
 
 ## Contributing workflow
 

@@ -15,7 +15,7 @@
 | D-007 | Launch page set | 8 general + 6 service detail + 2–3 project stories | Proposed | Founders | Matches plan architecture | Confirm story count when materials ready |
 | D-008 | Case study URLs | `/work/[slug]` only (no `/case-studies`) | Proposed | Engineering lead | Avoid duplicate content | Documented in `docs/planning/03-sitemap.md` (Step 03) |
 | D-009 | Service catalogue | Six groups listed in scope doc | Needs input | Founders | Capacity must match public claims | Per-service delivery capacity confirmation |
-| D-010 | Frontend stack | Next.js App Router, React, TypeScript, Tailwind | Proposed | Engineering | One app for UI + enquiry endpoint | Record versions at Step 06 |
+| D-010 | Frontend stack | Next.js 16.3.5 App Router, React 19.2.8, TypeScript, Tailwind 4.3.3 | Proposed | Engineering | One app for UI + enquiry endpoint | Recorded in `docs/setup/project-initialization.md` |
 | D-011 | Public content system | Repository-managed content; no CMS at launch | Proposed | Engineering + founders | Simple review workflow | Confirm who edits content |
 | D-012 | Enquiry backend | Next.js server route → durable Supabase store → Resend notify + retry | Proposed | Engineering | Reliable lead capture without Express | Provision accounts in later steps |
 | D-013 | Separate Express API | Not used for launch | Proposed | Engineering | Unnecessary duplication with Next.js | Revisit only with concrete need |
