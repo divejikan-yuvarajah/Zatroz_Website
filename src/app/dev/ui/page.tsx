@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TextLink } from "@/components/ui/text-link";
 import { UiInteractions } from "@/components/dev/ui-interactions";
+import { FormDemo } from "@/components/dev/form-demo";
 
 export const metadata: Metadata = {
   title: "Design tokens and UI — local preview",
@@ -436,6 +437,26 @@ export default function DevUiPage() {
             Reading-width example: about 65ch. Do not nest a second Container
             inside another Container (that doubles the gutters).
           </p>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="form-components-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="form-components-heading"
+            eyebrow="Example · local only"
+            description="Accessible form primitives for a later Contact enquiry. This demo does not send, store, or email anything."
+          >
+            Form components
+          </SectionHeading>
+          <div className="mt-10">
+            <FormDemo />
+          </div>
         </Container>
       </Section>
     </>
