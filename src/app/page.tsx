@@ -11,7 +11,8 @@ export default function Home() {
         </SectionHeading>
         <p className="mt-4">
           Development starter for the Zatroz website. Planning docs are in{" "}
-          <code>docs/</code>. Page design and navigation come in later steps.
+          <code>docs/</code>. Service, work, and contact pages come in later
+          steps.
         </p>
       </Container>
     </Section>
