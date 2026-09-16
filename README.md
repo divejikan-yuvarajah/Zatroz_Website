@@ -2,7 +2,7 @@
 
 Company marketing site for **Zatroz** — a service-based IT studio helping SMEs improve how they sell, serve customers, and manage everyday work.
 
-**Current stage:** Accessible form components (Step 13) on branch `feature/13-form-components`. Marketing pages are not built. No public deployment yet.
+**Current stage:** Shared website layout (Step 14) on branch `feature/14-site-layout`. Marketing pages are not built. No public deployment yet.
 
 ## Goal
 
@@ -24,7 +24,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Local environment         | [`docs/setup/local-environment.md`](docs/setup/local-environment.md)                                                                                                                                                               |
 | Project initialization    | [`docs/setup/project-initialization.md`](docs/setup/project-initialization.md)                                                                                                                                                     |
 | Quality checks            | [`docs/setup/quality-checks.md`](docs/setup/quality-checks.md)                                                                                                                                                                     |
-| Folder structure          | [`docs/architecture/folder-structure.md`](docs/architecture/folder-structure.md)                                                                                                                                                   |
+| Folder structure          | [`docs/architecture/folder-structure.md`](docs/architecture/folder-structure.md), [`page-layout.md`](docs/architecture/page-layout.md)                                                                                             |
 | Cursor workflow           | [`docs/setup/cursor-workflow.md`](docs/setup/cursor-workflow.md)                                                                                                                                                                   |
 | Environment variables     | [`docs/setup/environment-variables.md`](docs/setup/environment-variables.md)                                                                                                                                                       |
 | Design system             | [`docs/design/design-system.md`](docs/design/design-system.md), [`contrast-checks.md`](docs/design/contrast-checks.md), [`ui-components.md`](docs/design/ui-components.md), [`form-components.md`](docs/design/form-components.md) |
@@ -47,6 +47,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Design tokens                     | `docs/design/`; local preview `/dev/ui` in `npm run dev` only                  |
 | UI primitives                     | `src/components/ui/`; documented in `docs/design/ui-components.md`             |
 | Form primitives                   | `src/components/forms/`; documented in `docs/design/form-components.md`        |
+| Shared layout                     | `SiteShell` + skip link; documented in `docs/architecture/page-layout.md`      |
 | Production deployment             | Not started                                                                    |
 
 ## Local tools

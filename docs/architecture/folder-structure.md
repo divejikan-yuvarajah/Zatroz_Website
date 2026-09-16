@@ -17,7 +17,7 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 | `src/app/globals.css`      | Global styles + Tailwind entry                           | Exists                                                  |
 | `src/components/ui/`       | Small reusable UI primitives                             | Step 12 primitives                                      |
 | `src/components/dev/`      | Local `/dev/ui` helpers only                             | `ui-interactions.tsx`, `form-demo.tsx`                  |
-| `src/components/layout/`   | Header, mobile nav, footer later                         | Empty placeholder                                       |
+| `src/components/layout/`   | Header, skip, shell, footer                              | `site-shell.tsx`, `skip-link.tsx` (header/footer later) |
 | `src/components/sections/` | Page sections later                                      | Empty placeholder                                       |
 | `src/components/forms/`    | Accessible enquiry form pieces                           | Step 13 primitives                                      |
 | `src/content/`             | Service, project, founder, FAQ, site copy later          | Empty placeholder                                       |

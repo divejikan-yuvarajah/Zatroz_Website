@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { SiteShell } from "@/components/layout/site-shell";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={manrope.variable}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <SiteShell>{children}</SiteShell>
+      </body>
     </html>
   );
 }

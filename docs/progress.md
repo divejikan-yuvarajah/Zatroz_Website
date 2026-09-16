@@ -17,7 +17,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 11   | Design system                  | **Implemented** (on branch `feature/11-design-system`)                         | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
 | 12   | Reusable UI primitives         | **Implemented** (on branch `feature/12-ui-components`; merge may be pending)   | 2026-09-17 | `src/components/ui/*`, `src/lib/cn.ts`, `/dev/ui` gallery, `docs/design/ui-components.md`                                 |
 | 13   | Accessible form components     | **Implemented** (on branch `feature/13-form-components`; merge may be pending) | 2026-09-17 | `src/components/forms/*`, `src/components/dev/form-demo.tsx`, `docs/design/form-components.md`                            |
-| 14   | Shared website layout          | Not started                                                                    | —          | —                                                                                                                         |
+| 14   | Shared website layout          | **Implemented** (on branch `feature/14-site-layout`; merge may be pending)     | 2026-09-17 | `src/components/layout/site-shell.tsx`, `skip-link.tsx`, `docs/architecture/page-layout.md`                               |
 
 ---
 
@@ -151,6 +151,27 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Invalid submit focuses the error summary once. Inline errors are not live regions. Pending/success are polite status; simulated failure is an alert without a competing summary.
 - Checks: `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3013**: `/` 200, `/dev/ui` **404**. Keyboard, 320px, on-screen keyboard, and screen-reader (NVDA/VoiceOver) passes **not run**.
 - No Contact page, enquiry API, storage, email, or analytics.
+
+### Step 14 (2026-09-17)
+
+- Branch: `feature/14-site-layout` from `feature/13-form-components` (`origin/main` still at Step 10 / PR #5).
+- `SiteShell` + skip link; root layout stays a Server Component. Optional `header` / `footer` slots are omitted until those steps.
+- Home is a short starter inside Section + reading Container (one H1). `/dev/ui` kept its gallery H1 and gained a layout specimen (short/long copy, reading width, dark full-bleed band).
+- Checks: `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3014**: `/` 200 with one `main#main-content`, skip link, one H1; `/dev/ui` **404**. Viewport, skip-keyboard, 200% zoom, and JS-off visual review **not run** in a browser.
+- No SiteHeader, mobile menu, footer, or marketing pages.
+
+---
+
+## Steps 11–14 summary
+
+| Step | What exists                                              | Production `/dev/ui`  |
+| ---- | -------------------------------------------------------- | --------------------- |
+| 11   | Tokens, contrast table, guarded gallery                  | 404 when last checked |
+| 12   | Button, links, badge, card, container, section, heading  | 404 when last checked |
+| 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
+| 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
+
+These steps are on sequential feature branches. Merge 11 → 12 → 13 → 14 into `main` after review. Navigation starts at Step 15.
 
 ---
 
