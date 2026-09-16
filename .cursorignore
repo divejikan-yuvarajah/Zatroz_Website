@@ -1,0 +1,7 @@
+# Private local environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Ignore rules reduce accidental exposure in search/context.
+# They do not replace access control, safe terminal behaviour, or rotating leaked credentials.
