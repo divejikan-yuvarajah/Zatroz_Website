@@ -8,16 +8,16 @@ Use one copy of this template per founder. There are **three** founders. Do not 
 
 ## Profile — Founder 1
 
-| Field | Value |
-| --- | --- |
-| Approved display name | Divejikan *(confirm exact public spelling)* |
-| Public role / title | **TODO** — confirm wording (do not invent) |
-| Short bio (2–4 sentences) | **TODO** |
-| Responsibilities on client work | **TODO** |
-| Portrait asset ID | `A-TEAM-01` — Missing |
-| Public profile links | **TODO** (LinkedIn/GitHub/etc. only if approved) |
-| Publication consent for name, bio, photo, links | **TODO** — Unknown |
-| Profile status | Missing |
+| Field                                           | Value                                            |
+| ----------------------------------------------- | ------------------------------------------------ |
+| Approved display name                           | Divejikan _(confirm exact public spelling)_      |
+| Public role / title                             | **TODO** — confirm wording (do not invent)       |
+| Short bio (2–4 sentences)                       | **TODO**                                         |
+| Responsibilities on client work                 | **TODO**                                         |
+| Portrait asset ID                               | `A-TEAM-01` — Missing                            |
+| Public profile links                            | **TODO** (LinkedIn/GitHub/etc. only if approved) |
+| Publication consent for name, bio, photo, links | **TODO** — Unknown                               |
+| Profile status                                  | Missing                                          |
 
 Notes from planning sources: Divejikan is referenced as a founder with technical background. Personal credentials (for example learning community roles) belong on the personal profile only if current and relevant; they must not imply company partnerships.
 
@@ -25,31 +25,31 @@ Notes from planning sources: Divejikan is referenced as a founder with technical
 
 ## Profile — Founder 2
 
-| Field | Value |
-| --- | --- |
-| Approved display name | **TODO** — unknown; do not invent |
-| Public role / title | **TODO** |
-| Short bio (2–4 sentences) | **TODO** |
-| Responsibilities on client work | **TODO** |
-| Portrait asset ID | `A-TEAM-02` — Missing |
-| Public profile links | **TODO** |
-| Publication consent | **TODO** — Unknown |
-| Profile status | Missing |
+| Field                           | Value                             |
+| ------------------------------- | --------------------------------- |
+| Approved display name           | **TODO** — unknown; do not invent |
+| Public role / title             | **TODO**                          |
+| Short bio (2–4 sentences)       | **TODO**                          |
+| Responsibilities on client work | **TODO**                          |
+| Portrait asset ID               | `A-TEAM-02` — Missing             |
+| Public profile links            | **TODO**                          |
+| Publication consent             | **TODO** — Unknown                |
+| Profile status                  | Missing                           |
 
 ---
 
 ## Profile — Founder 3
 
-| Field | Value |
-| --- | --- |
-| Approved display name | **TODO** — unknown; do not invent |
-| Public role / title | **TODO** |
-| Short bio (2–4 sentences) | **TODO** |
-| Responsibilities on client work | **TODO** |
-| Portrait asset ID | `A-TEAM-03` — Missing |
-| Public profile links | **TODO** |
-| Publication consent | **TODO** — Unknown |
-| Profile status | Missing |
+| Field                           | Value                             |
+| ------------------------------- | --------------------------------- |
+| Approved display name           | **TODO** — unknown; do not invent |
+| Public role / title             | **TODO**                          |
+| Short bio (2–4 sentences)       | **TODO**                          |
+| Responsibilities on client work | **TODO**                          |
+| Portrait asset ID               | `A-TEAM-03` — Missing             |
+| Public profile links            | **TODO**                          |
+| Publication consent             | **TODO** — Unknown                |
+| Profile status                  | Missing                           |
 
 ---
 

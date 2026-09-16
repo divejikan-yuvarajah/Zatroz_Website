@@ -8,13 +8,13 @@
 
 ## Local versus remote
 
-| Concept | Meaning |
-| --- | --- |
-| Local repository | The `.git` folder on your computer |
-| Remote `origin` | The GitHub copy of this project |
-| Commit | A saved checkpoint of staged files |
-| Push | Upload local commits to GitHub |
-| Pull / PR | Review and merge changes through GitHub |
+| Concept          | Meaning                                 |
+| ---------------- | --------------------------------------- |
+| Local repository | The `.git` folder on your computer      |
+| Remote `origin`  | The GitHub copy of this project         |
+| Commit           | A saved checkpoint of staged files      |
+| Push             | Upload local commits to GitHub          |
+| Pull / PR        | Review and merge changes through GitHub |
 
 ---
 
@@ -22,9 +22,9 @@
 
 After reviewing staged files:
 
-1. Stage only safe paths (example below).  
-2. Commit on `main`.  
-3. Push once to the empty GitHub repository.  
+1. Stage only safe paths (example below).
+2. Commit on `main`.
+3. Push once to the empty GitHub repository.
 4. From Step 06 onward, use a **per-step branch** and open a pull request.
 
 Suggested initial commit message:
@@ -96,9 +96,9 @@ git pull --ff-only origin main
 
 ### Reviewing diffs
 
-- `git status` — what changed  
-- `git diff` — unstaged changes  
-- `git diff --cached` — staged changes about to commit  
+- `git status` — what changed
+- `git diff` — unstaged changes
+- `git diff --cached` — staged changes about to commit
 
 Do not use blanket `git add .` if private or unrelated files might be present.
 
@@ -106,17 +106,17 @@ Do not use blanket `git add .` if private or unrelated files might be present.
 
 ## Safety checklist
 
-- [ ] No `.env` / `.env.local` in the commit (`.env.example` is OK later)  
-- [ ] No raw private assets under `private/` or `raw-assets/`  
-- [ ] No API keys or tokens in files or remote URL  
-- [ ] No `git push --force` to `main`  
-- [ ] Branch protection on GitHub is optional and **not claimed** until you configure it  
+- [ ] No `.env` / `.env.local` in the commit (`.env.example` is OK later)
+- [ ] No raw private assets under `private/` or `raw-assets/`
+- [ ] No API keys or tokens in files or remote URL
+- [ ] No `git push --force` to `main`
+- [ ] Branch protection on GitHub is optional and **not claimed** until you configure it
 
 ---
 
 ## What this step does not do
 
-- Does not deploy the website  
-- Does not change GitHub visibility or collaborators  
-- Does not add a licence without a business decision  
-- Does not claim branch protection is enabled  
+- Does not deploy the website
+- Does not change GitHub visibility or collaborators
+- Does not add a licence without a business decision
+- Does not claim branch protection is enabled
