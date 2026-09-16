@@ -1,0 +1,16 @@
+---
+description: Server, data, enquiry, and secret-handling rules for Zatroz backend and integration work
+alwaysApply: false
+---
+
+# Zatroz — server and data
+
+Use when touching `src/server`, API routes, env access, enquiries, email, or databases.
+
+- Keep credentials and secrets **server-only** (no `NEXT_PUBLIC_` for secrets). Prefer helpers under `src/server/`.
+- Validate at the **server boundary** even if the browser already validated.
+- Enquiry records must **not** be publicly readable; no public list/admin of enquiries at launch.
+- Do **not** log PII (names, emails, message bodies) in plain application logs or analytics.
+- Report success to the visitor only after a **durable save**; notification failure must be recoverable with bounded retries.
+- When integrations exist: keep test/preview data and recipients separate from production.
+- Do not invent live integrations. Follow planning in `docs/planning/01-project-scope.md` and later env docs.
