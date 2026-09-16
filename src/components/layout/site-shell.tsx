@@ -3,7 +3,7 @@ import { SkipLink } from "@/components/layout/skip-link";
 
 export type SiteShellProps = {
   children: ReactNode;
-  /** Future SiteHeader. Omit until that component exists — do not pass an empty landmark. */
+  /** SiteHeader from Step 15. Omit rather than passing an empty landmark. */
   header?: ReactNode;
   /** Future SiteFooter. Omit until that component exists — do not pass an empty landmark. */
   footer?: ReactNode;
@@ -21,7 +21,7 @@ export function SiteShell({ children, header, footer }: SiteShellProps) {
       <main
         id="main-content"
         tabIndex={-1}
-        className="flex min-h-0 flex-1 flex-col focus:outline focus:outline-[3px] focus:outline-offset-[3px] focus:[outline-color:var(--ink)]"
+        className="flex min-h-0 flex-1 flex-col scroll-mt-[5.75rem] focus:outline focus:outline-[3px] focus:outline-offset-[3px] focus:[outline-color:var(--ink)]"
       >
         {children}
       </main>

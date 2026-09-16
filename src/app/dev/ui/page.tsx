@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { TextLink } from "@/components/ui/text-link";
 import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
+import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
 
 export const metadata: Metadata = {
   title: "Design tokens and UI — local preview",
@@ -530,6 +531,26 @@ export default function DevUiPage() {
             Example inverse body copy. No prices, testimonials, or invented
             project results.
           </p>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="desktop-nav-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="desktop-nav-heading"
+            eyebrow="Example · local only"
+            description="The live header only links to pages that exist today (Home). This specimen shows the full intended bar, including Planned labels."
+          >
+            Desktop navigation
+          </SectionHeading>
+          <div className="mt-10">
+            <DesktopNavigationSpecimen />
+          </div>
         </Container>
       </Section>
     </>

@@ -60,21 +60,15 @@ Metadata on the starter remains honest (`title: "Zatroz"` plus a development des
 
 ---
 
-## Future header and footer (not built in this step)
+## Header and footer slots
 
-When Step 15/17 exist, pass them into the root layout:
+The root layout passes `header={<SiteHeader />}`. `SiteHeader` owns the `<header>` landmark.
 
-```tsx
-<SiteShell header={<SiteHeader />} footer={<SiteFooter />}>
-  {children}
-</SiteShell>
-```
+`SiteFooter` is still omitted until Step 17. Do not pass an empty footer slot.
 
-- `SiteHeader` should own the `<header>` / `<nav>` landmarks.
-- `SiteFooter` should own the `<footer>` landmark.
-- Until then, omit the props. Empty landmarks and spacer blocks are not allowed.
+Header/footer use the same Container gutters as page content.
 
-Header/footer should reuse the same `px-gutter` / Container widths so they line up with page content.
+Sticky header: keep skip-link `z-index` above the header, and keep `scroll-padding-top` / `scroll-margin-top` on the main target so anchors are not covered. Do not shrink the header on scroll.
 
 ---
 
