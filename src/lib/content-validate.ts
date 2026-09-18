@@ -789,6 +789,56 @@ export function validateContentCatalog(
     );
   }
 
+  if (catalog.people.publicationState === "approved") {
+    for (const field of [
+      "heading",
+      "companyIntro",
+      "communicationNote",
+    ] as const) {
+      if (!catalog.people[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved people section is missing a required field",
+          catalog.people.id,
+          field,
+        );
+      }
+    }
+
+    if (catalog.people.teamPhotoMediaId) {
+      if (!mediaIds.has(catalog.people.teamPhotoMediaId)) {
+        pushError(
+          errors,
+          "unknown-media-ref",
+          "people.teamPhotoMediaId references unknown media",
+          catalog.people.id,
+          "teamPhotoMediaId",
+        );
+      }
+    }
+
+    for (const principle of catalog.people.workingPrinciples) {
+      if (!principle.title.trim() || !principle.description.trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved working principle is missing title or description",
+          principle.id,
+          "workingPrinciples",
+        );
+      }
+    }
+  }
+
+  if (catalog.people.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-home-people",
+      "People section stays off the public homepage until company introduction is approved",
+    );
+  }
+
   return {
     ok: errors.length === 0,
     errors,

@@ -32,6 +32,13 @@ import {
   type PublicCta,
 } from "@/content/home";
 import { homeProcessRecord, type PublicHomeProcess } from "@/content/process";
+import {
+  homePeopleRecord,
+  type PublicHomePeople,
+  type PublicPerson,
+  type WorkingPrinciple,
+} from "@/content/people";
+import type { FounderRecord } from "@/content/founders";
 import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
@@ -41,6 +48,7 @@ export type {
   PublicServiceExplorer,
   PublicAutomationExample,
   PublicHomeProcess,
+  PublicHomePeople,
 };
 
 export type PublicHomeHero = Readonly<{
@@ -587,6 +595,153 @@ function hasPublicHomeProcess(): boolean {
   return homeProcessRecord.publicationState === "approved";
 }
 
+function hasPublicHomePeople(): boolean {
+  return homePeopleRecord.publicationState === "approved";
+}
+
+function resolvePeopleAction(): PublicCta | null {
+  if (publicRoutes.about.implemented) {
+    return {
+      label: "Meet Zatroz",
+      href: publicRoutes.about.path,
+    };
+  }
+
+  if (publicRoutes.contact.implemented) {
+    return {
+      label: siteRecord.cta.primaryLabel,
+      href: publicRoutes.contact.path,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Email Zatroz",
+      href: getMailtoHref(siteContact.email),
+    };
+  }
+
+  return null;
+}
+
+function resolveFounderPortrait(
+  founder: FounderRecord,
+): PublicPerson["portrait"] {
+  if (!founder.portraitMediaId) {
+    return null;
+  }
+
+  const media = contentCatalog.media.find(
+    (row) => row.id === founder.portraitMediaId,
+  );
+  if (!media || media.publicationState !== "approved") {
+    return null;
+  }
+  if (media.width == null || media.height == null || !media.publicPath.trim()) {
+    return null;
+  }
+
+  const alt =
+    media.alt.decorative === true
+      ? ""
+      : media.alt.alt.trim() || `Portrait of ${founder.displayName}`;
+
+  return {
+    src: media.publicPath,
+    width: media.width,
+    height: media.height,
+    alt,
+  };
+}
+
+function projectFounder(founder: FounderRecord): PublicPerson {
+  const links = founder.professionalUrls
+    .filter((link) => {
+      const href = link.href.trim();
+      return href && isHttpsUrl(href) && !/^javascript:/i.test(href);
+    })
+    .map((link) => ({ label: link.label, href: link.href.trim() }));
+
+  return {
+    id: founder.id,
+    displayName: founder.displayName,
+    role: founder.role,
+    bio: founder.bio,
+    portrait: resolveFounderPortrait(founder),
+    links,
+  };
+}
+
+function resolveTeamPhoto(): PublicHomePeople["teamPhoto"] {
+  const mediaId = homePeopleRecord.teamPhotoMediaId;
+  if (!mediaId) {
+    return null;
+  }
+
+  const media = contentCatalog.media.find((row) => row.id === mediaId);
+  if (!media || media.publicationState !== "approved") {
+    return null;
+  }
+  if (media.width == null || media.height == null || !media.publicPath.trim()) {
+    return null;
+  }
+
+  const alt =
+    media.alt.decorative === true ? "" : media.alt.alt.trim() || "Zatroz team";
+
+  return {
+    src: media.publicPath,
+    width: media.width,
+    height: media.height,
+    alt,
+    caption: media.caption,
+  };
+}
+
+function buildPublicHomePeople(options?: {
+  people?: readonly PublicPerson[];
+  principles?: readonly WorkingPrinciple[];
+  teamPhoto?: PublicHomePeople["teamPhoto"];
+  action?: PublicCta | null;
+  heading?: string;
+  companyIntro?: string;
+  communicationNote?: string;
+}): PublicHomePeople {
+  const people =
+    options?.people ??
+    contentCatalog.founders
+      .filter((founder) => founder.publicationState === "approved")
+      .map(projectFounder);
+
+  const teamPhoto =
+    options && "teamPhoto" in options
+      ? (options.teamPhoto ?? null)
+      : resolveTeamPhoto();
+
+  let layout: PublicHomePeople["layout"] = "text-led";
+  if (teamPhoto) {
+    layout = "team-photo";
+  } else if (people.length > 0) {
+    layout = "profiles";
+  }
+
+  return {
+    id: homePeopleRecord.id,
+    heading: options?.heading ?? homePeopleRecord.heading,
+    companyIntro: options?.companyIntro ?? homePeopleRecord.companyIntro,
+    communicationNote:
+      options?.communicationNote ?? homePeopleRecord.communicationNote,
+    principles: options?.principles ?? [...homePeopleRecord.workingPrinciples],
+    teamPhoto,
+    people,
+    action:
+      options && "action" in options
+        ? (options.action ?? null)
+        : resolvePeopleAction(),
+    layout,
+  };
+}
+
 function resolveProcessAction(): PublicCta | null {
   if (publicRoutes.process.implemented) {
     return {
@@ -691,6 +846,7 @@ function buildComposition(options: {
   servicesExplorerRenders: boolean;
   automationExampleRenders: boolean;
   processRenders: boolean;
+  peopleRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
@@ -699,7 +855,7 @@ function buildComposition(options: {
     "services-explorer": options.servicesExplorerRenders,
     "automation-example": options.automationExampleRenders,
     "how-we-work": options.processRenders,
-    people: false,
+    people: options.peopleRenders,
     questions: false,
     "start-a-project": false,
   };
@@ -772,6 +928,7 @@ export function getHomeComposition(): HomeComposition {
     servicesExplorerRenders: hasPublicServiceExplorer(),
     automationExampleRenders: hasPublicAutomationExample(),
     processRenders: hasPublicHomeProcess(),
+    peopleRenders: hasPublicHomePeople(),
   });
 }
 
@@ -855,6 +1012,18 @@ export function getPublicHomeProcess(): PublicHomeProcess | null {
 }
 
 /**
+ * Approved people / company section, or null while copy remains draft.
+ * Never invents founders, portraits, or headcount.
+ */
+export function getPublicHomePeople(): PublicHomePeople | null {
+  if (!hasPublicHomePeople()) {
+    return null;
+  }
+
+  return buildPublicHomePeople();
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -870,6 +1039,7 @@ export function getHomeHeroSpecimen(options?: {
       servicesExplorerRenders: false,
       automationExampleRenders: false,
       processRenders: false,
+      peopleRenders: false,
     }),
     options,
   );
@@ -1070,6 +1240,7 @@ export function getAutomationExampleSpecimen(options?: {
     servicesExplorerRenders: false,
     automationExampleRenders: true,
     processRenders: false,
+    peopleRenders: false,
   });
 
   const example = buildPublicAutomationExample(
@@ -1120,5 +1291,80 @@ export function getHomeProcessSpecimen(options?: {
       },
       ...rest,
     ],
+  };
+}
+
+const GALLERY_PERSON_ONE: PublicPerson = {
+  id: "specimen-person-1",
+  displayName: "Specimen Person",
+  role: "Gallery fixture · not a real founder",
+  bio: "This labelled specimen is for layout review only. It is not Divejikan or any other Zatroz founder profile.",
+  portrait: null,
+  links: [],
+};
+
+const GALLERY_PERSON_TWO: PublicPerson = {
+  id: "specimen-person-2",
+  displayName: "Another Specimen",
+  role: "Gallery fixture · contribution example",
+  bio: "Second labelled fixture to check a multi-profile layout without inventing a real team member.",
+  portrait: null,
+  links: [
+    {
+      label: "Example profile (specimen)",
+      href: "https://example.com/",
+    },
+  ],
+};
+
+const GALLERY_PERSON_LONG: PublicPerson = {
+  id: "specimen-person-long",
+  displayName:
+    "Specimen Person With An Intentionally Long Display Name For Wrapping",
+  role: "Gallery fixture · long-name check",
+  bio: "Checks wrapping on narrow viewports without claiming a real identity.",
+  portrait: null,
+  links: [],
+};
+
+/**
+ * Gallery people projection. Fixtures are never public founder evidence.
+ */
+export function getHomePeopleSpecimen(
+  variant: "text-led" | "one-profile" | "multiple-profiles" | "long-name",
+): PublicHomePeople {
+  const base = buildPublicHomePeople({
+    people: [],
+    teamPhoto: null,
+    action: null,
+    heading: `${homePeopleRecord.heading} (specimen)`,
+    companyIntro: `${homePeopleRecord.companyIntro} Gallery specimen — not published until approved.`,
+    communicationNote: homePeopleRecord.communicationNote,
+  });
+
+  if (variant === "text-led") {
+    return { ...base, layout: "text-led", people: [] };
+  }
+
+  if (variant === "one-profile") {
+    return {
+      ...base,
+      layout: "profiles",
+      people: [GALLERY_PERSON_ONE],
+    };
+  }
+
+  if (variant === "long-name") {
+    return {
+      ...base,
+      layout: "profiles",
+      people: [GALLERY_PERSON_LONG],
+    };
+  }
+
+  return {
+    ...base,
+    layout: "profiles",
+    people: [GALLERY_PERSON_ONE, GALLERY_PERSON_TWO],
   };
 }

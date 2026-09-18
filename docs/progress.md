@@ -29,6 +29,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 23   | Homepage service explorer       | **Implemented**                                                                | 2026-09-18 | Merged via PR #17; four draft business needs + disclosure explorer; see `docs/homepage/step-23.md`                        |
 | 24   | Homepage automation example     | **Implemented**                                                                | 2026-09-18 | Merged via PR #18; charcoal illustrative workflow + walkthrough; see `docs/homepage/step-24.md`                           |
 | 25   | Homepage delivery process       | **Implemented** (on branch `feature/25-home-process`; merge may be pending)    | 2026-09-18 | Four draft process steps + calm timeline; see `docs/homepage/step-25.md`                                                  |
+| 26   | Homepage people / team          | **Implemented** (on branch `feature/26-home-team`; merge may be pending)       | 2026-09-18 | Draft company intro; no invented founders; see `docs/homepage/step-26.md`                                                 |
 
 ---
 
@@ -270,6 +271,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (20 readiness warnings including draft-home-process); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery zoom/no-JS review **not run**.
 - No people section or later homepage blocks (Step 26+).
 
+### Step 26 (2026-09-18)
+
+- Branch: `feature/26-home-team` from `feature/25-home-process` (Step 25 not yet on `origin/main`).
+- Draft `HomeTeam` with company intro, communication note, and proposed working principles. Founder collection stays empty — no invented Person cards.
+- Layout adapts: text-led / profiles / team-photo from approved assets only. Gallery uses labelled specimen profiles.
+- CTA prefers ready `/about`, else contact/email; never a self-link to `#people`.
+- Checks: `npm run validate:content` passed (21 readiness warnings including draft-home-people); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery layout review **not run**.
+- No FAQ/feedback section or later homepage blocks (Step 27+).
+
 ---
 
 ## Steps 11–14 summary
@@ -281,7 +291,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Step 25 is on `feature/25-home-process`.
+These steps 11–24 are merged to `main`. Steps 25–26 are on stacked feature branches (`feature/25-home-process`, `feature/26-home-team`).
 
 ---
 

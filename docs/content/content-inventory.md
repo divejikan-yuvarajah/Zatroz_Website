@@ -30,7 +30,7 @@ Owners use roles until names are confirmed.
 | C-HOME-03 | Selected work             | 2–3 featured projects with status                             | Project stories            | Project owners | Missing | Approved stories + screenshots; section ready, public strip omitted until featured approved projects |
 | C-HOME-04 | Services by business need | Four need rows linking to services                            | Service descriptions       | Content owner  | Draft   | Capacity-aligned wording; explorer code ready, public strip omitted until approved                   |
 | C-HOME-05 | Process teaser            | Short delivery summary + link                                 | Process page               | Content owner  | Draft   | Founder-approved process wording; section code ready, public strip omitted until approved            |
-| C-HOME-06 | People teaser             | Honest team intro                                             | Founder profiles           | Founders       | Missing | Profiles + portraits                                                                                 |
+| C-HOME-06 | People teaser             | Honest team intro                                             | Founder profiles           | Founders       | Missing | Profiles + portraits; section code ready, public strip omitted until company intro approved          |
 | C-HOME-07 | Closing CTA               | Invite to enquire + secondary contacts                        | Brand/contact              | Content owner  | Draft   | Response-time policy decision                                                                        |
 
 ### About (`/about`)

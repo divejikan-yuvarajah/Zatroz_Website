@@ -37,4 +37,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 26 — team and company introduction.
+Step 27 — feedback and FAQs.
