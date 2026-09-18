@@ -67,9 +67,10 @@ MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`
 | `getSiteUrl()` in `src/server/env.ts` (`server-only`)                           | Done                |
 | MongoDB config + lazy connection (`src/lib/mongodb/*`, `src/server/mongodb.ts`) | Done (Step 44)      |
 | `npm run db:check` connectivity diagnostic                                      | Done (Step 44)      |
+| Collection schemas, indexes, `db:plan` / `db:apply`                             | Done (Step 45)      |
 | Localhost fallback when `SITE_URL` is empty                                     | Done                |
 | Reject malformed / non-http(s) `SITE_URL`                                       | Done                |
-| Enquiry API / collections / live form                                           | **Not** implemented |
+| Enquiry API / live form / privilege matrix                                      | **Not** implemented |
 | Eager Resend / Turnstile / cron clients                                         | **Not** implemented |
 
 `getSiteUrl()` is server-only and is **not** wired into the home page yet (avoids forcing client or fully dynamic rendering). Call it later from server code (metadata, absolute links, emails).
