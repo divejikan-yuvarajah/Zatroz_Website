@@ -15,7 +15,9 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "validate:content": "tsx scripts/validate-content.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content"
+    "test:public-projects": "tsx scripts/test-public-projects.ts",
+    "test:public-case-studies": "tsx scripts/test-public-case-studies.ts",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies"
   },
   "dependencies": {
     "next": "16.3.5",

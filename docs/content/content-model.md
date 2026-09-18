@@ -20,7 +20,11 @@
 - `getPublishedServices()` — approved records (may lack a page).
 - `getLinkableServices()` — approved **and** route implemented. Use this for live links.
 
-The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects`).
+The same idea applies to projects:
+
+- `listPublishedProjects` / `getPublishedProjects` — approved summary cards (may lack a story page).
+- `getLinkableProjects` — approved summaries whose case-study story is also public-ready.
+- Prefer `src/server/public-projects.ts` for Work page filters and related-work consumers.
 
 ---
 
@@ -40,7 +44,10 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/people.ts`             | Homepage company intro + working principles (draft) |
 | `src/content/home-questions.ts`     | Homepage FAQ / feedback framing (draft)             |
 | `src/content/home-final-cta.ts`     | Homepage final enquiry invitation (draft)           |
-| `src/content/projects.ts`           | Project stories (empty until verified)              |
+| `src/content/projects.ts`           | Project summaries + optional structured story body  |
+| `src/lib/public-projects.ts`        | Pure public project DTO / filter helpers            |
+| `src/lib/public-case-study.ts`      | Pure public case-study projection                   |
+| `src/server/public-projects.ts`     | Repository adapter + async public selectors         |
 | `src/content/founders.ts`           | Founder profiles (empty until approved)             |
 | `src/content/faqs.ts`               | Draft enquiry FAQs (six)                            |
 | `src/content/feedback.ts`           | Testimonials / project lessons (empty)              |

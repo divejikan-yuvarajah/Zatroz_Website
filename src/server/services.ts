@@ -20,6 +20,7 @@ import {
 import type { ServiceRecord } from "@/content/services";
 import type { ServiceSlug } from "@/types/content";
 import { siteRecord } from "@/content/site";
+import { getPublishedProjectCardsSync } from "@/server/public-projects";
 
 export type { PublicServicesOverview };
 
@@ -185,14 +186,17 @@ function getApprovedRelatedWork(): {
   supporting: string;
   items: readonly { id: string; title: string; href: string | null }[];
 } | null {
-  const items = contentCatalog.projects
-    .filter((project) => project.publicationState === "approved")
-    .slice(0, 3)
-    .map((project) => ({
-      id: project.id,
-      title: project.title,
-      href: publicRoutes.work.implemented ? `/work/${project.slug}` : null,
-    }));
+  const listed = getPublishedProjectCardsSync({ page: 1, pageSize: 3 });
+  const items = listed.items.map((card) => ({
+    id: card.id,
+    title: card.title,
+    href: card.storyLinkEligible
+      ? card.storyPath
+      : publicRoutes.work.implemented
+        ? publicRoutes.work.path
+        : (card.links.find((link) => /^https:\/\//i.test(link.href))?.href ??
+          null),
+  }));
 
   if (items.length === 0) {
     return null;

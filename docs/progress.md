@@ -40,6 +40,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 34   | AI and Automation               | **Implemented** (on branch `feature/34-ai-automation`; merge may be pending)      | 2026-09-18 | Draft detail + gallery preview; HTML workflow; see `docs/services/step-34.md`                                             |
 | 35   | Custom Software                 | **Implemented** (on branch `feature/35-custom-software`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; decision guide; see `docs/services/step-35.md`                                            |
 | 36   | UI/UX Design                    | **Implemented** (on branch `feature/36-ui-ux-design`; merge may be pending)       | 2026-09-18 | Draft detail + gallery preview; form-state illustration; see `docs/services/step-36.md`                                   |
+| 37   | Work page + public selectors    | **Implemented** (on branch `feature/37-work-page`; merge may be pending)          | 2026-09-18 | `/work` live with 0 published projects; public selectors; see `docs/work/step-37.md`                                      |
+| 38   | Case-study template             | **Implemented** (on branch `feature/38-case-study`; merge may be pending)         | 2026-09-18 | `/work/[slug]` template + story model; 0 published stories; see `docs/work/step-38.md`                                    |
 
 ---
 
@@ -387,6 +389,26 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (18 readiness warnings; `uiUxDesign` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3036: `/services` HTTP 200; `/services/ui-ux-design` and prior five drafted detail slugs HTTP 404 with no draft leak; unknown slug 404; overview and home do not link draft details. Gallery keyboard/viewport review **not run**.
 - No Work page or later routes (Step 37+).
 
+### Step 37 (2026-09-18)
+
+- Branch: `feature/37-work-page` from `feature/36-ui-ux-design`.
+- Public project selectors (`listPublishedProjects`, featured/related helpers) with repository adapter until A09–A10.
+- `/work` implemented: empty honest state (0 published projects), GET filters, pagination helpers, enquiry CTA.
+- Homepage/service related-work consumers use the public selector; story links require approved story + Step 38 flag.
+- Docs: `docs/work/step-37.md`, `docs/architecture/admin-content-plan.md`; image register notes no Work hero raster.
+- Checks: `npm run validate:content` passed (17 readiness warnings; `work` no longer unimplemented); `npm run test:public-projects` passed; `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3037: `/` and `/work` HTTP 200; Work empty-state copy present; home/services link `/work`; `/dev/ui` HTTP 404; unknown `/work/not-a-project` HTTP 404; no specimen/draft leakage on public pages. Gallery keyboard/viewport review **not run**.
+- No case-study template (Step 38).
+
+### Step 38 (2026-09-18)
+
+- Branch: `feature/38-case-study` from `feature/37-work-page`.
+- Structured `ProjectStoryRecord` with controlled blocks; `getPublishedCaseStudyBySlug` public projection.
+- `/work/[slug]` reusable template (hero, facts, sections, gallery, related, enquiry). Empty catalog → all story URLs 404.
+- Story link eligibility enabled with Work route; gallery short/long specimens labelled fixtures only.
+- Docs: `docs/work/step-38.md`; admin content plan updated for story selector and A09–A11 refresh.
+- Checks: `npm run validate:content` passed (17 readiness warnings); `npm run test:public-projects` and `npm run test:public-case-studies` passed; `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3038: `/work` HTTP 200 (empty state); `/work/not-a-real-story` and specimen slugs HTTP 404; `/dev/ui` HTTP 404; no specimen/secret leakage on public pages. Gallery keyboard/viewport review **not run**.
+- No initial launch stories written (Step 39).
+
 ---
 
 ## Steps 11–14 summary
@@ -398,7 +420,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–36 are on stacked feature branches (`feature/25-home-process` … `feature/36-ui-ux-design`).
+These steps 11–24 are merged to `main`. Steps 25–38 are on stacked feature branches (`feature/25-home-process` … `feature/38-case-study`).
 
 ---
 
