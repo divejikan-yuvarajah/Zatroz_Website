@@ -1,3 +1,5 @@
+import type { HomeAutomationExampleRecord } from "@/content/automation-example";
+import { homeAutomationExampleRecord } from "@/content/automation-example";
 import type {
   BusinessNeedRecord,
   HomeServiceExplorerRecord,
@@ -39,6 +41,7 @@ export type ContentCatalog = {
   featuredProjectIds: readonly string[];
   businessNeeds: readonly BusinessNeedRecord[];
   serviceExplorer: HomeServiceExplorerRecord;
+  automationExample: HomeAutomationExampleRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -55,4 +58,5 @@ export const contentCatalog: ContentCatalog = {
   featuredProjectIds: homeSelectedWorkRecord.featuredProjectIds,
   businessNeeds: businessNeedRecords,
   serviceExplorer: homeServiceExplorerRecord,
+  automationExample: homeAutomationExampleRecord,
 };

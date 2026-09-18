@@ -4,6 +4,10 @@ import { getMailtoHref, getWhatsAppHref, siteContact } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
 import { contentCatalog } from "@/content/catalog";
 import {
+  homeAutomationExampleRecord,
+  type PublicAutomationExample,
+} from "@/content/automation-example";
+import {
   businessNeedRecords,
   homeServiceExplorerRecord,
   type BusinessNeedRecord,
@@ -30,7 +34,12 @@ import {
 import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
-export type { PublicCta, PublicBusinessNeed, PublicServiceExplorer };
+export type {
+  PublicCta,
+  PublicBusinessNeed,
+  PublicServiceExplorer,
+  PublicAutomationExample,
+};
 
 export type PublicHomeHero = Readonly<{
   id: string;
@@ -561,18 +570,76 @@ function hasPublicServiceExplorer(): boolean {
   );
 }
 
+function hasPublicAutomationExample(): boolean {
+  return homeAutomationExampleRecord.publicationState === "approved";
+}
+
+function resolveAutomationAction(
+  composition: HomeComposition,
+): PublicCta | null {
+  if (publicRoutes.aiAutomation.implemented) {
+    return {
+      label: "Explore AI and automation",
+      href: publicRoutes.aiAutomation.path,
+    };
+  }
+
+  if (composition.sections["services-explorer"]) {
+    return {
+      label: "Explore business needs",
+      href: "#services-explorer",
+    };
+  }
+
+  if (publicRoutes.contact.implemented) {
+    return {
+      label: siteRecord.cta.primaryLabel,
+      href: `${publicRoutes.contact.path}?service=ai-automation`,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Email Zatroz",
+      href: getMailtoHref(siteContact.email),
+    };
+  }
+
+  return null;
+}
+
+function buildPublicAutomationExample(
+  composition: HomeComposition,
+  actionOverride?: PublicCta | null,
+): PublicAutomationExample {
+  return {
+    id: homeAutomationExampleRecord.id,
+    workflowLabel: homeAutomationExampleRecord.workflowLabel,
+    heading: homeAutomationExampleRecord.heading,
+    supporting: homeAutomationExampleRecord.supporting,
+    stages: [...homeAutomationExampleRecord.stages],
+    sampleInvoice: homeAutomationExampleRecord.sampleInvoice,
+    completionMessage: homeAutomationExampleRecord.completionMessage,
+    action:
+      actionOverride !== undefined
+        ? actionOverride
+        : resolveAutomationAction(composition),
+  };
+}
+
 function buildComposition(options: {
   heroApproved: boolean;
   evidenceRenders: boolean;
   selectedWorkRenders: boolean;
   servicesExplorerRenders: boolean;
+  automationExampleRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
     "home-evidence": options.evidenceRenders,
     "selected-work": options.selectedWorkRenders,
     "services-explorer": options.servicesExplorerRenders,
-    "automation-example": false,
+    "automation-example": options.automationExampleRenders,
     "how-we-work": false,
     people: false,
     questions: false,
@@ -645,6 +712,7 @@ export function getHomeComposition(): HomeComposition {
     evidenceRenders: hasPublicEvidenceContent(),
     selectedWorkRenders: hasPublicSelectedWork(),
     servicesExplorerRenders: hasPublicServiceExplorer(),
+    automationExampleRenders: hasPublicAutomationExample(),
   });
 }
 
@@ -705,6 +773,17 @@ export function getPublicServiceExplorer(): PublicServiceExplorer | null {
 }
 
 /**
+ * Approved charcoal automation example, or null while copy remains draft.
+ */
+export function getPublicAutomationExample(): PublicAutomationExample | null {
+  if (!hasPublicAutomationExample()) {
+    return null;
+  }
+
+  return buildPublicAutomationExample(getHomeComposition());
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -718,6 +797,7 @@ export function getHomeHeroSpecimen(options?: {
       evidenceRenders: false,
       selectedWorkRenders: false,
       servicesExplorerRenders: false,
+      automationExampleRenders: false,
     }),
     options,
   );
@@ -903,4 +983,30 @@ export function getServiceExplorerSpecimen(options?: {
       "Gallery specimen — draft need copy for layout review. Public / omits this section until approved.",
     longDeliverable: options?.longDeliverable,
   });
+}
+
+/**
+ * Gallery automation example. Draft copy for layout review — not public `/`.
+ */
+export function getAutomationExampleSpecimen(options?: {
+  action?: PublicCta | null;
+}): PublicAutomationExample {
+  const composition = buildComposition({
+    heroApproved: false,
+    evidenceRenders: false,
+    selectedWorkRenders: false,
+    servicesExplorerRenders: false,
+    automationExampleRenders: true,
+  });
+
+  const example = buildPublicAutomationExample(
+    composition,
+    options && "action" in options ? options.action : undefined,
+  );
+
+  return {
+    ...example,
+    heading: `${example.heading} (specimen)`,
+    supporting: `${example.supporting} Gallery specimen — not published until approved.`,
+  };
 }
