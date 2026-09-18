@@ -41,7 +41,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   businessSystems: {
     id: "businessSystems",
     path: "/services/business-systems",
-    implemented: false,
+    implemented: true,
   },
   aiAutomation: {
     id: "aiAutomation",

@@ -8,7 +8,9 @@ import { TextLink } from "@/components/ui/text-link";
 import {
   ServiceHeroBrowserVisual,
   ServiceHeroDevicePairVisual,
+  ServiceHeroOpsSummaryVisual,
 } from "@/components/sections/service-browser-frame";
+import { BusinessOpsPanel } from "@/components/sections/business-ops-panel";
 import { WebMobileTaskComparison } from "@/components/sections/web-mobile-task-comparison";
 import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
 import type { PublicServiceDetail } from "@/server/service-detail";
@@ -90,6 +92,9 @@ export function ServiceDetailPage({
               ) : null}
               {detail.heroVisual === "device-pair" ? (
                 <ServiceHeroDevicePairVisual />
+              ) : null}
+              {detail.heroVisual === "ops-summary" ? (
+                <ServiceHeroOpsSummaryVisual />
               ) : null}
 
               {showContents ? (
@@ -267,6 +272,10 @@ export function ServiceDetailPage({
             {detail.illustrativeExample.visualVariant ===
             "web-mobile-task-comparison" ? (
               <WebMobileTaskComparison />
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "business-ops-panel" ? (
+              <BusinessOpsPanel />
             ) : null}
           </Container>
         </Section>

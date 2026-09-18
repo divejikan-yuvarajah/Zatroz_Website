@@ -37,7 +37,9 @@ export type ServiceDetailExample = {
    * Known variants render labelled static illustrations in the template.
    */
   visualVariant?:
-    "websites-catalogue-comparison" | "web-mobile-task-comparison";
+    | "websites-catalogue-comparison"
+    | "web-mobile-task-comparison"
+    | "business-ops-panel";
 };
 
 export type ServiceDetailStage = {
@@ -61,8 +63,9 @@ export type ServiceDetailRecord = {
    * Optional light hero decoration. Never store JSX here.
    * `browser-frame` — sample browser chrome.
    * `device-pair` — sample browser beside a phone task screen.
+   * `ops-summary` — sample sales / stock / report strip.
    */
-  heroVisual?: "browser-frame" | "device-pair";
+  heroVisual?: "browser-frame" | "device-pair" | "ops-summary";
   relatedProjectIds: readonly string[];
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
