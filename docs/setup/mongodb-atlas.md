@@ -121,10 +121,12 @@ One process singleton ≠ one pool for the whole site when many serverless insta
 
 ## 8. What Step 44 does **not** do
 
-- No collections, validators, or enquiry writes (Step 45+)
+- No collections, validators, or enquiry writes (see Step 45 + `docs/setup/mongodb-migrations.md`)
 - No live Contact form enablement (`formSubmissionReady` stays false)
 - No public `/api/debug-db`
 - No production activation
+
+After Step 45, use `npm run db:plan` / `npm run db:apply -- --target development` with `MONGODB_MIGRATION_URI` — never the web runtime URI.
 
 ---
 

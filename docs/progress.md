@@ -48,6 +48,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 42   | Contact layout + channels       | **Implemented** (on branch `feature/42-contact-layout`; merge may be pending)       | 2026-09-18 | `/contact` live; email+WhatsApp confirmed; form specimen only; see `docs/contact/step-42.md`                              |
 | 43   | Enquiry form validation         | **Implemented** (on branch `feature/43-enquiry-form-ui`; merge may be pending)      | 2026-09-18 | Interactive form in gallery harness; submission still false; see `docs/contact/step-43.md`                                |
 | 44   | MongoDB foundation              | **Implemented** (on branch `feature/44-mongodb-foundation`; merge may be pending)   | 2026-09-18 | Driver + lazy connection + Atlas runbook; live ping Not run until credentials; see `docs/backend/step-44.md`              |
+| 45   | MongoDB models + migrations     | **Implemented** (on branch `feature/45-mongodb-models`; merge may be pending)       | 2026-09-18 | Schemas/indexes + `db:plan`/`db:apply`; live apply Not run; see `docs/backend/step-45.md`                                 |
 
 ---
 
@@ -477,6 +478,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:mongodb-foundation`); `npm run build` passed (Next.js 16.3.5). `npm run db:check` Failed as expected without Atlas credentials in ignored `.env.local` (live ping **Not run**). Production `next start` on port 3044: `/` `/contact` `/work` HTTP 200; `/dev/ui` HTTP 404.
 - No application collections (Step 45).
 
+### Step 45 (2026-09-18)
+
+- Branch: `feature/45-mongodb-models` from `feature/44-mongodb-foundation`.
+- Application collection schemas, named indexes, TypeScript document types, and application validators; migration plan/apply with ledger + lock; production apply refused.
+- Data model, retention pending notes, and migration runbook documented. Public project adapter unchanged; Contact form stays off; no enquiry writes.
+- Docs: `docs/backend/step-45.md`, `docs/backend/data-model.md`, `docs/setup/mongodb-migrations.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:mongodb-models`); `npm run build` passed (Next.js 16.3.5). `npm run db:plan` Failed as expected without `MONGODB_MIGRATION_URI` (live plan/apply/inserts **Not run**). Production `next start` on port 3045: `/` `/contact` `/work` HTTP 200; `/dev/ui` HTTP 404.
+- No Step 46 privileges or request safeguards yet.
+
 ---
 
 ## Steps 11–14 summary
@@ -488,7 +498,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–44 are on stacked feature branches (`feature/25-home-process` … `feature/44-mongodb-foundation`).
+These steps 11–24 are merged to `main`. Steps 25–45 are on stacked feature branches (`feature/25-home-process` … `feature/45-mongodb-models`).
 
 ---
 

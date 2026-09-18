@@ -46,13 +46,13 @@ Documented in `docs/setup/mongodb-atlas.md` (`maxPoolSize` 5, selection/connect 
 
 ## Checks
 
-| Check | Result |
-| ----- | ------ |
-| `npm run format` | Passed |
-| `npm run check` (incl. `test:mongodb-foundation`) | Passed |
-| `npm run build` | Passed (Next.js 16.3.5) |
-| `npm run db:check` | Failed — no Atlas credentials in ignored `.env.local` (expected); live ping **Not run** |
-| Production smoke (`next start` :3044) | `/` `/contact` `/work` 200; `/dev/ui` 404 |
+| Check                                             | Result                                                                                  |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `npm run format`                                  | Passed                                                                                  |
+| `npm run check` (incl. `test:mongodb-foundation`) | Passed                                                                                  |
+| `npm run build`                                   | Passed (Next.js 16.3.5)                                                                 |
+| `npm run db:check`                                | Failed — no Atlas credentials in ignored `.env.local` (expected); live ping **Not run** |
+| Production smoke (`next start` :3044)             | `/` `/contact` `/work` 200; `/dev/ui` 404                                               |
 
 ## Remaining operator actions
 
