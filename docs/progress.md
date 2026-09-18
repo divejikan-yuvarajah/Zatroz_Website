@@ -46,6 +46,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 40   | About page                      | **Implemented** (on branch `feature/40-about-page`; merge may be pending)           | 2026-09-18 | `/about` live; draft copy gated; gallery specimen; see `docs/pages/step-40.md`                                            |
 | 41   | Process / How We Work           | **Implemented** (on branch `feature/41-process-page`; merge may be pending)         | 2026-09-18 | `/process` live; six draft stages; gallery specimen; see `docs/pages/step-41.md`                                          |
 | 42   | Contact layout + channels       | **Implemented** (on branch `feature/42-contact-layout`; merge may be pending)       | 2026-09-18 | `/contact` live; email+WhatsApp confirmed; form specimen only; see `docs/contact/step-42.md`                              |
+| 43   | Enquiry form validation         | **Implemented** (on branch `feature/43-enquiry-form-ui`; merge may be pending)      | 2026-09-18 | Interactive form in gallery harness; submission still false; see `docs/contact/step-43.md`                                |
 
 ---
 
@@ -455,6 +456,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (16 readiness warnings including draft-contact-page; no-usable-enquiry-action cleared); `npm run check` passed (includes contact service-query tests); `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3042: `/contact` HTTP 200 with mailto + WhatsApp, no form fields, no draft FAQ/hero; `/contact?service=ui-ux-design` shows service context; unknown service does not render interest line; `/` links `/contact`; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
 - No enquiry form validation (Step 43).
 
+### Step 43 (2026-09-18)
+
+- Branch: `feature/43-enquiry-form-ui` from `feature/42-contact-layout`.
+- Shared enquiry input validation + transport contract; interactive form with accessible error summary, pending lock, and simulated result states.
+- Gallery harness covers accepted, validation-error, rate-limited, unavailable, unknown-outcome, malformed, and delayed scenarios. Demo accepted results are labelled as not sent.
+- Public `/contact` unchanged: channels only; `formSubmissionReady` remains false. Contract documented in `docs/contact/enquiry-contract.md`.
+- Docs: `docs/contact/step-43.md`.
+- Checks: `npm run validate:content` passed (16 readiness warnings); `npm run check` passed (includes enquiry input + transport tests); `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3043: `/contact` HTTP 200 with mailto + WhatsApp, no form/harness; `/` links `/contact`; `/dev/ui` HTTP 404. Gallery keyboard/screen-reader review **not run**.
+- No MongoDB / enquiry backend (Steps 44+).
+
 ---
 
 ## Steps 11–14 summary
@@ -466,7 +477,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–42 are on stacked feature branches (`feature/25-home-process` … `feature/42-contact-layout`).
+These steps 11–24 are merged to `main`. Steps 25–43 are on stacked feature branches (`feature/25-home-process` … `feature/43-enquiry-form-ui`).
 
 ---
 
