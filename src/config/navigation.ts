@@ -1,3 +1,10 @@
+import {
+  footerExploreItems,
+  footerPolicyItems,
+  primaryNavItems,
+  serviceNavItems,
+  servicesOverviewNav,
+} from "@/content/navigation";
 import { publicRoutes, type RouteId } from "@/config/routes";
 
 export type NavDestination = {
@@ -18,20 +25,11 @@ export type HeaderNavigation = {
   cta: NavDestination | null;
 };
 
-const SERVICE_ITEMS: { id: RouteId; label: string }[] = [
-  { id: "websitesEcommerce", label: "Websites and E-commerce" },
-  { id: "webMobileApps", label: "Web and Mobile Applications" },
-  { id: "businessSystems", label: "Business Systems" },
-  { id: "aiAutomation", label: "AI and Automation" },
-  { id: "customSoftware", label: "Custom Software" },
-  { id: "uiUxDesign", label: "UI/UX Design" },
-];
-
-const PRIMARY_ITEMS: { id: RouteId; label: string }[] = [
-  { id: "work", label: "Work" },
-  { id: "about", label: "About" },
-  { id: "process", label: "Process" },
-];
+export type FooterNavigation = {
+  explore: NavDestination[];
+  services: NavDestination[];
+  policies: NavDestination[];
+};
 
 export function destination(id: RouteId, label: string): NavDestination {
   const route = publicRoutes[id];
@@ -54,12 +52,19 @@ function hasUsableServices(services: ServicesNav): boolean {
   );
 }
 
+function filterImplemented(items: NavDestination[]): NavDestination[] {
+  return items.filter((item) => item.implemented);
+}
+
 /** Destinations eligible for the live SiteHeader (implemented routes only). */
 export function getHeaderNavigation(): HeaderNavigation {
-  const overview = destination("services", "Services");
-  const categories = SERVICE_ITEMS.map((item) =>
-    destination(item.id, item.label),
-  ).filter((item) => item.implemented);
+  const overview = destination(
+    servicesOverviewNav.routeId,
+    servicesOverviewNav.label,
+  );
+  const categories = serviceNavItems
+    .map((item) => destination(item.routeId, item.label))
+    .filter((item) => item.implemented);
 
   const services: ServicesNav = {
     overview: overview.implemented ? overview : null,
@@ -67,9 +72,9 @@ export function getHeaderNavigation(): HeaderNavigation {
   };
 
   return {
-    items: PRIMARY_ITEMS.map((item) => destination(item.id, item.label)).filter(
-      (item) => item.implemented,
-    ),
+    items: primaryNavItems
+      .map((item) => destination(item.routeId, item.label))
+      .filter((item) => item.implemented),
     services: hasUsableServices(services) ? services : null,
     cta: publicRoutes.contact.implemented
       ? destination("contact", "Start a project")
@@ -84,9 +89,7 @@ export function getHeaderNavigation(): HeaderNavigation {
 export function getDesktopNavSpecimen(): HeaderNavigation {
   return {
     items: [
-      destination("work", "Work"),
-      destination("about", "About"),
-      destination("process", "Process"),
+      ...primaryNavItems.map((item) => destination(item.routeId, item.label)),
       {
         id: "long-label",
         label:
@@ -115,7 +118,7 @@ export function getDesktopNavSpecimen(): HeaderNavigation {
           path: "/",
           implemented: true,
         },
-        ...SERVICE_ITEMS.map((item) => destination(item.id, item.label)),
+        ...serviceNavItems.map((item) => destination(item.routeId, item.label)),
       ],
     },
     cta: destination("contact", "Start a project"),
@@ -178,39 +181,17 @@ export function getImplementedNavDestinations(
   return list;
 }
 
-export type FooterNavigation = {
-  explore: NavDestination[];
-  services: NavDestination[];
-  policies: NavDestination[];
-};
-
-const FOOTER_EXPLORE: { id: RouteId; label: string }[] = [
-  { id: "home", label: "Home" },
-  { id: "services", label: "Services" },
-  ...PRIMARY_ITEMS,
-  { id: "contact", label: "Start a project" },
-];
-
-const FOOTER_POLICIES: { id: RouteId; label: string }[] = [
-  { id: "privacy", label: "Privacy" },
-  { id: "terms", label: "Terms" },
-];
-
-function filterImplemented(items: NavDestination[]): NavDestination[] {
-  return items.filter((item) => item.implemented);
-}
-
 /** Destinations eligible for the live SiteFooter (implemented routes only). */
 export function getFooterNavigation(): FooterNavigation {
   return {
     explore: filterImplemented(
-      FOOTER_EXPLORE.map((item) => destination(item.id, item.label)),
+      footerExploreItems.map((item) => destination(item.routeId, item.label)),
     ),
     services: filterImplemented(
-      SERVICE_ITEMS.map((item) => destination(item.id, item.label)),
+      serviceNavItems.map((item) => destination(item.routeId, item.label)),
     ),
     policies: filterImplemented(
-      FOOTER_POLICIES.map((item) => destination(item.id, item.label)),
+      footerPolicyItems.map((item) => destination(item.routeId, item.label)),
     ),
   };
 }
@@ -229,9 +210,7 @@ export function getFooterNavSpecimen(): FooterNavigation {
         path: "#layout-specimen-heading",
         implemented: true,
       },
-      destination("work", "Work"),
-      destination("about", "About"),
-      destination("process", "Process"),
+      ...primaryNavItems.map((item) => destination(item.routeId, item.label)),
       destination("contact", "Start a project"),
     ],
     services: [
@@ -241,11 +220,10 @@ export function getFooterNavSpecimen(): FooterNavigation {
         path: "#colour-heading",
         implemented: true,
       },
-      ...SERVICE_ITEMS.map((item) => destination(item.id, item.label)),
+      ...serviceNavItems.map((item) => destination(item.routeId, item.label)),
     ],
-    policies: [
-      destination("privacy", "Privacy"),
-      destination("terms", "Terms"),
-    ],
+    policies: footerPolicyItems.map((item) =>
+      destination(item.routeId, item.label),
+    ),
   };
 }

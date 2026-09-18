@@ -1,42 +1,29 @@
 /**
- * Public-safe brand and contact values for the site chrome.
- * Confirmation metadata stays here for server/docs use; only confirmed
- * destinations are rendered as links. Do not put approval evidence or
- * private founder contacts in this module.
+ * Public-safe brand/contact helpers for Server Components and gallery fixtures.
+ * Authoritative records live in `src/content/site.ts`.
+ * Do not import `src/content/catalog` or draft collections from Client Components.
  */
 
-export type ConfirmationStatus = "confirmed" | "unconfirmed";
+import {
+  contactRecord,
+  siteRecord,
+  type BrandDescription,
+  type ContactRecord,
+  type EmailContact,
+  type PhoneContact,
+  type SiteRecord,
+  type SocialProfile,
+  type WhatsAppContact,
+} from "@/content/site";
+import type { ConfirmationStatus } from "@/types/content";
 
-export type BrandDescription = {
-  text: string;
-  status: ConfirmationStatus;
-};
-
-export type PhoneContact = {
-  display: string;
-  /** E.164 without spaces, for tel: */
-  e164: string;
-  status: ConfirmationStatus;
-};
-
-export type EmailContact = {
-  display: string;
-  status: ConfirmationStatus;
-};
-
-export type WhatsAppContact = {
-  /** Digits only, country code included, no + */
-  internationalDigits: string;
-  /** Short generic message; no visitor data */
-  prefillsMessage: string;
-  status: ConfirmationStatus;
-};
-
-export type SocialProfile = {
-  label: string;
-  /** Exact profile URL when known; null until founders supply it */
-  href: string | null;
-  status: ConfirmationStatus;
+export type { ConfirmationStatus };
+export type {
+  BrandDescription,
+  EmailContact,
+  PhoneContact,
+  SocialProfile,
+  WhatsAppContact,
 };
 
 export type SiteBrand = {
@@ -44,15 +31,7 @@ export type SiteBrand = {
   description: BrandDescription;
 };
 
-export type SiteContact = {
-  phone: PhoneContact;
-  email: EmailContact;
-  whatsapp: WhatsAppContact;
-  social: {
-    instagram: SocialProfile;
-    linkedin: SocialProfile;
-  };
-};
+export type SiteContact = ContactRecord;
 
 export type PublicContactLink = {
   id: string;
@@ -61,43 +40,20 @@ export type PublicContactLink = {
 };
 
 export const siteBrand: SiteBrand = {
-  name: "Zatroz",
+  name: siteRecord.name,
   description: {
-    text: "Digital solutions for everyday work.",
-    status: "unconfirmed",
+    text: siteRecord.description.text,
+    status: siteRecord.description.status,
   },
 };
 
-/**
- * Supplied working values from the plan. Status is unconfirmed until
- * founders mark them approved for public pages (see brand-and-contact.md).
- */
 export const siteContact: SiteContact = {
-  phone: {
-    display: "+94 76 809 8068",
-    e164: "+94768098068",
-    status: "unconfirmed",
-  },
-  email: {
-    display: "zatroz.co@gmail.com",
-    status: "unconfirmed",
-  },
-  whatsapp: {
-    internationalDigits: "94768098068",
-    prefillsMessage: "I would like to discuss a project with Zatroz.",
-    status: "unconfirmed",
-  },
+  phone: { ...contactRecord.phone },
+  email: { ...contactRecord.email },
+  whatsapp: { ...contactRecord.whatsapp },
   social: {
-    instagram: {
-      label: "Instagram",
-      href: null,
-      status: "unconfirmed",
-    },
-    linkedin: {
-      label: "LinkedIn",
-      href: null,
-      status: "unconfirmed",
-    },
+    instagram: { ...contactRecord.social.instagram },
+    linkedin: { ...contactRecord.social.linkedin },
   },
 };
 
@@ -167,3 +123,5 @@ export function getPublicContactLinks(
 
   return links;
 }
+
+export type { SiteRecord };

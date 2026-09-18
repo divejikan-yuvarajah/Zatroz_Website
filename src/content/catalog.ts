@@ -1,0 +1,33 @@
+import type { FaqRecord } from "@/content/faqs";
+import { faqRecords } from "@/content/faqs";
+import type { FounderRecord } from "@/content/founders";
+import { founderRecords } from "@/content/founders";
+import type { MediaRecord } from "@/content/media";
+import { mediaRecords } from "@/content/media";
+import type { ProjectRecord } from "@/content/projects";
+import { projectRecords } from "@/content/projects";
+import type { ServiceRecord } from "@/content/services";
+import { serviceRecords } from "@/content/services";
+import type { ContactRecord, SiteRecord } from "@/content/site";
+import { contactRecord, siteRecord } from "@/content/site";
+
+export type ContentCatalog = {
+  site: SiteRecord;
+  contact: ContactRecord;
+  services: readonly ServiceRecord[];
+  projects: readonly ProjectRecord[];
+  founders: readonly FounderRecord[];
+  faqs: readonly FaqRecord[];
+  media: readonly MediaRecord[];
+};
+
+/** Full editorial catalog for validation and server selectors. */
+export const contentCatalog: ContentCatalog = {
+  site: siteRecord,
+  contact: contactRecord,
+  services: serviceRecords,
+  projects: projectRecords,
+  founders: founderRecords,
+  faqs: faqRecords,
+  media: mediaRecords,
+};

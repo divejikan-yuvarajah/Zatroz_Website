@@ -9,10 +9,10 @@ Optional editor extensions (install yourself if you want them): **Prettier**, **
 
 ## New dependencies (Step 07)
 
-| Package                  | Role                                                     |
-| ------------------------ | -------------------------------------------------------- |
-| `prettier`               | Formats code and docs consistently                       |
-| `eslint-config-prettier` | Turns off ESLint style rules that conflict with Prettier |
+| Package    | Role                                                 |
+| ---------- | ---------------------------------------------------- |
+| `prettier` | Formats code and docs consistently                   |
+| `tsx`      | Runs `validate:content` with TypeScript path aliases |
 
 ESLint stays on the Next.js **Core Web Vitals** + **TypeScript** configs already installed. We run the **ESLint CLI** (`eslint .`), not `next lint`.
 
@@ -20,16 +20,17 @@ ESLint stays on the Next.js **Core Web Vitals** + **TypeScript** configs already
 
 ## Commands
 
-| Script                  | What it does                       | Success looks like                 |
-| ----------------------- | ---------------------------------- | ---------------------------------- |
-| `npm run format`        | Writes Prettier formatting         | Files updated; exit 0              |
-| `npm run format:check`  | Checks formatting only             | All matched files “unchanged” / OK |
-| `npm run lint`          | ESLint with `--max-warnings=0`     | No errors or warnings              |
-| `npm run lint:fix`      | Auto-fix safe ESLint issues        | Exit 0; review the diff            |
-| `npm run typecheck`     | `next typegen` then `tsc --noEmit` | No TypeScript errors               |
-| `npm run check`         | format:check → lint → typecheck    | All three pass                     |
-| `npm run build`         | Production Next.js build           | Compiles successfully              |
-| `npm run dev` / `start` | Dev / production server            | App serves locally                 |
+| Script                     | What it does                                       | Success looks like                 |
+| -------------------------- | -------------------------------------------------- | ---------------------------------- |
+| `npm run format`           | Writes Prettier formatting                         | Files updated; exit 0              |
+| `npm run format:check`     | Checks formatting only                             | All matched files “unchanged” / OK |
+| `npm run lint`             | ESLint with `--max-warnings=0`                     | No errors or warnings              |
+| `npm run lint:fix`         | Auto-fix safe ESLint issues                        | Exit 0; review the diff            |
+| `npm run typecheck`        | `next typegen` then `tsc --noEmit`                 | No TypeScript errors               |
+| `npm run validate:content` | Validates content catalog + fixtures               | Exit 0; warnings may print         |
+| `npm run check`            | format:check → lint → typecheck → validate:content | All pass                           |
+| `npm run build`            | Production Next.js build                           | Compiles successfully              |
+| `npm run dev` / `start`    | Dev / production server                            | App serves locally                 |
 
 ### `typecheck` behaviour
 
