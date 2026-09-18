@@ -27,6 +27,7 @@ const SPECIMEN_PROJECTS: readonly ProjectRecord[] = [
     mediaIds: [],
     publicLinks: [{ label: "Specimen demo", href: "https://example.com" }],
     storyPublicationState: null,
+    story: null,
   },
   {
     id: "specimen-work-card-2",
@@ -47,6 +48,7 @@ const SPECIMEN_PROJECTS: readonly ProjectRecord[] = [
     mediaIds: [],
     publicLinks: [],
     storyPublicationState: null,
+    story: null,
   },
 ];
 

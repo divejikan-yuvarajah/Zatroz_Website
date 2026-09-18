@@ -79,6 +79,7 @@ export function runFixtureValidations() {
       mediaIds: [],
       publicLinks: [{ label: "unsafe", href: "javascript:alert(1)" }],
       storyPublicationState: null,
+      story: null,
     },
   ];
   expectFails("invalid-project-url", badUrl, "invalid-url");
@@ -160,6 +161,7 @@ export function runFixtureValidations() {
       mediaIds: [],
       publicLinks: [],
       storyPublicationState: null,
+      story: null,
     },
   ];
   duplicateFeatured.featuredProjectIds = [
@@ -192,6 +194,7 @@ export function runFixtureValidations() {
       mediaIds: [],
       publicLinks: [],
       storyPublicationState: null,
+      story: null,
     },
   ];
   draftFeatured.featuredProjectIds = ["proj-draft-featured"];

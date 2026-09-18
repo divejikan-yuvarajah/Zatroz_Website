@@ -117,7 +117,8 @@ export function isProjectStoryEligible(
   return (
     workStoriesImplemented &&
     isProjectSummaryEligible(project) &&
-    project.storyPublicationState === "approved"
+    project.storyPublicationState === "approved" &&
+    project.story?.publicationState === "approved"
   );
 }
 

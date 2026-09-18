@@ -1,6 +1,11 @@
 import { publicRoutes, type RouteId } from "@/config/routes";
 import type { ContentCatalog } from "@/content/catalog";
 import { contentCatalog } from "@/content/catalog";
+import {
+  PROJECT_STORY_LIMITS,
+  type ProjectStoryRecord,
+  type StoryContentBlock,
+} from "@/content/projects";
 import { SERVICE_SLUGS, type ServiceSlug } from "@/types/content";
 
 export type ValidationIssue = {
@@ -58,6 +63,214 @@ function pushWarning(
   field?: string,
 ) {
   warnings.push({ level: "warning", code, message, recordId, field });
+}
+
+function validateStoryBlocks(
+  errors: ValidationIssue[],
+  projectId: string,
+  field: string,
+  blocks: readonly StoryContentBlock[],
+): void {
+  if (blocks.length > PROJECT_STORY_LIMITS.maxBlocksPerSection) {
+    pushError(
+      errors,
+      "story-block-limit",
+      `Story section exceeds ${PROJECT_STORY_LIMITS.maxBlocksPerSection} blocks`,
+      projectId,
+      field,
+    );
+  }
+  for (const block of blocks) {
+    if (block.type === "paragraph") {
+      if (block.text.length > PROJECT_STORY_LIMITS.blockTextMax) {
+        pushError(
+          errors,
+          "story-text-length",
+          "Story paragraph exceeds maximum length",
+          projectId,
+          field,
+        );
+      }
+      continue;
+    }
+    if (block.type === "list") {
+      if (block.items.length > PROJECT_STORY_LIMITS.maxListItems) {
+        pushError(
+          errors,
+          "story-list-limit",
+          "Story list exceeds maximum items",
+          projectId,
+          field,
+        );
+      }
+      for (const item of block.items) {
+        if (item.length > PROJECT_STORY_LIMITS.listItemMax) {
+          pushError(
+            errors,
+            "story-text-length",
+            "Story list item exceeds maximum length",
+            projectId,
+            field,
+          );
+        }
+      }
+      continue;
+    }
+    pushError(
+      errors,
+      "unsupported-story-block",
+      "Story contains an unsupported block type",
+      projectId,
+      field,
+    );
+  }
+}
+
+function validateProjectStory(
+  errors: ValidationIssue[],
+  projectId: string,
+  story: ProjectStoryRecord,
+  mediaIds: Set<string>,
+): void {
+  if (story.title.length > PROJECT_STORY_LIMITS.titleMax) {
+    pushError(
+      errors,
+      "story-text-length",
+      "Story title exceeds maximum length",
+      projectId,
+      "story.title",
+    );
+  }
+  if (story.intro.length > PROJECT_STORY_LIMITS.introMax) {
+    pushError(
+      errors,
+      "story-text-length",
+      "Story intro exceeds maximum length",
+      projectId,
+      "story.intro",
+    );
+  }
+  validateStoryBlocks(errors, projectId, "story.context", story.context);
+  validateStoryBlocks(
+    errors,
+    projectId,
+    "story.contribution",
+    story.contribution,
+  );
+  validateStoryBlocks(errors, projectId, "story.solution", story.solution);
+  validateStoryBlocks(
+    errors,
+    projectId,
+    "story.processNotes",
+    story.processNotes,
+  );
+  validateStoryBlocks(errors, projectId, "story.lessons", story.lessons);
+
+  if (story.features.length > PROJECT_STORY_LIMITS.maxFeatures) {
+    pushError(
+      errors,
+      "story-feature-limit",
+      "Story features exceed maximum count",
+      projectId,
+      "story.features",
+    );
+  }
+  if (story.technologies.length > PROJECT_STORY_LIMITS.maxTechnologies) {
+    pushError(
+      errors,
+      "story-tech-limit",
+      "Story technologies exceed maximum count",
+      projectId,
+      "story.technologies",
+    );
+  }
+  if (story.outcomes.length > PROJECT_STORY_LIMITS.maxOutcomes) {
+    pushError(
+      errors,
+      "story-outcome-limit",
+      "Story outcomes exceed maximum count",
+      projectId,
+      "story.outcomes",
+    );
+  }
+  if (story.gallery.length > PROJECT_STORY_LIMITS.maxGalleryItems) {
+    pushError(
+      errors,
+      "story-gallery-limit",
+      "Story gallery exceeds maximum items",
+      projectId,
+      "story.gallery",
+    );
+  }
+  for (const item of story.gallery) {
+    if (!mediaIds.has(item.mediaId)) {
+      pushError(
+        errors,
+        "unknown-media-ref",
+        "story.gallery references unknown media",
+        projectId,
+        "story.gallery",
+      );
+    }
+    if (item.caption.length > PROJECT_STORY_LIMITS.captionMax) {
+      pushError(
+        errors,
+        "story-text-length",
+        "Gallery caption exceeds maximum length",
+        projectId,
+        "story.gallery",
+      );
+    }
+  }
+  if (story.testimonial) {
+    if (
+      story.testimonial.quote.length > PROJECT_STORY_LIMITS.testimonialQuoteMax
+    ) {
+      pushError(
+        errors,
+        "story-text-length",
+        "Testimonial quote exceeds maximum length",
+        projectId,
+        "story.testimonial",
+      );
+    }
+    if (
+      story.testimonial.attribution.length >
+      PROJECT_STORY_LIMITS.testimonialAttributionMax
+    ) {
+      pushError(
+        errors,
+        "story-text-length",
+        "Testimonial attribution exceeds maximum length",
+        projectId,
+        "story.testimonial",
+      );
+    }
+  }
+  if (story.publicationState === "approved") {
+    if (!story.title.trim() || !story.intro.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved story requires title and intro",
+        projectId,
+        "story",
+      );
+    }
+    if (
+      story.context.length === 0 ||
+      story.contribution.length === 0 ||
+      story.solution.length === 0
+    ) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved story requires context, contribution, and solution sections",
+        projectId,
+        "story",
+      );
+    }
+  }
 }
 
 function assertUniqueIds(
@@ -497,6 +710,30 @@ export function validateContentCatalog(
         project.id,
         "storyPublicationState",
       );
+    }
+    if (project.story == null && project.storyPublicationState != null) {
+      pushError(
+        errors,
+        "story-state-mismatch",
+        "storyPublicationState is set but story body is missing",
+        project.id,
+        "story",
+      );
+    }
+    if (project.story != null) {
+      if (
+        project.storyPublicationState == null ||
+        project.storyPublicationState !== project.story.publicationState
+      ) {
+        pushError(
+          errors,
+          "story-state-mismatch",
+          "storyPublicationState must match story.publicationState",
+          project.id,
+          "storyPublicationState",
+        );
+      }
+      validateProjectStory(errors, project.id, project.story, mediaIds);
     }
     if (project.publicationState === "approved") {
       for (const field of [

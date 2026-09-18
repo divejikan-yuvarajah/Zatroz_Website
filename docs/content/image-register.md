@@ -12,6 +12,10 @@ Record provenance for page visuals. Do not claim a file exists until it is creat
 
 No decorative Work-page hero raster was added. Cards use approved project covers when present, otherwise an intentional text-first layout. Do not use stock photography as project evidence.
 
+## Case studies (Step 38)
+
+The case-study template is ready. Project covers and gallery images must be real approved exports with provenance. No portfolio evidence images were added in this step; gallery specimens use the labelled `public/images/projects/specimen-ui-frame.svg` fixture only.
+
 ## Notes
 
 - Service illustrations may remain HTML/CSS/SVG when labels must stay exact and accessible.

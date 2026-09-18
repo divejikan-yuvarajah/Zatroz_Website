@@ -56,6 +56,7 @@ function projectStub(
     mediaIds: [],
     publicLinks: [],
     storyPublicationState: null,
+    story: null,
     ...partial,
   };
 }
@@ -119,6 +120,24 @@ const projects: ProjectRecord[] = [
     serviceIds: ["svc-ui-ux-design"],
     mediaIds: ["media-public"],
     storyPublicationState: "approved",
+    story: {
+      publicationState: "approved",
+      title: "Beta app",
+      intro: "A short approved story for selector tests.",
+      context: [{ type: "paragraph", text: "Context for the specimen." }],
+      contribution: [
+        { type: "paragraph", text: "Contribution for the specimen." },
+      ],
+      solution: [{ type: "paragraph", text: "Solution for the specimen." }],
+      features: ["One useful capability"],
+      processNotes: [],
+      gallery: [],
+      technologies: ["TypeScript"],
+      outcomes: ["Qualitative observation only"],
+      lessons: [],
+      testimonial: null,
+      reviewNotes: "Internal only — must never appear in DTOs",
+    },
   }),
   projectStub({
     id: "proj-draft",
@@ -129,6 +148,22 @@ const projects: ProjectRecord[] = [
     workStatus: "client-work",
     serviceIds: ["svc-websites-ecommerce"],
     storyPublicationState: "draft",
+    story: {
+      publicationState: "draft",
+      title: "Draft secret story",
+      intro: "Draft intro",
+      context: [],
+      contribution: [],
+      solution: [],
+      features: [],
+      processNotes: [],
+      gallery: [],
+      technologies: [],
+      outcomes: [],
+      lessons: [],
+      testimonial: null,
+      reviewNotes: "secret review",
+    },
   }),
   projectStub({
     id: "proj-archived",
@@ -197,6 +232,11 @@ run("story-eligible-when-approved-and-enabled", () => {
   assert.ok(card);
   assert.equal(card.storyLinkEligible, true);
   assert.equal(card.cover?.src, "/images/projects/specimen-ui-frame.svg");
+  const studyJson = JSON.stringify(
+    // card must not contain internal review notes from the story body
+    card,
+  );
+  assert.ok(!studyJson.includes("Internal only"));
 });
 
 run("story-disabled-when-work-stories-flag-off", () => {

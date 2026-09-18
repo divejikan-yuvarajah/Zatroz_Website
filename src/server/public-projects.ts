@@ -3,6 +3,11 @@ import "server-only";
 import { contentCatalog } from "@/content/catalog";
 import { publicRoutes } from "@/config/routes";
 import {
+  listPublishedCaseStudySlugs,
+  projectPublishedCaseStudy,
+  type PublicCaseStudy,
+} from "@/lib/public-case-study";
+import {
   PUBLIC_PROJECTS_ADAPTER_NOTE,
   PUBLIC_PROJECTS_MAX_PAGE_SIZE,
   PUBLIC_PROJECTS_PAGE_SIZE,
@@ -25,11 +30,14 @@ export {
   buildWorkListHref,
   parseWorkListSearchParams,
 };
-export type { PublicProjectCard, PublicProjectListResult };
+export type { PublicProjectCard, PublicProjectListResult, PublicCaseStudy };
 
 /**
  * Temporary repository adapter. A09–A10 will swap this to MongoDB published
- * revisions without changing PublicProjectCard consumers.
+ * revisions without changing PublicProjectCard / PublicCaseStudy consumers.
+ *
+ * workStoriesImplemented is true once `/work/[slug]` exists (Step 38).
+ * New admin-published slugs resolve at request time (dynamicParams stays default).
  */
 function getRepository(): PublicProjectsRepository {
   return {
@@ -37,8 +45,7 @@ function getRepository(): PublicProjectsRepository {
     media: contentCatalog.media,
     services: contentCatalog.services,
     featuredProjectIds: contentCatalog.featuredProjectIds,
-    // Case-study routes land in Step 38 — keep story links off until then.
-    workStoriesImplemented: false,
+    workStoriesImplemented: publicRoutes.work.implemented,
   };
 }
 
@@ -57,6 +64,13 @@ export async function getPublishedProjectSummaryBySlug(
   return getPublishedProjectCardBySlug(getRepository(), slug);
 }
 
+export async function getPublishedCaseStudyBySlug(
+  slug: string,
+  options?: { idPrefix?: string },
+): Promise<PublicCaseStudy | null> {
+  return projectPublishedCaseStudy(getRepository(), slug, options);
+}
+
 export async function listPublishedFeaturedProjects(
   limit = 3,
 ): Promise<readonly PublicProjectCard[]> {
@@ -68,6 +82,11 @@ export async function listPublishedRelatedProjects(
   limit = 3,
 ): Promise<readonly PublicProjectCard[]> {
   return listPublishedRelatedProjectCards(getRepository(), projectIds, limit);
+}
+
+/** Known public story slugs for optional prerender — not a permanent eligibility allowlist. */
+export function getPublishedCaseStudySlugsForPrerender(): string[] {
+  return listPublishedCaseStudySlugs(getRepository());
 }
 
 /** Thin sync helpers for existing homepage/service projections. */
