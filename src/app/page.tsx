@@ -4,6 +4,7 @@ import { HomeFeaturedWork } from "@/components/sections/home-featured-work";
 import { HomeHero } from "@/components/sections/home-hero";
 import { HomeProcess } from "@/components/sections/home-process";
 import { HomeServiceExplorer } from "@/components/sections/home-service-explorer";
+import { HomeTeam } from "@/components/sections/home-team";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -11,6 +12,7 @@ import {
   getPublicAutomationExample,
   getPublicHomeEvidence,
   getPublicHomeHero,
+  getPublicHomePeople,
   getPublicHomeProcess,
   getPublicSelectedWork,
   getPublicServiceExplorer,
@@ -23,6 +25,7 @@ export default function Home() {
   const serviceExplorer = getPublicServiceExplorer();
   const automationExample = getPublicAutomationExample();
   const process = getPublicHomeProcess();
+  const people = getPublicHomePeople();
 
   return (
     <>
@@ -52,6 +55,7 @@ export default function Home() {
         <HomeAutomationExample example={automationExample} />
       ) : null}
       {process ? <HomeProcess process={process} /> : null}
+      {people ? <HomeTeam people={people} /> : null}
     </>
   );
 }

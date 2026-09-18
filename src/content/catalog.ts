@@ -20,6 +20,8 @@ import { founderRecords } from "@/content/founders";
 import { homeSelectedWorkRecord } from "@/content/home";
 import type { MediaRecord } from "@/content/media";
 import { mediaRecords } from "@/content/media";
+import type { HomePeopleRecord } from "@/content/people";
+import { homePeopleRecord } from "@/content/people";
 import type { HomeProcessRecord } from "@/content/process";
 import { homeProcessRecord } from "@/content/process";
 import type { ProjectRecord } from "@/content/projects";
@@ -45,6 +47,7 @@ export type ContentCatalog = {
   serviceExplorer: HomeServiceExplorerRecord;
   automationExample: HomeAutomationExampleRecord;
   process: HomeProcessRecord;
+  people: HomePeopleRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -63,4 +66,5 @@ export const contentCatalog: ContentCatalog = {
   serviceExplorer: homeServiceExplorerRecord,
   automationExample: homeAutomationExampleRecord,
   process: homeProcessRecord,
+  people: homePeopleRecord,
 };

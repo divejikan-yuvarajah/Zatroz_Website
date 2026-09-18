@@ -18,6 +18,7 @@ import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { HomeProcessSpecimen } from "@/components/dev/home-process-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
 import { HomeServiceExplorerSpecimen } from "@/components/dev/home-service-explorer-specimen";
+import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
@@ -718,6 +719,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeProcessSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="home-team-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-team-specimen-heading"
+            eyebrow="Example · local only"
+            description="Company introduction and working principles. Gallery profile fixtures are labelled specimens — not real founder cards. Public / omits this section until the company introduction is approved."
+          >
+            Homepage people
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeTeamSpecimen />
           </div>
         </Container>
       </Section>
