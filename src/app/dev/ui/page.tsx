@@ -12,6 +12,7 @@ import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
 import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
 import { FooterSpecimen } from "@/components/dev/footer-specimen";
+import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
@@ -592,6 +593,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <FooterSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="home-hero-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-hero-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft connected-business hero for review. Specimens use H2 and unique id prefixes. Public / does not publish this copy until it is approved."
+          >
+            Homepage hero
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeHeroSpecimen />
           </div>
         </Container>
       </Section>
