@@ -26,24 +26,25 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 
 ## File map
 
-| Path                          | Holds                                               |
-| ----------------------------- | --------------------------------------------------- |
-| `src/types/content.ts`        | Shared unions (`PublicationState`, service slugs)   |
-| `src/content/site.ts`         | Brand name, draft blurb, CTA labels, contact        |
-| `src/content/navigation.ts`   | Nav labels + `routeId` order (no duplicated URLs)   |
-| `src/content/services.ts`     | Exactly six service records                         |
-| `src/content/home.ts`         | Homepage hero, scenarios, selected-work feature IDs |
-| `src/content/projects.ts`     | Project stories (empty until verified)              |
-| `src/content/founders.ts`     | Founder profiles (empty until approved)             |
-| `src/content/faqs.ts`         | Draft enquiry FAQs                                  |
-| `src/content/evidence.ts`     | Homepage proof items + intro (empty / draft)        |
-| `src/content/media.ts`        | Public media records (empty until assets exist)     |
-| `src/content/catalog.ts`      | Aggregate for validation + server access            |
-| `src/config/routes.ts`        | Canonical paths + `implemented`                     |
-| `src/config/navigation.ts`    | Public nav projections for header/footer/gallery    |
-| `src/config/brand.ts`         | Public contact helpers (reads `site.ts`)            |
-| `src/server/content.ts`       | `server-only` selectors / public projections        |
-| `src/lib/content-validate.ts` | Pure validator                                      |
+| Path                            | Holds                                               |
+| ------------------------------- | --------------------------------------------------- |
+| `src/types/content.ts`          | Shared unions (`PublicationState`, service slugs)   |
+| `src/content/site.ts`           | Brand name, draft blurb, CTA labels, contact        |
+| `src/content/navigation.ts`     | Nav labels + `routeId` order (no duplicated URLs)   |
+| `src/content/services.ts`       | Exactly six service records                         |
+| `src/content/home.ts`           | Homepage hero, scenarios, selected-work feature IDs |
+| `src/content/business-needs.ts` | Four homepage business needs + explorer framing     |
+| `src/content/projects.ts`       | Project stories (empty until verified)              |
+| `src/content/founders.ts`       | Founder profiles (empty until approved)             |
+| `src/content/faqs.ts`           | Draft enquiry FAQs                                  |
+| `src/content/evidence.ts`       | Homepage proof items + intro (empty / draft)        |
+| `src/content/media.ts`          | Public media records (empty until assets exist)     |
+| `src/content/catalog.ts`        | Aggregate for validation + server access            |
+| `src/config/routes.ts`          | Canonical paths + `implemented`                     |
+| `src/config/navigation.ts`      | Public nav projections for header/footer/gallery    |
+| `src/config/brand.ts`           | Public contact helpers (reads `site.ts`)            |
+| `src/server/content.ts`         | `server-only` selectors / public projections        |
+| `src/lib/content-validate.ts`   | Pure validator                                      |
 
 Do **not** import `src/content/catalog.ts` or draft collections into Client Components. Header/footer Server Components call `@/server/content`. Client nav receives serializable props only.
 
@@ -58,6 +59,7 @@ Do **not** import `src/content/catalog.ts` or draft collections into Client Comp
 | Founders | 0     | —                      | Divejikan named in docs only; no card yet    |
 | FAQs     | 3     | All `draft`            | No prices, SLAs, or ownership promises       |
 | Evidence | 0     | Intro `draft`          | C-HOME-02 gap; public strip omitted          |
+| Needs    | 4     | All `draft`            | Explorer framing draft; public strip omitted |
 | Media    | 0     | —                      | No approved public assets in repo            |
 | Contact  | —     | Channels `unconfirmed` | Live footer omits links                      |
 

@@ -15,6 +15,7 @@ import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
+import { HomeServiceExplorerSpecimen } from "@/components/dev/home-service-explorer-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
@@ -655,6 +656,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeSelectedWorkSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="home-service-explorer-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-service-explorer-specimen-heading"
+            eyebrow="Example · local only"
+            description="Business-need disclosure explorer. Draft need copy for layout review. Public / omits this section until the explorer framing and at least one need are approved."
+          >
+            Homepage service explorer
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeServiceExplorerSpecimen />
           </div>
         </Container>
       </Section>

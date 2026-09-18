@@ -90,6 +90,7 @@ export function validateContentCatalog(
   assertUniqueIds(errors, [...catalog.faqs], "faq");
   assertUniqueIds(errors, [...catalog.media], "media");
   assertUniqueIds(errors, [...catalog.evidence], "evidence");
+  assertUniqueIds(errors, [...catalog.businessNeeds], "business-need");
 
   const projectIds = new Set(catalog.projects.map((p) => p.id));
   const serviceIds = new Set(catalog.services.map((s) => s.id));
@@ -561,6 +562,127 @@ export function validateContentCatalog(
         "text",
       );
     }
+  }
+
+  if (catalog.businessNeeds.length !== 4) {
+    pushError(
+      errors,
+      "business-need-count",
+      "Expected exactly four business-need records",
+      undefined,
+      "businessNeeds",
+    );
+  }
+
+  const defaultNeedExists = catalog.businessNeeds.some(
+    (need) => need.id === catalog.serviceExplorer.defaultNeedId,
+  );
+  if (!defaultNeedExists) {
+    pushError(
+      errors,
+      "unknown-default-need",
+      "serviceExplorer.defaultNeedId does not match a business need",
+      catalog.serviceExplorer.id,
+      "defaultNeedId",
+    );
+  }
+
+  for (const need of catalog.businessNeeds) {
+    if (need.serviceIds.length === 0) {
+      pushError(
+        errors,
+        "empty-need-services",
+        "Business need must reference at least one service",
+        need.id,
+        "serviceIds",
+      );
+    }
+
+    if (!need.serviceIds.includes(need.primaryServiceId)) {
+      pushError(
+        errors,
+        "invalid-primary-service",
+        "primaryServiceId must be included in serviceIds",
+        need.id,
+        "primaryServiceId",
+      );
+    }
+
+    for (const serviceId of need.serviceIds) {
+      if (!serviceIds.has(serviceId)) {
+        pushError(
+          errors,
+          "unknown-service-ref",
+          "Business need references an unknown service",
+          need.id,
+          "serviceIds",
+        );
+      }
+    }
+
+    for (const projectId of need.relatedProjectIds) {
+      if (!projectIds.has(projectId)) {
+        pushError(
+          errors,
+          "unknown-project-ref",
+          "Business need relatedProjectIds references an unknown project",
+          need.id,
+          "relatedProjectIds",
+        );
+      }
+    }
+
+    if (need.publicationState === "approved") {
+      for (const field of ["title", "explanation", "deliverable"] as const) {
+        if (!need[field].trim()) {
+          pushError(
+            errors,
+            "approved-missing-field",
+            "Approved business need is missing a required field",
+            need.id,
+            field,
+          );
+        }
+      }
+
+      for (const serviceId of need.serviceIds) {
+        const service = catalog.services.find((row) => row.id === serviceId);
+        if (service && service.publicationState !== "approved") {
+          pushWarning(
+            warnings,
+            "need-draft-service",
+            "Approved business need references a service that is not approved yet",
+            need.id,
+            "serviceIds",
+          );
+        }
+      }
+    }
+  }
+
+  if (catalog.serviceExplorer.publicationState === "approved") {
+    for (const field of ["heading", "supporting"] as const) {
+      if (!catalog.serviceExplorer[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved service explorer is missing a required field",
+          catalog.serviceExplorer.id,
+          field,
+        );
+      }
+    }
+  }
+
+  if (
+    catalog.serviceExplorer.publicationState !== "approved" ||
+    catalog.businessNeeds.every((need) => need.publicationState !== "approved")
+  ) {
+    pushWarning(
+      warnings,
+      "draft-service-explorer",
+      "Service explorer stays off the public homepage until explorer framing and at least one need are approved",
+    );
   }
 
   return {
