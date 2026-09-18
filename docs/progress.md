@@ -31,6 +31,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 25   | Homepage delivery process       | **Implemented** (on branch `feature/25-home-process`; merge may be pending)    | 2026-09-18 | Four draft process steps + calm timeline; see `docs/homepage/step-25.md`                                                  |
 | 26   | Homepage people / team          | **Implemented** (on branch `feature/26-home-team`; merge may be pending)       | 2026-09-18 | Draft company intro; no invented founders; see `docs/homepage/step-26.md`                                                 |
 | 27   | Homepage feedback / FAQs        | **Implemented** (on branch `feature/27-home-faq`; merge may be pending)        | 2026-09-18 | Six draft FAQs + empty feedback; native disclosures; see `docs/homepage/step-27.md`                                       |
+| 28   | Homepage final CTA + review     | **Implemented** (on branch `feature/28-home-cta`; merge may be pending)        | 2026-09-18 | Draft invitation; no usable enquiry action yet; see `docs/homepage/step-28.md`                                            |
 
 ---
 
@@ -290,6 +291,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (22 readiness warnings including draft-home-questions); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery keyboard/no-JS FAQ review **not run**.
 - No final enquiry CTA or homepage integration review (Step 28).
 
+### Step 28 (2026-09-18)
+
+- Branch: `feature/28-home-cta` from `feature/27-home-faq` (Steps 25–27 not yet on `origin/main`).
+- Draft `HomeFinalCta` with warm-white invitation; shared enquiry fallback prefers `#start-a-project` when the section renders.
+- Public invitation omitted until framing approved **and** Contact/email/WhatsApp is usable — current launch blocker documented.
+- Integration matrix in `docs/homepage/homepage-review.md`. Homepage components complete ≠ website launch-ready.
+- Checks: `npm run validate:content` passed (24 readiness warnings including draft-home-final-cta and no-usable-enquiry-action); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3028: `/` HTTP 200; `/dev/ui` HTTP 404. Browser interaction/viewport review **not run**. Lighthouse **not run**.
+- No Services overview page (Step 29).
+
 ---
 
 ## Steps 11–14 summary
@@ -301,7 +311,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–27 are on stacked feature branches (`feature/25-home-process`, `feature/26-home-team`, `feature/27-home-faq`).
+These steps 11–24 are merged to `main`. Steps 25–28 are on stacked feature branches (`feature/25-home-process` … `feature/28-home-cta`).
 
 ---
 

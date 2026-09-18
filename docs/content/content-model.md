@@ -38,6 +38,7 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/process.ts`            | Homepage delivery process steps (draft)             |
 | `src/content/people.ts`             | Homepage company intro + working principles (draft) |
 | `src/content/home-questions.ts`     | Homepage FAQ / feedback framing (draft)             |
+| `src/content/home-final-cta.ts`     | Homepage final enquiry invitation (draft)           |
 | `src/content/projects.ts`           | Project stories (empty until verified)              |
 | `src/content/founders.ts`           | Founder profiles (empty until approved)             |
 | `src/content/faqs.ts`               | Draft enquiry FAQs (six)                            |
@@ -69,6 +70,7 @@ Do **not** import `src/content/catalog.ts` or draft collections into Client Comp
 | Process   | 4     | Section `draft`        | C-HOME-05; public strip omitted              |
 | People    | —     | Section `draft`        | C-HOME-06; founders empty; public omitted    |
 | Questions | —     | Section `draft`        | C-HOME-07; FAQs draft; public omitted        |
+| Final CTA | —     | Section `draft`        | C-HOME-08; no usable enquiry action yet      |
 | Media     | 0     | —                      | No approved public assets in repo            |
 | Contact   | —     | Channels `unconfirmed` | Live footer omits links                      |
 

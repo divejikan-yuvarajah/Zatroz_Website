@@ -2,6 +2,7 @@ import { HomeAutomationExample } from "@/components/sections/home-automation-exa
 import { HomeEvidence } from "@/components/sections/home-evidence";
 import { HomeFeaturedWork } from "@/components/sections/home-featured-work";
 import { HomeFeedbackFaq } from "@/components/sections/home-feedback-faq";
+import { HomeFinalCta } from "@/components/sections/home-final-cta";
 import { HomeHero } from "@/components/sections/home-hero";
 import { HomeProcess } from "@/components/sections/home-process";
 import { HomeServiceExplorer } from "@/components/sections/home-service-explorer";
@@ -12,6 +13,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getPublicAutomationExample,
   getPublicHomeEvidence,
+  getPublicHomeFinalCta,
   getPublicHomeHero,
   getPublicHomePeople,
   getPublicHomeProcess,
@@ -29,6 +31,7 @@ export default function Home() {
   const process = getPublicHomeProcess();
   const people = getPublicHomePeople();
   const questions = getPublicHomeQuestions();
+  const finalCta = getPublicHomeFinalCta();
 
   return (
     <>
@@ -60,6 +63,7 @@ export default function Home() {
       {process ? <HomeProcess process={process} /> : null}
       {people ? <HomeTeam people={people} /> : null}
       {questions ? <HomeFeedbackFaq questions={questions} /> : null}
+      {finalCta ? <HomeFinalCta invitation={finalCta} /> : null}
     </>
   );
 }

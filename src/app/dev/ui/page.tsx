@@ -15,6 +15,7 @@ import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { HomeAutomationExampleSpecimen } from "@/components/dev/home-automation-example-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeFeedbackFaqSpecimen } from "@/components/dev/home-feedback-faq-specimen";
+import { HomeFinalCtaSpecimen } from "@/components/dev/home-final-cta-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { HomeProcessSpecimen } from "@/components/dev/home-process-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
@@ -760,6 +761,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeFeedbackFaqSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="home-final-cta-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-final-cta-specimen-heading"
+            eyebrow="Example · local only"
+            description="Final enquiry invitation with Contact, email, or WhatsApp fallbacks. Public / omits this section until framing is approved and a usable contact action exists. Does not enable /contact by itself."
+          >
+            Homepage final invitation
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeFinalCtaSpecimen />
           </div>
         </Container>
       </Section>
