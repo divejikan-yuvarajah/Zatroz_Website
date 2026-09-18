@@ -2,6 +2,7 @@ import "server-only";
 
 import { getMailtoHref, getWhatsAppHref, siteContact } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
+import { contentCatalog } from "@/content/catalog";
 import { siteRecord } from "@/content/site";
 import {
   getHeroScenarioById,
@@ -9,12 +10,11 @@ import {
   homeHeroRecord,
   type HeroScenario,
   type HomeHeroRecord,
+  type PublicCta,
 } from "@/content/home";
+import type { ServiceSlug } from "@/types/content";
 
-export type PublicCta = Readonly<{
-  label: string;
-  href: string;
-}>;
+export type { PublicCta };
 
 export type PublicHomeHero = Readonly<{
   id: string;
@@ -22,7 +22,11 @@ export type PublicHomeHero = Readonly<{
   headline: string;
   supporting: string;
   workflowCaption: string;
+  scenarios: readonly HeroScenario[];
+  defaultScenarioId: string;
   scenario: HeroScenario;
+  /** Pre-resolved optional service links keyed by scenario id */
+  scenarioServiceLinks: Readonly<Record<string, PublicCta | null>>;
   primaryCta: PublicCta | null;
   secondaryCta: PublicCta | null;
 }>;
@@ -98,6 +102,41 @@ export function resolveHomeCta(
   return null;
 }
 
+function resolveScenarioServiceLink(
+  slug: ServiceSlug | null,
+): PublicCta | null {
+  if (!slug) {
+    return null;
+  }
+
+  const service = contentCatalog.services.find((row) => row.slug === slug);
+  if (!service) {
+    return null;
+  }
+
+  const route = publicRoutes[service.routeId];
+  if (!route.implemented) {
+    return null;
+  }
+
+  return {
+    label: `About ${service.title}`,
+    href: route.path,
+  };
+}
+
+function buildScenarioServiceLinks(
+  scenarios: readonly HeroScenario[],
+): Record<string, PublicCta | null> {
+  const links: Record<string, PublicCta | null> = {};
+  for (const scenario of scenarios) {
+    links[scenario.id] = resolveScenarioServiceLink(
+      scenario.relatedServiceSlug,
+    );
+  }
+  return links;
+}
+
 function buildComposition(heroApproved: boolean): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": heroApproved,
@@ -118,6 +157,39 @@ function buildComposition(heroApproved: boolean): HomeComposition {
   return { sections, anchors };
 }
 
+function buildPublicHero(
+  composition: HomeComposition,
+  ctaOptions?: {
+    primaryCta?: PublicCta | null;
+    secondaryCta?: PublicCta | null;
+  },
+): PublicHomeHero {
+  const scenarios = [...heroScenarios];
+  const scenario =
+    getHeroScenarioById(homeHeroRecord.defaultScenarioId, scenarios) ??
+    scenarios[0]!;
+
+  return {
+    id: homeHeroRecord.id,
+    eyebrow: homeHeroRecord.eyebrow,
+    headline: homeHeroRecord.headline,
+    supporting: homeHeroRecord.supporting,
+    workflowCaption: homeHeroRecord.workflowCaption,
+    scenarios,
+    defaultScenarioId: scenario.id,
+    scenario,
+    scenarioServiceLinks: buildScenarioServiceLinks(scenarios),
+    primaryCta:
+      ctaOptions && "primaryCta" in ctaOptions
+        ? (ctaOptions.primaryCta ?? null)
+        : resolveHomeCta(homeHeroRecord.primaryIntent, composition),
+    secondaryCta:
+      ctaOptions && "secondaryCta" in ctaOptions
+        ? (ctaOptions.secondaryCta ?? null)
+        : resolveHomeCta(homeHeroRecord.secondaryIntent, composition),
+  };
+}
+
 /** Public homepage composition — approved sections only. */
 export function getHomeComposition(): HomeComposition {
   const heroApproved = homeHeroRecord.publicationState === "approved";
@@ -133,20 +205,7 @@ export function getPublicHomeHero(): PublicHomeHero | null {
     return null;
   }
 
-  const scenario =
-    getHeroScenarioById(homeHeroRecord.defaultScenarioId) ?? heroScenarios[0];
-  const composition = getHomeComposition();
-
-  return {
-    id: homeHeroRecord.id,
-    eyebrow: homeHeroRecord.eyebrow,
-    headline: homeHeroRecord.headline,
-    supporting: homeHeroRecord.supporting,
-    workflowCaption: homeHeroRecord.workflowCaption,
-    scenario,
-    primaryCta: resolveHomeCta(homeHeroRecord.primaryIntent, composition),
-    secondaryCta: resolveHomeCta(homeHeroRecord.secondaryIntent, composition),
-  };
+  return buildPublicHero(getHomeComposition());
 }
 
 /**
@@ -157,24 +216,5 @@ export function getHomeHeroSpecimen(options?: {
   primaryCta?: PublicCta | null;
   secondaryCta?: PublicCta | null;
 }): PublicHomeHero {
-  const composition = buildComposition(true);
-  const scenario =
-    getHeroScenarioById(homeHeroRecord.defaultScenarioId) ?? heroScenarios[0];
-
-  return {
-    id: homeHeroRecord.id,
-    eyebrow: homeHeroRecord.eyebrow,
-    headline: homeHeroRecord.headline,
-    supporting: homeHeroRecord.supporting,
-    workflowCaption: homeHeroRecord.workflowCaption,
-    scenario,
-    primaryCta:
-      options && "primaryCta" in options
-        ? (options.primaryCta ?? null)
-        : resolveHomeCta(homeHeroRecord.primaryIntent, composition),
-    secondaryCta:
-      options && "secondaryCta" in options
-        ? (options.secondaryCta ?? null)
-        : resolveHomeCta(homeHeroRecord.secondaryIntent, composition),
-  };
+  return buildPublicHero(buildComposition(true), options);
 }

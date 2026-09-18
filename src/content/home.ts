@@ -2,6 +2,11 @@ import type { PublicationState, ServiceSlug } from "@/types/content";
 
 export type HeroCtaIntent = "start-project" | "explore-work";
 
+export type PublicCta = {
+  label: string;
+  href: string;
+};
+
 export type HeroWorkflowStage = {
   id: string;
   label: string;
@@ -13,7 +18,7 @@ export type HeroScenario = {
   title: string;
   explanation: string;
   stages: readonly [HeroWorkflowStage, HeroWorkflowStage, HeroWorkflowStage];
-  /** Optional service slug for Step 20 destination wiring */
+  /** Optional service slug for destination wiring when the route is ready */
   relatedServiceSlug: ServiceSlug | null;
 };
 
@@ -30,7 +35,7 @@ export type HomeHeroRecord = {
 };
 
 /**
- * Proposed homepage hero copy and the static Sell online scenario.
+ * Proposed homepage hero copy.
  * Remains draft until founders approve the exact wording.
  */
 export const homeHeroRecord: HomeHeroRecord = {
@@ -44,7 +49,7 @@ export const homeHeroRecord: HomeHeroRecord = {
   secondaryIntent: "explore-work",
   defaultScenarioId: "sell-online",
   workflowCaption:
-    "Illustrative workflow: a customer request becomes organised order details, then waits for the business to review. Not a live product demo.",
+    "Illustrative workflow only — sample labels, not a live product, payment, inventory, or AI system.",
 };
 
 export const heroScenarios = [
@@ -69,6 +74,55 @@ export const heroScenarios = [
         id: "review",
         label: "Ready for review",
         detail: "Sample: waiting for the business to confirm next steps.",
+      },
+    ],
+  },
+  {
+    id: "run-operations",
+    title: "Run operations",
+    explanation:
+      "A sample stock note is written into a shared record the team can overview together. Not a live inventory system.",
+    relatedServiceSlug: "business-systems",
+    stages: [
+      {
+        id: "stock-update",
+        label: "Stock update",
+        detail: "Sample: “Shelf B — 12 units remaining.”",
+      },
+      {
+        id: "shared-record",
+        label: "Shared record",
+        detail: "Sample: the note is saved where the team can find it.",
+      },
+      {
+        id: "team-overview",
+        label: "Team overview",
+        detail: "Sample: colleagues see the same status in one place.",
+      },
+    ],
+  },
+  {
+    id: "automate-tasks",
+    title: "Automate tasks",
+    explanation:
+      "A sample invoice is turned into an extracted draft for a person to check. Not live AI processing or banking integration.",
+    relatedServiceSlug: "ai-automation",
+    stages: [
+      {
+        id: "invoice-received",
+        label: "Invoice received",
+        detail: "Sample: a supplier invoice PDF arrives by email.",
+      },
+      {
+        id: "extracted-draft",
+        label: "Extracted draft",
+        detail: "Sample: supplier name, date, and total copied into a draft.",
+      },
+      {
+        id: "human-review",
+        label: "Human review",
+        detail:
+          "Sample: a person checks the draft before anything is approved.",
       },
     ],
   },

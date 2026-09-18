@@ -4,6 +4,7 @@ import { cn } from "@/lib/cn";
 export type BusinessWorkflowVisualProps = {
   scenario: HeroScenario;
   caption: string;
+  idPrefix?: string;
   className?: string;
 };
 
@@ -14,9 +15,10 @@ export type BusinessWorkflowVisualProps = {
 export function BusinessWorkflowVisual({
   scenario,
   caption,
+  idPrefix = "",
   className,
 }: BusinessWorkflowVisualProps) {
-  const captionId = `${scenario.id}-workflow-caption`;
+  const captionId = `${idPrefix}${scenario.id}-workflow-caption`;
 
   return (
     <figure
