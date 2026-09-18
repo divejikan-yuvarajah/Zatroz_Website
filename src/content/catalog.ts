@@ -10,6 +10,8 @@ import {
   businessNeedRecords,
   homeServiceExplorerRecord,
 } from "@/content/business-needs";
+import type { ContactPageRecord } from "@/content/contact-page";
+import { contactPageRecord } from "@/content/contact-page";
 import type {
   EvidenceRecord,
   HomeEvidenceIntroRecord,
@@ -66,6 +68,7 @@ export type ContentCatalog = {
   finalCta: HomeFinalCtaRecord;
   servicesOverview: ServicesOverviewRecord;
   about: AboutPageRecord;
+  contactPage: ContactPageRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -91,4 +94,5 @@ export const contentCatalog: ContentCatalog = {
   finalCta: homeFinalCtaRecord,
   servicesOverview: servicesOverviewRecord,
   about: aboutPageRecord,
+  contactPage: contactPageRecord,
 };

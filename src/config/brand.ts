@@ -82,15 +82,28 @@ export function getMailtoHref(
 }
 
 /** Generic enquiry mailto — no visitor data. */
-export function getEnquiryMailtoHref(email: EmailContact): string {
+export function getEnquiryMailtoHref(
+  email: EmailContact,
+  options?: { serviceTitle?: string },
+): string {
+  const subject = options?.serviceTitle
+    ? `Project enquiry — ${options.serviceTitle}`
+    : "Project enquiry";
   return getMailtoHref(email, {
-    subject: "Project enquiry",
+    subject,
     body: siteContact.whatsapp.prefillsMessage,
   });
 }
 
-export function getWhatsAppHref(whatsapp: WhatsAppContact): string {
-  const text = encodeURIComponent(whatsapp.prefillsMessage);
+export function getWhatsAppHref(
+  whatsapp: WhatsAppContact,
+  options?: { serviceTitle?: string },
+): string {
+  const base = whatsapp.prefillsMessage;
+  const message = options?.serviceTitle
+    ? `${base} Interested in ${options.serviceTitle}.`
+    : base;
+  const text = encodeURIComponent(message);
   return `https://wa.me/${whatsapp.internationalDigits}?text=${text}`;
 }
 

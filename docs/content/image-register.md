@@ -32,6 +32,14 @@ Founder portraits remain `A-TEAM-01`…`03` in the asset register — Missing. D
 
 No raster timeline with illegible labels. Exact stage text stays in HTML.
 
+## Contact page (Step 42)
+
+| Asset ID       | Intended path                                                     | Purpose                                     | Status                                                                 |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------- |
+| IMG-CONTACT-01 | `public/images/contact/contact-conversation-illustration-v1.webp` | Optional decorative conversation atmosphere | **Not acquired** — text-first Contact layout with channel actions used |
+
+Do not use a fake helpdesk avatar or “online now” status.
+
 ## Notes
 
 - Service illustrations may remain HTML/CSS/SVG when labels must stay exact and accessible.

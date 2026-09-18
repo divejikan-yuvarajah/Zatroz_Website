@@ -32,6 +32,7 @@ import { WorkPageSpecimen } from "@/components/dev/work-page-specimen";
 import { CaseStudySpecimen } from "@/components/dev/case-study-specimen";
 import { AboutSpecimen } from "@/components/dev/about-specimen";
 import { ProcessSpecimen } from "@/components/dev/process-specimen";
+import { ContactSpecimen } from "@/components/dev/contact-specimen";
 
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
@@ -1034,6 +1035,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <ProcessSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="contact-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="contact-specimen-heading"
+            eyebrow="Example · local only"
+            description="Contact page draft plus enquiry form layout specimen. Public /contact shows confirmed channels and omits the unfinished form."
+          >
+            Contact draft
+          </SectionHeading>
+          <div className="mt-10">
+            <ContactSpecimen />
           </div>
         </Container>
       </Section>

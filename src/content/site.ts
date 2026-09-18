@@ -77,12 +77,12 @@ export const contactRecord = {
   },
   email: {
     display: "zatroz.co@gmail.com",
-    status: "unconfirmed",
+    status: "confirmed",
   },
   whatsapp: {
     internationalDigits: "94768098068",
     prefillsMessage: "I would like to discuss a project with Zatroz.",
-    status: "unconfirmed",
+    status: "confirmed",
   },
   social: {
     instagram: {

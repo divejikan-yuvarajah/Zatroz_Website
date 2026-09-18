@@ -45,6 +45,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 39   | Initial project stories         | **Implemented** (on branch `feature/39-initial-case-studies`; merge may be pending) | 2026-09-18 | Evidence register + drafts; **0** published stories (blocked on facts); see `docs/work/step-39.md`                        |
 | 40   | About page                      | **Implemented** (on branch `feature/40-about-page`; merge may be pending)           | 2026-09-18 | `/about` live; draft copy gated; gallery specimen; see `docs/pages/step-40.md`                                            |
 | 41   | Process / How We Work           | **Implemented** (on branch `feature/41-process-page`; merge may be pending)         | 2026-09-18 | `/process` live; six draft stages; gallery specimen; see `docs/pages/step-41.md`                                          |
+| 42   | Contact layout + channels       | **Implemented** (on branch `feature/42-contact-layout`; merge may be pending)       | 2026-09-18 | `/contact` live; email+WhatsApp confirmed; form specimen only; see `docs/contact/step-42.md`                              |
 
 ---
 
@@ -443,6 +444,17 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (17 readiness warnings including draft-process-page); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3041: `/process` HTTP 200 sparse placeholder (no draft stage leak); `/` links `/process`; `/about` 200; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
 - No Contact page (Step 42).
 
+### Step 42 (2026-09-18)
+
+- Branch: `feature/42-contact-layout` from `feature/41-process-page`.
+- Contact route + draft framing; confirmed email and WhatsApp (owner-supplied values match; no conflict). Phone voice and social URLs remain unconfirmed.
+- Public `/contact` shows channels; omits unfinished enquiry form (`formSubmissionReady: false`). Gallery hosts full draft + form layout specimen.
+- Safe `?service=` parser with tests; metadata canonical stays `/contact`.
+- Site-wide enquiry CTAs resolve to `/contact` (or `?service=`) via existing resolvers — Contact page actions open mailto/WhatsApp only.
+- Docs: `docs/contact/step-42.md`, brand-and-contact updated; optional illustration not acquired.
+- Checks: `npm run validate:content` passed (16 readiness warnings including draft-contact-page; no-usable-enquiry-action cleared); `npm run check` passed (includes contact service-query tests); `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3042: `/contact` HTTP 200 with mailto + WhatsApp, no form fields, no draft FAQ/hero; `/contact?service=ui-ux-design` shows service context; unknown service does not render interest line; `/` links `/contact`; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
+- No enquiry form validation (Step 43).
+
 ---
 
 ## Steps 11–14 summary
@@ -454,7 +466,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–41 are on stacked feature branches (`feature/25-home-process` … `feature/41-process-page`).
+These steps 11–24 are merged to `main`. Steps 25–42 are on stacked feature branches (`feature/25-home-process` … `feature/42-contact-layout`).
 
 ---
 
@@ -462,6 +474,6 @@ These steps 11–24 are merged to `main`. Steps 25–41 are on stacked feature b
 
 1. Confirm or correct service delivery capacity for all six groups.
 2. Supply approved founder profiles (especially the two unnamed founders).
-3. Confirm contact details and provide missing LinkedIn URL / production domain.
+3. Confirm contact details and provide missing LinkedIn URL / production domain. **Email + WhatsApp confirmed in Step 42**; phone voice calls and social URLs still open.
 4. Provide logo files and portrait/project publication permissions.
 5. Choose and approve 2–3 launch project stories with honest status labels.

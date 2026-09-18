@@ -3,7 +3,7 @@
 **Purpose:** Preserve supplied brand/contact facts and flag them for launch confirmation.  
 **Rule:** Do not guess missing LinkedIn URL, domain, street address, opening hours, or response-time promises.
 
-Last updated: 2026-09-18 (Step 17 footer wiring)
+Last updated: 2026-09-18 (Step 42 Contact channels)
 
 ---
 
@@ -22,16 +22,20 @@ Logo redrawing is out of scope here. Record supplied logo variants in the asset 
 
 ## Contact details (supplied — confirm before launch)
 
-Code mirror: `src/config/brand.ts` (`siteContact`, `siteBrand`). Live pages only link channels marked **confirmed**.
+Code mirror: `src/content/site.ts` / `src/config/brand.ts`. Live pages only link channels marked **confirmed**.
 
-| Channel                       | Supplied value        | Code status   | Launch confirmation                                               |
-| ----------------------------- | --------------------- | ------------- | ----------------------------------------------------------------- |
-| Phone / WhatsApp display      | `+94 76 809 8068`     | `unconfirmed` | Needs input                                                       |
-| WhatsApp international digits | `94768098068`         | `unconfirmed` | Needs input — test phone + desktop; do not infer from phone alone |
-| Email                         | `zatroz.co@gmail.com` | `unconfirmed` | Needs input — monitoring owner TBD                                |
-| Instagram handle              | `zatroz.co`           | URL `null`    | Needs input — full profile URL **TODO**                           |
-| LinkedIn display name         | `Zatroz`              | URL `null`    | Needs input — full profile/company URL **unknown**                |
-| Footer short description      | Draft line in code    | `unconfirmed` | Needs founder-approved blurb before publishing                    |
+| Channel                       | Supplied value        | Code status   | Launch confirmation                                              |
+| ----------------------------- | --------------------- | ------------- | ---------------------------------------------------------------- |
+| Phone display                 | `+94 76 809 8068`     | `unconfirmed` | Voice calls still Needs input                                    |
+| WhatsApp international digits | `94768098068`         | `confirmed`   | Step 42 — matches owner-supplied; confirmed for business enquiry |
+| Email                         | `zatroz.co@gmail.com` | `confirmed`   | Step 42 — matches owner-supplied; monitoring owner still TBD     |
+| Instagram handle              | `zatroz.co`           | URL `null`    | Needs input — full profile URL **TODO**                          |
+| LinkedIn display name         | `Zatroz`              | URL `null`    | Needs input — full profile/company URL **unknown**               |
+| Footer short description      | Draft line in code    | `unconfirmed` | Needs founder-approved blurb before publishing                   |
+
+### Step 42 conflict check
+
+Owner-supplied email and phone/WhatsApp digits match the existing canonical records. No silent overwrite. Instagram/LinkedIn remain without exact URLs.
 
 ### Explicitly unknown (do not invent)
 
@@ -42,10 +46,13 @@ Code mirror: `src/config/brand.ts` (`siteContact`, `siteBrand`). Live pages only
 - Exact LinkedIn URL
 - Exact Instagram URL (handle only is known)
 
-### Step 17 live footer behaviour
+### Live contact behaviour (Step 42)
 
-- No `tel:`, `mailto:`, WhatsApp, or social links are rendered on the public site yet.
-- No Privacy/Terms links until those routes are implemented.
+- `/contact` is implemented; public page links confirmed email (`mailto:`) and WhatsApp (`wa.me`).
+- Footer may show the same confirmed channels.
+- Phone `tel:` stays omitted until voice support is confirmed.
+- Social links stay omitted until exact URLs are confirmed.
+- Embedded enquiry form is **not** live (`formSubmissionReady: false`).
 - Copyright uses brand name **Zatroz** only (no invented registered company name).
 
 ---
