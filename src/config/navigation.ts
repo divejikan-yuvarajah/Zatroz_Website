@@ -177,3 +177,75 @@ export function getImplementedNavDestinations(
   }
   return list;
 }
+
+export type FooterNavigation = {
+  explore: NavDestination[];
+  services: NavDestination[];
+  policies: NavDestination[];
+};
+
+const FOOTER_EXPLORE: { id: RouteId; label: string }[] = [
+  { id: "home", label: "Home" },
+  { id: "services", label: "Services" },
+  ...PRIMARY_ITEMS,
+  { id: "contact", label: "Start a project" },
+];
+
+const FOOTER_POLICIES: { id: RouteId; label: string }[] = [
+  { id: "privacy", label: "Privacy" },
+  { id: "terms", label: "Terms" },
+];
+
+function filterImplemented(items: NavDestination[]): NavDestination[] {
+  return items.filter((item) => item.implemented);
+}
+
+/** Destinations eligible for the live SiteFooter (implemented routes only). */
+export function getFooterNavigation(): FooterNavigation {
+  return {
+    explore: filterImplemented(
+      FOOTER_EXPLORE.map((item) => destination(item.id, item.label)),
+    ),
+    services: filterImplemented(
+      SERVICE_ITEMS.map((item) => destination(item.id, item.label)),
+    ),
+    policies: filterImplemented(
+      FOOTER_POLICIES.map((item) => destination(item.id, item.label)),
+    ),
+  };
+}
+
+/**
+ * Full intended footer lists for the local gallery.
+ * Interactive examples use existing routes or in-page ids only.
+ */
+export function getFooterNavSpecimen(): FooterNavigation {
+  return {
+    explore: [
+      destination("home", "Home"),
+      {
+        id: "services-footer-example",
+        label: "Services",
+        path: "#layout-specimen-heading",
+        implemented: true,
+      },
+      destination("work", "Work"),
+      destination("about", "About"),
+      destination("process", "Process"),
+      destination("contact", "Start a project"),
+    ],
+    services: [
+      {
+        id: "footer-service-example",
+        label: "Example in-page target",
+        path: "#colour-heading",
+        implemented: true,
+      },
+      ...SERVICE_ITEMS.map((item) => destination(item.id, item.label)),
+    ],
+    policies: [
+      destination("privacy", "Privacy"),
+      destination("terms", "Terms"),
+    ],
+  };
+}

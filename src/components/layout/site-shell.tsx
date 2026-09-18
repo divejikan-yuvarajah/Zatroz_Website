@@ -5,7 +5,7 @@ export type SiteShellProps = {
   children: ReactNode;
   /** SiteHeader from Step 15. Omit rather than passing an empty landmark. */
   header?: ReactNode;
-  /** Future SiteFooter. Omit until that component exists — do not pass an empty landmark. */
+  /** SiteFooter from Step 17. Omit rather than passing an empty landmark. */
   footer?: ReactNode;
 };
 

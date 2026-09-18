@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteShell } from "@/components/layout/site-shell";
 import "./globals.css";
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={manrope.variable}>
       <body className="font-sans">
-        <SiteShell header={<SiteHeader />}>{children}</SiteShell>
+        <SiteShell header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );
