@@ -11,6 +11,7 @@ import { TextLink } from "@/components/ui/text-link";
 import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
 import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
+import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
@@ -571,6 +572,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <MobileNavigationSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="footer-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="footer-specimen-heading"
+            eyebrow="Example · local only"
+            description="Specimens reuse the footer body without a second contentinfo landmark. The live page footer is separate."
+          >
+            Site footer
+          </SectionHeading>
+          <div className="mt-10">
+            <FooterSpecimen />
           </div>
         </Container>
       </Section>

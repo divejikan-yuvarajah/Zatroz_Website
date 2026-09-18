@@ -1,7 +1,7 @@
 # Page layout
 
 **Step:** 14  
-**Status:** Shared shell implemented. Desktop navigation is Step 15. Mobile menu is Step 16 (in `MobileNavigation`). Footer is Step 17.
+**Status:** Shared shell implemented. Desktop and mobile navigation are Steps 15–16. Footer is Step 17 (`SiteFooter`).
 
 This document describes how the document, shell, and page pieces fit together. Do not add a second `main`, a second `h1` from the shell, or a site-wide Container around `main`.
 
@@ -62,9 +62,7 @@ Metadata on the starter remains honest (`title: "Zatroz"` plus a development des
 
 ## Header and footer slots
 
-The root layout passes `header={<SiteHeader />}`. `SiteHeader` owns the `<header>` landmark.
-
-`SiteFooter` is still omitted until Step 17. Do not pass an empty footer slot.
+The root layout passes `header={<SiteHeader />}` and `footer={<SiteFooter />}`. Those components own the `<header>` and `<footer>` landmarks.
 
 Header/footer use the same Container gutters as page content.
 

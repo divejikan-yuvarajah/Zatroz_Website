@@ -10,12 +10,12 @@ Owners use roles until names are confirmed.
 
 ## Site-wide shared content
 
-| ID     | Content item              | Required sections / fields                                | Source material          | Owner         | Status  | Missing inputs                    |
-| ------ | ------------------------- | --------------------------------------------------------- | ------------------------ | ------------- | ------- | --------------------------------- |
-| C-NAV  | Primary navigation labels | Services, Work, About, Process, Start a project           | Prompt pack / plan       | Content owner | Draft   | Final label wording               |
-| C-FOOT | Footer                    | Short blurb, contact links, services list, Privacy, Terms | Brand/contact + services | Content owner | Missing | Approved blurb; final social URLs |
-| C-CTA  | Shared CTA copy           | Start a project; Explore our work; Chat on WhatsApp       | Decision register        | Content owner | Draft   | Confirmation of labels            |
-| C-META | Default SEO defaults      | Site name, default description pattern                    | Plan examples            | Content owner | Draft   | Production domain; final taglines |
+| ID     | Content item              | Required sections / fields                                | Source material          | Owner         | Status | Missing inputs                                                                       |
+| ------ | ------------------------- | --------------------------------------------------------- | ------------------------ | ------------- | ------ | ------------------------------------------------------------------------------------ |
+| C-NAV  | Primary navigation labels | Services, Work, About, Process, Start a project           | Prompt pack / plan       | Content owner | Draft  | Final label wording                                                                  |
+| C-FOOT | Footer                    | Short blurb, contact links, services list, Privacy, Terms | Brand/contact + services | Content owner | Draft  | Approved blurb; confirm phone/email/WhatsApp; exact social URLs; Privacy/Terms pages |
+| C-CTA  | Shared CTA copy           | Start a project; Explore our work; Chat on WhatsApp       | Decision register        | Content owner | Draft  | Confirmation of labels                                                               |
+| C-META | Default SEO defaults      | Site name, default description pattern                    | Plan examples            | Content owner | Draft  | Production domain; final taglines                                                    |
 
 ---
 

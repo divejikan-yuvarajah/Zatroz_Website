@@ -20,7 +20,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 14   | Shared website layout          | **Implemented**                                                                  | 2026-09-17 | `src/components/layout/site-shell.tsx`, `skip-link.tsx`, `docs/architecture/page-layout.md`                               |
 | 15   | Desktop navigation             | **Implemented**                                                                  | 2026-09-17 | `src/config/routes.ts`, `navigation.ts`, `SiteHeader`, `docs/design/navigation.md`; merged via PR #9                      |
 | 16   | Accessible mobile navigation   | **Implemented** (on branch `feature/16-mobile-navigation`; merge may be pending) | 2026-09-18 | Native `dialog` mobile menu, noscript fallback, `/dev/ui` specimen; see Step 16 notes                                     |
-| 17   | Responsive company footer      | Not started                                                                      | —          | —                                                                                                                         |
+| 17   | Responsive company footer      | **Implemented** (on branch `feature/17-footer`; merge may be pending)            | 2026-09-18 | `SiteFooter`, `brand.ts`, gallery specimens; see Step 17 notes                                                            |
 | 18   | Typed shared content           | Not started                                                                      | —          | —                                                                                                                         |
 
 ---
@@ -184,6 +184,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: matcher passed; `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3016**: `/` 200 with skip link, header, Menu, closed dialog (Home only), noscript Home list, **no** `/contact` `/services` `/work` `/about` `/process` hrefs, one `main`; `/dev/ui` **404**. Keyboard, 320/390/768, landscape, device Safari/Android, and screen-reader passes **not run**.
 - No footer, marketing pages, or enquiry flow.
 
+### Step 17 (2026-09-18)
+
+- Branch: `feature/17-footer` from `feature/16-mobile-navigation` (Step 16 not yet on `origin/main` at start of this step).
+- `SiteFooter` Server Component on charcoal; reusable `SiteFooterContent` for `/dev/ui` without a second contentinfo landmark.
+- `src/config/brand.ts` holds brand/contact with explicit confirmation status. Live footer omits unconfirmed phone/email/WhatsApp and missing social URLs. No guessed LinkedIn/Instagram links. Privacy/Terms omitted until routes exist.
+- Copyright: `© {getCopyrightYear()} Zatroz` (server/build-time year). Back-to-top deferred.
+- Checks: `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3018**: `/` 200 with one charcoal `<footer>`, Explore → Home, `© 2026 Zatroz`, **no** contact/social/policy hrefs, one `main`; `/dev/ui` **404**. Viewport, keyboard, and device dial/mail actions **not run**.
+- No marketing pages or enquiry flow.
+
 ---
 
 ## Steps 11–14 summary
@@ -195,7 +204,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–15 are merged to `main`. Step 16 is mobile navigation on `feature/16-mobile-navigation`.
+These steps 11–15 are merged to `main`. Steps 16–17 are on feature branches (`feature/16-mobile-navigation`, `feature/17-footer`).
 
 ---
 
