@@ -5,7 +5,11 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TextLink } from "@/components/ui/text-link";
-import { ServiceHeroBrowserVisual } from "@/components/sections/service-browser-frame";
+import {
+  ServiceHeroBrowserVisual,
+  ServiceHeroDevicePairVisual,
+} from "@/components/sections/service-browser-frame";
+import { WebMobileTaskComparison } from "@/components/sections/web-mobile-task-comparison";
 import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
 import type { PublicServiceDetail } from "@/server/service-detail";
 import { cn } from "@/lib/cn";
@@ -83,6 +87,9 @@ export function ServiceDetailPage({
             <div className="flex min-w-0 flex-col gap-8">
               {detail.heroVisual === "browser-frame" ? (
                 <ServiceHeroBrowserVisual />
+              ) : null}
+              {detail.heroVisual === "device-pair" ? (
+                <ServiceHeroDevicePairVisual />
               ) : null}
 
               {showContents ? (
@@ -256,6 +263,10 @@ export function ServiceDetailPage({
             {detail.illustrativeExample.visualVariant ===
             "websites-catalogue-comparison" ? (
               <WebsitesCatalogueComparison />
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "web-mobile-task-comparison" ? (
+              <WebMobileTaskComparison />
             ) : null}
           </Container>
         </Section>

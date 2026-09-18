@@ -102,4 +102,44 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: "svc-websites-ecommerce",
   },
+  {
+    id: "faq-wma-web-or-mobile",
+    question: "Web or mobile first?",
+    answer:
+      "Start from where people do the task today. A browser application often fits desks and shared workstations; a phone-focused application fits on-the-go capture or device features. Many teams begin with one platform and a single journey, then expand only when that release proves useful. Both platforms together are not required for a first version.",
+    publicationState: "draft",
+    relatedServiceId: "svc-web-mobile-apps",
+  },
+  {
+    id: "faq-wma-smaller-release",
+    question: "Can we start with a smaller release?",
+    answer:
+      "Yes. A focused first version means one core user journey that works reliably for the first user group — not a rushed or insecure product. Extra roles, integrations, and platforms are planned as later increments when justified by feedback.",
+    publicationState: "draft",
+    relatedServiceId: "svc-web-mobile-apps",
+  },
+  {
+    id: "faq-wma-existing-system",
+    question: "Can an existing system be connected?",
+    answer:
+      "When the proposal includes an integration, we use documented interfaces and agreed access arrangements. Connecting an existing system is scoped work — not automatic with every application. Sensitive production access is arranged securely later, not through the public enquiry form.",
+    publicationState: "draft",
+    relatedServiceId: "svc-web-mobile-apps",
+  },
+  {
+    id: "faq-wma-without-internet",
+    question: "Will it work without internet?",
+    answer:
+      "Only when offline behaviour is explicitly designed and included in scope. Synchronisation and conflict handling need clear rules. Do not assume the application works everywhere or keeps working without connectivity by default.",
+    publicationState: "draft",
+    relatedServiceId: "svc-web-mobile-apps",
+  },
+  {
+    id: "faq-wma-after-launch",
+    question: "What happens after launch?",
+    answer:
+      "Handover covers agreed access, how feedback is collected, and what maintenance or support is in the proposal. OS, browser, and store changes continue after launch; ongoing work is scoped separately rather than assumed unlimited.",
+    publicationState: "draft",
+    relatedServiceId: "svc-web-mobile-apps",
+  },
 ] as const satisfies readonly FaqRecord[];
