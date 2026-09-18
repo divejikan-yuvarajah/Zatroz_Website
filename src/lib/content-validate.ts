@@ -1593,6 +1593,54 @@ export function validateContentCatalog(
     );
   }
 
+  if (catalog.contactPage.publicationState === "approved") {
+    for (const field of [
+      "heroTitle",
+      "introduction",
+      "pageTitle",
+      "pageDescription",
+    ] as const) {
+      if (!catalog.contactPage[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved Contact page is missing a required field",
+          catalog.contactPage.id,
+          field,
+        );
+      }
+    }
+  }
+
+  if (catalog.contactPage.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-contact-page",
+      "Contact page framing stays draft — public /contact keeps confirmed channels and omits fuller draft copy until approved",
+    );
+  }
+
+  if (
+    catalog.contactPage.formSubmissionReady &&
+    !publicRoutes.contact.implemented
+  ) {
+    pushError(
+      errors,
+      "form-ready-without-contact-route",
+      "formSubmissionReady requires an implemented /contact route",
+      catalog.contactPage.id,
+      "formSubmissionReady",
+    );
+  }
+
+  if (catalog.contactPage.formSubmissionReady) {
+    pushWarning(
+      warnings,
+      "form-submission-flagged",
+      "Contact formSubmissionReady is true — confirm backend validation and abuse controls before relying on a live form",
+    );
+  }
+
   const contactReady =
     publicRoutes.contact.implemented ||
     catalog.contact.email.status === "confirmed" ||
