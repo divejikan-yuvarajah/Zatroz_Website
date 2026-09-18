@@ -62,6 +62,7 @@ export type PublicServiceDetail = {
     | "ops-summary"
     | "review-workflow"
     | "modules-link"
+    | "wireframe-stack"
     | null;
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];

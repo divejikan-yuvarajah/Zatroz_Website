@@ -3,6 +3,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
 import { aiAutomationDetail } from "@/content/service-detail-ai-automation";
 import { businessSystemsDetail } from "@/content/service-detail-business-systems";
 import { customSoftwareDetail } from "@/content/service-detail-custom-software";
+import { uiUxDesignDetail } from "@/content/service-detail-ui-ux-design";
 import { webMobileAppsDetail } from "@/content/service-detail-web-mobile-apps";
 import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
 import type { PublicationState, ServiceSlug } from "@/types/content";
@@ -195,11 +196,16 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Teams that need clearer journeys and interfaces before or alongside a build.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Confusing journeys, inconsistent screens, unclear information hierarchy, difficult forms, and an unclear handoff to development.",
+    exampleNotes:
+      "Illustrative enquiry flow with empty, error, and success form states — not client work or a live submission.",
+    deliverySteps:
+      "Understand the goal, map the journey, explore wireframes, refine the interface, then prepare handoff within agreed scope.",
+    clientInputs:
+      "User tasks, brand assets, existing screens, constraints, available research or feedback, required devices, and a decision maker.",
+    scopeBoundaries:
+      "Research, recruitment, moderated sessions, extra languages, a full design system, and development are separately scoped. No conversion or accessibility guarantees from mockups alone.",
+    detail: uiUxDesignDetail,
   },
 ] as const satisfies readonly ServiceRecord[];

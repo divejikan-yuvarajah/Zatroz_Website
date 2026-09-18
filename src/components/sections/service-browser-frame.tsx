@@ -232,3 +232,37 @@ export function ServiceHeroModulesLinkVisual({
     </figure>
   );
 }
+
+/** Compact hero decoration — blank panels suggesting structure before polish. */
+export function ServiceHeroWireframeStackVisual({
+  className,
+}: {
+  className?: string;
+}) {
+  return (
+    <figure className={cn("m-0 min-w-0", className)}>
+      <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas p-4">
+        <p className="m-0 text-xs font-medium text-text-muted">
+          Sample structure · before polish
+        </p>
+        <ul className="mt-3 flex list-none flex-col gap-2 p-0">
+          <li
+            className="h-3 max-w-[60%] rounded-sm bg-surface-muted"
+            aria-hidden="true"
+          />
+          <li
+            className="h-10 rounded-sm border border-dashed border-border-control bg-surface"
+            aria-hidden="true"
+          />
+          <li className="flex gap-2" aria-hidden="true">
+            <span className="h-8 min-w-0 flex-1 rounded-sm border border-dashed border-border-control bg-surface" />
+            <span className="h-8 w-[30%] shrink-0 rounded-sm border border-brand bg-surface-muted" />
+          </li>
+        </ul>
+      </div>
+      <figcaption className="mt-2 m-0 text-xs text-text-muted">
+        Illustrative hierarchy only — not a client wireframe or live product.
+      </figcaption>
+    </figure>
+  );
+}

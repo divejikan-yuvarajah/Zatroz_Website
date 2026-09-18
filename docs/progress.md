@@ -39,6 +39,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 33   | Business Systems                | **Implemented** (on branch `feature/33-business-systems`; merge may be pending)   | 2026-09-18 | Draft detail + gallery preview; readiness matrix; see `docs/services/step-33.md`                                          |
 | 34   | AI and Automation               | **Implemented** (on branch `feature/34-ai-automation`; merge may be pending)      | 2026-09-18 | Draft detail + gallery preview; HTML workflow; see `docs/services/step-34.md`                                             |
 | 35   | Custom Software                 | **Implemented** (on branch `feature/35-custom-software`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; decision guide; see `docs/services/step-35.md`                                            |
+| 36   | UI/UX Design                    | **Implemented** (on branch `feature/36-ui-ux-design`; merge may be pending)       | 2026-09-18 | Draft detail + gallery preview; form-state illustration; see `docs/services/step-36.md`                                   |
 
 ---
 
@@ -376,6 +377,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (19 readiness warnings; `customSoftware` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3035: `/services` HTTP 200; `/services/custom-software` and prior drafted detail slugs HTTP 404 with no draft leak; unknown slug 404; overview does not link draft details. Gallery keyboard/viewport review **not run**.
 - No UI/UX Design detail page (Step 36).
 
+### Step 36 (2026-09-18)
+
+- Branch: `feature/36-ui-ux-design` from `feature/35-custom-software`.
+- Draft UI/UX Design detail (scope options, FAQs, enquiry flow + form states). Copy remains draft — not a client design application or site redesign.
+- `uiUxDesign.implemented: true`; public `/services/ui-ux-design` still 404 until overview + detail approved.
+- Gallery: full draft preview on `/dev/ui`. Optional hero raster recorded as not acquired.
+- Docs: `docs/services/step-36.md`; six-service readiness and image register updated.
+- Checks: `npm run validate:content` passed (18 readiness warnings; `uiUxDesign` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3036: `/services` HTTP 200; `/services/ui-ux-design` and prior five drafted detail slugs HTTP 404 with no draft leak; unknown slug 404; overview and home do not link draft details. Gallery keyboard/viewport review **not run**.
+- No Work page or later routes (Step 37+).
+
 ---
 
 ## Steps 11–14 summary
@@ -387,7 +398,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–35 are on stacked feature branches (`feature/25-home-process` … `feature/35-custom-software`).
+These steps 11–24 are merged to `main`. Steps 25–36 are on stacked feature branches (`feature/25-home-process` … `feature/36-ui-ux-design`).
 
 ---
 

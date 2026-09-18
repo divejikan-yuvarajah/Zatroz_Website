@@ -287,4 +287,53 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: "svc-custom-software",
   },
+  {
+    id: "faq-ux-design-only",
+    question: "Can you design without building the product?",
+    answer:
+      "Yes. Design-only engagements are normal. We deliver the agreed structure, screens, states, and handoff notes. Development stays separate unless the proposal includes build work.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
+  {
+    id: "faq-ux-existing-site",
+    question: "Can you improve an existing website or app?",
+    answer:
+      "Yes. We can review current journeys or redesign a specific path such as enquiry or checkout. A full redesign of every screen is only in scope when agreed — not by default.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
+  {
+    id: "faq-ux-wireframe-vs-ui",
+    question:
+      "What is the difference between wireframes, prototypes, and final UI?",
+    answer:
+      "Wireframes show structure and content priority with little visual polish. A prototype lets people click through a journey for review. Final UI adds visual design, component detail, and the empty, loading, error, and success states developers need. Not every engagement needs all three.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
+  {
+    id: "faq-ux-responsive",
+    question: "Do you design for mobile and desktop?",
+    answer:
+      "Agreed screens are designed for the devices and breakpoints you confirm. Responsive layouts are the default for web work; a separate native-app visual pass is only included when scoped.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
+  {
+    id: "faq-ux-users-involved",
+    question: "How can real users be involved?",
+    answer:
+      "When you already have feedback, we use it. Formal recruitment, moderated usability sessions, or broader research are separately scoped. We do not claim interviews or tests happened unless they were actually run.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
+  {
+    id: "faq-ux-developers-receive",
+    question: "What do developers receive at handoff?",
+    answer:
+      "Agreed editable design files, exported assets where useful, component and state notes, and interaction guidance — including focus and keyboard behaviour where it matters for the journey. Exact tools and formats are confirmed for the engagement. Usability and accessibility still need implementation and testing; mockups alone do not guarantee outcomes.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ui-ux-design",
+  },
 ] as const satisfies readonly FaqRecord[];
