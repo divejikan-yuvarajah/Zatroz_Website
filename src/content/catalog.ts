@@ -1,3 +1,8 @@
+import type {
+  EvidenceRecord,
+  HomeEvidenceIntroRecord,
+} from "@/content/evidence";
+import { evidenceRecords, homeEvidenceIntro } from "@/content/evidence";
 import type { FaqRecord } from "@/content/faqs";
 import { faqRecords } from "@/content/faqs";
 import type { FounderRecord } from "@/content/founders";
@@ -19,6 +24,8 @@ export type ContentCatalog = {
   founders: readonly FounderRecord[];
   faqs: readonly FaqRecord[];
   media: readonly MediaRecord[];
+  evidence: readonly EvidenceRecord[];
+  evidenceIntro: HomeEvidenceIntroRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -30,4 +37,6 @@ export const contentCatalog: ContentCatalog = {
   founders: founderRecords,
   faqs: faqRecords,
   media: mediaRecords,
+  evidence: evidenceRecords,
+  evidenceIntro: homeEvidenceIntro,
 };

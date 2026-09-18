@@ -3,6 +3,13 @@ import "server-only";
 import { getMailtoHref, getWhatsAppHref, siteContact } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
 import { contentCatalog } from "@/content/catalog";
+import {
+  evidenceRecords,
+  homeEvidenceIntro,
+  type EvidenceKind,
+  type EvidenceRecord,
+  type EvidenceSubjectType,
+} from "@/content/evidence";
 import { siteRecord } from "@/content/site";
 import {
   getHeroScenarioById,
@@ -29,6 +36,23 @@ export type PublicHomeHero = Readonly<{
   scenarioServiceLinks: Readonly<Record<string, PublicCta | null>>;
   primaryCta: PublicCta | null;
   secondaryCta: PublicCta | null;
+}>;
+
+export type PublicEvidenceItem = Readonly<{
+  id: string;
+  claim: string;
+  kind: EvidenceKind;
+  subjectType: EvidenceSubjectType;
+  subjectLabel: string;
+  supportingLabel: string;
+  link: PublicCta | null;
+}>;
+
+export type PublicHomeEvidence = Readonly<{
+  id: "home-evidence";
+  heading: string;
+  intro: string | null;
+  items: readonly PublicEvidenceItem[];
 }>;
 
 export type HomeSectionId =
@@ -137,10 +161,98 @@ function buildScenarioServiceLinks(
   return links;
 }
 
-function buildComposition(heroApproved: boolean): HomeComposition {
+function isHttpsUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function isInternalPath(value: string): boolean {
+  return value.startsWith("/") && !value.startsWith("//");
+}
+
+/**
+ * Resolve an evidence destination. Omit unsafe schemes and unimplemented
+ * internal routes. Never invent a URL.
+ */
+function resolveEvidenceHref(href: string | null): string | null {
+  if (!href) {
+    return null;
+  }
+
+  const trimmed = href.trim();
+  if (!trimmed || /^javascript:/i.test(trimmed)) {
+    return null;
+  }
+
+  if (isHttpsUrl(trimmed)) {
+    return trimmed;
+  }
+
+  if (!isInternalPath(trimmed)) {
+    return null;
+  }
+
+  const routes = Object.values(publicRoutes);
+  const exact = routes.find((route) => route.path === trimmed);
+  if (exact) {
+    return exact.implemented ? exact.path : null;
+  }
+
+  const nested = routes
+    .filter(
+      (route) => route.path !== "/" && trimmed.startsWith(`${route.path}/`),
+    )
+    .sort((a, b) => b.path.length - a.path.length)[0];
+
+  if (nested && !nested.implemented) {
+    return null;
+  }
+
+  return trimmed;
+}
+
+function projectEvidenceItem(record: EvidenceRecord): PublicEvidenceItem {
+  const href = resolveEvidenceHref(record.href);
+  const link =
+    href && record.linkLabel ? { label: record.linkLabel, href } : null;
+
+  return {
+    id: record.id,
+    claim: record.claim,
+    kind: record.kind,
+    subjectType: record.subject.type,
+    subjectLabel: record.subject.label,
+    supportingLabel: record.supportingLabel,
+    link,
+  };
+}
+
+function getApprovedEvidenceItems(): PublicEvidenceItem[] {
+  return evidenceRecords
+    .filter((row) => row.publicationState === "approved")
+    .slice(0, 3)
+    .map(projectEvidenceItem);
+}
+
+function hasPublicEvidenceContent(): boolean {
+  if (getApprovedEvidenceItems().length > 0) {
+    return true;
+  }
+
+  return homeEvidenceIntro.publicationState === "approved";
+}
+
+function buildComposition(options: {
+  heroApproved: boolean;
+  evidenceRenders: boolean;
+}): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
-    "home-hero": heroApproved,
-    "home-evidence": false,
+    "home-hero": options.heroApproved,
+    "home-evidence": options.evidenceRenders,
     "selected-work": false,
     "services-explorer": false,
     "automation-example": false,
@@ -190,10 +302,31 @@ function buildPublicHero(
   };
 }
 
+function buildPublicEvidence(
+  items: readonly PublicEvidenceItem[],
+  options?: { intro?: string | null; heading?: string },
+): PublicHomeEvidence {
+  const introApproved = homeEvidenceIntro.publicationState === "approved";
+
+  return {
+    id: "home-evidence",
+    heading: options?.heading ?? homeEvidenceIntro.heading,
+    intro:
+      options && "intro" in options
+        ? (options.intro ?? null)
+        : introApproved
+          ? homeEvidenceIntro.text
+          : null,
+    items,
+  };
+}
+
 /** Public homepage composition — approved sections only. */
 export function getHomeComposition(): HomeComposition {
-  const heroApproved = homeHeroRecord.publicationState === "approved";
-  return buildComposition(heroApproved);
+  return buildComposition({
+    heroApproved: homeHeroRecord.publicationState === "approved",
+    evidenceRenders: hasPublicEvidenceContent(),
+  });
 }
 
 /**
@@ -209,6 +342,18 @@ export function getPublicHomeHero(): PublicHomeHero | null {
 }
 
 /**
+ * Approved evidence strip, or null when there are no approved items and no
+ * approved company introduction. Never fabricates proof.
+ */
+export function getPublicHomeEvidence(): PublicHomeEvidence | null {
+  if (!hasPublicEvidenceContent()) {
+    return null;
+  }
+
+  return buildPublicEvidence(getApprovedEvidenceItems());
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -216,5 +361,74 @@ export function getHomeHeroSpecimen(options?: {
   primaryCta?: PublicCta | null;
   secondaryCta?: PublicCta | null;
 }): PublicHomeHero {
-  return buildPublicHero(buildComposition(true), options);
+  return buildPublicHero(
+    buildComposition({ heroApproved: true, evidenceRenders: false }),
+    options,
+  );
+}
+
+/** Gallery-only fixtures — clearly labelled, never public evidence. */
+const GALLERY_EVIDENCE_FIXTURES: readonly PublicEvidenceItem[] = [
+  {
+    id: "specimen-evidence-1",
+    claim:
+      "Example claim for layout review only — not a real Zatroz proof item.",
+    kind: "project-demo",
+    subjectType: "project",
+    subjectLabel: "Specimen project",
+    supportingLabel: "Gallery fixture · Prototype",
+    link: {
+      label: "View prototype (specimen)",
+      href: "#colour-heading",
+    },
+  },
+  {
+    id: "specimen-evidence-2",
+    claim: "Second fixture describing an attributed team result for layout.",
+    kind: "team-achievement",
+    subjectType: "team",
+    subjectLabel: "Specimen team",
+    supportingLabel: "Gallery fixture · Team result",
+    link: {
+      label: "View achievement source (specimen)",
+      href: "#colour-heading",
+    },
+  },
+  {
+    id: "specimen-evidence-3",
+    claim: "Third fixture for a case-story style proof row.",
+    kind: "case-story",
+    subjectType: "company",
+    subjectLabel: "Specimen company",
+    supportingLabel: "Gallery fixture · Case story",
+    link: null,
+  },
+];
+
+const LONG_CLAIM =
+  "This long specimen claim checks wrapping on narrow viewports without inventing a real customer outcome, logo wall, or percentage improvement for Zatroz.";
+
+/**
+ * Gallery evidence projection for 0–3 fixture items. Not for public `/`.
+ */
+export function getHomeEvidenceSpecimen(
+  itemCount: 0 | 1 | 2 | 3,
+  options?: { longClaim?: boolean },
+): PublicHomeEvidence {
+  const items = GALLERY_EVIDENCE_FIXTURES.slice(0, itemCount).map(
+    (item, index) => {
+      if (options?.longClaim && index === 0) {
+        return { ...item, claim: LONG_CLAIM, link: null };
+      }
+      return item;
+    },
+  );
+
+  return {
+    id: "home-evidence",
+    heading: "Why continue reading (specimen)",
+    intro:
+      "Gallery specimen introduction — labelled fixtures only, never published as Zatroz proof.",
+    items,
+  };
 }

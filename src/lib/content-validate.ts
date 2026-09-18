@@ -89,6 +89,7 @@ export function validateContentCatalog(
   assertUniqueIds(errors, [...catalog.founders], "founder");
   assertUniqueIds(errors, [...catalog.faqs], "faq");
   assertUniqueIds(errors, [...catalog.media], "media");
+  assertUniqueIds(errors, [...catalog.evidence], "evidence");
 
   const projectIds = new Set(catalog.projects.map((p) => p.id));
   const serviceIds = new Set(catalog.services.map((s) => s.id));
@@ -406,6 +407,112 @@ export function validateContentCatalog(
       "empty-founders",
       "Founder collection is empty — documented content gap until approved profiles exist",
     );
+  }
+
+  if (catalog.evidence.length === 0) {
+    pushWarning(
+      warnings,
+      "empty-evidence",
+      "Evidence collection is empty — homepage proof strip omitted until verified claims exist",
+    );
+  }
+
+  for (const item of catalog.evidence) {
+    if (item.publicationState !== "approved") {
+      continue;
+    }
+
+    if (!item.claim.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence is missing claim",
+        item.id,
+        "claim",
+      );
+    }
+
+    if (!item.subject.label.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence is missing subject label",
+        item.id,
+        "subject.label",
+      );
+    }
+
+    if (!item.supportingLabel.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence is missing supporting label",
+        item.id,
+        "supportingLabel",
+      );
+    }
+
+    if (!item.sourceReference.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence is missing internal source reference",
+        item.id,
+        "sourceReference",
+      );
+    }
+
+    if (item.href) {
+      if (/^javascript:/i.test(item.href)) {
+        pushError(
+          errors,
+          "invalid-url",
+          "Evidence href must not use javascript:",
+          item.id,
+          "href",
+        );
+      } else if (!isHttpsUrl(item.href) && !isInternalPath(item.href)) {
+        pushError(
+          errors,
+          "invalid-url",
+          "Evidence href must be https or an internal path",
+          item.id,
+          "href",
+        );
+      }
+
+      if (!item.linkLabel?.trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Evidence with href requires a public link label",
+          item.id,
+          "linkLabel",
+        );
+      }
+    }
+  }
+
+  if (catalog.evidenceIntro.publicationState === "approved") {
+    if (!catalog.evidenceIntro.heading.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence intro is missing heading",
+        catalog.evidenceIntro.id,
+        "heading",
+      );
+    }
+
+    if (!catalog.evidenceIntro.text.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved evidence intro is missing text",
+        catalog.evidenceIntro.id,
+        "text",
+      );
+    }
   }
 
   return {

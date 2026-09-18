@@ -95,4 +95,40 @@ export function runFixtureValidations() {
     incompleteApproved,
     "approved-missing-field",
   );
+
+  const incompleteEvidence = cloneCatalog();
+  incompleteEvidence.evidence = [
+    {
+      id: "evidence-incomplete",
+      claim: "",
+      kind: "project-demo",
+      subject: { type: "project", label: "Example" },
+      sourceReference: "internal note",
+      supportingLabel: "Prototype",
+      linkLabel: null,
+      href: null,
+      publicationState: "approved",
+    },
+  ];
+  expectFails(
+    "incomplete-approved-evidence",
+    incompleteEvidence,
+    "approved-missing-field",
+  );
+
+  const badEvidenceUrl = cloneCatalog();
+  badEvidenceUrl.evidence = [
+    {
+      id: "evidence-bad-url",
+      claim: "A verified claim for fixture testing",
+      kind: "project-demo",
+      subject: { type: "project", label: "Example project" },
+      sourceReference: "internal verification note",
+      supportingLabel: "Prototype",
+      linkLabel: "View prototype",
+      href: "javascript:alert(1)",
+      publicationState: "approved",
+    },
+  ];
+  expectFails("invalid-evidence-url", badEvidenceUrl, "invalid-url");
 }
