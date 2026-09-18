@@ -88,6 +88,7 @@ export function validateContentCatalog(
   assertUniqueIds(errors, [...catalog.projects], "project");
   assertUniqueIds(errors, [...catalog.founders], "founder");
   assertUniqueIds(errors, [...catalog.faqs], "faq");
+  assertUniqueIds(errors, [...catalog.feedback], "feedback");
   assertUniqueIds(errors, [...catalog.media], "media");
   assertUniqueIds(errors, [...catalog.evidence], "evidence");
   assertUniqueIds(errors, [...catalog.businessNeeds], "business-need");
@@ -299,6 +300,46 @@ export function validateContentCatalog(
           "Approved FAQ is missing a required field",
           faq.id,
           !faq.question.trim() ? "question" : "answer",
+        );
+      }
+    }
+  }
+
+  for (const item of catalog.feedback) {
+    if (item.publicationState !== "approved") {
+      continue;
+    }
+
+    if (!item.quote.trim()) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved feedback is missing a quote",
+        item.id,
+        "quote",
+      );
+    }
+
+    if (item.kind === "testimonial") {
+      if (!item.attribution?.trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved testimonial requires attribution",
+          item.id,
+          "attribution",
+        );
+      }
+    }
+
+    if (item.kind === "project-lesson") {
+      if (item.attribution?.trim()) {
+        pushError(
+          errors,
+          "lesson-looks-like-testimonial",
+          "Project lessons must not carry customer attribution",
+          item.id,
+          "attribution",
         );
       }
     }
@@ -836,6 +877,44 @@ export function validateContentCatalog(
       warnings,
       "draft-home-people",
       "People section stays off the public homepage until company introduction is approved",
+    );
+  }
+
+  if (catalog.questions.publicationState === "approved") {
+    for (const field of ["heading", "supporting"] as const) {
+      if (!catalog.questions[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved questions section is missing a required field",
+          catalog.questions.id,
+          field,
+        );
+      }
+    }
+
+    const approvedFaqs = catalog.faqs.filter(
+      (faq) => faq.publicationState === "approved",
+    );
+    const approvedFeedback = catalog.feedback.filter(
+      (item) => item.publicationState === "approved",
+    );
+
+    if (approvedFaqs.length === 0 && approvedFeedback.length === 0) {
+      pushError(
+        errors,
+        "approved-questions-empty",
+        "Approved questions section needs at least one approved FAQ or feedback item",
+        catalog.questions.id,
+      );
+    }
+  }
+
+  if (catalog.questions.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-home-questions",
+      "Feedback and FAQs stay off the public homepage until framing and content are approved",
     );
   }
 

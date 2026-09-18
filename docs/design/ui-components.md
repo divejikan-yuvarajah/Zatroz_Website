@@ -113,6 +113,19 @@ Owns **horizontal** max-width and gutters only (`px-gutter`). `width="default"` 
 
 ---
 
+## FaqDisclosure
+
+**File:** `src/components/ui/faq-disclosure.tsx`  
+Native `<details>` / `<summary>` for short FAQ answers. Multiple may be open. Works without JavaScript. The visible question is the summary name; decorative +/- icons are `aria-hidden`. Put links in the answer body, not inside the summary.
+
+```tsx
+<FaqDisclosure id="faq-how-to-start" question="How do I start?">
+  <p>Share the business need…</p>
+</FaqDisclosure>
+```
+
+---
+
 ## SectionHeading
 
 **File:** `src/components/ui/section-heading.tsx`  

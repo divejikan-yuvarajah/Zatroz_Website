@@ -38,6 +38,13 @@ import {
   type PublicPerson,
   type WorkingPrinciple,
 } from "@/content/people";
+import {
+  homeQuestionsRecord,
+  type PublicFeedback,
+  type PublicFaqItem,
+  type PublicHomeQuestions,
+} from "@/content/home-questions";
+import type { FeedbackRecord } from "@/content/feedback";
 import type { FounderRecord } from "@/content/founders";
 import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
@@ -49,6 +56,7 @@ export type {
   PublicAutomationExample,
   PublicHomeProcess,
   PublicHomePeople,
+  PublicHomeQuestions,
 };
 
 export type PublicHomeHero = Readonly<{
@@ -599,6 +607,105 @@ function hasPublicHomePeople(): boolean {
   return homePeopleRecord.publicationState === "approved";
 }
 
+function getApprovedFaqs(): PublicFaqItem[] {
+  return contentCatalog.faqs
+    .filter((faq) => faq.publicationState === "approved")
+    .map((faq) => ({
+      id: faq.id,
+      question: faq.question,
+      answer: faq.answer,
+    }));
+}
+
+function projectFeedback(record: FeedbackRecord): PublicFeedback {
+  return {
+    id: record.id,
+    kind: record.kind,
+    quote: record.quote,
+    attribution: record.attribution,
+    roleOrCompany: record.roleOrCompany,
+    relationship: record.relationship,
+  };
+}
+
+/**
+ * One homepage feedback item: prefer an approved testimonial, else an
+ * approved project lesson. Never invents quotes.
+ */
+function getApprovedHomepageFeedback(): PublicFeedback | null {
+  const approved = contentCatalog.feedback.filter(
+    (item) => item.publicationState === "approved",
+  );
+
+  const testimonial = approved.find((item) => item.kind === "testimonial");
+  if (testimonial) {
+    return projectFeedback(testimonial);
+  }
+
+  const lesson = approved.find((item) => item.kind === "project-lesson");
+  if (lesson) {
+    return projectFeedback(lesson);
+  }
+
+  return null;
+}
+
+function hasPublicHomeQuestions(): boolean {
+  if (homeQuestionsRecord.publicationState !== "approved") {
+    return false;
+  }
+
+  return getApprovedFaqs().length > 0 || getApprovedHomepageFeedback() !== null;
+}
+
+function resolveQuestionsAction(): PublicCta | null {
+  if (publicRoutes.contact.implemented) {
+    return {
+      label: "Ask us about your project",
+      href: publicRoutes.contact.path,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Ask us about your project",
+      href: getMailtoHref(siteContact.email),
+    };
+  }
+
+  if (siteContact.whatsapp.status === "confirmed") {
+    return {
+      label: "Ask us about your project",
+      href: getWhatsAppHref(siteContact.whatsapp),
+    };
+  }
+
+  return null;
+}
+
+function buildPublicHomeQuestions(options?: {
+  faqs?: readonly PublicFaqItem[];
+  feedback?: PublicFeedback | null;
+  action?: PublicCta | null;
+  heading?: string;
+  supporting?: string;
+}): PublicHomeQuestions {
+  return {
+    id: homeQuestionsRecord.id,
+    heading: options?.heading ?? homeQuestionsRecord.heading,
+    supporting: options?.supporting ?? homeQuestionsRecord.supporting,
+    feedback:
+      options && "feedback" in options
+        ? (options.feedback ?? null)
+        : getApprovedHomepageFeedback(),
+    faqs: options?.faqs ?? getApprovedFaqs(),
+    action:
+      options && "action" in options
+        ? (options.action ?? null)
+        : resolveQuestionsAction(),
+  };
+}
+
 function resolvePeopleAction(): PublicCta | null {
   if (publicRoutes.about.implemented) {
     return {
@@ -847,6 +954,7 @@ function buildComposition(options: {
   automationExampleRenders: boolean;
   processRenders: boolean;
   peopleRenders: boolean;
+  questionsRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
@@ -856,7 +964,7 @@ function buildComposition(options: {
     "automation-example": options.automationExampleRenders,
     "how-we-work": options.processRenders,
     people: options.peopleRenders,
-    questions: false,
+    questions: options.questionsRenders,
     "start-a-project": false,
   };
 
@@ -929,6 +1037,7 @@ export function getHomeComposition(): HomeComposition {
     automationExampleRenders: hasPublicAutomationExample(),
     processRenders: hasPublicHomeProcess(),
     peopleRenders: hasPublicHomePeople(),
+    questionsRenders: hasPublicHomeQuestions(),
   });
 }
 
@@ -1024,6 +1133,18 @@ export function getPublicHomePeople(): PublicHomePeople | null {
 }
 
 /**
+ * Approved feedback / FAQ section, or null while framing stays draft or
+ * there is no approved FAQ/feedback content. Never invents quotes.
+ */
+export function getPublicHomeQuestions(): PublicHomeQuestions | null {
+  if (!hasPublicHomeQuestions()) {
+    return null;
+  }
+
+  return buildPublicHomeQuestions();
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -1040,6 +1161,7 @@ export function getHomeHeroSpecimen(options?: {
       automationExampleRenders: false,
       processRenders: false,
       peopleRenders: false,
+      questionsRenders: false,
     }),
     options,
   );
@@ -1241,6 +1363,7 @@ export function getAutomationExampleSpecimen(options?: {
     automationExampleRenders: true,
     processRenders: false,
     peopleRenders: false,
+    questionsRenders: false,
   });
 
   const example = buildPublicAutomationExample(
@@ -1367,4 +1490,124 @@ export function getHomePeopleSpecimen(
     layout: "profiles",
     people: [GALLERY_PERSON_ONE, GALLERY_PERSON_TWO],
   };
+}
+
+const GALLERY_FAQ_FIXTURES: readonly PublicFaqItem[] = [
+  {
+    id: "specimen-faq-1",
+    question: "How do I start a specimen enquiry?",
+    answer:
+      "Gallery fixture answer — share the business need and who will use the result. Not published as a Zatroz FAQ.",
+  },
+  {
+    id: "specimen-faq-2",
+    question: "What if I am not sure which service fits?",
+    answer:
+      "Describe the task first. Labels matter less than the real work. Specimen copy only.",
+  },
+  {
+    id: "specimen-faq-3",
+    question: "How does scope affect time and cost?",
+    answer:
+      "Broader features and integrations change effort. Exact terms stay in a proposal — specimen wording only.",
+  },
+  {
+    id: "specimen-faq-4",
+    question: "Who prepares content and assets?",
+    answer:
+      "Business facts usually come from you; polishing can be agreed in scope. Specimen only.",
+  },
+  {
+    id: "specimen-faq-5",
+    question: "How are ownership and access agreed?",
+    answer:
+      "Access arrangements belong in the proposal. This gallery answer is not a legal term.",
+  },
+  {
+    id: "specimen-faq-6",
+    question: "How are hosting and third-party costs handled?",
+    answer:
+      "Hosting and paid APIs are usually separate unless the proposal says otherwise. Specimen only.",
+  },
+];
+
+const GALLERY_TESTIMONIAL: PublicFeedback = {
+  id: "specimen-testimonial-1",
+  kind: "testimonial",
+  quote:
+    "Example quote for layout review only — not a real customer statement about Zatroz.",
+  attribution: "Specimen Reviewer",
+  roleOrCompany: "Gallery fixture · not a client",
+  relationship: "Labelled specimen relationship — not published evidence.",
+};
+
+const GALLERY_LESSON: PublicFeedback = {
+  id: "specimen-lesson-1",
+  kind: "project-lesson",
+  quote:
+    "Agree content ownership early so handover does not stall on account access. Gallery lesson fixture only.",
+  attribution: null,
+  roleOrCompany: null,
+  relationship: null,
+};
+
+const LONG_FAQ_QUESTION =
+  "What happens when the question is intentionally long enough to wrap across several lines on a narrow phone viewport without inventing a real commercial promise?";
+
+const LONG_FAQ_ANSWER =
+  "This long specimen answer checks wrapping and natural flow without a fixed max-height. It does not invent prices, turnaround guarantees, unlimited revisions, or free ongoing support for Zatroz customers.";
+
+/**
+ * Gallery feedback / FAQ projection. Fixtures are never public evidence.
+ */
+export function getHomeQuestionsSpecimen(
+  variant:
+    "faqs-only" | "one-faq" | "with-testimonial" | "with-lesson" | "long-copy",
+): PublicHomeQuestions {
+  const base = buildPublicHomeQuestions({
+    faqs: GALLERY_FAQ_FIXTURES,
+    feedback: null,
+    action: null,
+    heading: `${homeQuestionsRecord.heading} (specimen)`,
+    supporting: `${homeQuestionsRecord.supporting} Gallery specimen — not published until approved.`,
+  });
+
+  if (variant === "one-faq") {
+    return {
+      ...base,
+      faqs: GALLERY_FAQ_FIXTURES.slice(0, 1),
+    };
+  }
+
+  if (variant === "with-testimonial") {
+    return {
+      ...base,
+      feedback: GALLERY_TESTIMONIAL,
+      faqs: GALLERY_FAQ_FIXTURES.slice(0, 3),
+    };
+  }
+
+  if (variant === "with-lesson") {
+    return {
+      ...base,
+      feedback: GALLERY_LESSON,
+      faqs: GALLERY_FAQ_FIXTURES.slice(0, 3),
+    };
+  }
+
+  if (variant === "long-copy") {
+    return {
+      ...base,
+      faqs: [
+        {
+          id: "specimen-faq-long",
+          question: LONG_FAQ_QUESTION,
+          answer: LONG_FAQ_ANSWER,
+        },
+        ...GALLERY_FAQ_FIXTURES.slice(0, 2),
+      ],
+    };
+  }
+
+  return base;
 }

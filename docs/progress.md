@@ -30,6 +30,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 24   | Homepage automation example     | **Implemented**                                                                | 2026-09-18 | Merged via PR #18; charcoal illustrative workflow + walkthrough; see `docs/homepage/step-24.md`                           |
 | 25   | Homepage delivery process       | **Implemented** (on branch `feature/25-home-process`; merge may be pending)    | 2026-09-18 | Four draft process steps + calm timeline; see `docs/homepage/step-25.md`                                                  |
 | 26   | Homepage people / team          | **Implemented** (on branch `feature/26-home-team`; merge may be pending)       | 2026-09-18 | Draft company intro; no invented founders; see `docs/homepage/step-26.md`                                                 |
+| 27   | Homepage feedback / FAQs        | **Implemented** (on branch `feature/27-home-faq`; merge may be pending)        | 2026-09-18 | Six draft FAQs + empty feedback; native disclosures; see `docs/homepage/step-27.md`                                       |
 
 ---
 
@@ -280,6 +281,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (21 readiness warnings including draft-home-people); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery layout review **not run**.
 - No FAQ/feedback section or later homepage blocks (Step 27+).
 
+### Step 27 (2026-09-18)
+
+- Branch: `feature/27-home-faq` from `feature/26-home-team` (Steps 25–26 not yet on `origin/main`).
+- Six draft FAQs with conditional answers; empty feedback collection; draft questions framing.
+- `HomeFeedbackFaq` with native `FaqDisclosure` (multi-open, no-JS). Optional authentic quote or labelled Zatroz lesson only when approved.
+- CTA “Ask us about your project” only when a usable contact destination exists.
+- Checks: `npm run validate:content` passed (22 readiness warnings including draft-home-questions); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery keyboard/no-JS FAQ review **not run**.
+- No final enquiry CTA or homepage integration review (Step 28).
+
 ---
 
 ## Steps 11–14 summary
@@ -291,7 +301,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–26 are on stacked feature branches (`feature/25-home-process`, `feature/26-home-team`).
+These steps 11–24 are merged to `main`. Steps 25–27 are on stacked feature branches (`feature/25-home-process`, `feature/26-home-team`, `feature/27-home-faq`).
 
 ---
 

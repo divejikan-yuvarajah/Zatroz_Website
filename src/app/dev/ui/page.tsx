@@ -14,6 +14,7 @@ import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-s
 import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { HomeAutomationExampleSpecimen } from "@/components/dev/home-automation-example-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
+import { HomeFeedbackFaqSpecimen } from "@/components/dev/home-feedback-faq-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { HomeProcessSpecimen } from "@/components/dev/home-process-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
@@ -739,6 +740,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeTeamSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="home-questions-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-questions-specimen-heading"
+            eyebrow="Example · local only"
+            description="Native FAQ disclosures and optional authentic feedback. Specimen quotes are labelled fixtures — not real customers. Public / omits this section until framing and at least one approved FAQ or feedback item are ready."
+          >
+            Homepage feedback and FAQs
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeFeedbackFaqSpecimen />
           </div>
         </Container>
       </Section>
