@@ -1,4 +1,5 @@
 import type { RouteId } from "@/config/routes";
+import type { ServiceDetailRecord } from "@/content/service-detail";
 import type { PublicationState, ServiceSlug } from "@/types/content";
 
 export type ServiceRecord = {
@@ -6,6 +7,7 @@ export type ServiceRecord = {
   slug: ServiceSlug;
   routeId: RouteId;
   title: string;
+  /** Overview / summary approval — separate from detail.publicationState. */
   publicationState: PublicationState;
   /** Short summary / overview outcome; draft wording is not a capacity promise. */
   summary: string;
@@ -17,12 +19,19 @@ export type ServiceRecord = {
   deliverySteps: string;
   clientInputs: string;
   scopeBoundaries: string;
+  /**
+   * Long-form detail page copy. Null until a detail draft exists.
+   * Public detail routes require detail.publicationState === "approved"
+   * and the matching route implemented flag.
+   */
+  detail: ServiceDetailRecord | null;
 };
 
 /**
  * Exactly six service groups. All start as draft until founders approve copy
  * and confirm delivery capacity (see decision register D-009).
  * Overview rows use summary, whoItSuits, and deliverables when approved.
+ * Detail pages are filled in Steps 31–36; `detail` stays null until then.
  */
 export const serviceRecords = [
   {
@@ -46,6 +55,7 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
   {
     id: "svc-web-mobile-apps",
@@ -68,6 +78,7 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
   {
     id: "svc-business-systems",
@@ -90,6 +101,7 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
   {
     id: "svc-ai-automation",
@@ -112,6 +124,7 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
   {
     id: "svc-custom-software",
@@ -134,6 +147,7 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
   {
     id: "svc-ui-ux-design",
@@ -156,5 +170,6 @@ export const serviceRecords = [
     deliverySteps: "",
     clientInputs: "",
     scopeBoundaries: "",
+    detail: null,
   },
 ] as const satisfies readonly ServiceRecord[];

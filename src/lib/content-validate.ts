@@ -74,6 +74,226 @@ function assertUniqueIds(
   }
 }
 
+function assertUniqueStringIds(
+  errors: ValidationIssue[],
+  ids: readonly string[],
+  domain: string,
+  recordId: string,
+  field: string,
+) {
+  const seen = new Set<string>();
+  for (const id of ids) {
+    if (seen.has(id)) {
+      pushError(
+        errors,
+        "duplicate-id",
+        `Duplicate ${domain} id in ${field}`,
+        recordId,
+        field,
+      );
+    }
+    seen.add(id);
+  }
+}
+
+function validateServiceDetail(
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[],
+  catalog: ContentCatalog,
+  service: ContentCatalog["services"][number],
+  projectIds: Set<string>,
+  serviceIds: Set<string>,
+) {
+  const detail = service.detail;
+  if (!detail) {
+    return;
+  }
+
+  assertUniqueStringIds(
+    errors,
+    detail.audienceItems.map((item) => item.id),
+    "detail-audience",
+    service.id,
+    "detail.audienceItems",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.problemItems.map((item) => item.id),
+    "detail-problem",
+    service.id,
+    "detail.problemItems",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.scopeOptions.map((item) => item.id),
+    "detail-scope",
+    service.id,
+    "detail.scopeOptions",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.deliverableGroups.map((item) => item.id),
+    "detail-deliverable",
+    service.id,
+    "detail.deliverableGroups",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.deliveryStages.map((item) => item.id),
+    "detail-stage",
+    service.id,
+    "detail.deliveryStages",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.faqIds,
+    "detail-faq-ref",
+    service.id,
+    "detail.faqIds",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.relatedProjectIds,
+    "detail-project-ref",
+    service.id,
+    "detail.relatedProjectIds",
+  );
+  assertUniqueStringIds(
+    errors,
+    detail.relatedServiceIds,
+    "detail-service-ref",
+    service.id,
+    "detail.relatedServiceIds",
+  );
+
+  for (const projectId of detail.relatedProjectIds) {
+    if (!projectIds.has(projectId)) {
+      pushError(
+        errors,
+        "unknown-project-ref",
+        "detail.relatedProjectIds references an unknown project",
+        service.id,
+        "detail.relatedProjectIds",
+      );
+    }
+  }
+
+  for (const relatedServiceId of detail.relatedServiceIds) {
+    if (!serviceIds.has(relatedServiceId)) {
+      pushError(
+        errors,
+        "unknown-service-ref",
+        "detail.relatedServiceIds references an unknown service",
+        service.id,
+        "detail.relatedServiceIds",
+      );
+    }
+    if (relatedServiceId === service.id) {
+      pushError(
+        errors,
+        "self-related-service",
+        "detail.relatedServiceIds must not include the same service",
+        service.id,
+        "detail.relatedServiceIds",
+      );
+    }
+  }
+
+  const faqIds = new Set(catalog.faqs.map((faq) => faq.id));
+  for (const faqId of detail.faqIds) {
+    if (!faqIds.has(faqId)) {
+      pushError(
+        errors,
+        "unknown-faq-ref",
+        "detail.faqIds references an unknown FAQ",
+        service.id,
+        "detail.faqIds",
+      );
+    }
+  }
+
+  if (detail.publicationState === "approved") {
+    for (const field of [
+      "heroTitle",
+      "introduction",
+      "primaryCtaLabel",
+      "pageTitle",
+      "pageDescription",
+    ] as const) {
+      if (!detail[field].trim()) {
+        pushError(
+          errors,
+          "approved-detail-missing-field",
+          "Approved service detail is missing a required field",
+          service.id,
+          `detail.${field}`,
+        );
+      }
+    }
+
+    if (detail.audienceItems.length === 0) {
+      pushError(
+        errors,
+        "approved-detail-missing-field",
+        "Approved service detail needs at least one audience item",
+        service.id,
+        "detail.audienceItems",
+      );
+    }
+
+    if (detail.deliverableGroups.length === 0) {
+      pushError(
+        errors,
+        "approved-detail-missing-field",
+        "Approved service detail needs at least one deliverable group",
+        service.id,
+        "detail.deliverableGroups",
+      );
+    }
+
+    if (detail.clientInputs.length === 0) {
+      pushError(
+        errors,
+        "approved-detail-missing-field",
+        "Approved service detail needs at least one client input",
+        service.id,
+        "detail.clientInputs",
+      );
+    }
+
+    if (detail.boundaries.length === 0) {
+      pushError(
+        errors,
+        "approved-detail-missing-field",
+        "Approved service detail needs at least one boundary",
+        service.id,
+        "detail.boundaries",
+      );
+    }
+
+    if (service.publicationState !== "approved") {
+      pushWarning(
+        warnings,
+        "detail-before-summary",
+        "Service detail is approved while the overview summary is still draft",
+        service.id,
+        "detail.publicationState",
+      );
+    }
+
+    const route = publicRoutes[service.routeId as RouteId];
+    if (route && !route.implemented) {
+      pushWarning(
+        warnings,
+        "detail-route-unimplemented",
+        "Approved detail copy exists but the service detail route is not implemented yet",
+        service.id,
+        "routeId",
+      );
+    }
+  }
+}
+
 /**
  * Validate a content catalog. Pure — no network, no credentials.
  * Does not print private field values in messages.
@@ -198,6 +418,15 @@ export function validateContentCatalog(
         );
       }
     }
+
+    validateServiceDetail(
+      errors,
+      warnings,
+      catalog,
+      service,
+      projectIds,
+      serviceIds,
+    );
   }
 
   for (const slug of SERVICE_SLUGS) {
