@@ -4,6 +4,13 @@ import { getMailtoHref, getWhatsAppHref, siteContact } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
 import { contentCatalog } from "@/content/catalog";
 import {
+  businessNeedRecords,
+  homeServiceExplorerRecord,
+  type BusinessNeedRecord,
+  type PublicBusinessNeed,
+  type PublicServiceExplorer,
+} from "@/content/business-needs";
+import {
   evidenceRecords,
   homeEvidenceIntro,
   type EvidenceKind,
@@ -23,7 +30,7 @@ import {
 import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
-export type { PublicCta };
+export type { PublicCta, PublicBusinessNeed, PublicServiceExplorer };
 
 export type PublicHomeHero = Readonly<{
   id: string;
@@ -396,16 +403,175 @@ function hasPublicSelectedWork(): boolean {
   return getApprovedFeaturedProjects().length > 0;
 }
 
+function resolveNeedAction(need: BusinessNeedRecord): PublicCta | null {
+  const primary = contentCatalog.services.find(
+    (service) => service.id === need.primaryServiceId,
+  );
+
+  if (primary) {
+    const route = publicRoutes[primary.routeId];
+    if (route.implemented) {
+      return {
+        label: `Explore ${primary.title}`,
+        href: route.path,
+      };
+    }
+  }
+
+  if (publicRoutes.contact.implemented) {
+    if (primary) {
+      return {
+        label: siteRecord.cta.primaryLabel,
+        href: `${publicRoutes.contact.path}?service=${primary.slug}`,
+      };
+    }
+
+    return {
+      label: siteRecord.cta.primaryLabel,
+      href: publicRoutes.contact.path,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Email Zatroz",
+      href: getMailtoHref(siteContact.email),
+    };
+  }
+
+  return null;
+}
+
+function projectNeed(
+  need: BusinessNeedRecord,
+  number: number,
+  options?: { includeDraftServices?: boolean },
+): PublicBusinessNeed {
+  const includeDraft = options?.includeDraftServices ?? false;
+
+  const services = need.serviceIds.flatMap((serviceId) => {
+    const service = contentCatalog.services.find((row) => row.id === serviceId);
+    if (!service) {
+      return [];
+    }
+    if (!includeDraft && service.publicationState !== "approved") {
+      return [];
+    }
+
+    const route = publicRoutes[service.routeId];
+    const href =
+      service.publicationState === "approved" && route.implemented
+        ? route.path
+        : null;
+
+    return [
+      {
+        id: service.id,
+        title: service.title,
+        summary: service.summary,
+        href,
+      },
+    ];
+  });
+
+  const relatedWork = need.relatedProjectIds.flatMap((projectId) => {
+    const project = contentCatalog.projects.find((row) => row.id === projectId);
+    if (!project || project.publicationState !== "approved") {
+      return [];
+    }
+
+    const href = publicRoutes.work.implemented
+      ? `/work/${project.slug}`
+      : (project.publicLinks.find((link) => isHttpsUrl(link.href))?.href ??
+        null);
+
+    return [
+      {
+        id: project.id,
+        title: project.title,
+        workStatusLabel: WORK_STATUS_LABELS[project.workStatus],
+        href,
+      },
+    ];
+  });
+
+  return {
+    id: need.id,
+    number,
+    title: need.title,
+    explanation: need.explanation,
+    deliverable: need.deliverable,
+    services,
+    relatedWork,
+    action: resolveNeedAction(need),
+  };
+}
+
+function buildServiceExplorer(
+  needs: readonly BusinessNeedRecord[],
+  options?: {
+    includeDraftServices?: boolean;
+    heading?: string;
+    supporting?: string;
+    defaultNeedId?: string;
+    longDeliverable?: boolean;
+  },
+): PublicServiceExplorer {
+  const projected = needs.map((need, index) => {
+    const base = projectNeed(need, index + 1, {
+      includeDraftServices: options?.includeDraftServices,
+    });
+    if (options?.longDeliverable && index === 0) {
+      return {
+        ...base,
+        deliverable:
+          "A clear business website or online catalogue that explains what you sell, how customers can contact you, and the next step they should take — written long here only to check wrapping on narrow viewports.",
+      };
+    }
+    return base;
+  });
+
+  const defaultNeedId =
+    options?.defaultNeedId ??
+    (projected.some(
+      (need) => need.id === homeServiceExplorerRecord.defaultNeedId,
+    )
+      ? homeServiceExplorerRecord.defaultNeedId
+      : projected[0]!.id);
+
+  return {
+    id: "services-explorer",
+    heading: options?.heading ?? homeServiceExplorerRecord.heading,
+    supporting: options?.supporting ?? homeServiceExplorerRecord.supporting,
+    defaultNeedId,
+    needs: projected,
+  };
+}
+
+function getApprovedBusinessNeeds(): BusinessNeedRecord[] {
+  return businessNeedRecords.filter(
+    (need) => need.publicationState === "approved",
+  );
+}
+
+function hasPublicServiceExplorer(): boolean {
+  return (
+    homeServiceExplorerRecord.publicationState === "approved" &&
+    getApprovedBusinessNeeds().length > 0
+  );
+}
+
 function buildComposition(options: {
   heroApproved: boolean;
   evidenceRenders: boolean;
   selectedWorkRenders: boolean;
+  servicesExplorerRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
     "home-evidence": options.evidenceRenders,
     "selected-work": options.selectedWorkRenders,
-    "services-explorer": false,
+    "services-explorer": options.servicesExplorerRenders,
     "automation-example": false,
     "how-we-work": false,
     people: false,
@@ -478,6 +644,7 @@ export function getHomeComposition(): HomeComposition {
     heroApproved: homeHeroRecord.publicationState === "approved",
     evidenceRenders: hasPublicEvidenceContent(),
     selectedWorkRenders: hasPublicSelectedWork(),
+    servicesExplorerRenders: hasPublicServiceExplorer(),
   });
 }
 
@@ -524,6 +691,20 @@ export function getPublicSelectedWork(): PublicSelectedWork | null {
 }
 
 /**
+ * Approved service explorer, or null while need copy remains draft.
+ * Never invents service titles/paths in the projection — resolves from records.
+ */
+export function getPublicServiceExplorer(): PublicServiceExplorer | null {
+  if (!hasPublicServiceExplorer()) {
+    return null;
+  }
+
+  return buildServiceExplorer(getApprovedBusinessNeeds(), {
+    includeDraftServices: false,
+  });
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -536,6 +717,7 @@ export function getHomeHeroSpecimen(options?: {
       heroApproved: true,
       evidenceRenders: false,
       selectedWorkRenders: false,
+      servicesExplorerRenders: false,
     }),
     options,
   );
@@ -705,4 +887,20 @@ export function getSelectedWorkSpecimen(
       "Gallery fixtures for layout review — not approved Zatroz portfolio evidence.",
     features,
   };
+}
+
+/**
+ * Gallery service-explorer projection. Includes draft service summaries for
+ * layout review — never used as the public homepage projection.
+ */
+export function getServiceExplorerSpecimen(options?: {
+  longDeliverable?: boolean;
+}): PublicServiceExplorer {
+  return buildServiceExplorer([...businessNeedRecords], {
+    includeDraftServices: true,
+    heading: `${homeServiceExplorerRecord.heading} (specimen)`,
+    supporting:
+      "Gallery specimen — draft need copy for layout review. Public / omits this section until approved.",
+    longDeliverable: options?.longDeliverable,
+  });
 }

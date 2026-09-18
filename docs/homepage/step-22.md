@@ -42,4 +42,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 23 — business-needs service explorer.
+Step 24 — practical automation example.

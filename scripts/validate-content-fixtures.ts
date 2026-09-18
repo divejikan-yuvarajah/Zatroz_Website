@@ -188,4 +188,38 @@ export function runFixtureValidations() {
     draftFeatured,
     "featured-draft-project",
   );
+
+  const unknownNeedService = cloneCatalog();
+  unknownNeedService.businessNeeds = unknownNeedService.businessNeeds.map(
+    (need, index) =>
+      index === 0
+        ? {
+            ...need,
+            serviceIds: ["svc-does-not-exist"],
+            primaryServiceId: "svc-does-not-exist",
+          }
+        : need,
+  );
+  expectFails(
+    "unknown-need-service",
+    unknownNeedService,
+    "unknown-service-ref",
+  );
+
+  const invalidPrimary = cloneCatalog();
+  invalidPrimary.businessNeeds = invalidPrimary.businessNeeds.map(
+    (need, index) =>
+      index === 0
+        ? {
+            ...need,
+            serviceIds: ["svc-websites-ecommerce"],
+            primaryServiceId: "svc-ui-ux-design",
+          }
+        : need,
+  );
+  expectFails(
+    "invalid-primary-service",
+    invalidPrimary,
+    "invalid-primary-service",
+  );
 }

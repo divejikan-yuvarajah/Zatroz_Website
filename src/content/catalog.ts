@@ -1,4 +1,12 @@
 import type {
+  BusinessNeedRecord,
+  HomeServiceExplorerRecord,
+} from "@/content/business-needs";
+import {
+  businessNeedRecords,
+  homeServiceExplorerRecord,
+} from "@/content/business-needs";
+import type {
   EvidenceRecord,
   HomeEvidenceIntroRecord,
 } from "@/content/evidence";
@@ -29,6 +37,8 @@ export type ContentCatalog = {
   evidenceIntro: HomeEvidenceIntroRecord;
   /** Ordered homepage feature IDs — must reference approved projects only. */
   featuredProjectIds: readonly string[];
+  businessNeeds: readonly BusinessNeedRecord[];
+  serviceExplorer: HomeServiceExplorerRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -43,4 +53,6 @@ export const contentCatalog: ContentCatalog = {
   evidence: evidenceRecords,
   evidenceIntro: homeEvidenceIntro,
   featuredProjectIds: homeSelectedWorkRecord.featuredProjectIds,
+  businessNeeds: businessNeedRecords,
+  serviceExplorer: homeServiceExplorerRecord,
 };

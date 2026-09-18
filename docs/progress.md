@@ -2,30 +2,31 @@
 
 Track setup progress honestly. Mark a step **Implemented** only when its deliverable files exist. Business decisions may remain pending.
 
-| Step | Result                          | Status                                                                         | Date       | Evidence                                                                                                                  |
-| ---- | ------------------------------- | ------------------------------------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 01   | Scope and decision register     | **Implemented**                                                                | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
-| 02   | Content and asset inventory     | **Implemented**                                                                | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
-| 03   | Sitemap and visitor journeys    | **Implemented**                                                                | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
-| 04   | Verified local toolchain        | **Implemented**                                                                | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
-| 05   | Local Git and GitHub workflow   | **Implemented**                                                                | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
-| 06   | Working Next.js starter         | **Implemented**                                                                | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
-| 07   | Repeatable quality checks       | **Implemented**                                                                | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
-| 08   | Documented folder structure     | **Implemented**                                                                | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
-| 09   | Cursor project rules            | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending)      | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
-| 10   | Safe environment configuration  | **Implemented**                                                                | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
-| 11   | Design system                   | **Implemented** (on branch `feature/11-design-system`)                         | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
-| 12   | Reusable UI primitives          | **Implemented** (on branch `feature/12-ui-components`; merge may be pending)   | 2026-09-17 | `src/components/ui/*`, `src/lib/cn.ts`, `/dev/ui` gallery, `docs/design/ui-components.md`                                 |
-| 13   | Accessible form components      | **Implemented** (on branch `feature/13-form-components`; merge may be pending) | 2026-09-17 | `src/components/forms/*`, `src/components/dev/form-demo.tsx`, `docs/design/form-components.md`                            |
-| 14   | Shared website layout           | **Implemented**                                                                | 2026-09-17 | `src/components/layout/site-shell.tsx`, `skip-link.tsx`, `docs/architecture/page-layout.md`                               |
-| 15   | Desktop navigation              | **Implemented**                                                                | 2026-09-17 | `src/config/routes.ts`, `navigation.ts`, `SiteHeader`, `docs/design/navigation.md`; merged via PR #9                      |
-| 16   | Accessible mobile navigation    | **Implemented**                                                                | 2026-09-18 | Merged via PR #10; native `dialog` mobile menu                                                                            |
-| 17   | Responsive company footer       | **Implemented**                                                                | 2026-09-18 | Merged via PR #11; `SiteFooter`, `brand`/`contact` config                                                                 |
-| 18   | Typed shared content            | **Implemented**                                                                | 2026-09-18 | Merged via PR #12                                                                                                         |
-| 19   | Homepage hero                   | **Implemented**                                                                | 2026-09-18 | Merged via PR #13; static connected-business hero; see `docs/homepage/step-19.md`                                         |
-| 20   | Hero scenario interactions      | **Implemented**                                                                | 2026-09-18 | Merged via PR #14; three-scenario selector; see `docs/homepage/step-20.md`                                                |
-| 21   | Homepage credibility / evidence | **Implemented**                                                                | 2026-09-18 | Merged via PR #15; empty evidence + draft intro; see `docs/homepage/step-21.md`                                           |
-| 22   | Homepage selected work          | **Implemented** (on branch `feature/22-selected-work`; merge may be pending)   | 2026-09-18 | Featured IDs + project feature; public strip omitted; see `docs/homepage/step-22.md`                                      |
+| Step | Result                          | Status                                                                          | Date       | Evidence                                                                                                                  |
+| ---- | ------------------------------- | ------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 01   | Scope and decision register     | **Implemented**                                                                 | 2026-09-16 | `docs/planning/01-project-scope.md`, `docs/planning/decision-register.md`                                                 |
+| 02   | Content and asset inventory     | **Implemented**                                                                 | 2026-09-16 | `docs/content/*` files listed in Step 02 notes below                                                                      |
+| 03   | Sitemap and visitor journeys    | **Implemented**                                                                 | 2026-09-16 | `docs/planning/03-sitemap.md`, `visitor-journeys.md`, `navigation-spec.md`                                                |
+| 04   | Verified local toolchain        | **Implemented**                                                                 | 2026-09-16 | `docs/setup/local-environment.md` — node/npm/git checks passed                                                            |
+| 05   | Local Git and GitHub workflow   | **Implemented**                                                                 | 2026-09-16 | Local commit + merge with remote initial README; push to `origin/main`                                                    |
+| 06   | Working Next.js starter         | **Implemented**                                                                 | 2026-09-16 | Next.js 16.3.5 starter; `npm run build` + localhost 200 + hot reload verified; see `docs/setup/project-initialization.md` |
+| 07   | Repeatable quality checks       | **Implemented**                                                                 | 2026-09-16 | Prettier + ESLint CLI scripts; `npm run check` and `npm run build` passed; see `docs/setup/quality-checks.md`             |
+| 08   | Documented folder structure     | **Implemented**                                                                 | 2026-09-17 | Merged via PR #3; `docs/architecture/folder-structure.md` + organisational dirs                                           |
+| 09   | Cursor project rules            | **Implemented** (on branch `setup/09-cursor-rules`; merge may be pending)       | 2026-09-17 | `.cursor/rules/*.mdc` + `docs/setup/cursor-workflow.md`; Cursor UI activation **not verified** by agent                   |
+| 10   | Safe environment configuration  | **Implemented**                                                                 | 2026-09-17 | `.env.example`, `src/server/env.ts`, `docs/setup/environment-variables.md`; check/build with blank integrations           |
+| 11   | Design system                   | **Implemented** (on branch `feature/11-design-system`)                          | 2026-09-17 | Tokens + `/dev/ui` preview; `docs/design/design-system.md`, `contrast-checks.md`                                          |
+| 12   | Reusable UI primitives          | **Implemented** (on branch `feature/12-ui-components`; merge may be pending)    | 2026-09-17 | `src/components/ui/*`, `src/lib/cn.ts`, `/dev/ui` gallery, `docs/design/ui-components.md`                                 |
+| 13   | Accessible form components      | **Implemented** (on branch `feature/13-form-components`; merge may be pending)  | 2026-09-17 | `src/components/forms/*`, `src/components/dev/form-demo.tsx`, `docs/design/form-components.md`                            |
+| 14   | Shared website layout           | **Implemented**                                                                 | 2026-09-17 | `src/components/layout/site-shell.tsx`, `skip-link.tsx`, `docs/architecture/page-layout.md`                               |
+| 15   | Desktop navigation              | **Implemented**                                                                 | 2026-09-17 | `src/config/routes.ts`, `navigation.ts`, `SiteHeader`, `docs/design/navigation.md`; merged via PR #9                      |
+| 16   | Accessible mobile navigation    | **Implemented**                                                                 | 2026-09-18 | Merged via PR #10; native `dialog` mobile menu                                                                            |
+| 17   | Responsive company footer       | **Implemented**                                                                 | 2026-09-18 | Merged via PR #11; `SiteFooter`, `brand`/`contact` config                                                                 |
+| 18   | Typed shared content            | **Implemented**                                                                 | 2026-09-18 | Merged via PR #12                                                                                                         |
+| 19   | Homepage hero                   | **Implemented**                                                                 | 2026-09-18 | Merged via PR #13; static connected-business hero; see `docs/homepage/step-19.md`                                         |
+| 20   | Hero scenario interactions      | **Implemented**                                                                 | 2026-09-18 | Merged via PR #14; three-scenario selector; see `docs/homepage/step-20.md`                                                |
+| 21   | Homepage credibility / evidence | **Implemented**                                                                 | 2026-09-18 | Merged via PR #15; empty evidence + draft intro; see `docs/homepage/step-21.md`                                           |
+| 22   | Homepage selected work          | **Implemented**                                                                 | 2026-09-18 | Merged via PR #16; featured IDs + project feature; see `docs/homepage/step-22.md`                                         |
+| 23   | Homepage service explorer       | **Implemented** (on branch `feature/23-service-explorer`; merge may be pending) | 2026-09-18 | Four draft business needs + disclosure explorer; see `docs/homepage/step-23.md`                                           |
 
 ---
 
@@ -242,6 +243,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (17 readiness warnings including empty-featured-work); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery keyboard/viewport review **not run**.
 - No service explorer or later homepage blocks (Step 23+).
 
+### Step 23 (2026-09-18)
+
+- Branch: `feature/23-service-explorer` from updated `main` (Step 22 merged).
+- Typed `business-needs` module: four draft needs mapped to canonical service IDs; explorer framing draft.
+- Disclosure explorer with `aria-expanded` / `aria-controls`; one open panel; mobile detail under trigger; desktop side panel via CSS grid without a second widget.
+- Noscript lists all needs; service links and `?service=` enquiry only when routes are ready.
+- Checks: `npm run validate:content` passed (18 readiness warnings including draft-service-explorer); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery keyboard/viewport/no-JS review **not run**.
+- No automation example or later homepage blocks (Step 24+).
+
 ---
 
 ## Steps 11–14 summary
@@ -253,7 +263,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–21 are merged to `main`. Step 22 is on `feature/22-selected-work`.
+These steps 11–22 are merged to `main`. Step 23 is on `feature/23-service-explorer`.
 
 ---
 
