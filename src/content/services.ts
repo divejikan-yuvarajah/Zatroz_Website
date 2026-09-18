@@ -1,5 +1,6 @@
 import type { RouteId } from "@/config/routes";
 import type { ServiceDetailRecord } from "@/content/service-detail";
+import { businessSystemsDetail } from "@/content/service-detail-business-systems";
 import { webMobileAppsDetail } from "@/content/service-detail-web-mobile-apps";
 import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
 import type { PublicationState, ServiceSlug } from "@/types/content";
@@ -108,12 +109,17 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Businesses replacing scattered notes and spreadsheets for day-to-day operations.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Repeated data entry, disconnected stock and sales facts, manual handoffs, and slow hand-built reports.",
+    exampleNotes:
+      "Illustrative sale → stock → report sample — not a live POS, inventory database, or ERP.",
+    deliverySteps:
+      "Discover workflows, prototype the key task, implement agreed modules, test devices, then train and hand over.",
+    clientInputs:
+      "Current workflows, anonymised forms, data quality notes, roles, hardware models, connectivity, and an operational owner.",
+    scopeBoundaries:
+      "Not a complete ERP claim. Accounting, payroll, offline, and hardware compatibility are proposal-scoped.",
+    detail: businessSystemsDetail,
   },
   {
     id: "svc-ai-automation",

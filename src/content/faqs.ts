@@ -142,4 +142,52 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: "svc-web-mobile-apps",
   },
+  {
+    id: "faq-bs-one-module",
+    question: "Can we start with one module?",
+    answer:
+      "Yes. A focused first project on one workflow — for example sales recording or stock movements — is often the sensible start. The other areas on this page are options to discuss, not mandatory modules in every engagement.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
+  {
+    id: "faq-bs-printer-scanner",
+    question: "Can you work with our existing printer or scanner?",
+    answer:
+      "When a specific model is named in the proposal, we plan to test it with representative cases. Compatibility is not assumed for every device. Hardware that fails validation may need a different model or a scoped workaround.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
+  {
+    id: "faq-bs-offline",
+    question: "Can the system work offline?",
+    answer:
+      "Only when offline behaviour and synchronisation rules are explicitly designed and included. Do not assume counter sales or stock updates continue without internet by default.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
+  {
+    id: "faq-bs-existing-data",
+    question: "What happens to our existing data?",
+    answer:
+      "Import, cleanup, and reconciliation are scoped when needed after reviewing data quality. There is no promise of automatic migration from every legacy database or a disruption-free cutover without investigation.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
+  {
+    id: "faq-bs-who-access",
+    question: "Who can access each function?",
+    answer:
+      "Roles and permissions are agreed for the workflows in scope — for example who can record a sale, correct a quantity, or open a report. Broader access rules outside that scope are not assumed.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
+  {
+    id: "faq-bs-backup-training",
+    question: "How are backup, training, and support handled?",
+    answer:
+      "Backup and recovery steps, training for the operational owner, and support coverage are proposal decisions. Having a backup file is not enough on its own — restoration must be agreed and tested for the actual system.",
+    publicationState: "draft",
+    relatedServiceId: "svc-business-systems",
+  },
 ] as const satisfies readonly FaqRecord[];

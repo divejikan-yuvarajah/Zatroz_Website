@@ -114,3 +114,43 @@ export function ServiceHeroDevicePairVisual({
     </figure>
   );
 }
+
+/** Compact hero decoration — sample sales / stock / report strip. */
+export function ServiceHeroOpsSummaryVisual({
+  className,
+}: {
+  className?: string;
+}) {
+  return (
+    <figure className={cn("m-0 min-w-0", className)}>
+      <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
+        <div className="border-b border-border-subtle bg-surface-muted px-3 py-2">
+          <p className="m-0 text-xs font-medium text-text-muted">
+            Sample operations strip
+          </p>
+        </div>
+        <ul className="m-0 grid list-none gap-0 p-0 sm:grid-cols-3">
+          <li className="border-b border-border-subtle p-3 sm:border-b-0 sm:border-r">
+            <p className="m-0 text-xs font-medium text-text-muted">Sales</p>
+            <p className="mt-1 m-0 text-sm font-semibold text-ink">
+              2 × Blue Notebook
+            </p>
+          </li>
+          <li className="border-b border-border-subtle p-3 sm:border-b-0 sm:border-r">
+            <p className="m-0 text-xs font-medium text-text-muted">Stock</p>
+            <p className="mt-1 m-0 text-sm font-semibold text-ink">10 → 8</p>
+          </li>
+          <li className="p-3">
+            <p className="m-0 text-xs font-medium text-text-muted">Report</p>
+            <p className="mt-1 m-0 text-sm font-semibold text-ink">
+              1 sample line
+            </p>
+          </li>
+        </ul>
+      </div>
+      <figcaption className="mt-2 m-0 text-xs text-text-muted">
+        Sample labels only — not live totals, payments, or inventory storage.
+      </figcaption>
+    </figure>
+  );
+}

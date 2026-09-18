@@ -72,7 +72,7 @@ Each of the six routes needs:
 | --------- | ------------------------------ | ------------------------ | --------------- | ------------------------------------- |
 | C-SERV-01 | `/services/websites-ecommerce` | Content + delivery owner | Draft (Step 31) | Capacity confirmation + copy approval |
 | C-SERV-02 | `/services/web-mobile-apps`    | Content + delivery owner | Draft (Step 32) | Capacity confirmation + copy approval |
-| C-SERV-03 | `/services/business-systems`   | Content + delivery owner | Missing         | POS hardware/support boundaries       |
+| C-SERV-03 | `/services/business-systems`   | Content + delivery owner | Draft (Step 33) | Capacity confirmation + copy approval |
 | C-SERV-04 | `/services/ai-automation`      | Content + delivery owner | Missing         | Honest AI limitations wording         |
 | C-SERV-05 | `/services/custom-software`    | Content + delivery owner | Missing         | Example boundaries                    |
 | C-SERV-06 | `/services/ui-ux-design`       | Content + delivery owner | Missing         | Deliverable list                      |

@@ -24,6 +24,7 @@ import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen";
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
+import { BusinessSystemsSpecimen } from "@/components/dev/business-systems-specimen";
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
@@ -865,6 +866,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <WebMobileAppsSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="business-systems-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="business-systems-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft Business Systems service page. Public route returns not-found until copy is approved. Operations panel uses sample quantities only — not a live POS or inventory database."
+          >
+            Business Systems draft
+          </SectionHeading>
+          <div className="mt-10">
+            <BusinessSystemsSpecimen />
           </div>
         </Container>
       </Section>
