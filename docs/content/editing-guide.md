@@ -16,16 +16,16 @@ This guide is for founders and engineers editing repository content. There is no
 
 ## Add or update a record
 
-| Domain       | File                        | Steps                                                                                                                                          |
-| ------------ | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Service      | `src/content/services.ts`   | Keep the six slugs. Edit draft fields. Do not add a seventh group without sitemap + route updates.                                             |
-| Project      | `src/content/projects.ts`   | Add a record only from real evidence. Set honest `workStatus`. Leave `verifiedOutcomes` empty rather than inventing numbers.                   |
-| Founder      | `src/content/founders.ts`   | Only approved names/roles/bios/portraits. Missing people stay absent — do not add “Person 2”.                                                  |
-| FAQ          | `src/content/faqs.ts`       | Plain text only. No HTML. Avoid deadlines, prices, and support promises until approved.                                                        |
-| Evidence     | `src/content/evidence.ts`   | Add only verified claims with correct subject attribution and an internal `sourceReference`. Leave the list empty rather than inventing proof. |
-| Media        | `src/content/media.ts`      | Path must exist under `public/`. Require alt text or `decorative: true`.                                                                       |
-| Site/contact | `src/content/site.ts`       | Flip `status` to `confirmed` only after founder launch confirmation.                                                                           |
-| Nav labels   | `src/content/navigation.ts` | Change labels/order here. Paths stay in `src/config/routes.ts`.                                                                                |
+| Domain       | File                        | Steps                                                                                                                                                                                                                         |
+| ------------ | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Service      | `src/content/services.ts`   | Keep the six slugs. Edit draft fields. Do not add a seventh group without sitemap + route updates.                                                                                                                            |
+| Project      | `src/content/projects.ts`   | Add a record only from real evidence. Set honest `workStatus`. Leave `verifiedOutcomes` empty rather than inventing numbers. Feature on the homepage via `featuredProjectIds` in `src/content/home.ts` only after `approved`. |
+| Founder      | `src/content/founders.ts`   | Only approved names/roles/bios/portraits. Missing people stay absent — do not add “Person 2”.                                                                                                                                 |
+| FAQ          | `src/content/faqs.ts`       | Plain text only. No HTML. Avoid deadlines, prices, and support promises until approved.                                                                                                                                       |
+| Evidence     | `src/content/evidence.ts`   | Add only verified claims with correct subject attribution and an internal `sourceReference`. Leave the list empty rather than inventing proof.                                                                                |
+| Media        | `src/content/media.ts`      | Path must exist under `public/`. Require alt text or `decorative: true`.                                                                                                                                                      |
+| Site/contact | `src/content/site.ts`       | Flip `status` to `confirmed` only after founder launch confirmation.                                                                                                                                                          |
+| Nav labels   | `src/content/navigation.ts` | Change labels/order here. Paths stay in `src/config/routes.ts`.                                                                                                                                                               |
 
 ---
 

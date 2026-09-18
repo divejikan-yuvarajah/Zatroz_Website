@@ -131,4 +131,61 @@ export function runFixtureValidations() {
     },
   ];
   expectFails("invalid-evidence-url", badEvidenceUrl, "invalid-url");
+
+  const unknownFeatured = cloneCatalog();
+  unknownFeatured.featuredProjectIds = ["project-does-not-exist"];
+  expectFails("unknown-featured-ref", unknownFeatured, "unknown-featured-ref");
+
+  const duplicateFeatured = cloneCatalog();
+  duplicateFeatured.projects = [
+    {
+      id: "proj-featured-dup",
+      slug: "featured-dup-example",
+      title: "Featured duplicate example",
+      publicationState: "approved",
+      workStatus: "prototype",
+      contributors: ["Specimen"],
+      zatrozContribution: "Specimen contribution",
+      problem: "Specimen problem",
+      approach: "Specimen approach",
+      deliverables: ["Specimen deliverable"],
+      verifiedOutcomes: [],
+      mediaIds: [],
+      publicLinks: [],
+    },
+  ];
+  duplicateFeatured.featuredProjectIds = [
+    "proj-featured-dup",
+    "proj-featured-dup",
+  ];
+  expectFails(
+    "duplicate-featured-ref",
+    duplicateFeatured,
+    "duplicate-featured-ref",
+  );
+
+  const draftFeatured = cloneCatalog();
+  draftFeatured.projects = [
+    {
+      id: "proj-draft-featured",
+      slug: "draft-featured-example",
+      title: "Draft featured example",
+      publicationState: "draft",
+      workStatus: "prototype",
+      contributors: [],
+      zatrozContribution: "Draft contribution",
+      problem: "Draft problem",
+      approach: "Draft approach",
+      deliverables: [],
+      verifiedOutcomes: [],
+      mediaIds: [],
+      publicLinks: [],
+    },
+  ];
+  draftFeatured.featuredProjectIds = ["proj-draft-featured"];
+  expectFails(
+    "featured-draft-project",
+    draftFeatured,
+    "featured-draft-project",
+  );
 }
