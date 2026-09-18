@@ -11,10 +11,12 @@ import {
   ServiceHeroModulesLinkVisual,
   ServiceHeroOpsSummaryVisual,
   ServiceHeroReviewWorkflowVisual,
+  ServiceHeroWireframeStackVisual,
 } from "@/components/sections/service-browser-frame";
 import { AiAutomationWorkflow } from "@/components/sections/ai-automation-workflow";
 import { BusinessOpsPanel } from "@/components/sections/business-ops-panel";
 import { CustomSoftwareGuide } from "@/components/sections/custom-software-guide";
+import { UiUxFormStatesExample } from "@/components/sections/ui-ux-form-states-example";
 import { WebMobileTaskComparison } from "@/components/sections/web-mobile-task-comparison";
 import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
 import type { PublicServiceDetail } from "@/server/service-detail";
@@ -105,6 +107,9 @@ export function ServiceDetailPage({
               ) : null}
               {detail.heroVisual === "modules-link" ? (
                 <ServiceHeroModulesLinkVisual />
+              ) : null}
+              {detail.heroVisual === "wireframe-stack" ? (
+                <ServiceHeroWireframeStackVisual />
               ) : null}
 
               {showContents ? (
@@ -294,6 +299,10 @@ export function ServiceDetailPage({
             {detail.illustrativeExample.visualVariant ===
             "custom-software-guide" ? (
               <CustomSoftwareGuide />
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "ui-ux-form-states" ? (
+              <UiUxFormStatesExample />
             ) : null}
           </Container>
         </Section>

@@ -27,6 +27,7 @@ import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-spe
 import { AiAutomationSpecimen } from "@/components/dev/ai-automation-specimen";
 import { BusinessSystemsSpecimen } from "@/components/dev/business-systems-specimen";
 import { CustomSoftwareSpecimen } from "@/components/dev/custom-software-specimen";
+import { UiUxDesignSpecimen } from "@/components/dev/ui-ux-design-specimen";
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
@@ -928,6 +929,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <CustomSoftwareSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="ui-ux-design-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="ui-ux-design-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft UI/UX Design service page. Public route returns not-found until copy is approved. Enquiry flow and form states are labelled samples — nothing is submitted."
+          >
+            UI/UX Design draft
+          </SectionHeading>
+          <div className="mt-10">
+            <UiUxDesignSpecimen />
           </div>
         </Container>
       </Section>

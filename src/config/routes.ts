@@ -56,7 +56,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   uiUxDesign: {
     id: "uiUxDesign",
     path: "/services/ui-ux-design",
-    implemented: false,
+    implemented: true,
   },
   work: { id: "work", path: "/work", implemented: false },
   about: { id: "about", path: "/about", implemented: false },
