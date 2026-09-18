@@ -2,14 +2,15 @@ import { Container } from "@/components/ui/container";
 import { DesktopNavigation } from "@/components/layout/desktop-navigation";
 import { HomeLink } from "@/components/layout/home-link";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
+import { getImplementedNavDestinations } from "@/config/navigation";
 import {
-  getHeaderNavigation,
-  getHomeDestination,
-  getImplementedNavDestinations,
-} from "@/config/navigation";
+  getPublicHomeDestination,
+  getPublicNavigation,
+} from "@/server/content";
 
 export function SiteHeader() {
-  const navigation = getHeaderNavigation();
+  const navigation = getPublicNavigation();
+  const home = getPublicHomeDestination();
   const noscriptItems = getImplementedNavDestinations(navigation);
 
   return (
@@ -24,7 +25,7 @@ export function SiteHeader() {
           />
           <MobileNavigation
             idPrefix="site"
-            home={getHomeDestination()}
+            home={home}
             fallbackFocusId="site-home-link"
             {...navigation}
           />

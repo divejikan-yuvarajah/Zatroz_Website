@@ -2,13 +2,13 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { TextLink } from "@/components/ui/text-link";
 import type { PublicContactLink, SiteBrand } from "@/config/brand";
+import type { FooterNavigation, NavDestination } from "@/config/navigation";
 import {
   getCopyrightYear,
-  getPublicContactLinks,
-  siteBrand,
-} from "@/config/brand";
-import type { FooterNavigation, NavDestination } from "@/config/navigation";
-import { getFooterNavigation } from "@/config/navigation";
+  getPublicFooterContactLinks,
+  getPublicFooterNavigation,
+  getPublicSiteBrand,
+} from "@/server/content";
 import { cn } from "@/lib/cn";
 
 function FooterPlannedLabel({ label }: { label: string }) {
@@ -105,9 +105,9 @@ export type SiteFooterContentProps = {
  * gallery can reuse it without a second contentinfo landmark.
  */
 export function SiteFooterContent({
-  brand = siteBrand,
-  navigation = getFooterNavigation(),
-  contactLinks = getPublicContactLinks(),
+  brand = getPublicSiteBrand(),
+  navigation = getPublicFooterNavigation(),
+  contactLinks = getPublicFooterContactLinks(),
   copyrightYear = getCopyrightYear(),
   idPrefix = "site",
   className,

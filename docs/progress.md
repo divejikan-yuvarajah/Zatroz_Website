@@ -19,9 +19,9 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Accessible form components     | **Implemented** (on branch `feature/13-form-components`; merge may be pending)   | 2026-09-17 | `src/components/forms/*`, `src/components/dev/form-demo.tsx`, `docs/design/form-components.md`                            |
 | 14   | Shared website layout          | **Implemented**                                                                  | 2026-09-17 | `src/components/layout/site-shell.tsx`, `skip-link.tsx`, `docs/architecture/page-layout.md`                               |
 | 15   | Desktop navigation             | **Implemented**                                                                  | 2026-09-17 | `src/config/routes.ts`, `navigation.ts`, `SiteHeader`, `docs/design/navigation.md`; merged via PR #9                      |
-| 16   | Accessible mobile navigation   | **Implemented** (on branch `feature/16-mobile-navigation`; merge may be pending) | 2026-09-18 | Native `dialog` mobile menu, noscript fallback, `/dev/ui` specimen; see Step 16 notes                                     |
-| 17   | Responsive company footer      | **Implemented** (on branch `feature/17-footer`; merge may be pending)            | 2026-09-18 | `SiteFooter`, `brand.ts`, gallery specimens; see Step 17 notes                                                            |
-| 18   | Typed shared content           | Not started                                                                      | —          | —                                                                                                                         |
+| 16   | Accessible mobile navigation   | **Implemented**                                                                  | 2026-09-18 | Merged via PR #10; native `dialog` mobile menu                                                                            |
+| 17   | Responsive company footer      | **Implemented**                                                                  | 2026-09-18 | Merged via PR #11; `SiteFooter`, `brand`/`contact` config                                                                 |
+| 18   | Typed shared content           | **Implemented** (on branch `feature/18-content-structure`; merge may be pending) | 2026-09-18 | `src/content/*`, `src/server/content.ts`, `validate:content`; see Step 18 notes                                           |
 
 ---
 
@@ -193,6 +193,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run check` passed; `npm run build` passed; production `next start` on **http://localhost:3018**: `/` 200 with one charcoal `<footer>`, Explore → Home, `© 2026 Zatroz`, **no** contact/social/policy hrefs, one `main`; `/dev/ui` **404**. Viewport, keyboard, and device dial/mail actions **not run**.
 - No marketing pages or enquiry flow.
 
+### Step 18 (2026-09-18)
+
+- Branch: `feature/18-content-structure` from updated `main` (Steps 16–17 already merged).
+- Typed content under `src/content/` (site, navigation labels, six draft services, empty projects/founders/media, draft FAQs). Shared unions in `src/types/content.ts`.
+- `src/server/content.ts` (`server-only`): `getPublished*` / `getLinkable*` / `getPublicNavigation` projections. Header and footer consume public projections; behaviour unchanged (Home-only live links).
+- `npm run validate:content` + fixtures (duplicate slug, unknown ref, bad URL, incomplete approved). Wired into `npm run check`.
+- Docs: `docs/content/content-model.md`, `editing-guide.md`. Inventory gaps unchanged: contacts unconfirmed, no approved portfolio/founder cards.
+- Checks: `npm run validate:content` passed (15 readiness warnings); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on **http://localhost:3019**: `/` 200 with header Menu + one footer; no mailto/`/contact` or draft service summaries in HTML; `/dev/ui` **404**. Interactive disclosure/menu keyboard passes **not run**.
+- No homepage hero, service pages, or enquiry flow (Step 19+).
+
 ---
 
 ## Steps 11–14 summary
@@ -204,7 +214,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–15 are merged to `main`. Steps 16–17 are on feature branches (`feature/16-mobile-navigation`, `feature/17-footer`).
+These steps 11–17 are merged to `main`. Step 18 is on `feature/18-content-structure`.
 
 ---
 
