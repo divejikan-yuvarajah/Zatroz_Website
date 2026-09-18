@@ -196,3 +196,39 @@ export function ServiceHeroReviewWorkflowVisual({
     </figure>
   );
 }
+
+/** Compact hero decoration — sample modular forms linked for tailored software. */
+export function ServiceHeroModulesLinkVisual({
+  className,
+}: {
+  className?: string;
+}) {
+  return (
+    <figure className={cn("m-0 min-w-0", className)}>
+      <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas p-4">
+        <p className="m-0 text-xs font-medium text-text-muted">
+          Sample modules · tailored fit
+        </p>
+        <ul className="mt-3 flex list-none flex-wrap items-center gap-2 p-0">
+          {(["Existing tool", "Tailored app", "Report / notify"] as const).map(
+            (label, index, all) => (
+              <li key={label} className="flex items-center gap-2">
+                <span className="inline-flex min-h-9 items-center rounded-sm border border-border-control bg-surface-muted px-2.5 text-sm font-medium text-ink">
+                  {label}
+                </span>
+                {index < all.length - 1 ? (
+                  <span aria-hidden="true" className="font-semibold text-brand">
+                    —
+                  </span>
+                ) : null}
+              </li>
+            ),
+          )}
+        </ul>
+      </div>
+      <figcaption className="mt-2 m-0 text-xs text-text-muted">
+        Illustrative relationship only — not a live integration or product UI.
+      </figcaption>
+    </figure>
+  );
+}

@@ -8,11 +8,13 @@ import { TextLink } from "@/components/ui/text-link";
 import {
   ServiceHeroBrowserVisual,
   ServiceHeroDevicePairVisual,
+  ServiceHeroModulesLinkVisual,
   ServiceHeroOpsSummaryVisual,
   ServiceHeroReviewWorkflowVisual,
 } from "@/components/sections/service-browser-frame";
 import { AiAutomationWorkflow } from "@/components/sections/ai-automation-workflow";
 import { BusinessOpsPanel } from "@/components/sections/business-ops-panel";
+import { CustomSoftwareGuide } from "@/components/sections/custom-software-guide";
 import { WebMobileTaskComparison } from "@/components/sections/web-mobile-task-comparison";
 import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
 import type { PublicServiceDetail } from "@/server/service-detail";
@@ -100,6 +102,9 @@ export function ServiceDetailPage({
               ) : null}
               {detail.heroVisual === "review-workflow" ? (
                 <ServiceHeroReviewWorkflowVisual />
+              ) : null}
+              {detail.heroVisual === "modules-link" ? (
+                <ServiceHeroModulesLinkVisual />
               ) : null}
 
               {showContents ? (
@@ -285,6 +290,10 @@ export function ServiceDetailPage({
             {detail.illustrativeExample.visualVariant ===
             "ai-automation-workflow" ? (
               <AiAutomationWorkflow />
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "custom-software-guide" ? (
+              <CustomSoftwareGuide />
             ) : null}
           </Container>
         </Section>

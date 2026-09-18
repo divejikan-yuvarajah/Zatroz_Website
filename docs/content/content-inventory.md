@@ -74,7 +74,7 @@ Each of the six routes needs:
 | C-SERV-02 | `/services/web-mobile-apps`    | Content + delivery owner | Draft (Step 32) | Capacity confirmation + copy approval |
 | C-SERV-03 | `/services/business-systems`   | Content + delivery owner | Draft (Step 33) | Capacity confirmation + copy approval |
 | C-SERV-04 | `/services/ai-automation`      | Content + delivery owner | Draft (Step 34) | Capacity confirmation + copy approval |
-| C-SERV-05 | `/services/custom-software`    | Content + delivery owner | Missing         | Example boundaries                    |
+| C-SERV-05 | `/services/custom-software`    | Content + delivery owner | Draft (Step 35) | Capacity confirmation + copy approval |
 | C-SERV-06 | `/services/ui-ux-design`       | Content + delivery owner | Missing         | Deliverable list                      |
 
 ### Work (`/work` and `/work/[slug]`)

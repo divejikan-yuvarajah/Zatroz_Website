@@ -38,6 +38,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 32   | Web and Mobile Applications     | **Implemented** (on branch `feature/32-web-mobile-apps`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; public URL gated; see `docs/services/step-32.md`                                          |
 | 33   | Business Systems                | **Implemented** (on branch `feature/33-business-systems`; merge may be pending)   | 2026-09-18 | Draft detail + gallery preview; readiness matrix; see `docs/services/step-33.md`                                          |
 | 34   | AI and Automation               | **Implemented** (on branch `feature/34-ai-automation`; merge may be pending)      | 2026-09-18 | Draft detail + gallery preview; HTML workflow; see `docs/services/step-34.md`                                             |
+| 35   | Custom Software                 | **Implemented** (on branch `feature/35-custom-software`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; decision guide; see `docs/services/step-35.md`                                            |
 
 ---
 
@@ -365,6 +366,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (20 readiness warnings; `aiAutomation` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3034: `/services` HTTP 200; `/services/ai-automation` and prior three detail slugs HTTP 404 with no draft leak; unknown slug 404; overview does not link draft details. Gallery keyboard/viewport review **not run**.
 - No custom-software or later service detail pages (Step 35+).
 
+### Step 35 (2026-09-18)
+
+- Branch: `feature/35-custom-software` from `feature/34-ai-automation`.
+- Draft Custom Software detail (configure/integrate/tailor guide, scope options, FAQs, system relationship map). Copy remains draft — not a client product build.
+- `customSoftware.implemented: true`; public `/services/custom-software` still 404 until overview + detail approved.
+- Gallery: full draft preview on `/dev/ui`. Optional hero raster recorded as not acquired.
+- Docs: `docs/services/step-35.md`; readiness and image register updated.
+- Checks: `npm run validate:content` passed (19 readiness warnings; `customSoftware` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3035: `/services` HTTP 200; `/services/custom-software` and prior drafted detail slugs HTTP 404 with no draft leak; unknown slug 404; overview does not link draft details. Gallery keyboard/viewport review **not run**.
+- No UI/UX Design detail page (Step 36).
+
 ---
 
 ## Steps 11–14 summary
@@ -376,7 +387,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–34 are on stacked feature branches (`feature/25-home-process` … `feature/34-ai-automation`).
+These steps 11–24 are merged to `main`. Steps 25–35 are on stacked feature branches (`feature/25-home-process` … `feature/35-custom-software`).
 
 ---
 

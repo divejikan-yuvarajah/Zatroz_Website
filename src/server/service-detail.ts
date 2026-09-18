@@ -57,7 +57,12 @@ export type PublicServiceDetail = {
   deliverableGroups: readonly ServiceDetailDeliverableGroup[];
   illustrativeExample: ServiceDetailExample | null;
   heroVisual:
-    "browser-frame" | "device-pair" | "ops-summary" | "review-workflow" | null;
+    | "browser-frame"
+    | "device-pair"
+    | "ops-summary"
+    | "review-workflow"
+    | "modules-link"
+    | null;
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
   boundaries: readonly string[];

@@ -40,7 +40,8 @@ export type ServiceDetailExample = {
     | "websites-catalogue-comparison"
     | "web-mobile-task-comparison"
     | "business-ops-panel"
-    | "ai-automation-workflow";
+    | "ai-automation-workflow"
+    | "custom-software-guide";
 };
 
 export type ServiceDetailStage = {
@@ -66,9 +67,14 @@ export type ServiceDetailRecord = {
    * `device-pair` — sample browser beside a phone task screen.
    * `ops-summary` — sample sales / stock / report strip.
    * `review-workflow` — sample steps ending in a human review marker.
+   * `modules-link` — sample modular forms linked for tailored software.
    */
   heroVisual?:
-    "browser-frame" | "device-pair" | "ops-summary" | "review-workflow";
+    | "browser-frame"
+    | "device-pair"
+    | "ops-summary"
+    | "review-workflow"
+    | "modules-link";
   relatedProjectIds: readonly string[];
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
