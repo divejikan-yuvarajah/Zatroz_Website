@@ -20,9 +20,12 @@
     "test:contact-service-query": "tsx scripts/test-contact-service-query.ts",
     "test:enquiry-input": "tsx scripts/test-enquiry-input.ts",
     "test:enquiry-transport": "tsx scripts/test-enquiry-transport.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport"
+    "test:mongodb-foundation": "tsx scripts/test-mongodb-foundation.ts",
+    "db:check": "tsx scripts/db-check.ts",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport && npm run test:mongodb-foundation"
   },
   "dependencies": {
+    "mongodb": "^6.21.0",
     "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",

@@ -47,6 +47,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 41   | Process / How We Work           | **Implemented** (on branch `feature/41-process-page`; merge may be pending)         | 2026-09-18 | `/process` live; six draft stages; gallery specimen; see `docs/pages/step-41.md`                                          |
 | 42   | Contact layout + channels       | **Implemented** (on branch `feature/42-contact-layout`; merge may be pending)       | 2026-09-18 | `/contact` live; email+WhatsApp confirmed; form specimen only; see `docs/contact/step-42.md`                              |
 | 43   | Enquiry form validation         | **Implemented** (on branch `feature/43-enquiry-form-ui`; merge may be pending)      | 2026-09-18 | Interactive form in gallery harness; submission still false; see `docs/contact/step-43.md`                                |
+| 44   | MongoDB foundation              | **Implemented** (on branch `feature/44-mongodb-foundation`; merge may be pending)   | 2026-09-18 | Driver + lazy connection + Atlas runbook; live ping Not run until credentials; see `docs/backend/step-44.md`              |
 
 ---
 
@@ -466,6 +467,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (16 readiness warnings); `npm run check` passed (includes enquiry input + transport tests); `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3043: `/contact` HTTP 200 with mailto + WhatsApp, no form/harness; `/` links `/contact`; `/dev/ui` HTTP 404. Gallery keyboard/screen-reader review **not run**.
 - No MongoDB / enquiry backend (Steps 44+).
 
+### Step 44 (2026-09-18)
+
+- Branch: `feature/44-mongodb-foundation` from `feature/43-enquiry-form-ui`.
+- Official `mongodb` driver; lazy server-only connection helper; sanitized `db:check`; Atlas runbook.
+- MongoDB selected as application DB; Supabase placeholders marked legacy/unused. No collections or enquiry writes.
+- Marketing routes remain credential-free at build time. Contact form stays off.
+- Docs: `docs/backend/step-44.md`, `docs/setup/mongodb-atlas.md`, env docs updated.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:mongodb-foundation`); `npm run build` passed (Next.js 16.3.5). `npm run db:check` Failed as expected without Atlas credentials in ignored `.env.local` (live ping **Not run**). Production `next start` on port 3044: `/` `/contact` `/work` HTTP 200; `/dev/ui` HTTP 404.
+- No application collections (Step 45).
+
 ---
 
 ## Steps 11–14 summary
@@ -477,7 +488,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–43 are on stacked feature branches (`feature/25-home-process` … `feature/43-enquiry-form-ui`).
+These steps 11–24 are merged to `main`. Steps 25–44 are on stacked feature branches (`feature/25-home-process` … `feature/44-mongodb-foundation`).
 
 ---
 

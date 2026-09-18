@@ -32,7 +32,7 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 | `public/fonts/`             | Self-hosted fonts later                                  | Empty placeholder                                                  |
 | `docs/`                     | Planning, setup, architecture, content, progress         | Exists                                                             |
 | `docs/architecture/`        | Structure and architecture notes                         | This file                                                          |
-| `supabase/migrations/`      | Real SQL migrations starting at DB steps                 | Placeholder only — **no SQL / no Supabase project yet**            |
+| `supabase/migrations/`      | Legacy placeholder from early planning                   | Unused — application DB is MongoDB Atlas (Step 44+)                |
 | Root configs                | `package.json`, `next.config.ts`, ESLint, Prettier, etc. | Stay at repo root                                                  |
 
 Assets live under root `public/`, **not** `src/public/`.
