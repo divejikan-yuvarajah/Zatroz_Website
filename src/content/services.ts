@@ -1,5 +1,6 @@
 import type { RouteId } from "@/config/routes";
 import type { ServiceDetailRecord } from "@/content/service-detail";
+import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
 import type { PublicationState, ServiceSlug } from "@/types/content";
 
 export type ServiceRecord = {
@@ -31,7 +32,7 @@ export type ServiceRecord = {
  * Exactly six service groups. All start as draft until founders approve copy
  * and confirm delivery capacity (see decision register D-009).
  * Overview rows use summary, whoItSuits, and deliverables when approved.
- * Detail pages are filled in Steps 31–36; `detail` stays null until then.
+ * Detail pages are filled in Steps 31–36; unset details stay null until drafted.
  */
 export const serviceRecords = [
   {
@@ -50,12 +51,17 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Owners who need a clearer online presence or a practical way for customers to enquire or order.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Unclear offers, hard-to-use sites, and informal order messages that are difficult to track.",
+    exampleNotes:
+      "Illustrative website vs catalogue comparison only — not a live store or portfolio proof.",
+    deliverySteps:
+      "Agree scope, review structure, build key journeys, then test, launch, and hand over.",
+    clientInputs:
+      "Brand assets, approved content, content owner, domain/hosting ownership, and ordering rules when relevant.",
+    scopeBoundaries:
+      "CMS, product entry, payments, accounts, and delivery integrations depend on the proposal.",
+    detail: websitesEcommerceDetail,
   },
   {
     id: "svc-web-mobile-apps",

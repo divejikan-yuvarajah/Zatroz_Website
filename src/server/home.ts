@@ -6,6 +6,7 @@ import {
   siteContact,
 } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
+import { isPublicServiceDetailEligible } from "@/server/service-detail";
 import { contentCatalog } from "@/content/catalog";
 import {
   homeAutomationExampleRecord,
@@ -607,10 +608,7 @@ function projectNeed(
     }
 
     const route = publicRoutes[service.routeId];
-    const href =
-      service.publicationState === "approved" && route.implemented
-        ? route.path
-        : null;
+    const href = isPublicServiceDetailEligible(service) ? route.path : null;
 
     return [
       {

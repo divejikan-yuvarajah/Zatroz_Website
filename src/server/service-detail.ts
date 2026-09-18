@@ -56,6 +56,7 @@ export type PublicServiceDetail = {
   scopeOptions: readonly ServiceDetailScopeOption[];
   deliverableGroups: readonly ServiceDetailDeliverableGroup[];
   illustrativeExample: ServiceDetailExample | null;
+  heroVisual: "browser-frame" | null;
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
   boundaries: readonly string[];
@@ -120,11 +121,20 @@ function hasRequiredDetailFields(detail: ServiceDetailRecord): boolean {
 function projectDetail(
   service: ServiceRecord,
   detail: ServiceDetailRecord,
-  options?: { enquiryAction?: PublicCta | null },
+  options?: {
+    enquiryAction?: PublicCta | null;
+    /** Gallery-only: include draft FAQs and draft related-service summaries. */
+    includeDraftExtras?: boolean;
+  },
 ): PublicServiceDetail {
+  const includeDraftExtras = options?.includeDraftExtras ?? false;
+
   const faqs = detail.faqIds.flatMap((faqId) => {
     const faq = contentCatalog.faqs.find((row) => row.id === faqId);
-    if (!faq || faq.publicationState !== "approved") {
+    if (!faq) {
+      return [];
+    }
+    if (!includeDraftExtras && faq.publicationState !== "approved") {
       return [];
     }
     return [
@@ -153,7 +163,10 @@ function projectDetail(
 
   const relatedServices = detail.relatedServiceIds.flatMap((serviceId) => {
     const related = contentCatalog.services.find((row) => row.id === serviceId);
-    if (!related || related.publicationState !== "approved") {
+    if (!related) {
+      return [];
+    }
+    if (!includeDraftExtras && related.publicationState !== "approved") {
       return [];
     }
     const route = publicRoutes[related.routeId];
@@ -225,6 +238,7 @@ function projectDetail(
     scopeOptions: detail.scopeOptions,
     deliverableGroups: detail.deliverableGroups,
     illustrativeExample: detail.illustrativeExample,
+    heroVisual: detail.heroVisual ?? null,
     deliveryStages: detail.deliveryStages,
     clientInputs: detail.clientInputs,
     boundaries: detail.boundaries,
@@ -266,6 +280,31 @@ export function getPublicServiceDetail(
   }
 
   return projectDetail(service, service.detail);
+}
+
+/**
+ * Gallery-only projection for a drafted service detail.
+ * Includes draft FAQs and related-service summaries for review.
+ * Never used by public routes or metadata.
+ */
+export function getServiceDetailGalleryPreview(
+  slug: ServiceSlug,
+): PublicServiceDetail | null {
+  const service = contentCatalog.services.find((row) => row.slug === slug);
+  if (!service || !service.detail) {
+    return null;
+  }
+
+  const projected = projectDetail(service, service.detail, {
+    includeDraftExtras: true,
+  });
+
+  return {
+    ...projected,
+    heroTitle: `${projected.heroTitle} (draft preview)`,
+    introduction: `${projected.introduction} Gallery draft — not published until approved.`,
+    pageTitle: `${projected.pageTitle} (draft preview)`,
+  };
 }
 
 function specimenBaseDetail(): ServiceDetailRecord {

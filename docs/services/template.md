@@ -57,7 +57,7 @@ No raw HTML, JSX, or executable strings in content records.
 5. Run `npm run validate:content` — approved details must pass field and reference checks.
 6. Confirm `/services/[slug]` returns 200 with approved copy; unknown/draft slugs stay 404.
 
-At Step 30 all six detail routes remain `implemented: false` and all `detail` fields are `null`.
+At Step 31, `websites-ecommerce` has a complete **draft** detail and `websitesEcommerce.implemented: true`. The public URL still returns not-found until overview and detail are approved. Other detail routes remain unimplemented with `detail: null`.
 
 ## Template
 

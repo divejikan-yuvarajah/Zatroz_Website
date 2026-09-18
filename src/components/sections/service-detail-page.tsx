@@ -5,6 +5,8 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TextLink } from "@/components/ui/text-link";
+import { ServiceHeroBrowserVisual } from "@/components/sections/service-browser-frame";
+import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
 import type { PublicServiceDetail } from "@/server/service-detail";
 import { cn } from "@/lib/cn";
 
@@ -55,7 +57,7 @@ export function ServiceDetailPage({
             />
           ) : null}
 
-          <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-16">
+          <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] lg:gap-16">
             <div className="min-w-0 max-w-reading">
               <SectionHeading
                 level={headingLevel}
@@ -78,25 +80,31 @@ export function ServiceDetailPage({
               ) : null}
             </div>
 
-            {showContents ? (
-              <nav
-                aria-label="On this page"
-                className="min-w-0 text-sm text-text-muted"
-              >
-                <p className="m-0 font-semibold text-ink">On this page</p>
-                <ol className="mt-3 list-none space-y-2 p-0">
-                  {detail.sectionIds
-                    .filter((id) => id !== "hero" && id !== "enquire")
-                    .map((id) => (
-                      <li key={id}>
-                        <TextLink href={`#${sid(idPrefix, id)}`}>
-                          {sectionLabel(id)}
-                        </TextLink>
-                      </li>
-                    ))}
-                </ol>
-              </nav>
-            ) : null}
+            <div className="flex min-w-0 flex-col gap-8">
+              {detail.heroVisual === "browser-frame" ? (
+                <ServiceHeroBrowserVisual />
+              ) : null}
+
+              {showContents ? (
+                <nav
+                  aria-label="On this page"
+                  className="min-w-0 text-sm text-text-muted"
+                >
+                  <p className="m-0 font-semibold text-ink">On this page</p>
+                  <ol className="mt-3 list-none space-y-2 p-0">
+                    {detail.sectionIds
+                      .filter((id) => id !== "hero" && id !== "enquire")
+                      .map((id) => (
+                        <li key={id}>
+                          <TextLink href={`#${sid(idPrefix, id)}`}>
+                            {sectionLabel(id)}
+                          </TextLink>
+                        </li>
+                      ))}
+                  </ol>
+                </nav>
+              ) : null}
+            </div>
           </div>
         </Container>
       </Section>
@@ -244,6 +252,10 @@ export function ServiceDetailPage({
                   <li key={point}>{point}</li>
                 ))}
               </ul>
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "websites-catalogue-comparison" ? (
+              <WebsitesCatalogueComparison />
             ) : null}
           </Container>
         </Section>

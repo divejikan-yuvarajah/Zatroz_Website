@@ -32,6 +32,11 @@ export type ServiceDetailExample = {
   title: string;
   description: string;
   points: readonly string[];
+  /**
+   * Optional known visual for this example. Never store JSX or HTML here.
+   * `websites-catalogue-comparison` renders a labelled static illustration.
+   */
+  visualVariant?: "websites-catalogue-comparison";
 };
 
 export type ServiceDetailStage = {
@@ -51,6 +56,11 @@ export type ServiceDetailRecord = {
   scopeOptions: readonly ServiceDetailScopeOption[];
   deliverableGroups: readonly ServiceDetailDeliverableGroup[];
   illustrativeExample: ServiceDetailExample | null;
+  /**
+   * Optional light hero decoration. Never store JSX here.
+   * `browser-frame` shows a labelled sample browser chrome beside the hero.
+   */
+  heroVisual?: "browser-frame";
   relatedProjectIds: readonly string[];
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
