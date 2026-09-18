@@ -79,12 +79,12 @@ Each of the six routes needs:
 
 ### Work (`/work` and `/work/[slug]`)
 
-| ID            | Content                                | Required                     | Source            | Owner          | Status  | Missing inputs                           |
-| ------------- | -------------------------------------- | ---------------------------- | ----------------- | -------------- | ------- | ---------------------------------------- |
-| C-WORK-00     | Work index intro + empty/filter states | Copy for All view            | Plan              | Content owner  | Missing | Final intro                              |
-| C-WORK-01..03 | 2–3 project stories                    | Full project template fields | Project materials | Project owners | Missing | Permission, status, screenshots, results |
+| ID            | Content                                | Required                     | Source            | Owner          | Status                    | Missing inputs                           |
+| ------------- | -------------------------------------- | ---------------------------- | ----------------- | -------------- | ------------------------- | ---------------------------------------- |
+| C-WORK-00     | Work index intro + empty/filter states | Copy for All view            | Plan              | Content owner  | Draft (empty-state live)  | Final intro when portfolio has items     |
+| C-WORK-01..03 | 2–3 project stories                    | Full project template fields | Project materials | Project owners | Missing — Step 39 blocked | Permission, status, screenshots, results |
 
-Suggested candidates (not approved): FlowPilot AI; InvoiceX AI. Unfinished concepts (INFRAOS, NEXORA) only if labelled accurately and useful.
+Suggested candidates (not approved): FlowPilot AI; InvoiceX AI. Unfinished concepts (INFRAOS, NEXORA) only if labelled accurately and useful. Evidence register: `docs/work/case-study-evidence-register.md` (0 published).
 
 ### Process (`/process`)
 

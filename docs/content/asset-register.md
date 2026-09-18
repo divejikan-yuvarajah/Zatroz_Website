@@ -36,11 +36,11 @@ Inspected repository on 2026-09-16: no logo, portrait, or project image files we
 
 ## Project stories (placeholders until stories chosen)
 
-| Asset ID     | Proposed filename            | Intended page                    | Supplied source path | Proposed public path                               | Owner         | Publication permission | Caption / alt requirement     | Status  |
-| ------------ | ---------------------------- | -------------------------------- | -------------------- | -------------------------------------------------- | ------------- | ---------------------- | ----------------------------- | ------- |
-| A-PROJ-FP-01 | `flowpilot-ai-overview.png`  | `/work/flowpilot-ai` (if chosen) | —                    | `public/images/projects/flowpilot-ai-overview.png` | Project owner | Unknown                | UI purpose caption; strip PII | Missing |
-| A-PROJ-IX-01 | `invoicex-ai-overview.png`   | `/work/invoicex-ai` (if chosen)  | —                    | `public/images/projects/invoicex-ai-overview.png`  | Project owner | Unknown                | UI purpose caption; strip PII | Missing |
-| A-PROJ-XX-01 | `project-third-overview.png` | Third launch story if selected   | —                    | `public/images/projects/...`                       | Project owner | Unknown                | Depends on chosen story       | Missing |
+| Asset ID     | Proposed filename            | Intended page                    | Supplied source path | Proposed public path                               | Owner         | Publication permission | Caption / alt requirement     | Status                                           |
+| ------------ | ---------------------------- | -------------------------------- | -------------------- | -------------------------------------------------- | ------------- | ---------------------- | ----------------------------- | ------------------------------------------------ |
+| A-PROJ-FP-01 | `flowpilot-ai-overview.png`  | `/work/flowpilot-ai` (if chosen) | —                    | `public/images/projects/flowpilot-ai-overview.png` | Project owner | Unknown                | UI purpose caption; strip PII | Missing — Step 39 shot list in evidence register |
+| A-PROJ-IX-01 | `invoicex-ai-overview.png`   | `/work/invoicex-ai` (if chosen)  | —                    | `public/images/projects/invoicex-ai-overview.png`  | Project owner | Unknown                | UI purpose caption; strip PII | Missing — Step 39 shot list in evidence register |
+| A-PROJ-XX-01 | `project-third-overview.png` | Third launch story if selected   | —                    | `public/images/projects/...`                       | Project owner | Unknown                | Depends on chosen story       | Missing — third story not selected               |
 
 Do not place raw unapproved screenshots in `public/`. Keep private source packs outside Git if the repository may become public.
 

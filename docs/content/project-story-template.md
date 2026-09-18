@@ -50,33 +50,33 @@ These come from the website plan’s potential materials. They are **candidates 
 | Links                       | **TODO**                                                                                                           |
 | Publication permission      | Unknown                                                                                                            |
 | Limitations                 | Distinguish team/hackathon work from Zatroz client work                                                            |
-| Editorial status            | Missing                                                                                                            |
+| Editorial status            | **Draft outline only** (Step 39) — not catalogued, not approved; see `docs/work/drafts/flowpilot-ai-outline.md`    |
 
 ### Candidate B — InvoiceX AI
 
-| Field                             | Current known / TODO           |
-| --------------------------------- | ------------------------------ |
-| Title                             | InvoiceX AI                    |
-| Slug proposal                     | `invoicex-ai`                  |
-| Status                            | **TODO**                       |
-| Problem / audience / solution     | **TODO**                       |
-| Actual team / Zatroz contribution | **TODO**                       |
-| Screenshots                       | `A-PROJ-IX-01` Missing         |
-| Verified results                  | **TODO** — no invented metrics |
-| Publication permission            | Unknown                        |
-| Editorial status                  | Missing                        |
+| Field                             | Current known / TODO                                                                                           |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Title                             | InvoiceX AI                                                                                                    |
+| Slug proposal                     | `invoicex-ai`                                                                                                  |
+| Status                            | **TODO**                                                                                                       |
+| Problem / audience / solution     | **TODO**                                                                                                       |
+| Actual team / Zatroz contribution | **TODO**                                                                                                       |
+| Screenshots                       | `A-PROJ-IX-01` Missing                                                                                         |
+| Verified results                  | **TODO** — no invented metrics                                                                                 |
+| Publication permission            | Unknown                                                                                                        |
+| Editorial status                  | **Draft outline only** (Step 39) — not catalogued, not approved; see `docs/work/drafts/invoicex-ai-outline.md` |
 
 ### Candidate C — third story (preferred if stronger client evidence exists)
 
 Prefer a real web/business-system client or live product story if permissioned materials are stronger than another prototype.
 
-| Field            | Current known / TODO |
-| ---------------- | -------------------- |
-| Title            | **TODO**             |
-| Slug proposal    | **TODO**             |
-| Status           | **TODO**             |
-| All other fields | **TODO**             |
-| Editorial status | Missing              |
+| Field            | Current known / TODO                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| Title            | **TODO**                                                                                           |
+| Slug proposal    | **TODO**                                                                                           |
+| Status           | **TODO**                                                                                           |
+| All other fields | **TODO**                                                                                           |
+| Editorial status | **Placeholder** (Step 39) — no project selected; see `docs/work/drafts/third-story-placeholder.md` |
 
 ### Not suggested for launch without careful labelling
 
@@ -90,3 +90,5 @@ Prefer a real web/business-system client or live product story if permissioned m
 ## Launch recommendation (proposed)
 
 Ship **two** excellent verified stories minimum. Add a third only if evidence and permission are ready. Do not publish twelve thin entries.
+
+**Step 39 (2026-09-18):** Evidence audit completed. **Zero** stories meet publication bar. Public Work remains empty until owners supply verified facts and approve copy/media. Full register: `docs/work/case-study-evidence-register.md`.
