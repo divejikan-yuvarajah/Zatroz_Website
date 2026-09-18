@@ -35,6 +35,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 29   | Services overview               | **Implemented** (on branch `feature/29-services-overview`; merge may be pending)  | 2026-09-18 | `/services` route + draft overview; see `docs/services/step-29.md`                                                        |
 | 30   | Service detail template         | **Implemented** (on branch `feature/30-service-template`; merge may be pending)   | 2026-09-18 | Dynamic `[slug]` + shared template; zero public details; see `docs/services/step-30.md`                                   |
 | 31   | Websites and E-commerce         | **Implemented** (on branch `feature/31-websites-ecommerce`; merge may be pending) | 2026-09-18 | Draft detail + gallery preview; public URL gated; see `docs/services/step-31.md`                                          |
+| 32   | Web and Mobile Applications     | **Implemented** (on branch `feature/32-web-mobile-apps`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; public URL gated; see `docs/services/step-32.md`                                          |
 
 ---
 
@@ -332,6 +333,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (23 readiness warnings; `websitesEcommerce` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3031: `/services` and `/` HTTP 200; `/services/websites-ecommerce` HTTP 404 with no draft hero/CTA in body; unknown slug 404; home and `/services` do not link the draft detail URL. Gallery keyboard/viewport review **not run**.
 - No web-mobile-apps or other service detail pages (Step 32+).
 
+### Step 32 (2026-09-18)
+
+- Branch: `feature/32-web-mobile-apps` from `feature/31-websites-ecommerce`.
+- Draft Web and Mobile Applications detail (web / mobile / phased options, deliverables, FAQs, browser vs phone task illustration). Copy remains draft.
+- `webMobileApps.implemented: true`; public `/services/web-mobile-apps` still 404 until overview + detail approved. Shared eligibility keeps nav/overview from linking draft details.
+- Gallery: full draft preview on `/dev/ui`. No login, booking submission, or credential collection.
+- Docs: `docs/services/step-32.md`; template note updated.
+- Checks: `npm run validate:content` passed (22 readiness warnings; `webMobileApps` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3032: `/services` and `/` HTTP 200; `/services/web-mobile-apps` and `/services/websites-ecommerce` HTTP 404 with no draft hero/CTA; unknown slug 404; home and `/services` do not link draft detail URLs. Gallery keyboard/viewport review **not run**.
+- No business-systems or later service detail pages (Step 33+).
+
 ---
 
 ## Steps 11–14 summary
@@ -343,7 +354,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–31 are on stacked feature branches (`feature/25-home-process` … `feature/31-websites-ecommerce`).
+These steps 11–24 are merged to `main`. Steps 25–32 are on stacked feature branches (`feature/25-home-process` … `feature/32-web-mobile-apps`).
 
 ---
 

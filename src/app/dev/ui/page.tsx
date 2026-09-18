@@ -24,6 +24,7 @@ import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen";
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
+import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
 export const metadata: Metadata = {
@@ -844,6 +845,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <WebsitesEcommerceSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="web-mobile-apps-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="web-mobile-apps-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft Web and Mobile Applications service page. Public route returns not-found until copy is approved. Illustration is sample-labelled — not a live login or booking."
+          >
+            Web and Mobile Applications draft
+          </SectionHeading>
+          <div className="mt-10">
+            <WebMobileAppsSpecimen />
           </div>
         </Container>
       </Section>

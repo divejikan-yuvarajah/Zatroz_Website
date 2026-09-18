@@ -34,9 +34,10 @@ export type ServiceDetailExample = {
   points: readonly string[];
   /**
    * Optional known visual for this example. Never store JSX or HTML here.
-   * `websites-catalogue-comparison` renders a labelled static illustration.
+   * Known variants render labelled static illustrations in the template.
    */
-  visualVariant?: "websites-catalogue-comparison";
+  visualVariant?:
+    "websites-catalogue-comparison" | "web-mobile-task-comparison";
 };
 
 export type ServiceDetailStage = {
@@ -58,9 +59,10 @@ export type ServiceDetailRecord = {
   illustrativeExample: ServiceDetailExample | null;
   /**
    * Optional light hero decoration. Never store JSX here.
-   * `browser-frame` shows a labelled sample browser chrome beside the hero.
+   * `browser-frame` — sample browser chrome.
+   * `device-pair` — sample browser beside a phone task screen.
    */
-  heroVisual?: "browser-frame";
+  heroVisual?: "browser-frame" | "device-pair";
   relatedProjectIds: readonly string[];
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];

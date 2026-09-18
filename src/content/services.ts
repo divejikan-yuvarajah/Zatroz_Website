@@ -1,5 +1,6 @@
 import type { RouteId } from "@/config/routes";
 import type { ServiceDetailRecord } from "@/content/service-detail";
+import { webMobileAppsDetail } from "@/content/service-detail-web-mobile-apps";
 import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
 import type { PublicationState, ServiceSlug } from "@/types/content";
 
@@ -79,12 +80,17 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Teams with a clear task to digitise — booking, requests, field updates, or similar focused work.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Repeated tasks stuck in messages and spreadsheets, or a brochure site that cannot support the real workflow.",
+    exampleNotes:
+      "Illustrative browser vs phone booking/request sample — not a live app or portfolio proof.",
+    deliverySteps:
+      "Clarify journeys, prototype, build reviewed increments, validate, then release and hand over.",
+    clientInputs:
+      "Target users, task examples, roles, sample non-sensitive data, integration notes, and a feedback owner.",
+    scopeBoundaries:
+      "Auth, notifications, offline, payments, and APIs are scoped — not a default bundle. Store approval is not guaranteed.",
+    detail: webMobileAppsDetail,
   },
   {
     id: "svc-business-systems",

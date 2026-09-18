@@ -56,7 +56,7 @@ export type PublicServiceDetail = {
   scopeOptions: readonly ServiceDetailScopeOption[];
   deliverableGroups: readonly ServiceDetailDeliverableGroup[];
   illustrativeExample: ServiceDetailExample | null;
-  heroVisual: "browser-frame" | null;
+  heroVisual: "browser-frame" | "device-pair" | null;
   deliveryStages: readonly ServiceDetailStage[];
   clientInputs: readonly string[];
   boundaries: readonly string[];

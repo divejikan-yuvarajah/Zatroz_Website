@@ -36,7 +36,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   webMobileApps: {
     id: "webMobileApps",
     path: "/services/web-mobile-apps",
-    implemented: false,
+    implemented: true,
   },
   businessSystems: {
     id: "businessSystems",
