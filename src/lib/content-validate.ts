@@ -1517,6 +1517,82 @@ export function validateContentCatalog(
     );
   }
 
+  assertUniqueIds(
+    errors,
+    [...catalog.processPage.stages],
+    "process-page-stage",
+  );
+  assertUniqueIds(errors, [...catalog.processPage.faqs], "process-page-faq");
+  assertUniqueIds(
+    errors,
+    [...catalog.processPage.prepareItems],
+    "process-page-prepare",
+  );
+
+  if (catalog.processPage.stages.length !== 6) {
+    pushError(
+      errors,
+      "process-page-stage-count",
+      "Process page must have exactly six stages",
+      catalog.processPage.id,
+      "stages",
+    );
+  }
+
+  if (catalog.processPage.publicationState === "approved") {
+    for (const field of [
+      "heroTitle",
+      "introduction",
+      "pageTitle",
+      "pageDescription",
+    ] as const) {
+      if (!catalog.processPage[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved Process page is missing a required field",
+          catalog.processPage.id,
+          field,
+        );
+      }
+    }
+    for (const stage of catalog.processPage.stages) {
+      for (const field of [
+        "title",
+        "whatWeDo",
+        "whatWeNeed",
+        "whatYouReceive",
+      ] as const) {
+        if (!stage[field].trim()) {
+          pushError(
+            errors,
+            "approved-missing-field",
+            "Approved Process stage is missing a required field",
+            stage.id,
+            field,
+          );
+        }
+      }
+    }
+    if (catalog.processPage.faqs.length === 0) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved Process page requires at least one FAQ",
+        catalog.processPage.id,
+        "faqs",
+      );
+    }
+  }
+
+  if (catalog.processPage.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-process-page",
+      "Process page framing stays draft — public /process omits proposed commitments until approved",
+    );
+  }
+
   const contactReady =
     publicRoutes.contact.implemented ||
     catalog.contact.email.status === "confirmed" ||

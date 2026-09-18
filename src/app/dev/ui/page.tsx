@@ -31,6 +31,7 @@ import { UiUxDesignSpecimen } from "@/components/dev/ui-ux-design-specimen";
 import { WorkPageSpecimen } from "@/components/dev/work-page-specimen";
 import { CaseStudySpecimen } from "@/components/dev/case-study-specimen";
 import { AboutSpecimen } from "@/components/dev/about-specimen";
+import { ProcessSpecimen } from "@/components/dev/process-specimen";
 
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
@@ -1013,6 +1014,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <AboutSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="process-page-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="process-page-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft How We Work page with six always-visible stages, collaboration guidance, and FAQs. Public /process stays sparse until approved."
+          >
+            Process draft
+          </SectionHeading>
+          <div className="mt-10">
+            <ProcessSpecimen />
           </div>
         </Container>
       </Section>

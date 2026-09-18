@@ -47,14 +47,14 @@ export const homeProcessRecord: HomeProcessRecord = {
   publicationState: "draft",
   heading: "How we work together",
   supporting:
-    "A calm path from understanding your business to a careful handover. Support after launch follows the scope we agree — it is not automatically free forever.",
+    "A calm path from understanding your business to a careful handover — summarised here, with fuller stages on Process when that page is approved. Support after launch follows the scope we agree — it is not automatically free forever.",
   steps: [
     {
-      id: "discover",
-      title: "Discover",
+      id: "understand",
+      title: "Understand",
       description:
         "We learn the business problem, the people involved, constraints, and what matters most.",
-      customerOutput: "An agreed initial scope",
+      customerOutput: "A shared problem brief and agreed initial direction",
     },
     {
       id: "design",

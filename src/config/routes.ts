@@ -60,7 +60,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   },
   work: { id: "work", path: "/work", implemented: true },
   about: { id: "about", path: "/about", implemented: true },
-  process: { id: "process", path: "/process", implemented: false },
+  process: { id: "process", path: "/process", implemented: true },
   contact: { id: "contact", path: "/contact", implemented: false },
   privacy: { id: "privacy", path: "/privacy", implemented: false },
   terms: { id: "terms", path: "/terms", implemented: false },
