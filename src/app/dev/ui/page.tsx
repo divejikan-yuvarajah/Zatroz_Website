@@ -24,6 +24,7 @@ import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen";
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
+import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
 export const metadata: Metadata = {
   title: "Design tokens and UI — local preview",
@@ -823,6 +824,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <ServiceDetailSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="websites-ecommerce-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="websites-ecommerce-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft Websites and E-commerce service page. Public route returns not-found until copy is approved. Illustration is sample-labelled — not a live store."
+          >
+            Websites and E-commerce draft
+          </SectionHeading>
+          <div className="mt-10">
+            <WebsitesEcommerceSpecimen />
           </div>
         </Container>
       </Section>

@@ -83,7 +83,12 @@ function hasPublicHomeInvitation(): boolean {
 
 function resolveDetailAction(service: ServiceRecord): PublicCta | null {
   const route = publicRoutes[service.routeId];
-  if (route.implemented) {
+  const detailReady =
+    service.publicationState === "approved" &&
+    service.detail?.publicationState === "approved" &&
+    route.implemented;
+
+  if (detailReady) {
     return {
       label: `Explore ${service.title}`,
       href: route.path,

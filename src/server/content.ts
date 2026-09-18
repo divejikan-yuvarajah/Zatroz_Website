@@ -19,6 +19,7 @@ import {
   type NavDestination,
 } from "@/config/navigation";
 import { publicRoutes } from "@/config/routes";
+import { isPublicServiceDetailEligible } from "@/server/service-detail";
 
 export type PublicService = Readonly<{
   id: string;
@@ -69,16 +70,12 @@ export function getPublishedServices(): readonly PublicService[] {
 }
 
 /**
- * Approved services whose destination page is implemented.
- * Use this for live links — not getPublishedServices alone.
+ * Approved services whose public detail page is eligible to link.
+ * Requires overview approval, detail approval, and an implemented route.
  */
 export function getLinkableServices(): readonly PublicService[] {
   return contentCatalog.services
-    .filter(
-      (service) =>
-        service.publicationState === "approved" &&
-        publicRoutes[service.routeId].implemented,
-    )
+    .filter(isPublicServiceDetailEligible)
     .map(toPublicService);
 }
 
@@ -124,9 +121,31 @@ export function getPublishedFaqs(): readonly PublicFaq[] {
     }));
 }
 
-/** Live header projection — implemented destinations only. */
+/** Live header projection — implemented destinations; service details only when eligible. */
 export function getPublicNavigation(): HeaderNavigation {
-  return getHeaderNavigation();
+  const navigation = getHeaderNavigation();
+  if (!navigation.services) {
+    return navigation;
+  }
+
+  const linkablePaths = new Set(
+    getLinkableServices().map((service) => service.path),
+  );
+
+  const categories = navigation.services.categories.filter((item) =>
+    linkablePaths.has(item.path),
+  );
+
+  const services = {
+    overview: navigation.services.overview,
+    categories,
+  };
+
+  return {
+    ...navigation,
+    services:
+      services.overview || services.categories.length > 0 ? services : null,
+  };
 }
 
 export function getPublicHomeDestination(): NavDestination {
@@ -134,7 +153,15 @@ export function getPublicHomeDestination(): NavDestination {
 }
 
 export function getPublicFooterNavigation(): FooterNavigation {
-  return getFooterNavigation();
+  const footer = getFooterNavigation();
+  const linkablePaths = new Set(
+    getLinkableServices().map((service) => service.path),
+  );
+
+  return {
+    ...footer,
+    services: footer.services.filter((item) => linkablePaths.has(item.path)),
+  };
 }
 
 export function getPublicSiteBrand(): SiteBrand {

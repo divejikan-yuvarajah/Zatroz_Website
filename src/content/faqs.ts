@@ -62,4 +62,44 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: null,
   },
+  {
+    id: "faq-wec-which-type",
+    question: "Which type of website do I need?",
+    answer:
+      "Choose a business website when you mainly need clear explanation and enquiries. Choose a catalogue with assisted ordering when people browse items and your team confirms each order. Choose an online store when you are ready to run checkout, payments, and fulfilment rules. We help pick the fit from how you sell today — not from a fixed package name.",
+    publicationState: "draft",
+    relatedServiceId: "svc-websites-ecommerce",
+  },
+  {
+    id: "faq-wec-assisted-ordering",
+    question: "Can we start with assisted ordering?",
+    answer:
+      "Yes, when a catalogue plus enquiry or WhatsApp order path matches how you fulfil today. That path does not automatically confirm a sale; your team still confirms stock, price, and delivery. A later move to full checkout can be discussed once the process is ready.",
+    publicationState: "draft",
+    relatedServiceId: "svc-websites-ecommerce",
+  },
+  {
+    id: "faq-wec-update-content",
+    question: "Can I update content myself?",
+    answer:
+      "When the proposal includes an agreed editing tool or update path, you can change the content areas we hand over. Product entry, structured catalogue work, and design changes outside that path stay proposal-scoped.",
+    publicationState: "draft",
+    relatedServiceId: "svc-websites-ecommerce",
+  },
+  {
+    id: "faq-wec-what-to-provide",
+    question: "What do I need to provide?",
+    answer:
+      "Expect brand assets, approved page or product information, a content owner, and domain or hosting ownership details when they exist. For catalogue or store scopes, also share product images and ordering, payment, and delivery rules. Do not send passwords in the enquiry — sensitive access is arranged securely later.",
+    publicationState: "draft",
+    relatedServiceId: "svc-websites-ecommerce",
+  },
+  {
+    id: "faq-wec-hosting-costs",
+    question: "How are hosting, maintenance, and ongoing costs handled?",
+    answer:
+      "Domain and hosting renewals, paid plugins or services, and payment-provider fees (when a store is in scope) are usually separate from the build unless the proposal says otherwise. Maintenance and who manages content updates are agreed explicitly — we do not quote unverified provider prices or offer lifetime hosting on this page.",
+    publicationState: "draft",
+    relatedServiceId: "svc-websites-ecommerce",
+  },
 ] as const satisfies readonly FaqRecord[];
