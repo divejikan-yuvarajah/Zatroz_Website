@@ -34,4 +34,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 21 — credibility / evidence section.
+Step 22 — featured / selected-work section.

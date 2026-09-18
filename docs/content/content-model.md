@@ -35,6 +35,7 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/projects.ts`     | Project stories (empty until verified)            |
 | `src/content/founders.ts`     | Founder profiles (empty until approved)           |
 | `src/content/faqs.ts`         | Draft enquiry FAQs                                |
+| `src/content/evidence.ts`     | Homepage proof items + intro (empty / draft)      |
 | `src/content/media.ts`        | Public media records (empty until assets exist)   |
 | `src/content/catalog.ts`      | Aggregate for validation + server access          |
 | `src/config/routes.ts`        | Canonical paths + `implemented`                   |
@@ -55,6 +56,7 @@ Do **not** import `src/content/catalog.ts` or draft collections into Client Comp
 | Projects | 0     | —                      | Documented gap; no fiction                   |
 | Founders | 0     | —                      | Divejikan named in docs only; no card yet    |
 | FAQs     | 3     | All `draft`            | No prices, SLAs, or ownership promises       |
+| Evidence | 0     | Intro `draft`          | C-HOME-02 gap; public strip omitted          |
 | Media    | 0     | —                      | No approved public assets in repo            |
 | Contact  | —     | Channels `unconfirmed` | Live footer omits links                      |
 

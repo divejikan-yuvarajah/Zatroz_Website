@@ -12,6 +12,7 @@ import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
 import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
 import { FooterSpecimen } from "@/components/dev/footer-specimen";
+import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
@@ -613,6 +614,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeHeroSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="home-evidence-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-evidence-specimen-heading"
+            eyebrow="Example · local only"
+            description="Credibility strip layout with labelled gallery fixtures. Fixtures are never public evidence. Public / omits this section until verified claims or an approved intro exist."
+          >
+            Homepage evidence
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeEvidenceSpecimen />
           </div>
         </Container>
       </Section>
