@@ -22,6 +22,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 16   | Accessible mobile navigation   | **Implemented**                                                                  | 2026-09-18 | Merged via PR #10; native `dialog` mobile menu                                                                            |
 | 17   | Responsive company footer      | **Implemented**                                                                  | 2026-09-18 | Merged via PR #11; `SiteFooter`, `brand`/`contact` config                                                                 |
 | 18   | Typed shared content           | **Implemented** (on branch `feature/18-content-structure`; merge may be pending) | 2026-09-18 | `src/content/*`, `src/server/content.ts`, `validate:content`; see Step 18 notes                                           |
+| 19   | Homepage hero                  | **Implemented** (on branch `feature/19-home-hero`; merge may be pending)         | 2026-09-18 | Static connected-business hero; draft copy in gallery only; see `docs/homepage/step-19.md`                                |
 
 ---
 
@@ -203,6 +204,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (15 readiness warnings); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on **http://localhost:3019**: `/` 200 with header Menu + one footer; no mailto/`/contact` or draft service summaries in HTML; `/dev/ui` **404**. Interactive disclosure/menu keyboard passes **not run**.
 - No homepage hero, service pages, or enquiry flow (Step 19+).
 
+### Step 19 (2026-09-18)
+
+- Branch: `feature/19-home-hero` from `feature/18-content-structure` (Step 18 not yet on `origin/main` at start of this step).
+- Static `HomeHero` + `BusinessWorkflowVisual` (Sell online illustrative path). Typed scenario ready for Step 20; no scenario controls yet.
+- Draft copy in `src/content/home.ts`. Public `/` stays an honest starter until `publicationState` is `approved`. `/dev/ui` shows the full draft specimen (0/1/2 CTA cases).
+- Shared CTA resolver never links unimplemented `/contact` or `/work`.
+- Checks: `npm run validate:content` passed; `npm run check` passed; `npm run build` passed. Production `next start` on **http://localhost:3020**: `/` 200 with honest starter (no draft headline/workflow); one `h1`/`main`; `/dev/ui` **404**. Viewport, keyboard, and JS-off gallery review **not run**.
+- No scenario interactions, evidence section, or later homepage blocks.
+
 ---
 
 ## Steps 11–14 summary
@@ -214,7 +224,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–17 are merged to `main`. Step 18 is on `feature/18-content-structure`.
+These steps 11–17 are merged to `main`. Steps 18–19 are on feature branches (`feature/18-content-structure`, `feature/19-home-hero`).
 
 ---
 
