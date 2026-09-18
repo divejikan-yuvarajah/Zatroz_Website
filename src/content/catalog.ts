@@ -7,6 +7,7 @@ import type { FaqRecord } from "@/content/faqs";
 import { faqRecords } from "@/content/faqs";
 import type { FounderRecord } from "@/content/founders";
 import { founderRecords } from "@/content/founders";
+import { homeSelectedWorkRecord } from "@/content/home";
 import type { MediaRecord } from "@/content/media";
 import { mediaRecords } from "@/content/media";
 import type { ProjectRecord } from "@/content/projects";
@@ -26,6 +27,8 @@ export type ContentCatalog = {
   media: readonly MediaRecord[];
   evidence: readonly EvidenceRecord[];
   evidenceIntro: HomeEvidenceIntroRecord;
+  /** Ordered homepage feature IDs — must reference approved projects only. */
+  featuredProjectIds: readonly string[];
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -39,4 +42,5 @@ export const contentCatalog: ContentCatalog = {
   media: mediaRecords,
   evidence: evidenceRecords,
   evidenceIntro: homeEvidenceIntro,
+  featuredProjectIds: homeSelectedWorkRecord.featuredProjectIds,
 };

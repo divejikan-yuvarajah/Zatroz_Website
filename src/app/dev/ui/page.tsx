@@ -14,6 +14,7 @@ import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-s
 import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
+import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
@@ -634,6 +635,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeEvidenceSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="home-selected-work-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-selected-work-specimen-heading"
+            eyebrow="Example · local only"
+            description="Selected-work layout with labelled gallery fixtures. Public / omits this section until featuredProjectIds resolve to approved projects. Specimen illustration is not a product screenshot."
+          >
+            Homepage selected work
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeSelectedWorkSpecimen />
           </div>
         </Container>
       </Section>

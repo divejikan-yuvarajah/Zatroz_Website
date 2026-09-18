@@ -23,15 +23,15 @@ Owners use roles until names are confirmed.
 
 ### Home (`/`)
 
-| ID        | Section                   | Required content                                              | Source                     | Owner          | Status  | Missing inputs                                                                |
-| --------- | ------------------------- | ------------------------------------------------------------- | -------------------------- | -------------- | ------- | ----------------------------------------------------------------------------- |
-| C-HOME-01 | Hero                      | Headline, supporting sentence, 2 CTAs, optional location line | Plan draft headline exists | Content owner  | Draft   | Founder-approved headline; location accuracy                                  |
-| C-HOME-02 | Evidence introduction     | Short intro + 2–3 verified proof items                        | Project/founder evidence   | Founders       | Missing | Verified claims only; section code ready, public strip omitted until approval |
-| C-HOME-03 | Selected work             | 2–3 featured projects with status                             | Project stories            | Project owners | Missing | Approved stories + screenshots                                                |
-| C-HOME-04 | Services by business need | Four need rows linking to services                            | Service descriptions       | Content owner  | Draft   | Capacity-aligned wording                                                      |
-| C-HOME-05 | Process teaser            | Short delivery summary + link                                 | Process page               | Content owner  | Missing | Confirmed process steps                                                       |
-| C-HOME-06 | People teaser             | Honest team intro                                             | Founder profiles           | Founders       | Missing | Profiles + portraits                                                          |
-| C-HOME-07 | Closing CTA               | Invite to enquire + secondary contacts                        | Brand/contact              | Content owner  | Draft   | Response-time policy decision                                                 |
+| ID        | Section                   | Required content                                              | Source                     | Owner          | Status  | Missing inputs                                                                                       |
+| --------- | ------------------------- | ------------------------------------------------------------- | -------------------------- | -------------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| C-HOME-01 | Hero                      | Headline, supporting sentence, 2 CTAs, optional location line | Plan draft headline exists | Content owner  | Draft   | Founder-approved headline; location accuracy                                                         |
+| C-HOME-02 | Evidence introduction     | Short intro + 2–3 verified proof items                        | Project/founder evidence   | Founders       | Missing | Verified claims only; section code ready, public strip omitted until approval                        |
+| C-HOME-03 | Selected work             | 2–3 featured projects with status                             | Project stories            | Project owners | Missing | Approved stories + screenshots; section ready, public strip omitted until featured approved projects |
+| C-HOME-04 | Services by business need | Four need rows linking to services                            | Service descriptions       | Content owner  | Draft   | Capacity-aligned wording                                                                             |
+| C-HOME-05 | Process teaser            | Short delivery summary + link                                 | Process page               | Content owner  | Missing | Confirmed process steps                                                                              |
+| C-HOME-06 | People teaser             | Honest team intro                                             | Founder profiles           | Founders       | Missing | Profiles + portraits                                                                                 |
+| C-HOME-07 | Closing CTA               | Invite to enquire + secondary contacts                        | Brand/contact              | Content owner  | Draft   | Response-time policy decision                                                                        |
 
 ### About (`/about`)
 

@@ -39,4 +39,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 22 — featured / selected-work section.
+Step 23 — business-needs service explorer.

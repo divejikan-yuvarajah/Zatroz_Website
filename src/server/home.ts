@@ -15,11 +15,13 @@ import {
   getHeroScenarioById,
   heroScenarios,
   homeHeroRecord,
+  homeSelectedWorkRecord,
   type HeroScenario,
   type HomeHeroRecord,
   type PublicCta,
 } from "@/content/home";
-import type { ServiceSlug } from "@/types/content";
+import type { ProjectRecord } from "@/content/projects";
+import type { ServiceSlug, WorkStatus } from "@/types/content";
 
 export type { PublicCta };
 
@@ -53,6 +55,33 @@ export type PublicHomeEvidence = Readonly<{
   heading: string;
   intro: string | null;
   items: readonly PublicEvidenceItem[];
+}>;
+
+export type PublicProjectMedia = Readonly<{
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string | null;
+}>;
+
+export type PublicProjectFeature = Readonly<{
+  id: string;
+  title: string;
+  workStatus: WorkStatus;
+  workStatusLabel: string;
+  problem: string;
+  contribution: string;
+  result: string;
+  media: PublicProjectMedia | null;
+  link: PublicCta | null;
+}>;
+
+export type PublicSelectedWork = Readonly<{
+  id: "selected-work";
+  heading: string;
+  supporting: string;
+  features: readonly PublicProjectFeature[];
 }>;
 
 export type HomeSectionId =
@@ -246,14 +275,136 @@ function hasPublicEvidenceContent(): boolean {
   return homeEvidenceIntro.publicationState === "approved";
 }
 
+const WORK_STATUS_LABELS: Record<WorkStatus, string> = {
+  "client-work": "Client work",
+  "live-product": "Live product",
+  prototype: "Prototype",
+  "research-concept": "Research concept",
+};
+
+function resolveProjectResult(project: ProjectRecord): string {
+  const outcome = project.verifiedOutcomes.find((row) => row.trim());
+  if (outcome) {
+    return outcome;
+  }
+
+  if (project.zatrozContribution.trim()) {
+    return project.zatrozContribution;
+  }
+
+  return project.approach;
+}
+
+function resolveProjectMedia(
+  project: ProjectRecord,
+): PublicProjectMedia | null {
+  for (const mediaId of project.mediaIds) {
+    const media = contentCatalog.media.find((row) => row.id === mediaId);
+    if (!media || media.publicationState !== "approved") {
+      continue;
+    }
+    if (media.width == null || media.height == null) {
+      continue;
+    }
+    if (!media.publicPath.trim()) {
+      continue;
+    }
+
+    const alt =
+      media.alt.decorative === true
+        ? ""
+        : media.alt.alt.trim() || project.title;
+
+    return {
+      src: media.publicPath,
+      width: media.width,
+      height: media.height,
+      alt,
+      caption: media.caption,
+    };
+  }
+
+  return null;
+}
+
+function resolveProjectFeatureLink(project: ProjectRecord): PublicCta | null {
+  if (publicRoutes.work.implemented) {
+    return {
+      label: "Read project story",
+      href: `/work/${project.slug}`,
+    };
+  }
+
+  for (const link of project.publicLinks) {
+    const href = link.href.trim();
+    if (!href || /^javascript:/i.test(href)) {
+      continue;
+    }
+    if (isHttpsUrl(href)) {
+      return { label: link.label, href };
+    }
+    if (isInternalPath(href)) {
+      const exact = Object.values(publicRoutes).find(
+        (route) => route.path === href,
+      );
+      if (exact && !exact.implemented) {
+        continue;
+      }
+      return { label: link.label, href };
+    }
+  }
+
+  return null;
+}
+
+function projectToFeature(project: ProjectRecord): PublicProjectFeature {
+  return {
+    id: project.id,
+    title: project.title,
+    workStatus: project.workStatus,
+    workStatusLabel: WORK_STATUS_LABELS[project.workStatus],
+    problem: project.problem,
+    contribution: project.zatrozContribution,
+    result: resolveProjectResult(project),
+    media: resolveProjectMedia(project),
+    link: resolveProjectFeatureLink(project),
+  };
+}
+
+/**
+ * Resolve featured IDs to approved projects only, preserving order.
+ * Drafts and unknown IDs are skipped (validation should already reject them).
+ */
+function getApprovedFeaturedProjects(): PublicProjectFeature[] {
+  const features: PublicProjectFeature[] = [];
+
+  for (const id of contentCatalog.featuredProjectIds) {
+    const project = contentCatalog.projects.find((row) => row.id === id);
+    if (!project || project.publicationState !== "approved") {
+      continue;
+    }
+    features.push(projectToFeature(project));
+    if (features.length >= 3) {
+      break;
+    }
+  }
+
+  return features;
+}
+
+function hasPublicSelectedWork(): boolean {
+  return getApprovedFeaturedProjects().length > 0;
+}
+
 function buildComposition(options: {
   heroApproved: boolean;
   evidenceRenders: boolean;
+  selectedWorkRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
     "home-evidence": options.evidenceRenders,
-    "selected-work": false,
+    "selected-work": options.selectedWorkRenders,
     "services-explorer": false,
     "automation-example": false,
     "how-we-work": false,
@@ -326,6 +477,7 @@ export function getHomeComposition(): HomeComposition {
   return buildComposition({
     heroApproved: homeHeroRecord.publicationState === "approved",
     evidenceRenders: hasPublicEvidenceContent(),
+    selectedWorkRenders: hasPublicSelectedWork(),
   });
 }
 
@@ -354,6 +506,24 @@ export function getPublicHomeEvidence(): PublicHomeEvidence | null {
 }
 
 /**
+ * Approved selected-work section, or null when no featured approved projects.
+ * Never invents stories, media paths, or fake “Read story” links.
+ */
+export function getPublicSelectedWork(): PublicSelectedWork | null {
+  const features = getApprovedFeaturedProjects();
+  if (features.length === 0) {
+    return null;
+  }
+
+  return {
+    id: "selected-work",
+    heading: homeSelectedWorkRecord.heading,
+    supporting: homeSelectedWorkRecord.supporting,
+    features,
+  };
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -362,7 +532,11 @@ export function getHomeHeroSpecimen(options?: {
   secondaryCta?: PublicCta | null;
 }): PublicHomeHero {
   return buildPublicHero(
-    buildComposition({ heroApproved: true, evidenceRenders: false }),
+    buildComposition({
+      heroApproved: true,
+      evidenceRenders: false,
+      selectedWorkRenders: false,
+    }),
     options,
   );
 }
@@ -430,5 +604,105 @@ export function getHomeEvidenceSpecimen(
     intro:
       "Gallery specimen introduction — labelled fixtures only, never published as Zatroz proof.",
     items,
+  };
+}
+
+/** Gallery-only project fixtures — labelled specimens, never public portfolio. */
+const GALLERY_WORK_FIXTURES: readonly PublicProjectFeature[] = [
+  {
+    id: "specimen-work-1",
+    title: "Specimen catalogue workflow",
+    workStatus: "prototype",
+    workStatusLabel: "Prototype",
+    problem:
+      "A sample business needed a clearer way to organise product requests before fulfilment.",
+    contribution:
+      "Built an illustrative request-to-review path for gallery layout review only.",
+    result:
+      "Honest capability description — no measured outcome claimed for this specimen.",
+    media: {
+      src: "/images/projects/specimen-ui-frame.svg",
+      width: 1600,
+      height: 1000,
+      alt: "Specimen UI frame illustration for gallery layout",
+      caption:
+        "Gallery specimen illustration — not a screenshot of a shipped system.",
+    },
+    link: {
+      label: "View prototype (specimen)",
+      href: "#colour-heading",
+    },
+  },
+  {
+    id: "specimen-work-2",
+    title: "Specimen operations board",
+    workStatus: "research-concept",
+    workStatusLabel: "Research concept",
+    problem:
+      "Teams reviewing stock notes needed one shared overview without inventing live inventory claims.",
+    contribution:
+      "Documented a sample shared-record approach for layout and status-label review.",
+    result: "Research concept only — not client delivery or a live product.",
+    media: null,
+    link: {
+      label: "View achievement source (specimen)",
+      href: "#colour-heading",
+    },
+  },
+  {
+    id: "specimen-work-3",
+    title: "Specimen invoice draft review",
+    workStatus: "client-work",
+    workStatusLabel: "Client work",
+    problem:
+      "Routine invoice intake created repetitive copying before a person could check totals.",
+    contribution:
+      "Described a human-reviewed extraction draft for gallery composition only.",
+    result: "Specimen status label only — not a verified Zatroz client story.",
+    media: null,
+    link: null,
+  },
+];
+
+const LONG_WORK_TITLE =
+  "Specimen project with an intentionally long title to check wrapping across narrow viewports without inventing a real customer brand";
+
+/**
+ * Gallery selected-work projection for 1–3 fixture features. Not for public `/`.
+ */
+export function getSelectedWorkSpecimen(
+  featureCount: 1 | 2 | 3,
+  options?: {
+    textLedOnly?: boolean;
+    longTitle?: boolean;
+    unlink?: boolean;
+  },
+): PublicSelectedWork {
+  const features = GALLERY_WORK_FIXTURES.slice(0, featureCount).map(
+    (feature, index) => {
+      let next = { ...feature };
+
+      if (options?.textLedOnly) {
+        next = { ...next, media: null };
+      }
+
+      if (options?.longTitle && index === 0) {
+        next = { ...next, title: LONG_WORK_TITLE };
+      }
+
+      if (options?.unlink) {
+        next = { ...next, link: null };
+      }
+
+      return next;
+    },
+  );
+
+  return {
+    id: "selected-work",
+    heading: "Selected work (specimen)",
+    supporting:
+      "Gallery fixtures for layout review — not approved Zatroz portfolio evidence.",
+    features,
   };
 }

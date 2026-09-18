@@ -24,7 +24,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 18   | Typed shared content            | **Implemented**                                                                | 2026-09-18 | Merged via PR #12                                                                                                         |
 | 19   | Homepage hero                   | **Implemented**                                                                | 2026-09-18 | Merged via PR #13; static connected-business hero; see `docs/homepage/step-19.md`                                         |
 | 20   | Hero scenario interactions      | **Implemented**                                                                | 2026-09-18 | Merged via PR #14; three-scenario selector; see `docs/homepage/step-20.md`                                                |
-| 21   | Homepage credibility / evidence | **Implemented** (on branch `feature/21-home-evidence`; merge may be pending)   | 2026-09-18 | Empty evidence + draft intro; public strip omitted; see `docs/homepage/step-21.md`                                        |
+| 21   | Homepage credibility / evidence | **Implemented**                                                                | 2026-09-18 | Merged via PR #15; empty evidence + draft intro; see `docs/homepage/step-21.md`                                           |
+| 22   | Homepage selected work          | **Implemented** (on branch `feature/22-selected-work`; merge may be pending)   | 2026-09-18 | Featured IDs + project feature; public strip omitted; see `docs/homepage/step-22.md`                                      |
 
 ---
 
@@ -232,6 +233,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (16 readiness warnings including empty-evidence); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run** in this pass. Gallery keyboard/viewport review **not run**.
 - No selected-work section or later homepage blocks (Step 22+).
 
+### Step 22 (2026-09-18)
+
+- Branch: `feature/22-selected-work` from updated `main` (Step 21 merged).
+- `homeSelectedWorkRecord.featuredProjectIds` + catalog validation (unknown/duplicate/draft featured refs fail).
+- Reusable `ProjectFeature` + `HomeFeaturedWork` (1 / 2 / lead+two layouts). Status labels honest; no invented metrics or fake story links.
+- Gallery specimens include image-led (specimen SVG), text-led, long title, and nonlinked cases. Public `/` omits selected work while projects stay empty.
+- Checks: `npm run validate:content` passed (17 readiness warnings including empty-featured-work); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production browser smoke **not run**. Gallery keyboard/viewport review **not run**.
+- No service explorer or later homepage blocks (Step 23+).
+
 ---
 
 ## Steps 11–14 summary
@@ -243,7 +253,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–20 are merged to `main`. Step 21 is on `feature/21-home-evidence`.
+These steps 11–21 are merged to `main`. Step 22 is on `feature/22-selected-work`.
 
 ---
 

@@ -134,3 +134,26 @@ export function getHeroScenarioById(
 ): HeroScenario | undefined {
   return scenarios.find((scenario) => scenario.id === id);
 }
+
+export type HomeSelectedWorkRecord = {
+  id: "selected-work";
+  heading: string;
+  supporting: string;
+  /**
+   * Ordered project IDs for the homepage feature strip.
+   * Only approved projects may be listed; validation rejects drafts and unknowns.
+   */
+  featuredProjectIds: readonly string[];
+};
+
+/**
+ * Homepage selected-work copy and feature order.
+ * Public section still omits until featured IDs resolve to approved projects.
+ */
+export const homeSelectedWorkRecord: HomeSelectedWorkRecord = {
+  id: "selected-work",
+  heading: "Selected work",
+  supporting:
+    "Concrete examples of digital work — with honest status labels for client delivery, prototypes, and research.",
+  featuredProjectIds: [],
+};

@@ -417,6 +417,54 @@ export function validateContentCatalog(
     );
   }
 
+  const featuredSeen = new Set<string>();
+  for (const featuredId of catalog.featuredProjectIds) {
+    if (featuredSeen.has(featuredId)) {
+      pushError(
+        errors,
+        "duplicate-featured-ref",
+        "featuredProjectIds contains a duplicate project id",
+        featuredId,
+        "featuredProjectIds",
+      );
+      continue;
+    }
+    featuredSeen.add(featuredId);
+
+    const project = catalog.projects.find((row) => row.id === featuredId);
+    if (!project) {
+      pushError(
+        errors,
+        "unknown-featured-ref",
+        "featuredProjectIds references an unknown project",
+        featuredId,
+        "featuredProjectIds",
+      );
+      continue;
+    }
+
+    if (project.publicationState !== "approved") {
+      pushError(
+        errors,
+        "featured-draft-project",
+        "featuredProjectIds must not include draft or archived projects",
+        featuredId,
+        "featuredProjectIds",
+      );
+    }
+  }
+
+  if (
+    catalog.featuredProjectIds.length === 0 &&
+    catalog.projects.length === 0
+  ) {
+    pushWarning(
+      warnings,
+      "empty-featured-work",
+      "No featured projects — homepage selected-work section omitted until approved stories exist",
+    );
+  }
+
   for (const item of catalog.evidence) {
     if (item.publicationState !== "approved") {
       continue;
