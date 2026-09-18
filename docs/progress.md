@@ -43,6 +43,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 37   | Work page + public selectors    | **Implemented** (on branch `feature/37-work-page`; merge may be pending)            | 2026-09-18 | `/work` live with 0 published projects; public selectors; see `docs/work/step-37.md`                                      |
 | 38   | Case-study template             | **Implemented** (on branch `feature/38-case-study`; merge may be pending)           | 2026-09-18 | `/work/[slug]` template + story model; 0 published stories; see `docs/work/step-38.md`                                    |
 | 39   | Initial project stories         | **Implemented** (on branch `feature/39-initial-case-studies`; merge may be pending) | 2026-09-18 | Evidence register + drafts; **0** published stories (blocked on facts); see `docs/work/step-39.md`                        |
+| 40   | About page                      | **Implemented** (on branch `feature/40-about-page`; merge may be pending)           | 2026-09-18 | `/about` live; draft copy gated; gallery specimen; see `docs/pages/step-40.md`                                            |
 
 ---
 
@@ -420,6 +421,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (17 readiness warnings including empty-projects); selector tests passed; `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3039: `/work` HTTP 200 with empty-state copy; `/work/flowpilot-ai` and `/work/invoicex-ai` HTTP 404 (not published). Gallery keyboard/viewport review **not run**.
 - No About page (Step 40).
 
+### Step 40 (2026-09-18)
+
+- Branch: `feature/40-about-page` from `feature/39-initial-case-studies`.
+- About route + draft content model; public page sparse until approval; gallery shows full draft including proposed mission/vision.
+- No invented founder cards or portraits. Evidence section uses public project selectors (still empty).
+- `about.implemented: true`; nav can link `/about`.
+- Docs: `docs/pages/step-40.md`, `docs/content/about-evidence.md`; image register notes optional illustration not acquired.
+- Checks: `npm run validate:content` passed (17 readiness warnings including draft-about-page); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3040: `/about` HTTP 200 sparse placeholder (no draft mission leak); `/` links `/about`; `/work` 200; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
+- No Process page (Step 41).
+
 ---
 
 ## Steps 11–14 summary
@@ -431,7 +442,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–39 are on stacked feature branches (`feature/25-home-process` … `feature/39-initial-case-studies`).
+These steps 11–24 are merged to `main`. Steps 25–40 are on stacked feature branches (`feature/25-home-process` … `feature/40-about-page`).
 
 ---
 

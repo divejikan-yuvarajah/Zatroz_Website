@@ -1,3 +1,5 @@
+import type { AboutPageRecord } from "@/content/about";
+import { aboutPageRecord } from "@/content/about";
 import type { HomeAutomationExampleRecord } from "@/content/automation-example";
 import { homeAutomationExampleRecord } from "@/content/automation-example";
 import type {
@@ -60,6 +62,7 @@ export type ContentCatalog = {
   questions: HomeQuestionsRecord;
   finalCta: HomeFinalCtaRecord;
   servicesOverview: ServicesOverviewRecord;
+  about: AboutPageRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -83,4 +86,5 @@ export const contentCatalog: ContentCatalog = {
   questions: homeQuestionsRecord,
   finalCta: homeFinalCtaRecord,
   servicesOverview: servicesOverviewRecord,
+  about: aboutPageRecord,
 };
