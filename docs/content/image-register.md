@@ -16,6 +16,14 @@ No decorative Work-page hero raster was added. Cards use approved project covers
 
 The case-study template is ready. Step 39 found **no** approved project evidence images to register. Gallery specimens continue to use the labelled `public/images/projects/specimen-ui-frame.svg` fixture only. Candidate shot lists live in `docs/work/case-study-evidence-register.md`.
 
+## About page (Step 40)
+
+| Asset ID     | Intended path                                                  | Purpose                                      | Status                                                                  |
+| ------------ | -------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------- |
+| IMG-ABOUT-01 | `public/images/about/about-collaboration-illustration-v1.webp` | Optional decorative collaboration atmosphere | **Not acquired** — text-first About layout used; brief in Step 40 notes |
+
+Founder portraits remain `A-TEAM-01`…`03` in the asset register — Missing. Do not generate faces.
+
 ## Notes
 
 - Service illustrations may remain HTML/CSS/SVG when labels must stay exact and accessible.

@@ -1472,6 +1472,51 @@ export function validateContentCatalog(
     );
   }
 
+  if (catalog.about.publicationState === "approved") {
+    for (const field of [
+      "heroTitle",
+      "introduction",
+      "pageTitle",
+      "pageDescription",
+    ] as const) {
+      if (!catalog.about[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved About page is missing a required field",
+          catalog.about.id,
+          field,
+        );
+      }
+    }
+    if (catalog.about.companyStory.length === 0) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved About page requires company story paragraphs",
+        catalog.about.id,
+        "companyStory",
+      );
+    }
+    if (catalog.about.values.length === 0) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved About page requires at least one value",
+        catalog.about.id,
+        "values",
+      );
+    }
+  }
+
+  if (catalog.about.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-about-page",
+      "About page framing stays draft — public /about omits proposed marketing copy until approved",
+    );
+  }
+
   const contactReady =
     publicRoutes.contact.implemented ||
     catalog.contact.email.status === "confirmed" ||

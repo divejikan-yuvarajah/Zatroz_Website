@@ -30,6 +30,8 @@ import { CustomSoftwareSpecimen } from "@/components/dev/custom-software-specime
 import { UiUxDesignSpecimen } from "@/components/dev/ui-ux-design-specimen";
 import { WorkPageSpecimen } from "@/components/dev/work-page-specimen";
 import { CaseStudySpecimen } from "@/components/dev/case-study-specimen";
+import { AboutSpecimen } from "@/components/dev/about-specimen";
+
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
@@ -991,6 +993,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <CaseStudySpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="about-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="about-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft About page. Public /about stays sparse until copy is approved. Founder cards stay omitted until approved profiles exist."
+          >
+            About draft
+          </SectionHeading>
+          <div className="mt-10">
+            <AboutSpecimen />
           </div>
         </Container>
       </Section>
