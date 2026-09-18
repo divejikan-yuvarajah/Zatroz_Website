@@ -46,7 +46,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   aiAutomation: {
     id: "aiAutomation",
     path: "/services/ai-automation",
-    implemented: false,
+    implemented: true,
   },
   customSoftware: {
     id: "customSoftware",

@@ -190,4 +190,52 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: "svc-business-systems",
   },
+  {
+    id: "faq-ai-without-ai",
+    question: "Can this be solved without AI?",
+    answer:
+      "Often yes. When steps and decisions can be written as clear rules, deterministic workflow automation is usually simpler to test and operate. AI-assisted extraction or drafting is considered when the content varies and a person will still review uncertain output.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
+  {
+    id: "faq-ai-existing-tools",
+    question: "Can you connect to our existing tools?",
+    answer:
+      "When the proposal includes an integration and usable APIs or exports exist, we can plan constrained access for the agreed workflow. Named tools are only promised when evidence and access support them — not as a default list on this page.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
+  {
+    id: "faq-ai-who-reviews",
+    question: "Who reviews uncertain or incorrect output?",
+    answer:
+      "A named person or role in your team. Review queues and exception paths are design requirements for AI-assisted work. Untrusted documents and messages are inputs to process — not instructions that grant a system extra permission.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
+  {
+    id: "faq-ai-data-access",
+    question: "What data and access do you need?",
+    answer:
+      "A description of the current process, sample data you may share, systems involved, and decision owners. Production credentials and sensitive personal datasets are not collected through the public enquiry form; access is arranged securely later when scoped.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
+  {
+    id: "faq-ai-ongoing-costs",
+    question: "What costs continue after launch?",
+    answer:
+      "Provider usage, monitoring, integration maintenance, and human review time may continue when those items are in scope. Exact amounts depend on volume and vendors — this page does not invent savings percentages or fixed fees.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
+  {
+    id: "faq-ai-one-workflow",
+    question: "Can we begin with one small workflow?",
+    answer:
+      "Yes. A limited pilot with representative inputs, expected outputs, failure examples, and an acceptance threshold is the preferred start. Wider rollout follows only after that evaluation — not from a generic claim that every workflow needs AI.",
+    publicationState: "draft",
+    relatedServiceId: "svc-ai-automation",
+  },
 ] as const satisfies readonly FaqRecord[];

@@ -9,7 +9,9 @@ import {
   ServiceHeroBrowserVisual,
   ServiceHeroDevicePairVisual,
   ServiceHeroOpsSummaryVisual,
+  ServiceHeroReviewWorkflowVisual,
 } from "@/components/sections/service-browser-frame";
+import { AiAutomationWorkflow } from "@/components/sections/ai-automation-workflow";
 import { BusinessOpsPanel } from "@/components/sections/business-ops-panel";
 import { WebMobileTaskComparison } from "@/components/sections/web-mobile-task-comparison";
 import { WebsitesCatalogueComparison } from "@/components/sections/websites-catalogue-comparison";
@@ -95,6 +97,9 @@ export function ServiceDetailPage({
               ) : null}
               {detail.heroVisual === "ops-summary" ? (
                 <ServiceHeroOpsSummaryVisual />
+              ) : null}
+              {detail.heroVisual === "review-workflow" ? (
+                <ServiceHeroReviewWorkflowVisual />
               ) : null}
 
               {showContents ? (
@@ -276,6 +281,10 @@ export function ServiceDetailPage({
             {detail.illustrativeExample.visualVariant ===
             "business-ops-panel" ? (
               <BusinessOpsPanel />
+            ) : null}
+            {detail.illustrativeExample.visualVariant ===
+            "ai-automation-workflow" ? (
+              <AiAutomationWorkflow />
             ) : null}
           </Container>
         </Section>
