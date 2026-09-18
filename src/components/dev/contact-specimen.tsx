@@ -1,10 +1,11 @@
 import { ContactPage } from "@/components/sections/contact-page";
+import { EnquiryFormHarness } from "@/components/dev/enquiry-form-harness";
 import { EnquiryFormLayout } from "@/components/forms/enquiry-form-layout";
 import { getContactGalleryPreview } from "@/server/contact";
 
 /**
- * Gallery Contact page + enquiry form layout specimen.
- * Form never mounts on public /contact while submission is not ready.
+ * Gallery Contact page + enquiry form harness.
+ * Interactive form never mounts on public /contact while submission is not ready.
  */
 export function ContactSpecimen() {
   const contact = getContactGalleryPreview("ui-ux-design");
@@ -15,8 +16,8 @@ export function ContactSpecimen() {
         <h3>Contact page (draft framing)</h3>
         <p className="ds-support mt-2 max-w-reading">
           Full draft with confirmed email and WhatsApp actions. Public{" "}
-          <code>/contact</code> shows channels even while framing stays draft;
-          the interactive form stays gallery-only until submission readiness.
+          <code>/contact</code> shows channels and omits the interactive form
+          until backend submission readiness.
         </p>
         <div className="mt-6 overflow-hidden rounded-md border border-border-subtle">
           <ContactPage
@@ -28,15 +29,20 @@ export function ContactSpecimen() {
         </div>
       </div>
 
+      <EnquiryFormHarness
+        initialService="ui-ux-design"
+        directContactHref="mailto:zatroz.co@gmail.com?subject=Project%20enquiry"
+      />
+
       <div>
-        <h3>Enquiry form layout (specimen)</h3>
+        <h3>Static layout reference</h3>
         <p className="ds-support mt-2 max-w-reading">
-          Shared field layout for Step 43. Preselects UI/UX Design from a safe
-          gallery fixture. Submission is prevented — no GET of personal fields.
+          Non-interactive field layout from Step 42, kept for visual comparison.
+          Prefer the harness above for behaviour review.
         </p>
         <div className="mt-6 max-w-reading rounded-md border border-border-subtle p-6">
           <EnquiryFormLayout
-            idPrefix="gallery-enquiry-"
+            idPrefix="gallery-enquiry-layout-"
             initialService="ui-ux-design"
             showInvalidSample
           />

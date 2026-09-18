@@ -1049,7 +1049,7 @@ export default function DevUiPage() {
             level={2}
             id="contact-specimen-heading"
             eyebrow="Example · local only"
-            description="Contact page draft plus enquiry form layout specimen. Public /contact shows confirmed channels and omits the unfinished form."
+            description="Contact page draft plus interactive enquiry harness (simulated responses only). Public /contact shows confirmed channels and omits the unfinished form."
           >
             Contact draft
           </SectionHeading>

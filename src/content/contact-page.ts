@@ -20,7 +20,7 @@ export type ContactIncludeItem = {
 export type ContactPageRecord = {
   id: "contact-page";
   publicationState: PublicationState;
-  /** Live form on public /contact — false until backend + Step 43 gate. */
+  /** Live form on public /contact — false until backend gates after Step 43. */
   formSubmissionReady: boolean;
   heroTitle: string;
   introduction: string;
