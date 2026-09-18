@@ -43,6 +43,11 @@ export function destination(id: RouteId, label: string): NavDestination {
   };
 }
 
+/** Home appears in the mobile panel even though the wordmark already links Home. */
+export function getHomeDestination(): NavDestination {
+  return destination("home", "Home");
+}
+
 function hasUsableServices(services: ServicesNav): boolean {
   return (
     Boolean(services.overview?.implemented) || services.categories.length > 0
@@ -115,4 +120,60 @@ export function getDesktopNavSpecimen(): HeaderNavigation {
     },
     cta: destination("contact", "Start a project"),
   };
+}
+
+/**
+ * Gallery-only extra labels so the mobile panel must scroll.
+ * Reuses the desktop specimen; does not invent a second route list.
+ */
+export function getMobileNavSpecimen(): HeaderNavigation {
+  const specimen = getDesktopNavSpecimen();
+  return {
+    ...specimen,
+    items: [
+      ...specimen.items,
+      {
+        id: "mobile-scroll-a",
+        label:
+          "Long panel example A — extra copy so the dialog must scroll on a short phone screen",
+        path: "#layout-specimen-heading",
+        implemented: true,
+      },
+      {
+        id: "mobile-scroll-b",
+        label:
+          "Long panel example B — another wrapping label for landscape and 200 percent zoom",
+        path: "#colour-heading",
+        implemented: true,
+      },
+    ],
+  };
+}
+
+/** Implemented destinations for the no-JavaScript header list. */
+export function getImplementedNavDestinations(
+  nav: HeaderNavigation,
+): NavDestination[] {
+  const list: NavDestination[] = [];
+  const home = getHomeDestination();
+  if (home.implemented) {
+    list.push(home);
+  }
+  if (nav.services?.overview?.implemented) {
+    list.push(nav.services.overview);
+  }
+  for (const category of nav.services?.categories ?? []) {
+    if (category.implemented) {
+      list.push(category);
+    }
+  }
+  for (const item of nav.items) {
+    if (item.implemented) {
+      list.push(item);
+    }
+  }
+  if (nav.cta?.implemented) {
+    list.push(nav.cta);
+  }
+  return list;
 }

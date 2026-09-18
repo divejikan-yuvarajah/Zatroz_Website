@@ -11,6 +11,7 @@ import { TextLink } from "@/components/ui/text-link";
 import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
 import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
+import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 
 export const metadata: Metadata = {
   title: "Design tokens and UI — local preview",
@@ -550,6 +551,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <DesktopNavigationSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="mobile-nav-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="mobile-nav-heading"
+            eyebrow="Example · local only"
+            description="Each specimen has its own Menu button and dialog ids. The live header menu is separate."
+          >
+            Mobile navigation
+          </SectionHeading>
+          <div className="mt-10">
+            <MobileNavigationSpecimen />
           </div>
         </Container>
       </Section>

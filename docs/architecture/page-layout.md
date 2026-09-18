@@ -1,7 +1,7 @@
 # Page layout
 
 **Step:** 14  
-**Status:** Shared shell implemented. Navigation is Step 15. Mobile menu is Step 16. Footer is Step 17.
+**Status:** Shared shell implemented. Desktop navigation is Step 15. Mobile menu is Step 16 (in `MobileNavigation`). Footer is Step 17.
 
 This document describes how the document, shell, and page pieces fit together. Do not add a second `main`, a second `h1` from the shell, or a site-wide Container around `main`.
 
@@ -18,7 +18,7 @@ This document describes how the document, shell, and page pieces fit together. D
 | Section     | `src/components/ui/section.tsx`               | Full-bleed surface and vertical spacing                                              | Horizontal gutters (those belong on Container) |
 | Container   | `src/components/ui/container.tsx`             | Horizontal max-width and gutters (`default` ≈ 1280px, `reading` ≈ 65ch)              | Wrapping the whole `main`                      |
 
-The root layout stays a **Server Component**. Future mobile-menu state belongs in a small Client Component (Step 16), not here. No layout-wide theme provider, route-transition loader, or custom scrolling.
+The root layout stays a **Server Component**. Mobile-menu state lives in `src/components/layout/mobile-navigation.tsx`, not in this layout. No layout-wide theme provider, route-transition loader, or custom scrolling.
 
 Metadata on the starter remains honest (`title: "Zatroz"` plus a development description). Production domain and full SEO are later steps.
 
