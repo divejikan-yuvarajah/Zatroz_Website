@@ -37,6 +37,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 31   | Websites and E-commerce         | **Implemented** (on branch `feature/31-websites-ecommerce`; merge may be pending) | 2026-09-18 | Draft detail + gallery preview; public URL gated; see `docs/services/step-31.md`                                          |
 | 32   | Web and Mobile Applications     | **Implemented** (on branch `feature/32-web-mobile-apps`; merge may be pending)    | 2026-09-18 | Draft detail + gallery preview; public URL gated; see `docs/services/step-32.md`                                          |
 | 33   | Business Systems                | **Implemented** (on branch `feature/33-business-systems`; merge may be pending)   | 2026-09-18 | Draft detail + gallery preview; readiness matrix; see `docs/services/step-33.md`                                          |
+| 34   | AI and Automation               | **Implemented** (on branch `feature/34-ai-automation`; merge may be pending)      | 2026-09-18 | Draft detail + gallery preview; HTML workflow; see `docs/services/step-34.md`                                             |
 
 ---
 
@@ -354,6 +355,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (21 readiness warnings; `businessSystems` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3033: `/services` and `/` HTTP 200; `/services/business-systems`, `/services/web-mobile-apps`, and `/services/websites-ecommerce` HTTP 404 with no draft leak; unknown slug 404; overview does not link draft details. Gallery keyboard/viewport review **not run**.
 - No AI/Automation or later service detail pages (Step 34+).
 
+### Step 34 (2026-09-18)
+
+- Branch: `feature/34-ai-automation` from `feature/33-business-systems`.
+- Draft AI and Automation detail (rules / AI-assisted / retrieval options, FAQs, HTML review workflow). Copy remains draft — no live model or chatbot.
+- `aiAutomation.implemented: true`; public `/services/ai-automation` still 404 until overview + detail approved.
+- Gallery: full draft preview on `/dev/ui`. Optional hero raster recorded as not acquired in `docs/content/image-register.md`.
+- Docs: `docs/services/step-34.md`; readiness matrix updated.
+- Checks: `npm run validate:content` passed (20 readiness warnings; `aiAutomation` no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3034: `/services` HTTP 200; `/services/ai-automation` and prior three detail slugs HTTP 404 with no draft leak; unknown slug 404; overview does not link draft details. Gallery keyboard/viewport review **not run**.
+- No custom-software or later service detail pages (Step 35+).
+
 ---
 
 ## Steps 11–14 summary
@@ -365,7 +376,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–33 are on stacked feature branches (`feature/25-home-process` … `feature/33-business-systems`).
+These steps 11–24 are merged to `main`. Steps 25–34 are on stacked feature branches (`feature/25-home-process` … `feature/34-ai-automation`).
 
 ---
 

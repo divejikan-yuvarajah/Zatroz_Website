@@ -1,5 +1,6 @@
 import type { RouteId } from "@/config/routes";
 import type { ServiceDetailRecord } from "@/content/service-detail";
+import { aiAutomationDetail } from "@/content/service-detail-ai-automation";
 import { businessSystemsDetail } from "@/content/service-detail-business-systems";
 import { webMobileAppsDetail } from "@/content/service-detail-web-mobile-apps";
 import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
@@ -137,12 +138,17 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Teams spending too much time moving the same information between tools or documents.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Repeated entry, routing requests, finding information, preparing drafts, and keeping systems in sync.",
+    exampleNotes:
+      "Illustrative request → review → action workflow — not a live chatbot, model API, or automation runner.",
+    deliverySteps:
+      "Pin down the task, choose rules or AI assistance, pilot with an evaluation checklist, then hand over with review ownership.",
+    clientInputs:
+      "Current process, permitted sample data, systems and exports, decision owners, volume, and exceptions.",
+    scopeBoundaries:
+      "Not a claim to replace teams or run unattended decisions. Provider costs and review remain proposal items.",
+    detail: aiAutomationDetail,
   },
   {
     id: "svc-custom-software",

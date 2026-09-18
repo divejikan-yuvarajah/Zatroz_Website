@@ -24,6 +24,7 @@ import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
 import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen";
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
+import { AiAutomationSpecimen } from "@/components/dev/ai-automation-specimen";
 import { BusinessSystemsSpecimen } from "@/components/dev/business-systems-specimen";
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
@@ -886,6 +887,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <BusinessSystemsSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="ai-automation-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="ai-automation-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft AI and Automation service page. Public route returns not-found until copy is approved. Workflow illustration is labelled sample content — not a live model, chatbot, or upload."
+          >
+            AI and Automation draft
+          </SectionHeading>
+          <div className="mt-10">
+            <AiAutomationSpecimen />
           </div>
         </Container>
       </Section>

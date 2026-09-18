@@ -154,3 +154,45 @@ export function ServiceHeroOpsSummaryVisual({
     </figure>
   );
 }
+
+/** Compact hero decoration — sample steps ending in a human review marker. */
+export function ServiceHeroReviewWorkflowVisual({
+  className,
+}: {
+  className?: string;
+}) {
+  const labels = ["Request", "Check", "Draft", "Review", "Action"] as const;
+
+  return (
+    <figure className={cn("m-0 min-w-0", className)}>
+      <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas p-4">
+        <p className="m-0 text-xs font-medium text-text-muted">
+          Sample path · human review required
+        </p>
+        <ol className="mt-3 flex list-none flex-wrap items-center gap-2 p-0">
+          {labels.map((label, index) => (
+            <li key={label} className="flex items-center gap-2">
+              <span
+                className={
+                  label === "Review"
+                    ? "inline-flex min-h-9 items-center rounded-sm bg-brand px-2.5 text-sm font-semibold text-ink"
+                    : "inline-flex min-h-9 items-center rounded-sm border border-border-control px-2.5 text-sm font-medium text-ink"
+                }
+              >
+                {label}
+              </span>
+              {index < labels.length - 1 ? (
+                <span aria-hidden="true" className="text-text-muted">
+                  →
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+      </div>
+      <figcaption className="mt-2 m-0 text-xs text-text-muted">
+        Illustrative steps only — not a live automation or chatbot.
+      </figcaption>
+    </figure>
+  );
+}
