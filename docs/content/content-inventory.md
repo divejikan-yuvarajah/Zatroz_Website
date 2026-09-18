@@ -31,7 +31,8 @@ Owners use roles until names are confirmed.
 | C-HOME-04 | Services by business need | Four need rows linking to services                            | Service descriptions       | Content owner  | Draft   | Capacity-aligned wording; explorer code ready, public strip omitted until approved                   |
 | C-HOME-05 | Process teaser            | Short delivery summary + link                                 | Process page               | Content owner  | Draft   | Founder-approved process wording; section code ready, public strip omitted until approved            |
 | C-HOME-06 | People teaser             | Honest team intro                                             | Founder profiles           | Founders       | Missing | Profiles + portraits; section code ready, public strip omitted until company intro approved          |
-| C-HOME-07 | Closing CTA               | Invite to enquire + secondary contacts                        | Brand/contact              | Content owner  | Draft   | Response-time policy decision                                                                        |
+| C-HOME-07 | Feedback and FAQs         | Approved questions + optional authentic feedback              | FAQ / feedback records     | Content owner  | Draft   | Approve FAQ answers; supply permitted testimonials only; section ready, public strip omitted         |
+| C-HOME-08 | Closing CTA               | Invite to enquire + secondary contacts                        | Brand/contact              | Content owner  | Draft   | Response-time policy decision                                                                        |
 
 ### About (`/about`)
 

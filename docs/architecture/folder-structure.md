@@ -18,9 +18,9 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 | `src/components/ui/`       | Small reusable UI primitives                             | Step 12 primitives                                                 |
 | `src/components/dev/`      | Local `/dev/ui` helpers only                             | UI, form, nav, and footer specimens                                |
 | `src/components/layout/`   | Header, skip, shell, footer                              | Skip, shell, header, mobile nav, footer                            |
-| `src/components/sections/` | Page sections                                            | Home sections through people/team (Steps 19–26)                    |
+| `src/components/sections/` | Page sections                                            | Home sections through feedback/FAQ (Steps 19–27)                   |
 | `src/components/forms/`    | Accessible enquiry form pieces                           | Step 13 primitives                                                 |
-| `src/content/`             | Service, project, founder, FAQ, site copy                | Step 18 typed records                                              |
+| `src/content/`             | Service, project, founder, FAQ, feedback, site copy      | Step 18+ typed records                                             |
 | `src/config/`              | Public-safe site / navigation settings                   | `routes.ts`, `navigation.ts`, `brand.ts`                           |
 | `src/lib/`                 | Shared utilities only; **no** secret barrel exports      | `cn.ts`, `described-by.ts`, `navigation.ts`, `content-validate.ts` |
 | `src/server/`              | Server-only env access and content selectors             | `env.ts`, `resolve-site-url.ts`, `content.ts`                      |

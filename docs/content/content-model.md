@@ -37,9 +37,11 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/automation-example.ts` | Charcoal automation illustration (draft)            |
 | `src/content/process.ts`            | Homepage delivery process steps (draft)             |
 | `src/content/people.ts`             | Homepage company intro + working principles (draft) |
+| `src/content/home-questions.ts`     | Homepage FAQ / feedback framing (draft)             |
 | `src/content/projects.ts`           | Project stories (empty until verified)              |
 | `src/content/founders.ts`           | Founder profiles (empty until approved)             |
-| `src/content/faqs.ts`               | Draft enquiry FAQs                                  |
+| `src/content/faqs.ts`               | Draft enquiry FAQs (six)                            |
+| `src/content/feedback.ts`           | Testimonials / project lessons (empty)              |
 | `src/content/evidence.ts`           | Homepage proof items + intro (empty / draft)        |
 | `src/content/media.ts`              | Public media records (empty until assets exist)     |
 | `src/content/catalog.ts`            | Aggregate for validation + server access            |
@@ -55,18 +57,20 @@ Do **not** import `src/content/catalog.ts` or draft collections into Client Comp
 
 ## Current seed state (honest)
 
-| Domain   | Count | Publication            | Notes                                        |
-| -------- | ----- | ---------------------- | -------------------------------------------- |
-| Services | 6     | All `draft`            | Conservative summaries; capacity unconfirmed |
-| Projects | 0     | —                      | Documented gap; no fiction                   |
-| Founders | 0     | —                      | Divejikan named in docs only; no card yet    |
-| FAQs     | 3     | All `draft`            | No prices, SLAs, or ownership promises       |
-| Evidence | 0     | Intro `draft`          | C-HOME-02 gap; public strip omitted          |
-| Needs    | 4     | All `draft`            | Explorer framing draft; public strip omitted |
-| Process  | 4     | Section `draft`        | C-HOME-05; public strip omitted              |
-| People   | —     | Section `draft`        | C-HOME-06; founders empty; public omitted    |
-| Media    | 0     | —                      | No approved public assets in repo            |
-| Contact  | —     | Channels `unconfirmed` | Live footer omits links                      |
+| Domain    | Count | Publication            | Notes                                        |
+| --------- | ----- | ---------------------- | -------------------------------------------- |
+| Services  | 6     | All `draft`            | Conservative summaries; capacity unconfirmed |
+| Projects  | 0     | —                      | Documented gap; no fiction                   |
+| Founders  | 0     | —                      | Divejikan named in docs only; no card yet    |
+| FAQs      | 6     | All `draft`            | Conditional answers; no prices or SLAs       |
+| Feedback  | 0     | —                      | No invented testimonials                     |
+| Evidence  | 0     | Intro `draft`          | C-HOME-02 gap; public strip omitted          |
+| Needs     | 4     | All `draft`            | Explorer framing draft; public strip omitted |
+| Process   | 4     | Section `draft`        | C-HOME-05; public strip omitted              |
+| People    | —     | Section `draft`        | C-HOME-06; founders empty; public omitted    |
+| Questions | —     | Section `draft`        | C-HOME-07; FAQs draft; public omitted        |
+| Media     | 0     | —                      | No approved public assets in repo            |
+| Contact   | —     | Channels `unconfirmed` | Live footer omits links                      |
 
 The sparse marketing chrome (Home-only header/footer links) is **not launch-ready**. Launch still needs implemented routes, confirmed contacts, approved copy, and enough verified work/founder material.
 

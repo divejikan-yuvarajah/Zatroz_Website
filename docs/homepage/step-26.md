@@ -39,4 +39,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 27 — feedback and FAQs.
+Step 28 — final enquiry CTA and homepage integration review.

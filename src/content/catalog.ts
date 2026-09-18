@@ -13,11 +13,15 @@ import type {
   HomeEvidenceIntroRecord,
 } from "@/content/evidence";
 import { evidenceRecords, homeEvidenceIntro } from "@/content/evidence";
+import type { FeedbackRecord } from "@/content/feedback";
+import { feedbackRecords } from "@/content/feedback";
 import type { FaqRecord } from "@/content/faqs";
 import { faqRecords } from "@/content/faqs";
 import type { FounderRecord } from "@/content/founders";
 import { founderRecords } from "@/content/founders";
 import { homeSelectedWorkRecord } from "@/content/home";
+import type { HomeQuestionsRecord } from "@/content/home-questions";
+import { homeQuestionsRecord } from "@/content/home-questions";
 import type { MediaRecord } from "@/content/media";
 import { mediaRecords } from "@/content/media";
 import type { HomePeopleRecord } from "@/content/people";
@@ -38,6 +42,7 @@ export type ContentCatalog = {
   projects: readonly ProjectRecord[];
   founders: readonly FounderRecord[];
   faqs: readonly FaqRecord[];
+  feedback: readonly FeedbackRecord[];
   media: readonly MediaRecord[];
   evidence: readonly EvidenceRecord[];
   evidenceIntro: HomeEvidenceIntroRecord;
@@ -48,6 +53,7 @@ export type ContentCatalog = {
   automationExample: HomeAutomationExampleRecord;
   process: HomeProcessRecord;
   people: HomePeopleRecord;
+  questions: HomeQuestionsRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -58,6 +64,7 @@ export const contentCatalog: ContentCatalog = {
   projects: projectRecords,
   founders: founderRecords,
   faqs: faqRecords,
+  feedback: feedbackRecords,
   media: mediaRecords,
   evidence: evidenceRecords,
   evidenceIntro: homeEvidenceIntro,
@@ -67,4 +74,5 @@ export const contentCatalog: ContentCatalog = {
   automationExample: homeAutomationExampleRecord,
   process: homeProcessRecord,
   people: homePeopleRecord,
+  questions: homeQuestionsRecord,
 };
