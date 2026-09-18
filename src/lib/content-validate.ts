@@ -918,6 +918,41 @@ export function validateContentCatalog(
     );
   }
 
+  if (catalog.finalCta.publicationState === "approved") {
+    for (const field of ["heading", "supporting"] as const) {
+      if (!catalog.finalCta[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved final invitation is missing a required field",
+          catalog.finalCta.id,
+          field,
+        );
+      }
+    }
+  }
+
+  if (catalog.finalCta.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-home-final-cta",
+      "Final enquiry invitation stays off the public homepage until copy is approved",
+    );
+  }
+
+  const contactReady =
+    publicRoutes.contact.implemented ||
+    catalog.contact.email.status === "confirmed" ||
+    catalog.contact.whatsapp.status === "confirmed";
+
+  if (!contactReady) {
+    pushWarning(
+      warnings,
+      "no-usable-enquiry-action",
+      "No usable enquiry action yet — confirm email/WhatsApp or implement /contact before the final invitation can publish",
+    );
+  }
+
   return {
     ok: errors.length === 0,
     errors,

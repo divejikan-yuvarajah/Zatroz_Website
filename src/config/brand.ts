@@ -66,8 +66,27 @@ export function getTelHref(phone: PhoneContact): string {
   return `tel:${phone.e164}`;
 }
 
-export function getMailtoHref(email: EmailContact): string {
-  return `mailto:${email.display}`;
+export function getMailtoHref(
+  email: EmailContact,
+  options?: { subject?: string; body?: string },
+): string {
+  const params = new URLSearchParams();
+  if (options?.subject) {
+    params.set("subject", options.subject);
+  }
+  if (options?.body) {
+    params.set("body", options.body);
+  }
+  const query = params.toString();
+  return query ? `mailto:${email.display}?${query}` : `mailto:${email.display}`;
+}
+
+/** Generic enquiry mailto — no visitor data. */
+export function getEnquiryMailtoHref(email: EmailContact): string {
+  return getMailtoHref(email, {
+    subject: "Project enquiry",
+    body: siteContact.whatsapp.prefillsMessage,
+  });
 }
 
 export function getWhatsAppHref(whatsapp: WhatsAppContact): string {

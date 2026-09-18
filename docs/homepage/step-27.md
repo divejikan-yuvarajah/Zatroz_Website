@@ -43,4 +43,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 28 — final enquiry CTA and homepage integration review.
+Step 29 — Services overview page.

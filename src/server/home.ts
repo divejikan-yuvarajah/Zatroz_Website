@@ -1,6 +1,10 @@
 import "server-only";
 
-import { getMailtoHref, getWhatsAppHref, siteContact } from "@/config/brand";
+import {
+  getEnquiryMailtoHref,
+  getWhatsAppHref,
+  siteContact,
+} from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
 import { contentCatalog } from "@/content/catalog";
 import {
@@ -31,6 +35,10 @@ import {
   type HomeHeroRecord,
   type PublicCta,
 } from "@/content/home";
+import {
+  homeFinalCtaRecord,
+  type PublicHomeFinalCta,
+} from "@/content/home-final-cta";
 import { homeProcessRecord, type PublicHomeProcess } from "@/content/process";
 import {
   homePeopleRecord,
@@ -57,6 +65,7 @@ export type {
   PublicHomeProcess,
   PublicHomePeople,
   PublicHomeQuestions,
+  PublicHomeFinalCta,
 };
 
 export type PublicHomeHero = Readonly<{
@@ -138,34 +147,16 @@ export type HomeComposition = Readonly<{
 /**
  * Shared CTA policy for homepage actions.
  * Never returns an unimplemented internal route.
+ * Prefers #start-a-project when the final invitation renders with a real action.
  */
 export function resolveHomeCta(
   intent: HomeHeroRecord["primaryIntent"] | HomeHeroRecord["secondaryIntent"],
   composition: HomeComposition,
 ): PublicCta | null {
   if (intent === "start-project") {
-    if (publicRoutes.contact.implemented) {
-      return {
-        label: siteRecord.cta.primaryLabel,
-        href: publicRoutes.contact.path,
-      };
-    }
-
-    if (siteContact.email.status === "confirmed") {
-      return {
-        label: "Email Zatroz",
-        href: getMailtoHref(siteContact.email),
-      };
-    }
-
-    if (siteContact.whatsapp.status === "confirmed") {
-      return {
-        label: siteRecord.cta.secondaryWhatsAppLabel,
-        href: getWhatsAppHref(siteContact.whatsapp),
-      };
-    }
-
-    return null;
+    return resolveEnquiryFallback(composition, {
+      label: siteRecord.cta.primaryLabel,
+    });
   }
 
   if (intent === "explore-work") {
@@ -194,6 +185,128 @@ export function resolveHomeCta(
   }
 
   return null;
+}
+
+/**
+ * Contact / enquiry fallback shared by homepage sections.
+ * Never self-links to #start-a-project from the final invitation itself.
+ */
+function resolveEnquiryFallback(
+  composition: HomeComposition,
+  options?: { label?: string; contactQuery?: string },
+): PublicCta | null {
+  const label = options?.label ?? siteRecord.cta.primaryLabel;
+
+  if (composition.sections["start-a-project"]) {
+    return {
+      label,
+      href: "#start-a-project",
+    };
+  }
+
+  if (publicRoutes.contact.implemented) {
+    const href = options?.contactQuery
+      ? `${publicRoutes.contact.path}?${options.contactQuery}`
+      : publicRoutes.contact.path;
+    return { label, href };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: options?.label ?? "Email Zatroz",
+      href: getEnquiryMailtoHref(siteContact.email),
+    };
+  }
+
+  if (siteContact.whatsapp.status === "confirmed") {
+    return {
+      label: options?.label ?? siteRecord.cta.secondaryWhatsAppLabel,
+      href: getWhatsAppHref(siteContact.whatsapp),
+    };
+  }
+
+  return null;
+}
+
+/** Primary action for the final invitation — never #start-a-project. */
+function resolveFinalCtaPrimaryAction(): PublicCta | null {
+  if (publicRoutes.contact.implemented) {
+    return {
+      label: siteRecord.cta.primaryLabel,
+      href: publicRoutes.contact.path,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Email Zatroz",
+      href: getEnquiryMailtoHref(siteContact.email),
+    };
+  }
+
+  if (siteContact.whatsapp.status === "confirmed") {
+    return {
+      label: siteRecord.cta.secondaryWhatsAppLabel,
+      href: getWhatsAppHref(siteContact.whatsapp),
+    };
+  }
+
+  return null;
+}
+
+function resolveFinalCtaAlternatives(
+  composition: HomeComposition,
+  primary: PublicCta,
+): PublicCta[] {
+  const alternatives: PublicCta[] = [];
+
+  if (publicRoutes.work.implemented) {
+    alternatives.push({
+      label: siteRecord.cta.secondaryWorkLabel,
+      href: publicRoutes.work.path,
+    });
+  } else if (composition.sections["selected-work"]) {
+    alternatives.push({
+      label: siteRecord.cta.secondaryWorkLabel,
+      href: "#selected-work",
+    });
+  }
+
+  const primaryIsWhatsApp = primary.href.startsWith("https://wa.me/");
+  const primaryIsMailto = primary.href.startsWith("mailto:");
+
+  if (
+    !primaryIsWhatsApp &&
+    siteContact.whatsapp.status === "confirmed" &&
+    alternatives.length < 2
+  ) {
+    alternatives.push({
+      label: siteRecord.cta.secondaryWhatsAppLabel,
+      href: getWhatsAppHref(siteContact.whatsapp),
+    });
+  }
+
+  if (
+    primaryIsWhatsApp &&
+    !primaryIsMailto &&
+    siteContact.email.status === "confirmed" &&
+    alternatives.length < 2
+  ) {
+    alternatives.push({
+      label: "Email Zatroz",
+      href: getEnquiryMailtoHref(siteContact.email),
+    });
+  }
+
+  return alternatives.slice(0, 2);
+}
+
+function hasPublicFinalCta(): boolean {
+  if (homeFinalCtaRecord.publicationState !== "approved") {
+    return false;
+  }
+
+  return resolveFinalCtaPrimaryAction() !== null;
 }
 
 function resolveScenarioServiceLink(
@@ -437,7 +550,10 @@ function hasPublicSelectedWork(): boolean {
   return getApprovedFeaturedProjects().length > 0;
 }
 
-function resolveNeedAction(need: BusinessNeedRecord): PublicCta | null {
+function resolveNeedAction(
+  need: BusinessNeedRecord,
+  composition: HomeComposition,
+): PublicCta | null {
   const primary = contentCatalog.services.find(
     (service) => service.id === need.primaryServiceId,
   );
@@ -452,36 +568,34 @@ function resolveNeedAction(need: BusinessNeedRecord): PublicCta | null {
     }
   }
 
-  if (publicRoutes.contact.implemented) {
-    if (primary) {
-      return {
-        label: siteRecord.cta.primaryLabel,
-        href: `${publicRoutes.contact.path}?service=${primary.slug}`,
-      };
-    }
-
-    return {
-      label: siteRecord.cta.primaryLabel,
-      href: publicRoutes.contact.path,
-    };
-  }
-
-  if (siteContact.email.status === "confirmed") {
-    return {
-      label: "Email Zatroz",
-      href: getMailtoHref(siteContact.email),
-    };
-  }
-
-  return null;
+  return resolveEnquiryFallback(composition, {
+    label: siteRecord.cta.primaryLabel,
+    contactQuery: primary ? `service=${primary.slug}` : undefined,
+  });
 }
 
 function projectNeed(
   need: BusinessNeedRecord,
   number: number,
-  options?: { includeDraftServices?: boolean },
+  options?: {
+    includeDraftServices?: boolean;
+    composition?: HomeComposition;
+  },
 ): PublicBusinessNeed {
   const includeDraft = options?.includeDraftServices ?? false;
+  const composition =
+    options?.composition ??
+    buildComposition({
+      heroApproved: false,
+      evidenceRenders: false,
+      selectedWorkRenders: false,
+      servicesExplorerRenders: false,
+      automationExampleRenders: false,
+      processRenders: false,
+      peopleRenders: false,
+      questionsRenders: false,
+      finalCtaRenders: false,
+    });
 
   const services = need.serviceIds.flatMap((serviceId) => {
     const service = contentCatalog.services.find((row) => row.id === serviceId);
@@ -537,7 +651,7 @@ function projectNeed(
     deliverable: need.deliverable,
     services,
     relatedWork,
-    action: resolveNeedAction(need),
+    action: resolveNeedAction(need, composition),
   };
 }
 
@@ -549,11 +663,13 @@ function buildServiceExplorer(
     supporting?: string;
     defaultNeedId?: string;
     longDeliverable?: boolean;
+    composition?: HomeComposition;
   },
 ): PublicServiceExplorer {
   const projected = needs.map((need, index) => {
     const base = projectNeed(need, index + 1, {
       includeDraftServices: options?.includeDraftServices,
+      composition: options?.composition,
     });
     if (options?.longDeliverable && index === 0) {
       return {
@@ -658,38 +774,24 @@ function hasPublicHomeQuestions(): boolean {
   return getApprovedFaqs().length > 0 || getApprovedHomepageFeedback() !== null;
 }
 
-function resolveQuestionsAction(): PublicCta | null {
-  if (publicRoutes.contact.implemented) {
-    return {
-      label: "Ask us about your project",
-      href: publicRoutes.contact.path,
-    };
-  }
-
-  if (siteContact.email.status === "confirmed") {
-    return {
-      label: "Ask us about your project",
-      href: getMailtoHref(siteContact.email),
-    };
-  }
-
-  if (siteContact.whatsapp.status === "confirmed") {
-    return {
-      label: "Ask us about your project",
-      href: getWhatsAppHref(siteContact.whatsapp),
-    };
-  }
-
-  return null;
+function resolveQuestionsAction(
+  composition: HomeComposition,
+): PublicCta | null {
+  return resolveEnquiryFallback(composition, {
+    label: "Ask us about your project",
+  });
 }
 
-function buildPublicHomeQuestions(options?: {
-  faqs?: readonly PublicFaqItem[];
-  feedback?: PublicFeedback | null;
-  action?: PublicCta | null;
-  heading?: string;
-  supporting?: string;
-}): PublicHomeQuestions {
+function buildPublicHomeQuestions(
+  composition: HomeComposition,
+  options?: {
+    faqs?: readonly PublicFaqItem[];
+    feedback?: PublicFeedback | null;
+    action?: PublicCta | null;
+    heading?: string;
+    supporting?: string;
+  },
+): PublicHomeQuestions {
   return {
     id: homeQuestionsRecord.id,
     heading: options?.heading ?? homeQuestionsRecord.heading,
@@ -702,11 +804,11 @@ function buildPublicHomeQuestions(options?: {
     action:
       options && "action" in options
         ? (options.action ?? null)
-        : resolveQuestionsAction(),
+        : resolveQuestionsAction(composition),
   };
 }
 
-function resolvePeopleAction(): PublicCta | null {
+function resolvePeopleAction(composition: HomeComposition): PublicCta | null {
   if (publicRoutes.about.implemented) {
     return {
       label: "Meet Zatroz",
@@ -714,21 +816,7 @@ function resolvePeopleAction(): PublicCta | null {
     };
   }
 
-  if (publicRoutes.contact.implemented) {
-    return {
-      label: siteRecord.cta.primaryLabel,
-      href: publicRoutes.contact.path,
-    };
-  }
-
-  if (siteContact.email.status === "confirmed") {
-    return {
-      label: "Email Zatroz",
-      href: getMailtoHref(siteContact.email),
-    };
-  }
-
-  return null;
+  return resolveEnquiryFallback(composition);
 }
 
 function resolveFounderPortrait(
@@ -805,15 +893,18 @@ function resolveTeamPhoto(): PublicHomePeople["teamPhoto"] {
   };
 }
 
-function buildPublicHomePeople(options?: {
-  people?: readonly PublicPerson[];
-  principles?: readonly WorkingPrinciple[];
-  teamPhoto?: PublicHomePeople["teamPhoto"];
-  action?: PublicCta | null;
-  heading?: string;
-  companyIntro?: string;
-  communicationNote?: string;
-}): PublicHomePeople {
+function buildPublicHomePeople(
+  composition: HomeComposition,
+  options?: {
+    people?: readonly PublicPerson[];
+    principles?: readonly WorkingPrinciple[];
+    teamPhoto?: PublicHomePeople["teamPhoto"];
+    action?: PublicCta | null;
+    heading?: string;
+    companyIntro?: string;
+    communicationNote?: string;
+  },
+): PublicHomePeople {
   const people =
     options?.people ??
     contentCatalog.founders
@@ -844,12 +935,12 @@ function buildPublicHomePeople(options?: {
     action:
       options && "action" in options
         ? (options.action ?? null)
-        : resolvePeopleAction(),
+        : resolvePeopleAction(composition),
     layout,
   };
 }
 
-function resolveProcessAction(): PublicCta | null {
+function resolveProcessAction(composition: HomeComposition): PublicCta | null {
   if (publicRoutes.process.implemented) {
     return {
       label: "See our process",
@@ -857,24 +948,11 @@ function resolveProcessAction(): PublicCta | null {
     };
   }
 
-  if (publicRoutes.contact.implemented) {
-    return {
-      label: siteRecord.cta.primaryLabel,
-      href: publicRoutes.contact.path,
-    };
-  }
-
-  if (siteContact.email.status === "confirmed") {
-    return {
-      label: "Email Zatroz",
-      href: getMailtoHref(siteContact.email),
-    };
-  }
-
-  return null;
+  return resolveEnquiryFallback(composition);
 }
 
 function buildPublicHomeProcess(
+  composition: HomeComposition,
   actionOverride?: PublicCta | null,
 ): PublicHomeProcess {
   return {
@@ -889,7 +967,9 @@ function buildPublicHomeProcess(
       customerOutput: step.customerOutput,
     })),
     action:
-      actionOverride !== undefined ? actionOverride : resolveProcessAction(),
+      actionOverride !== undefined
+        ? actionOverride
+        : resolveProcessAction(composition),
   };
 }
 
@@ -910,21 +990,10 @@ function resolveAutomationAction(
     };
   }
 
-  if (publicRoutes.contact.implemented) {
-    return {
-      label: siteRecord.cta.primaryLabel,
-      href: `${publicRoutes.contact.path}?service=ai-automation`,
-    };
-  }
-
-  if (siteContact.email.status === "confirmed") {
-    return {
-      label: "Email Zatroz",
-      href: getMailtoHref(siteContact.email),
-    };
-  }
-
-  return null;
+  return resolveEnquiryFallback(composition, {
+    label: siteRecord.cta.primaryLabel,
+    contactQuery: "service=ai-automation",
+  });
 }
 
 function buildPublicAutomationExample(
@@ -955,6 +1024,7 @@ function buildComposition(options: {
   processRenders: boolean;
   peopleRenders: boolean;
   questionsRenders: boolean;
+  finalCtaRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
@@ -965,7 +1035,7 @@ function buildComposition(options: {
     "how-we-work": options.processRenders,
     people: options.peopleRenders,
     questions: options.questionsRenders,
-    "start-a-project": false,
+    "start-a-project": options.finalCtaRenders,
   };
 
   const anchors = (Object.entries(sections) as [HomeSectionId, boolean][])
@@ -1038,6 +1108,7 @@ export function getHomeComposition(): HomeComposition {
     processRenders: hasPublicHomeProcess(),
     peopleRenders: hasPublicHomePeople(),
     questionsRenders: hasPublicHomeQuestions(),
+    finalCtaRenders: hasPublicFinalCta(),
   });
 }
 
@@ -1094,6 +1165,7 @@ export function getPublicServiceExplorer(): PublicServiceExplorer | null {
 
   return buildServiceExplorer(getApprovedBusinessNeeds(), {
     includeDraftServices: false,
+    composition: getHomeComposition(),
   });
 }
 
@@ -1117,7 +1189,7 @@ export function getPublicHomeProcess(): PublicHomeProcess | null {
     return null;
   }
 
-  return buildPublicHomeProcess();
+  return buildPublicHomeProcess(getHomeComposition());
 }
 
 /**
@@ -1129,7 +1201,7 @@ export function getPublicHomePeople(): PublicHomePeople | null {
     return null;
   }
 
-  return buildPublicHomePeople();
+  return buildPublicHomePeople(getHomeComposition());
 }
 
 /**
@@ -1141,7 +1213,44 @@ export function getPublicHomeQuestions(): PublicHomeQuestions | null {
     return null;
   }
 
-  return buildPublicHomeQuestions();
+  return buildPublicHomeQuestions(getHomeComposition());
+}
+
+/**
+ * Approved final enquiry invitation, or null while copy stays draft or no
+ * usable contact action exists. Never renders a dead button.
+ */
+export function getPublicHomeFinalCta(): PublicHomeFinalCta | null {
+  if (!hasPublicFinalCta()) {
+    return null;
+  }
+
+  return buildPublicHomeFinalCta(getHomeComposition());
+}
+
+function buildPublicHomeFinalCta(
+  composition: HomeComposition,
+  options?: {
+    primary?: PublicCta;
+    alternatives?: readonly PublicCta[];
+    heading?: string;
+    supporting?: string;
+  },
+): PublicHomeFinalCta | null {
+  const primary = options?.primary ?? resolveFinalCtaPrimaryAction();
+  if (!primary) {
+    return null;
+  }
+
+  return {
+    id: homeFinalCtaRecord.id,
+    heading: options?.heading ?? homeFinalCtaRecord.heading,
+    supporting: options?.supporting ?? homeFinalCtaRecord.supporting,
+    primary,
+    alternatives:
+      options?.alternatives ??
+      resolveFinalCtaAlternatives(composition, primary),
+  };
 }
 
 /**
@@ -1162,6 +1271,7 @@ export function getHomeHeroSpecimen(options?: {
       processRenders: false,
       peopleRenders: false,
       questionsRenders: false,
+      finalCtaRenders: false,
     }),
     options,
   );
@@ -1364,6 +1474,7 @@ export function getAutomationExampleSpecimen(options?: {
     processRenders: false,
     peopleRenders: false,
     questionsRenders: false,
+    finalCtaRenders: false,
   });
 
   const example = buildPublicAutomationExample(
@@ -1385,7 +1496,20 @@ export function getHomeProcessSpecimen(options?: {
   action?: PublicCta | null;
   longCopy?: boolean;
 }): PublicHomeProcess {
+  const composition = buildComposition({
+    heroApproved: false,
+    evidenceRenders: false,
+    selectedWorkRenders: false,
+    servicesExplorerRenders: false,
+    automationExampleRenders: false,
+    processRenders: true,
+    peopleRenders: false,
+    questionsRenders: false,
+    finalCtaRenders: false,
+  });
+
   const process = buildPublicHomeProcess(
+    composition,
     options && "action" in options ? options.action : undefined,
   );
 
@@ -1456,7 +1580,19 @@ const GALLERY_PERSON_LONG: PublicPerson = {
 export function getHomePeopleSpecimen(
   variant: "text-led" | "one-profile" | "multiple-profiles" | "long-name",
 ): PublicHomePeople {
-  const base = buildPublicHomePeople({
+  const composition = buildComposition({
+    heroApproved: false,
+    evidenceRenders: false,
+    selectedWorkRenders: false,
+    servicesExplorerRenders: false,
+    automationExampleRenders: false,
+    processRenders: false,
+    peopleRenders: true,
+    questionsRenders: false,
+    finalCtaRenders: false,
+  });
+
+  const base = buildPublicHomePeople(composition, {
     people: [],
     teamPhoto: null,
     action: null,
@@ -1564,7 +1700,19 @@ export function getHomeQuestionsSpecimen(
   variant:
     "faqs-only" | "one-faq" | "with-testimonial" | "with-lesson" | "long-copy",
 ): PublicHomeQuestions {
-  const base = buildPublicHomeQuestions({
+  const composition = buildComposition({
+    heroApproved: false,
+    evidenceRenders: false,
+    selectedWorkRenders: false,
+    servicesExplorerRenders: false,
+    automationExampleRenders: false,
+    processRenders: false,
+    peopleRenders: false,
+    questionsRenders: true,
+    finalCtaRenders: false,
+  });
+
+  const base = buildPublicHomeQuestions(composition, {
     faqs: GALLERY_FAQ_FIXTURES,
     feedback: null,
     action: null,
@@ -1610,4 +1758,90 @@ export function getHomeQuestionsSpecimen(
   }
 
   return base;
+}
+
+/**
+ * Gallery final-invitation projection. Fixtures show contact fallbacks —
+ * not a claim that Contact or channels are live for the public site.
+ */
+export function getHomeFinalCtaSpecimen(
+  variant: "contact" | "email" | "whatsapp" | "alternatives" | "long-copy",
+): PublicHomeFinalCta {
+  const composition = buildComposition({
+    heroApproved: false,
+    evidenceRenders: false,
+    selectedWorkRenders: variant === "alternatives",
+    servicesExplorerRenders: false,
+    automationExampleRenders: false,
+    processRenders: false,
+    peopleRenders: false,
+    questionsRenders: false,
+    finalCtaRenders: true,
+  });
+
+  const contactPrimary: PublicCta = {
+    label: siteRecord.cta.primaryLabel,
+    href: "/contact",
+  };
+  const emailPrimary: PublicCta = {
+    label: "Email Zatroz",
+    href: getEnquiryMailtoHref(siteContact.email),
+  };
+  const whatsappPrimary: PublicCta = {
+    label: siteRecord.cta.secondaryWhatsAppLabel,
+    href: getWhatsAppHref(siteContact.whatsapp),
+  };
+
+  if (variant === "email") {
+    return buildPublicHomeFinalCta(composition, {
+      primary: emailPrimary,
+      alternatives: [],
+      heading: `${homeFinalCtaRecord.heading} (specimen)`,
+      supporting: `${homeFinalCtaRecord.supporting} Gallery specimen — Email fallback only.`,
+    })!;
+  }
+
+  if (variant === "whatsapp") {
+    return buildPublicHomeFinalCta(composition, {
+      primary: whatsappPrimary,
+      alternatives: [],
+      heading: `${homeFinalCtaRecord.heading} (specimen)`,
+      supporting: `${homeFinalCtaRecord.supporting} Gallery specimen — WhatsApp fallback only.`,
+    })!;
+  }
+
+  if (variant === "alternatives") {
+    return buildPublicHomeFinalCta(composition, {
+      primary: contactPrimary,
+      alternatives: [
+        {
+          label: siteRecord.cta.secondaryWorkLabel,
+          href: "#selected-work",
+        },
+        {
+          label: siteRecord.cta.secondaryWhatsAppLabel,
+          href: getWhatsAppHref(siteContact.whatsapp),
+        },
+      ],
+      heading: `${homeFinalCtaRecord.heading} (specimen)`,
+      supporting: `${homeFinalCtaRecord.supporting} Gallery specimen — primary plus quiet alternatives.`,
+    })!;
+  }
+
+  if (variant === "long-copy") {
+    return buildPublicHomeFinalCta(composition, {
+      primary: contactPrimary,
+      alternatives: [],
+      heading:
+        "Tell us what your business needs next with an intentionally long specimen heading for wrapping checks",
+      supporting: `${homeFinalCtaRecord.supporting} Gallery specimen — long copy only.`,
+    })!;
+  }
+
+  return buildPublicHomeFinalCta(composition, {
+    primary: contactPrimary,
+    alternatives: [],
+    heading: `${homeFinalCtaRecord.heading} (specimen)`,
+    supporting: `${homeFinalCtaRecord.supporting} Gallery specimen — Contact path. Public / omits until approved framing and a usable action exist.`,
+  })!;
 }
