@@ -31,6 +31,7 @@ import {
   type HomeHeroRecord,
   type PublicCta,
 } from "@/content/home";
+import { homeProcessRecord, type PublicHomeProcess } from "@/content/process";
 import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
@@ -39,6 +40,7 @@ export type {
   PublicBusinessNeed,
   PublicServiceExplorer,
   PublicAutomationExample,
+  PublicHomeProcess,
 };
 
 export type PublicHomeHero = Readonly<{
@@ -162,6 +164,13 @@ export function resolveHomeCta(
       return {
         label: siteRecord.cta.secondaryWorkLabel,
         href: "#selected-work",
+      };
+    }
+
+    if (composition.sections["how-we-work"]) {
+      return {
+        label: "See how we work",
+        href: "#how-we-work",
       };
     }
 
@@ -574,6 +583,54 @@ function hasPublicAutomationExample(): boolean {
   return homeAutomationExampleRecord.publicationState === "approved";
 }
 
+function hasPublicHomeProcess(): boolean {
+  return homeProcessRecord.publicationState === "approved";
+}
+
+function resolveProcessAction(): PublicCta | null {
+  if (publicRoutes.process.implemented) {
+    return {
+      label: "See our process",
+      href: publicRoutes.process.path,
+    };
+  }
+
+  if (publicRoutes.contact.implemented) {
+    return {
+      label: siteRecord.cta.primaryLabel,
+      href: publicRoutes.contact.path,
+    };
+  }
+
+  if (siteContact.email.status === "confirmed") {
+    return {
+      label: "Email Zatroz",
+      href: getMailtoHref(siteContact.email),
+    };
+  }
+
+  return null;
+}
+
+function buildPublicHomeProcess(
+  actionOverride?: PublicCta | null,
+): PublicHomeProcess {
+  return {
+    id: homeProcessRecord.id,
+    heading: homeProcessRecord.heading,
+    supporting: homeProcessRecord.supporting,
+    steps: homeProcessRecord.steps.map((step, index) => ({
+      id: step.id,
+      number: index + 1,
+      title: step.title,
+      description: step.description,
+      customerOutput: step.customerOutput,
+    })),
+    action:
+      actionOverride !== undefined ? actionOverride : resolveProcessAction(),
+  };
+}
+
 function resolveAutomationAction(
   composition: HomeComposition,
 ): PublicCta | null {
@@ -633,6 +690,7 @@ function buildComposition(options: {
   selectedWorkRenders: boolean;
   servicesExplorerRenders: boolean;
   automationExampleRenders: boolean;
+  processRenders: boolean;
 }): HomeComposition {
   const sections: Record<HomeSectionId, boolean> = {
     "home-hero": options.heroApproved,
@@ -640,7 +698,7 @@ function buildComposition(options: {
     "selected-work": options.selectedWorkRenders,
     "services-explorer": options.servicesExplorerRenders,
     "automation-example": options.automationExampleRenders,
-    "how-we-work": false,
+    "how-we-work": options.processRenders,
     people: false,
     questions: false,
     "start-a-project": false,
@@ -713,6 +771,7 @@ export function getHomeComposition(): HomeComposition {
     selectedWorkRenders: hasPublicSelectedWork(),
     servicesExplorerRenders: hasPublicServiceExplorer(),
     automationExampleRenders: hasPublicAutomationExample(),
+    processRenders: hasPublicHomeProcess(),
   });
 }
 
@@ -784,6 +843,18 @@ export function getPublicAutomationExample(): PublicAutomationExample | null {
 }
 
 /**
+ * Approved delivery process section, or null while copy remains draft.
+ * Does not publish guarantees about timelines, revisions, or free support.
+ */
+export function getPublicHomeProcess(): PublicHomeProcess | null {
+  if (!hasPublicHomeProcess()) {
+    return null;
+  }
+
+  return buildPublicHomeProcess();
+}
+
+/**
  * Draft-safe gallery projection. Optional CTA overrides support zero/one/two
  * destination review cases. Not for the public homepage.
  */
@@ -798,6 +869,7 @@ export function getHomeHeroSpecimen(options?: {
       selectedWorkRenders: false,
       servicesExplorerRenders: false,
       automationExampleRenders: false,
+      processRenders: false,
     }),
     options,
   );
@@ -997,6 +1069,7 @@ export function getAutomationExampleSpecimen(options?: {
     selectedWorkRenders: false,
     servicesExplorerRenders: false,
     automationExampleRenders: true,
+    processRenders: false,
   });
 
   const example = buildPublicAutomationExample(
@@ -1008,5 +1081,44 @@ export function getAutomationExampleSpecimen(options?: {
     ...example,
     heading: `${example.heading} (specimen)`,
     supporting: `${example.supporting} Gallery specimen — not published until approved.`,
+  };
+}
+
+/**
+ * Gallery delivery-process projection. Draft copy for layout review.
+ */
+export function getHomeProcessSpecimen(options?: {
+  action?: PublicCta | null;
+  longCopy?: boolean;
+}): PublicHomeProcess {
+  const process = buildPublicHomeProcess(
+    options && "action" in options ? options.action : undefined,
+  );
+
+  if (!options?.longCopy) {
+    return {
+      ...process,
+      heading: `${process.heading} (specimen)`,
+      supporting: `${process.supporting} Gallery specimen — not published until approved.`,
+    };
+  }
+
+  const [first, ...rest] = process.steps;
+  return {
+    ...process,
+    heading: `${process.heading} (specimen)`,
+    supporting: `${process.supporting} Gallery specimen — not published until approved.`,
+    steps: [
+      {
+        ...first!,
+        title:
+          "Discover with an intentionally long title for wrapping checks on narrow viewports",
+        description:
+          "We learn the business problem, the people involved, constraints, priorities, and practical limits so the first scope stays honest and useful without inventing delivery durations.",
+        customerOutput:
+          "An agreed initial scope written clearly enough that both sides know what is in and what is out",
+      },
+      ...rest,
+    ],
   };
 }

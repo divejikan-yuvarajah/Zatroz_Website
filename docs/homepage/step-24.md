@@ -38,4 +38,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 25 — delivery process section.
+Step 26 — team and company introduction.

@@ -741,6 +741,54 @@ export function validateContentCatalog(
     );
   }
 
+  assertUniqueIds(errors, [...catalog.process.steps], "process-step");
+
+  if (catalog.process.steps.length !== 4) {
+    pushError(
+      errors,
+      "process-step-count",
+      "Homepage process must have exactly four steps",
+      catalog.process.id,
+      "steps",
+    );
+  }
+
+  if (catalog.process.publicationState === "approved") {
+    for (const field of ["heading", "supporting"] as const) {
+      if (!catalog.process[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved process section is missing a required field",
+          catalog.process.id,
+          field,
+        );
+      }
+    }
+
+    for (const step of catalog.process.steps) {
+      for (const field of ["title", "description", "customerOutput"] as const) {
+        if (!step[field].trim()) {
+          pushError(
+            errors,
+            "approved-missing-field",
+            "Approved process step is missing a required field",
+            step.id,
+            field,
+          );
+        }
+      }
+    }
+  }
+
+  if (catalog.process.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-home-process",
+      "Delivery process stays off the public homepage until copy is approved",
+    );
+  }
+
   return {
     ok: errors.length === 0,
     errors,
