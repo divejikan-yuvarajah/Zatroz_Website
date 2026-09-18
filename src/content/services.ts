@@ -7,7 +7,7 @@ export type ServiceRecord = {
   routeId: RouteId;
   title: string;
   publicationState: PublicationState;
-  /** Short summary; draft wording is not a capacity promise. */
+  /** Short summary / overview outcome; draft wording is not a capacity promise. */
   summary: string;
   deliverables: string[];
   relatedProjectIds: string[];
@@ -22,6 +22,7 @@ export type ServiceRecord = {
 /**
  * Exactly six service groups. All start as draft until founders approve copy
  * and confirm delivery capacity (see decision register D-009).
+ * Overview rows use summary, whoItSuits, and deliverables when approved.
  */
 export const serviceRecords = [
   {
@@ -31,10 +32,15 @@ export const serviceRecords = [
     title: "Websites and E-commerce",
     publicationState: "draft",
     summary:
-      "Draft: marketing sites and online sales flows for small businesses. Capacity and inclusions need founder confirmation before public claims.",
-    deliverables: [],
+      "Help visitors understand your business and take the next step — enquiry, catalogue browse, or online order.",
+    deliverables: [
+      "Business website or online catalogue structure",
+      "Clear contact or ordering paths",
+      "Content and handover notes for updates",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Owners who need a clearer online presence or a practical way for customers to enquire or order.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",
@@ -48,10 +54,15 @@ export const serviceRecords = [
     title: "Web and Mobile Applications",
     publicationState: "draft",
     summary:
-      "Draft: custom web and mobile applications shaped around real workflows. Scope boundaries are not yet approved for launch pages.",
-    deliverables: [],
+      "Help customers or staff complete a focused digital task in a first usable application.",
+    deliverables: [
+      "Scoped first version of a web or mobile application",
+      "Core user journeys for the agreed roles",
+      "Handover for testing and next releases",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Teams with a clear task to digitise — booking, requests, field updates, or similar focused work.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",
@@ -65,10 +76,15 @@ export const serviceRecords = [
     title: "Business Systems",
     publicationState: "draft",
     summary:
-      "Draft: systems that help teams sell, serve, and operate day to day. Hardware and support boundaries need confirmation.",
-    deliverables: [],
+      "Organise sales, stock, reporting, and internal workflows in one clearer place for daily operations.",
+    deliverables: [
+      "Operational workflow for sales, stock, or internal records",
+      "Roles and permissions suited to your team",
+      "Reporting views agreed in scope",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Businesses replacing scattered notes and spreadsheets for day-to-day operations.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",
@@ -82,10 +98,15 @@ export const serviceRecords = [
     title: "AI and Automation",
     publicationState: "draft",
     summary:
-      "Draft: practical automation with human review where it matters. Public AI claims stay limited until limitations wording is approved.",
-    deliverables: [],
+      "Reduce repetitive copying and routine steps with rules, AI assistance, and human review where it matters.",
+    deliverables: [
+      "Mapped routine workflow with review checkpoints",
+      "Automation or extraction draft suited to the task",
+      "Clear limits on what stays human-checked",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Teams spending too much time moving the same information between tools or documents.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",
@@ -99,10 +120,15 @@ export const serviceRecords = [
     title: "Custom Software",
     publicationState: "draft",
     summary:
-      "Draft: software built for a specific business process when off-the-shelf tools do not fit. Example boundaries are still empty.",
-    deliverables: [],
+      "Address requirements and integrations that need a tailored solution when standard tools are not enough.",
+    deliverables: [
+      "Software shaped around your specific process",
+      "Agreed integrations with existing systems where in scope",
+      "Documentation and access for ongoing ownership",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Organisations with unusual rules, integrations, or workflows that off-the-shelf tools do not cover well.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",
@@ -116,10 +142,15 @@ export const serviceRecords = [
     title: "UI/UX Design",
     publicationState: "draft",
     summary:
-      "Draft: interface and experience design for products and business tools. Deliverable list needs content-owner approval.",
-    deliverables: [],
+      "Clarify user journeys and design usable interfaces — as a design engagement with or without development.",
+    deliverables: [
+      "Journey maps or flow outlines for key tasks",
+      "Interface designs for agreed screens",
+      "Handover notes for build or further design",
+    ],
     relatedProjectIds: [],
-    whoItSuits: "",
+    whoItSuits:
+      "Teams that need clearer journeys and interfaces before or alongside a build.",
     problemsAddressed: "",
     exampleNotes: "",
     deliverySteps: "",

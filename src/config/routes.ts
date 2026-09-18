@@ -27,7 +27,7 @@ export type PublicRoute = {
  */
 export const publicRoutes: Record<RouteId, PublicRoute> = {
   home: { id: "home", path: "/", implemented: true },
-  services: { id: "services", path: "/services", implemented: false },
+  services: { id: "services", path: "/services", implemented: true },
   websitesEcommerce: {
     id: "websitesEcommerce",
     path: "/services/websites-ecommerce",
