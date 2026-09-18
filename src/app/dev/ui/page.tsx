@@ -15,6 +15,7 @@ import { FooterSpecimen } from "@/components/dev/footer-specimen";
 import { HomeAutomationExampleSpecimen } from "@/components/dev/home-automation-example-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
+import { HomeProcessSpecimen } from "@/components/dev/home-process-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
 import { HomeServiceExplorerSpecimen } from "@/components/dev/home-service-explorer-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
@@ -697,6 +698,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeAutomationExampleSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="home-process-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-process-specimen-heading"
+            eyebrow="Example · local only"
+            description="Calm delivery process with four always-visible steps and customer outputs. Public / omits this section until copy is approved. Not a guarantee of free support or fixed timelines."
+          >
+            Homepage delivery process
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeProcessSpecimen />
           </div>
         </Container>
       </Section>

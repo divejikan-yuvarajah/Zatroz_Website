@@ -35,6 +35,7 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/home.ts`               | Homepage hero, scenarios, selected-work feature IDs |
 | `src/content/business-needs.ts`     | Four homepage business needs + explorer framing     |
 | `src/content/automation-example.ts` | Charcoal automation illustration (draft)            |
+| `src/content/process.ts`            | Homepage delivery process steps (draft)             |
 | `src/content/projects.ts`           | Project stories (empty until verified)              |
 | `src/content/founders.ts`           | Founder profiles (empty until approved)             |
 | `src/content/faqs.ts`               | Draft enquiry FAQs                                  |
@@ -61,6 +62,7 @@ Do **not** import `src/content/catalog.ts` or draft collections into Client Comp
 | FAQs     | 3     | All `draft`            | No prices, SLAs, or ownership promises       |
 | Evidence | 0     | Intro `draft`          | C-HOME-02 gap; public strip omitted          |
 | Needs    | 4     | All `draft`            | Explorer framing draft; public strip omitted |
+| Process  | 4     | Section `draft`        | C-HOME-05; public strip omitted              |
 | Media    | 0     | —                      | No approved public assets in repo            |
 | Contact  | —     | Channels `unconfirmed` | Live footer omits links                      |
 
