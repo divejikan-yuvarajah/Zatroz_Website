@@ -22,6 +22,7 @@ import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-sp
 import { HomeServiceExplorerSpecimen } from "@/components/dev/home-service-explorer-specimen";
 import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
+import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
 
 export const metadata: Metadata = {
   title: "Design tokens and UI — local preview",
@@ -781,6 +782,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeFinalCtaSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="services-overview-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="services-overview-specimen-heading"
+            eyebrow="Example · local only"
+            description="Services overview with six draft rows, need shortcuts, and not-sure guide. Public /services omits draft framing and only shows approved summaries."
+          >
+            Services overview
+          </SectionHeading>
+          <div className="mt-10">
+            <ServicesOverviewSpecimen />
           </div>
         </Container>
       </Section>

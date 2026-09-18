@@ -179,6 +179,24 @@ export function validateContentCatalog(
           "summary",
         );
       }
+      if (!service.whoItSuits.trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved service is missing a required field",
+          service.id,
+          "whoItSuits",
+        );
+      }
+      if (service.deliverables.length === 0) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved service needs at least one deliverable for the overview",
+          service.id,
+          "deliverables",
+        );
+      }
     }
   }
 
@@ -937,6 +955,28 @@ export function validateContentCatalog(
       warnings,
       "draft-home-final-cta",
       "Final enquiry invitation stays off the public homepage until copy is approved",
+    );
+  }
+
+  if (catalog.servicesOverview.publicationState === "approved") {
+    for (const field of ["heading", "supporting"] as const) {
+      if (!catalog.servicesOverview[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved services overview is missing a required field",
+          catalog.servicesOverview.id,
+          field,
+        );
+      }
+    }
+  }
+
+  if (catalog.servicesOverview.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-services-overview",
+      "Services overview framing stays draft — public /services omits proposed marketing copy until approved",
     );
   }
 

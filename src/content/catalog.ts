@@ -24,6 +24,8 @@ import type { HomeFinalCtaRecord } from "@/content/home-final-cta";
 import { homeFinalCtaRecord } from "@/content/home-final-cta";
 import type { HomeQuestionsRecord } from "@/content/home-questions";
 import { homeQuestionsRecord } from "@/content/home-questions";
+import type { ServicesOverviewRecord } from "@/content/services-overview";
+import { servicesOverviewRecord } from "@/content/services-overview";
 import type { MediaRecord } from "@/content/media";
 import { mediaRecords } from "@/content/media";
 import type { HomePeopleRecord } from "@/content/people";
@@ -57,6 +59,7 @@ export type ContentCatalog = {
   people: HomePeopleRecord;
   questions: HomeQuestionsRecord;
   finalCta: HomeFinalCtaRecord;
+  servicesOverview: ServicesOverviewRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -79,4 +82,5 @@ export const contentCatalog: ContentCatalog = {
   people: homePeopleRecord,
   questions: homeQuestionsRecord,
   finalCta: homeFinalCtaRecord,
+  servicesOverview: servicesOverviewRecord,
 };

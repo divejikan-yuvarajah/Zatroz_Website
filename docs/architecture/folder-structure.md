@@ -9,30 +9,31 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 
 ## Path → purpose
 
-| Path                       | Purpose                                                  | Now                                                                |
-| -------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
-| `src/app/`                 | Route files and route-level composition                  | Exists — home only                                                 |
-| `src/app/layout.tsx`       | Root document layout (`html` / `body`)                   | Exists                                                             |
-| `src/app/page.tsx`         | Minimal home route                                       | Exists                                                             |
-| `src/app/globals.css`      | Global styles + Tailwind entry                           | Exists                                                             |
-| `src/components/ui/`       | Small reusable UI primitives                             | Step 12 primitives                                                 |
-| `src/components/dev/`      | Local `/dev/ui` helpers only                             | UI, form, nav, and footer specimens                                |
-| `src/components/layout/`   | Header, skip, shell, footer                              | Skip, shell, header, mobile nav, footer                            |
-| `src/components/sections/` | Page sections                                            | Home sections through final CTA (Steps 19–28)                      |
-| `src/components/forms/`    | Accessible enquiry form pieces                           | Step 13 primitives                                                 |
-| `src/content/`             | Service, project, founder, FAQ, feedback, site copy      | Step 18+ typed records                                             |
-| `src/config/`              | Public-safe site / navigation settings                   | `routes.ts`, `navigation.ts`, `brand.ts`                           |
-| `src/lib/`                 | Shared utilities only; **no** secret barrel exports      | `cn.ts`, `described-by.ts`, `navigation.ts`, `content-validate.ts` |
-| `src/server/`              | Server-only env access and content selectors             | `env.ts`, `resolve-site-url.ts`, `content.ts`                      |
-| `src/types/`               | Shared domain types when actually used                   | `content.ts`                                                       |
-| `public/brand/`            | Approved logo / brand assets                             | Empty placeholder                                                  |
-| `public/images/projects/`  | Approved project screenshots                             | Empty placeholder                                                  |
-| `public/images/team/`      | Approved founder / team photos                           | Empty placeholder                                                  |
-| `public/fonts/`            | Self-hosted fonts later                                  | Empty placeholder                                                  |
-| `docs/`                    | Planning, setup, architecture, content, progress         | Exists                                                             |
-| `docs/architecture/`       | Structure and architecture notes                         | This file                                                          |
-| `supabase/migrations/`     | Real SQL migrations starting at DB steps                 | Placeholder only — **no SQL / no Supabase project yet**            |
-| Root configs               | `package.json`, `next.config.ts`, ESLint, Prettier, etc. | Stay at repo root                                                  |
+| Path                        | Purpose                                                  | Now                                                                |
+| --------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
+| `src/app/`                  | Route files and route-level composition                  | Home + `/services` overview                                        |
+| `src/app/layout.tsx`        | Root document layout (`html` / `body`)                   | Exists                                                             |
+| `src/app/page.tsx`          | Home route                                               | Exists                                                             |
+| `src/app/services/page.tsx` | Services overview                                        | Step 29                                                            |
+| `src/app/globals.css`       | Global styles + Tailwind entry                           | Exists                                                             |
+| `src/components/ui/`        | Small reusable UI primitives                             | Step 12 primitives                                                 |
+| `src/components/dev/`       | Local `/dev/ui` helpers only                             | UI, form, nav, and footer specimens                                |
+| `src/components/layout/`    | Header, skip, shell, footer                              | Skip, shell, header, mobile nav, footer                            |
+| `src/components/sections/`  | Page sections                                            | Home sections + services overview (Steps 19–29)                    |
+| `src/components/forms/`     | Accessible enquiry form pieces                           | Step 13 primitives                                                 |
+| `src/content/`              | Service, project, founder, FAQ, feedback, site copy      | Step 18+ typed records                                             |
+| `src/config/`               | Public-safe site / navigation settings                   | `routes.ts`, `navigation.ts`, `brand.ts`                           |
+| `src/lib/`                  | Shared utilities only; **no** secret barrel exports      | `cn.ts`, `described-by.ts`, `navigation.ts`, `content-validate.ts` |
+| `src/server/`               | Server-only env access and content selectors             | `env.ts`, `resolve-site-url.ts`, `content.ts`                      |
+| `src/types/`                | Shared domain types when actually used                   | `content.ts`                                                       |
+| `public/brand/`             | Approved logo / brand assets                             | Empty placeholder                                                  |
+| `public/images/projects/`   | Approved project screenshots                             | Empty placeholder                                                  |
+| `public/images/team/`       | Approved founder / team photos                           | Empty placeholder                                                  |
+| `public/fonts/`             | Self-hosted fonts later                                  | Empty placeholder                                                  |
+| `docs/`                     | Planning, setup, architecture, content, progress         | Exists                                                             |
+| `docs/architecture/`        | Structure and architecture notes                         | This file                                                          |
+| `supabase/migrations/`      | Real SQL migrations starting at DB steps                 | Placeholder only — **no SQL / no Supabase project yet**            |
+| Root configs                | `package.json`, `next.config.ts`, ESLint, Prettier, etc. | Stay at repo root                                                  |
 
 Assets live under root `public/`, **not** `src/public/`.
 
@@ -48,7 +49,7 @@ Documented in `docs/planning/03-sitemap.md`. Implement later as real pages with 
 | ------------------------------------ | ------------------------------------------------------------------- |
 | `/`                                  | `src/app/page.tsx` (exists)                                         |
 | `/about`                             | `src/app/about/page.tsx`                                            |
-| `/services`                          | `src/app/services/page.tsx`                                         |
+| `/services`                          | `src/app/services/page.tsx` (exists — Step 29)                      |
 | `/services/[slug]` or fixed segments | e.g. `src/app/services/websites-ecommerce/page.tsx` (match sitemap) |
 | `/work`                              | `src/app/work/page.tsx`                                             |
 | `/work/[slug]`                       | `src/app/work/[slug]/page.tsx`                                      |

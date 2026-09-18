@@ -32,6 +32,7 @@ The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects
 | `src/content/site.ts`               | Brand name, draft blurb, CTA labels, contact        |
 | `src/content/navigation.ts`         | Nav labels + `routeId` order (no duplicated URLs)   |
 | `src/content/services.ts`           | Exactly six service records                         |
+| `src/content/services-overview.ts`  | Services overview framing (draft)                   |
 | `src/content/home.ts`               | Homepage hero, scenarios, selected-work feature IDs |
 | `src/content/business-needs.ts`     | Four homepage business needs + explorer framing     |
 | `src/content/automation-example.ts` | Charcoal automation illustration (draft)            |

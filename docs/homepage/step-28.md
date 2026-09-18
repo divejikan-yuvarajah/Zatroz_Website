@@ -36,4 +36,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 29 — Services overview page.
+Step 30 — reusable service detail template and routing.
