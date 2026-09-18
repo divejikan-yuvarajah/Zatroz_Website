@@ -1,4 +1,4 @@
-import { BusinessWorkflowVisual } from "@/components/sections/business-workflow-visual";
+import { HeroScenarioPanel } from "@/components/sections/hero-scenario-panel";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -23,6 +23,9 @@ export function HomeHero({
   const headingId = `${idPrefix}${hero.id}-heading`;
   const sectionId = `${idPrefix}${hero.id}`;
   const hasActions = Boolean(hero.primaryCta || hero.secondaryCta);
+  const otherScenarios = hero.scenarios.filter(
+    (scenario) => scenario.id !== hero.defaultScenarioId,
+  );
 
   return (
     <Section
@@ -67,11 +70,34 @@ export function HomeHero({
             ) : null}
           </div>
 
-          <BusinessWorkflowVisual
-            scenario={hero.scenario}
-            caption={hero.workflowCaption}
-            className="min-w-0"
-          />
+          <div className="min-w-0">
+            <HeroScenarioPanel
+              scenarios={hero.scenarios}
+              defaultScenarioId={hero.defaultScenarioId}
+              workflowCaption={hero.workflowCaption}
+              scenarioServiceLinks={hero.scenarioServiceLinks}
+              idPrefix={idPrefix}
+            />
+            {otherScenarios.length > 0 ? (
+              <noscript>
+                <div className="mt-6 rounded-md border border-border-subtle bg-surface p-4">
+                  <p className="m-0 text-sm font-semibold text-ink">
+                    Other illustrative examples
+                  </p>
+                  <ul className="mt-3 list-disc space-y-3 pl-5">
+                    {otherScenarios.map((scenario) => (
+                      <li key={scenario.id} className="text-sm text-text-body">
+                        <span className="font-medium text-ink">
+                          {scenario.title}.{" "}
+                        </span>
+                        {scenario.explanation}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </noscript>
+            ) : null}
+          </div>
         </div>
       </Container>
     </Section>

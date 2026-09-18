@@ -34,9 +34,10 @@ export function HomeHeroSpecimen() {
       <div>
         <h3>Draft hero (no public CTAs yet)</h3>
         <p className="ds-support mt-2 max-w-reading">
-          Proposed copy and the Sell online workflow. Live Contact and Work
-          routes are not implemented, so the default specimen omits actions —
-          the same rule as the public site.
+          Proposed copy with three scenario examples (Sell online, Run
+          operations, Automate tasks). Selector buttons enable after JavaScript
+          loads. Live Contact and Work routes are not implemented, so default
+          actions stay omitted.
         </p>
         <div className="mt-6 overflow-hidden rounded-md border border-border-subtle">
           <HomeHero

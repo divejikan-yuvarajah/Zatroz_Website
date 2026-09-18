@@ -21,8 +21,9 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 15   | Desktop navigation             | **Implemented**                                                                  | 2026-09-17 | `src/config/routes.ts`, `navigation.ts`, `SiteHeader`, `docs/design/navigation.md`; merged via PR #9                      |
 | 16   | Accessible mobile navigation   | **Implemented**                                                                  | 2026-09-18 | Merged via PR #10; native `dialog` mobile menu                                                                            |
 | 17   | Responsive company footer      | **Implemented**                                                                  | 2026-09-18 | Merged via PR #11; `SiteFooter`, `brand`/`contact` config                                                                 |
-| 18   | Typed shared content           | **Implemented** (on branch `feature/18-content-structure`; merge may be pending) | 2026-09-18 | `src/content/*`, `src/server/content.ts`, `validate:content`; see Step 18 notes                                           |
-| 19   | Homepage hero                  | **Implemented** (on branch `feature/19-home-hero`; merge may be pending)         | 2026-09-18 | Static connected-business hero; draft copy in gallery only; see `docs/homepage/step-19.md`                                |
+| 18   | Typed shared content           | **Implemented**                                                                  | 2026-09-18 | Merged via PR #12                                                                                                         |
+| 19   | Homepage hero                  | **Implemented**                                                                  | 2026-09-18 | Merged via PR #13; static connected-business hero; see `docs/homepage/step-19.md`                                         |
+| 20   | Hero scenario interactions     | **Implemented** (on branch `feature/20-hero-interactions`; merge may be pending) | 2026-09-18 | Three-scenario selector; see `docs/homepage/step-20.md`                                                                   |
 
 ---
 
@@ -213,6 +214,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed; `npm run check` passed; `npm run build` passed. Production `next start` on **http://localhost:3020**: `/` 200 with honest starter (no draft headline/workflow); one `h1`/`main`; `/dev/ui` **404**. Viewport, keyboard, and JS-off gallery review **not run**.
 - No scenario interactions, evidence section, or later homepage blocks.
 
+### Step 20 (2026-09-18)
+
+- Branch: `feature/20-hero-interactions` from updated `main` (Steps 18–19 merged).
+- Three illustrative scenarios with `aria-pressed` selector in `HeroScenarioPanel` (client). Headline/CTAs unchanged on switch.
+- Selector enabled after hydration; noscript lists other scenario summaries. Service deep-links omitted until routes exist.
+- Checks: `npm run validate:content` passed; `npm run check` passed; `npm run build` passed. Production `next start` on **http://localhost:3021**: `/` 200 with honest starter (no draft hero/scenarios); `/dev/ui` **404**. Keyboard, 320px, reduced-motion, and JS-off gallery passes **not run**.
+- No evidence section or later homepage blocks.
+
 ---
 
 ## Steps 11–14 summary
@@ -224,7 +233,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–17 are merged to `main`. Steps 18–19 are on feature branches (`feature/18-content-structure`, `feature/19-home-hero`).
+These steps 11–19 are merged to `main`. Step 20 is on `feature/20-hero-interactions`.
 
 ---
 
