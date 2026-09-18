@@ -22,6 +22,7 @@ import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-sp
 import { HomeServiceExplorerSpecimen } from "@/components/dev/home-service-explorer-specimen";
 import { HomeTeamSpecimen } from "@/components/dev/home-team-specimen";
 import { MobileNavigationSpecimen } from "@/components/dev/mobile-navigation-specimen";
+import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen";
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
 
 export const metadata: Metadata = {
@@ -802,6 +803,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <ServicesOverviewSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="service-detail-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="service-detail-specimen-heading"
+            eyebrow="Example · local only"
+            description="Reusable service detail template fixtures. Public /services/[slug] stays unavailable until summary approval, detail approval, and route implementation align. Specimens are never exported as live service pages."
+          >
+            Service detail template
+          </SectionHeading>
+          <div className="mt-10">
+            <ServiceDetailSpecimen />
           </div>
         </Container>
       </Section>

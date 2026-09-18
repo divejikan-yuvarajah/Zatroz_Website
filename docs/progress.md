@@ -33,6 +33,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 27   | Homepage feedback / FAQs        | **Implemented** (on branch `feature/27-home-faq`; merge may be pending)          | 2026-09-18 | Six draft FAQs + empty feedback; native disclosures; see `docs/homepage/step-27.md`                                       |
 | 28   | Homepage final CTA + review     | **Implemented** (on branch `feature/28-home-cta`; merge may be pending)          | 2026-09-18 | Draft invitation; no usable enquiry action yet; see `docs/homepage/step-28.md`                                            |
 | 29   | Services overview               | **Implemented** (on branch `feature/29-services-overview`; merge may be pending) | 2026-09-18 | `/services` route + draft overview; see `docs/services/step-29.md`                                                        |
+| 30   | Service detail template         | **Implemented** (on branch `feature/30-service-template`; merge may be pending)  | 2026-09-18 | Dynamic `[slug]` + shared template; zero public details; see `docs/services/step-30.md`                                   |
 
 ---
 
@@ -310,6 +311,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (24 readiness warnings including draft-services-overview; `/services` route no longer unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Dev smoke: `/services` HTTP 200 with honest placeholder (no draft hero); home header links to `/services`. Production browser smoke **not run**. Gallery keyboard/viewport review **not run**.
 - No reusable service detail template (Step 30).
 
+### Step 30 (2026-09-18)
+
+- Branch: `feature/30-service-template` from `feature/29-services-overview`.
+- Shared `ServiceDetailPage` template + `src/app/services/[slug]/page.tsx` with awaited params, shared eligibility for page/metadata/static params.
+- All six `detail` fields remain `null`; detail routes stay `implemented: false`. Empty eligible set is intentional.
+- Gallery: complete / minimal / long-copy / missing-optional / no-CTA specimens on `/dev/ui`.
+- Docs: `docs/services/template.md`, `docs/services/step-30.md`.
+- Checks: `npm run validate:content` passed (24 readiness warnings; detail routes still unimplemented); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3030: `/services` HTTP 200; `/services/websites-ecommerce`, `/services/web-mobile-apps`, and `/services/not-a-real-service` HTTP 404 with no draft/specimen body text; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
+- No service-specific public detail pages (Steps 31–36).
+
 ---
 
 ## Steps 11–14 summary
@@ -321,7 +332,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–29 are on stacked feature branches (`feature/25-home-process` … `feature/29-services-overview`).
+These steps 11–24 are merged to `main`. Steps 25–30 are on stacked feature branches (`feature/25-home-process` … `feature/30-service-template`).
 
 ---
 
