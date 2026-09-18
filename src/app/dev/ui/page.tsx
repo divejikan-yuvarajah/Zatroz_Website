@@ -28,6 +28,7 @@ import { AiAutomationSpecimen } from "@/components/dev/ai-automation-specimen";
 import { BusinessSystemsSpecimen } from "@/components/dev/business-systems-specimen";
 import { CustomSoftwareSpecimen } from "@/components/dev/custom-software-specimen";
 import { UiUxDesignSpecimen } from "@/components/dev/ui-ux-design-specimen";
+import { WorkPageSpecimen } from "@/components/dev/work-page-specimen";
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
@@ -949,6 +950,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <UiUxDesignSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="work-page-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="work-page-specimen-heading"
+            eyebrow="Example · local only"
+            description="Work listing layout with labelled specimen cards. Live /work uses the approved catalog only (currently empty)."
+          >
+            Work page specimen
+          </SectionHeading>
+          <div className="mt-10">
+            <WorkPageSpecimen />
           </div>
         </Container>
       </Section>

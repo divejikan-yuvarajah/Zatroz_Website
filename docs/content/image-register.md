@@ -8,6 +8,10 @@ Record provenance for page visuals. Do not claim a file exists until it is creat
 | IMG-CS-01 | `public/images/services/custom-software-modules-hero-v1.webp` | Optional Custom Software hero atmosphere beside live HTML copy | Generation brief (not created this step) | Three distinct modular charcoal forms connected by restrained orange links, each fitting a different warm-white slot. No code, text, screens, brands, people, or robots. Palette `#F7F5F2` / `#111111` / `#FF3B10`. Wide ~8:5.                                                                                 | ~1600×1000 · 8:5   | Decorative if adjacent HTML explains the relationship; otherwise describe “Abstract linked modules suggesting a tailored system” | Pending  | **Not acquired** — HTML decision guide and system map used as the primary illustration (Step 35) |
 | IMG-UX-01 | `public/images/services/ui-ux-design-process-hero-v1.webp`    | Optional UI/UX Design hero atmosphere beside live HTML copy    | Generation brief (not created this step) | Minimal editorial still life of blank wireframe-like panels and abstract paper cards in clear hierarchy; warm-white surface, charcoal shapes, restrained orange highlight, soft daylight. No readable text, brands, people, or fake accessibility badge. Palette `#F7F5F2` / `#111111` / `#FF3B10`. Wide ~8:5. | ~1600×1000 · 8:5   | Decorative if adjacent HTML explains the process; otherwise describe “Abstract wireframe panels suggesting design hierarchy”     | Pending  | **Not acquired** — HTML enquiry flow and form states used as the primary illustration (Step 36)  |
 
+## Work page (Step 37)
+
+No decorative Work-page hero raster was added. Cards use approved project covers when present, otherwise an intentional text-first layout. Do not use stock photography as project evidence.
+
 ## Notes
 
 - Service illustrations may remain HTML/CSS/SVG when labels must stay exact and accessible.

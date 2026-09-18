@@ -7,7 +7,13 @@ import {
 } from "@/config/brand";
 import { publicRoutes } from "@/config/routes";
 import { isPublicServiceDetailEligible } from "@/server/service-detail";
+import {
+  getPublishedFeaturedProjectCardsSync,
+  getPublishedRelatedProjectCardsSync,
+} from "@/server/public-projects";
 import { contentCatalog } from "@/content/catalog";
+import { WORK_STATUS_LABELS, type ProjectRecord } from "@/content/projects";
+import type { PublicProjectCard } from "@/lib/public-projects";
 import {
   homeAutomationExampleRecord,
   type PublicAutomationExample,
@@ -55,7 +61,6 @@ import {
 } from "@/content/home-questions";
 import type { FeedbackRecord } from "@/content/feedback";
 import type { FounderRecord } from "@/content/founders";
-import type { ProjectRecord } from "@/content/projects";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
 export type {
@@ -430,13 +435,6 @@ function hasPublicEvidenceContent(): boolean {
   return homeEvidenceIntro.publicationState === "approved";
 }
 
-const WORK_STATUS_LABELS: Record<WorkStatus, string> = {
-  "client-work": "Client work",
-  "live-product": "Live product",
-  prototype: "Prototype",
-  "research-concept": "Research concept",
-};
-
 function resolveProjectResult(project: ProjectRecord): string {
   const outcome = project.verifiedOutcomes.find((row) => row.trim());
   if (outcome) {
@@ -482,19 +480,19 @@ function resolveProjectMedia(
   return null;
 }
 
-function resolveProjectFeatureLink(project: ProjectRecord): PublicCta | null {
-  if (publicRoutes.work.implemented) {
+function resolveProjectFeatureLink(
+  project: ProjectRecord,
+  card: PublicProjectCard,
+): PublicCta | null {
+  if (card.storyLinkEligible) {
     return {
-      label: "Read project story",
-      href: `/work/${project.slug}`,
+      label: "Read case study",
+      href: card.storyPath,
     };
   }
 
-  for (const link of project.publicLinks) {
+  for (const link of card.links) {
     const href = link.href.trim();
-    if (!href || /^javascript:/i.test(href)) {
-      continue;
-    }
     if (isHttpsUrl(href)) {
       return { label: link.label, href };
     }
@@ -505,14 +503,30 @@ function resolveProjectFeatureLink(project: ProjectRecord): PublicCta | null {
       if (exact && !exact.implemented) {
         continue;
       }
+      // Do not treat the Work listing or a story path as a case-study link.
+      if (href === publicRoutes.work.path || href === card.storyPath) {
+        continue;
+      }
       return { label: link.label, href };
     }
   }
 
+  // Prefer browsing the Work listing when it is live and no demo link exists.
+  if (publicRoutes.work.implemented) {
+    return {
+      label: siteRecord.cta.secondaryWorkLabel,
+      href: publicRoutes.work.path,
+    };
+  }
+
+  void project;
   return null;
 }
 
-function projectToFeature(project: ProjectRecord): PublicProjectFeature {
+function projectToFeature(
+  project: ProjectRecord,
+  card: PublicProjectCard,
+): PublicProjectFeature {
   return {
     id: project.id,
     title: project.title,
@@ -522,26 +536,23 @@ function projectToFeature(project: ProjectRecord): PublicProjectFeature {
     contribution: project.zatrozContribution,
     result: resolveProjectResult(project),
     media: resolveProjectMedia(project),
-    link: resolveProjectFeatureLink(project),
+    link: resolveProjectFeatureLink(project, card),
   };
 }
 
 /**
- * Resolve featured IDs to approved projects only, preserving order.
+ * Resolve featured IDs through the public project selector.
  * Drafts and unknown IDs are skipped (validation should already reject them).
  */
 function getApprovedFeaturedProjects(): PublicProjectFeature[] {
   const features: PublicProjectFeature[] = [];
 
-  for (const id of contentCatalog.featuredProjectIds) {
-    const project = contentCatalog.projects.find((row) => row.id === id);
-    if (!project || project.publicationState !== "approved") {
+  for (const card of getPublishedFeaturedProjectCardsSync(3)) {
+    const project = contentCatalog.projects.find((row) => row.id === card.id);
+    if (!project) {
       continue;
     }
-    features.push(projectToFeature(project));
-    if (features.length >= 3) {
-      break;
-    }
+    features.push(projectToFeature(project, card));
   }
 
   return features;
@@ -620,26 +631,17 @@ function projectNeed(
     ];
   });
 
-  const relatedWork = need.relatedProjectIds.flatMap((projectId) => {
-    const project = contentCatalog.projects.find((row) => row.id === projectId);
-    if (!project || project.publicationState !== "approved") {
-      return [];
-    }
-
-    const href = publicRoutes.work.implemented
-      ? `/work/${project.slug}`
-      : (project.publicLinks.find((link) => isHttpsUrl(link.href))?.href ??
-        null);
-
-    return [
-      {
-        id: project.id,
-        title: project.title,
-        workStatusLabel: WORK_STATUS_LABELS[project.workStatus],
-        href,
-      },
-    ];
-  });
+  const relatedWork = getPublishedRelatedProjectCardsSync(
+    need.relatedProjectIds,
+  ).map((card) => ({
+    id: card.id,
+    title: card.title,
+    workStatusLabel: card.workStatusLabel,
+    href: card.storyLinkEligible
+      ? card.storyPath
+      : (card.links.find((link) => /^https:\/\//i.test(link.href))?.href ??
+        null),
+  }));
 
   return {
     id: need.id,

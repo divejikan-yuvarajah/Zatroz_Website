@@ -473,9 +473,35 @@ export function validateContentCatalog(
         );
       }
     }
+    for (const serviceId of project.serviceIds) {
+      if (!serviceIds.has(serviceId)) {
+        pushError(
+          errors,
+          "unknown-service-ref",
+          "project.serviceIds references an unknown service",
+          project.id,
+          "serviceIds",
+        );
+      }
+    }
+    if (
+      project.storyPublicationState != null &&
+      project.storyPublicationState !== "draft" &&
+      project.storyPublicationState !== "approved" &&
+      project.storyPublicationState !== "archived"
+    ) {
+      pushError(
+        errors,
+        "invalid-story-state",
+        "storyPublicationState must be draft, approved, archived, or null",
+        project.id,
+        "storyPublicationState",
+      );
+    }
     if (project.publicationState === "approved") {
       for (const field of [
         "title",
+        "summary",
         "zatrozContribution",
         "problem",
         "approach",

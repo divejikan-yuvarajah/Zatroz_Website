@@ -11,19 +11,9 @@ import type {
   ServiceDetailStage,
 } from "@/content/service-detail";
 import type { ServiceRecord } from "@/content/services";
-import {
-  SERVICE_SLUGS,
-  type ServiceSlug,
-  type WorkStatus,
-} from "@/types/content";
+import { SERVICE_SLUGS, type ServiceSlug } from "@/types/content";
 import { resolveServicesEnquiryCta } from "@/server/services";
-
-const WORK_STATUS_LABELS: Record<WorkStatus, string> = {
-  "client-work": "Client work",
-  "live-product": "Live product",
-  prototype: "Prototype",
-  "research-concept": "Research concept",
-};
+import { getPublishedRelatedProjectCardsSync } from "@/server/public-projects";
 
 export type PublicServiceDetailFaq = {
   id: string;
@@ -153,20 +143,17 @@ function projectDetail(
     ];
   });
 
-  const relatedWork = detail.relatedProjectIds.flatMap((projectId) => {
-    const project = contentCatalog.projects.find((row) => row.id === projectId);
-    if (!project || project.publicationState !== "approved") {
-      return [];
-    }
-    return [
-      {
-        id: project.id,
-        title: project.title,
-        workStatusLabel: WORK_STATUS_LABELS[project.workStatus],
-        href: publicRoutes.work.implemented ? `/work/${project.slug}` : null,
-      },
-    ];
-  });
+  const relatedWork = getPublishedRelatedProjectCardsSync(
+    detail.relatedProjectIds,
+  ).map((card) => ({
+    id: card.id,
+    title: card.title,
+    workStatusLabel: card.workStatusLabel,
+    href: card.storyLinkEligible
+      ? card.storyPath
+      : (card.links.find((link) => /^https:\/\//i.test(link.href))?.href ??
+        null),
+  }));
 
   const relatedServices = detail.relatedServiceIds.flatMap((serviceId) => {
     const related = contentCatalog.services.find((row) => row.id === serviceId);

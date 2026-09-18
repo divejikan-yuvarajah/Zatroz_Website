@@ -19,6 +19,7 @@ import {
   type NavDestination,
 } from "@/config/navigation";
 import { publicRoutes } from "@/config/routes";
+import { getPublishedProjectCardsSync } from "@/server/public-projects";
 import { isPublicServiceDetailEligible } from "@/server/service-detail";
 
 export type PublicService = Readonly<{
@@ -36,6 +37,7 @@ export type PublicProject = Readonly<{
   workStatus: ProjectRecord["workStatus"];
   summaryContribution: string;
   path: string;
+  storyLinkEligible: boolean;
 }>;
 
 export type PublicFounder = Readonly<{
@@ -79,24 +81,31 @@ export function getLinkableServices(): readonly PublicService[] {
     .map(toPublicService);
 }
 
+/**
+ * Approved project summaries. Prefer `listPublishedProjects` for Work page
+ * filters and pagination. Story paths are only linkable when storyLinkEligible.
+ */
 export function getPublishedProjects(): readonly PublicProject[] {
-  return contentCatalog.projects
-    .filter((project) => project.publicationState === "approved")
-    .map((project) => ({
-      id: project.id,
-      slug: project.slug,
-      title: project.title,
-      workStatus: project.workStatus,
-      summaryContribution: project.zatrozContribution,
-      path: `/work/${project.slug}`,
-    }));
+  return getPublishedProjectCardsSync().items.map((card) => ({
+    id: card.id,
+    slug: card.slug,
+    title: card.title,
+    workStatus: card.workStatus,
+    summaryContribution: card.summary,
+    path: card.storyPath,
+    storyLinkEligible: card.storyLinkEligible,
+  }));
 }
 
+/**
+ * Approved projects that may be linked as story destinations.
+ * Empty while case-study routes / stories are not public-ready.
+ */
 export function getLinkableProjects(): readonly PublicProject[] {
   if (!publicRoutes.work.implemented) {
     return [];
   }
-  return getPublishedProjects();
+  return getPublishedProjects().filter((project) => project.storyLinkEligible);
 }
 
 export function getPublishedFounders(): readonly PublicFounder[] {

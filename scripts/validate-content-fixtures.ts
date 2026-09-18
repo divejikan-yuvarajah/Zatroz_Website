@@ -65,8 +65,11 @@ export function runFixtureValidations() {
       id: "proj-bad-url",
       slug: "bad-url-example",
       title: "Bad URL example",
+      summary: "",
       publicationState: "draft",
       workStatus: "prototype",
+      editorialOrder: null,
+      serviceIds: [],
       contributors: [],
       zatrozContribution: "",
       problem: "",
@@ -75,6 +78,7 @@ export function runFixtureValidations() {
       verifiedOutcomes: [],
       mediaIds: [],
       publicLinks: [{ label: "unsafe", href: "javascript:alert(1)" }],
+      storyPublicationState: null,
     },
   ];
   expectFails("invalid-project-url", badUrl, "invalid-url");
@@ -142,8 +146,11 @@ export function runFixtureValidations() {
       id: "proj-featured-dup",
       slug: "featured-dup-example",
       title: "Featured duplicate example",
+      summary: "Specimen summary for fixture validation.",
       publicationState: "approved",
       workStatus: "prototype",
+      editorialOrder: null,
+      serviceIds: [],
       contributors: ["Specimen"],
       zatrozContribution: "Specimen contribution",
       problem: "Specimen problem",
@@ -152,6 +159,7 @@ export function runFixtureValidations() {
       verifiedOutcomes: [],
       mediaIds: [],
       publicLinks: [],
+      storyPublicationState: null,
     },
   ];
   duplicateFeatured.featuredProjectIds = [
@@ -170,8 +178,11 @@ export function runFixtureValidations() {
       id: "proj-draft-featured",
       slug: "draft-featured-example",
       title: "Draft featured example",
+      summary: "Draft summary",
       publicationState: "draft",
       workStatus: "prototype",
+      editorialOrder: null,
+      serviceIds: [],
       contributors: [],
       zatrozContribution: "Draft contribution",
       problem: "Draft problem",
@@ -180,6 +191,7 @@ export function runFixtureValidations() {
       verifiedOutcomes: [],
       mediaIds: [],
       publicLinks: [],
+      storyPublicationState: null,
     },
   ];
   draftFeatured.featuredProjectIds = ["proj-draft-featured"];

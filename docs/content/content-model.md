@@ -20,38 +20,44 @@
 - `getPublishedServices()` — approved records (may lack a page).
 - `getLinkableServices()` — approved **and** route implemented. Use this for live links.
 
-The same idea applies to projects (`getPublishedProjects` / `getLinkableProjects`).
+The same idea applies to projects:
+
+- `listPublishedProjects` / `getPublishedProjects` — approved summary cards (may lack a story page).
+- `getLinkableProjects` — approved summaries whose case-study story is also public-ready.
+- Prefer `src/server/public-projects.ts` for Work page filters and related-work consumers.
 
 ---
 
 ## File map
 
-| Path                                | Holds                                               |
-| ----------------------------------- | --------------------------------------------------- |
-| `src/types/content.ts`              | Shared unions (`PublicationState`, service slugs)   |
-| `src/content/site.ts`               | Brand name, draft blurb, CTA labels, contact        |
-| `src/content/navigation.ts`         | Nav labels + `routeId` order (no duplicated URLs)   |
-| `src/content/services.ts`           | Exactly six service records                         |
-| `src/content/services-overview.ts`  | Services overview framing (draft)                   |
-| `src/content/home.ts`               | Homepage hero, scenarios, selected-work feature IDs |
-| `src/content/business-needs.ts`     | Four homepage business needs + explorer framing     |
-| `src/content/automation-example.ts` | Charcoal automation illustration (draft)            |
-| `src/content/process.ts`            | Homepage delivery process steps (draft)             |
-| `src/content/people.ts`             | Homepage company intro + working principles (draft) |
-| `src/content/home-questions.ts`     | Homepage FAQ / feedback framing (draft)             |
-| `src/content/home-final-cta.ts`     | Homepage final enquiry invitation (draft)           |
-| `src/content/projects.ts`           | Project stories (empty until verified)              |
-| `src/content/founders.ts`           | Founder profiles (empty until approved)             |
-| `src/content/faqs.ts`               | Draft enquiry FAQs (six)                            |
-| `src/content/feedback.ts`           | Testimonials / project lessons (empty)              |
-| `src/content/evidence.ts`           | Homepage proof items + intro (empty / draft)        |
-| `src/content/media.ts`              | Public media records (empty until assets exist)     |
-| `src/content/catalog.ts`            | Aggregate for validation + server access            |
-| `src/config/routes.ts`              | Canonical paths + `implemented`                     |
-| `src/config/navigation.ts`          | Public nav projections for header/footer/gallery    |
-| `src/config/brand.ts`               | Public contact helpers (reads `site.ts`)            |
-| `src/server/content.ts`             | `server-only` selectors / public projections        |
-| `src/lib/content-validate.ts`       | Pure validator                                      |
+| Path                                | Holds                                                          |
+| ----------------------------------- | -------------------------------------------------------------- |
+| `src/types/content.ts`              | Shared unions (`PublicationState`, service slugs)              |
+| `src/content/site.ts`               | Brand name, draft blurb, CTA labels, contact                   |
+| `src/content/navigation.ts`         | Nav labels + `routeId` order (no duplicated URLs)              |
+| `src/content/services.ts`           | Exactly six service records                                    |
+| `src/content/services-overview.ts`  | Services overview framing (draft)                              |
+| `src/content/home.ts`               | Homepage hero, scenarios, selected-work feature IDs            |
+| `src/content/business-needs.ts`     | Four homepage business needs + explorer framing                |
+| `src/content/automation-example.ts` | Charcoal automation illustration (draft)                       |
+| `src/content/process.ts`            | Homepage delivery process steps (draft)                        |
+| `src/content/people.ts`             | Homepage company intro + working principles (draft)            |
+| `src/content/home-questions.ts`     | Homepage FAQ / feedback framing (draft)                        |
+| `src/content/home-final-cta.ts`     | Homepage final enquiry invitation (draft)                      |
+| `src/content/projects.ts`           | Project summaries (empty until verified); story state separate |
+| `src/lib/public-projects.ts`        | Pure public project DTO / filter helpers                       |
+| `src/server/public-projects.ts`     | Repository adapter + async public selectors                    |
+| `src/content/founders.ts`           | Founder profiles (empty until approved)                        |
+| `src/content/faqs.ts`               | Draft enquiry FAQs (six)                                       |
+| `src/content/feedback.ts`           | Testimonials / project lessons (empty)                         |
+| `src/content/evidence.ts`           | Homepage proof items + intro (empty / draft)                   |
+| `src/content/media.ts`              | Public media records (empty until assets exist)                |
+| `src/content/catalog.ts`            | Aggregate for validation + server access                       |
+| `src/config/routes.ts`              | Canonical paths + `implemented`                                |
+| `src/config/navigation.ts`          | Public nav projections for header/footer/gallery               |
+| `src/config/brand.ts`               | Public contact helpers (reads `site.ts`)                       |
+| `src/server/content.ts`             | `server-only` selectors / public projections                   |
+| `src/lib/content-validate.ts`       | Pure validator                                                 |
 
 Do **not** import `src/content/catalog.ts` or draft collections into Client Components. Header/footer Server Components call `@/server/content`. Client nav receives serializable props only.
 
