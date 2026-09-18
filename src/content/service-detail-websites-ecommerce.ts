@@ -146,7 +146,7 @@ export const websitesEcommerceDetail = {
       id: "wec-stage-handover",
       title: "Test, launch, and hand over",
       description:
-        "Check the agreed journeys, launch when ready, and leave access plus update instructions explicit. Process detail on the homepage (/#how-we-work) applies when that section is published.",
+        "Check the agreed journeys, launch when ready, and leave access plus update instructions explicit. Fuller collaboration detail lives on /process when that page copy is approved; the homepage summary (/#how-we-work) applies when that section is published.",
     },
   ],
   clientInputs: [

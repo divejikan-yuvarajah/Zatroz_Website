@@ -44,6 +44,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 38   | Case-study template             | **Implemented** (on branch `feature/38-case-study`; merge may be pending)           | 2026-09-18 | `/work/[slug]` template + story model; 0 published stories; see `docs/work/step-38.md`                                    |
 | 39   | Initial project stories         | **Implemented** (on branch `feature/39-initial-case-studies`; merge may be pending) | 2026-09-18 | Evidence register + drafts; **0** published stories (blocked on facts); see `docs/work/step-39.md`                        |
 | 40   | About page                      | **Implemented** (on branch `feature/40-about-page`; merge may be pending)           | 2026-09-18 | `/about` live; draft copy gated; gallery specimen; see `docs/pages/step-40.md`                                            |
+| 41   | Process / How We Work           | **Implemented** (on branch `feature/41-process-page`; merge may be pending)         | 2026-09-18 | `/process` live; six draft stages; gallery specimen; see `docs/pages/step-41.md`                                          |
 
 ---
 
@@ -431,6 +432,17 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Checks: `npm run validate:content` passed (17 readiness warnings including draft-about-page); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3040: `/about` HTTP 200 sparse placeholder (no draft mission leak); `/` links `/about`; `/work` 200; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
 - No Process page (Step 41).
 
+### Step 41 (2026-09-18)
+
+- Branch: `feature/41-process-page` from `feature/40-about-page`.
+- Process route + six-stage draft content model; public page sparse until approval; gallery shows full draft.
+- Collaboration, dependencies, acceptance, prepare checklist, and process FAQs included without unsupported promises.
+- Homepage process vocabulary aligned (Understand…); `process.implemented: true` so nav and home can link `/process`.
+- No process illustration acquired — ordered list is primary.
+- Docs: `docs/pages/step-41.md`; image register notes optional illustration not acquired.
+- Checks: `npm run validate:content` passed (17 readiness warnings including draft-process-page); `npm run check` passed; `npm run build` passed (Next.js 16.3.5). Production `next start` on port 3041: `/process` HTTP 200 sparse placeholder (no draft stage leak); `/` links `/process`; `/about` 200; `/dev/ui` HTTP 404. Gallery keyboard/viewport review **not run**.
+- No Contact page (Step 42).
+
 ---
 
 ## Steps 11–14 summary
@@ -442,7 +454,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–40 are on stacked feature branches (`feature/25-home-process` … `feature/40-about-page`).
+These steps 11–24 are merged to `main`. Steps 25–41 are on stacked feature branches (`feature/25-home-process` … `feature/41-process-page`).
 
 ---
 

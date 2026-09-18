@@ -24,6 +24,14 @@ The case-study template is ready. Step 39 found **no** approved project evidence
 
 Founder portraits remain `A-TEAM-01`…`03` in the asset register — Missing. Do not generate faces.
 
+## Process page (Step 41)
+
+| Asset ID       | Intended path                                                  | Purpose                                  | Status                                                              |
+| -------------- | -------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------- |
+| IMG-PROCESS-01 | `public/images/process/process-structure-illustration-v1.webp` | Optional decorative six-stage atmosphere | **Not acquired** — semantic ordered list carries the page (Step 41) |
+
+No raster timeline with illegible labels. Exact stage text stays in HTML.
+
 ## Notes
 
 - Service illustrations may remain HTML/CSS/SVG when labels must stay exact and accessible.

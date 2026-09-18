@@ -34,6 +34,8 @@ import type { HomePeopleRecord } from "@/content/people";
 import { homePeopleRecord } from "@/content/people";
 import type { HomeProcessRecord } from "@/content/process";
 import { homeProcessRecord } from "@/content/process";
+import type { ProcessPageRecord } from "@/content/process-page";
+import { processPageRecord } from "@/content/process-page";
 import type { ProjectRecord } from "@/content/projects";
 import { projectRecords } from "@/content/projects";
 import type { ServiceRecord } from "@/content/services";
@@ -58,6 +60,7 @@ export type ContentCatalog = {
   serviceExplorer: HomeServiceExplorerRecord;
   automationExample: HomeAutomationExampleRecord;
   process: HomeProcessRecord;
+  processPage: ProcessPageRecord;
   people: HomePeopleRecord;
   questions: HomeQuestionsRecord;
   finalCta: HomeFinalCtaRecord;
@@ -82,6 +85,7 @@ export const contentCatalog: ContentCatalog = {
   serviceExplorer: homeServiceExplorerRecord,
   automationExample: homeAutomationExampleRecord,
   process: homeProcessRecord,
+  processPage: processPageRecord,
   people: homePeopleRecord,
   questions: homeQuestionsRecord,
   finalCta: homeFinalCtaRecord,
