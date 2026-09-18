@@ -69,8 +69,8 @@ This review separates **technical completion** from **content approval** and **l
 | Desktop/mobile nav, Services disclosure, sticky header focus | **Not run** (browser review pending)        |
 | Hero scenarios, explorer, automation walkthrough, FAQ open   | **Not run**                                 |
 | Viewports 320/390/768/1024/1440 + 200% zoom + reduced motion | **Not run**                                 |
-| Production `/` smoke after `next start`                      | Recorded with Step 28 checks when run       |
-| `/dev/ui` unavailable under `next start`                     | Recorded with Step 28 checks when run       |
+| Production `/` smoke after `next start`                      | Pass — HTTP 200 on port 3028                |
+| `/dev/ui` unavailable under `next start`                     | Pass — HTTP 404 on port 3028                |
 | Lighthouse / Core Web Vitals                                 | **Not claimed** — deferred to release steps |
 
 ---
