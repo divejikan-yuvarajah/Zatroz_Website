@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import Link from "next/link";
 import type { NavDestination } from "@/config/navigation";
 import { getNavLinkState } from "@/lib/navigation";
@@ -26,7 +27,7 @@ export function HeaderNavLink({
 }: {
   item: NavDestination;
   pathname: string;
-  onNavigate?: () => void;
+  onNavigate?: (event: MouseEvent<HTMLAnchorElement>) => void;
 }) {
   if (!item.implemented) {
     return <PlannedNavLabel label={item.label} />;

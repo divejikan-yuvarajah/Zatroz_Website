@@ -2,6 +2,7 @@
  * Pure path helpers for navigation active states.
  * Hash and query strings are not part of page identity.
  */
+export const DESKTOP_NAV_MEDIA = "(min-width: 1024px)";
 
 export type NavLinkState = {
   isCurrent: boolean;
