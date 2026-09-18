@@ -1,3 +1,4 @@
+import { HomeAutomationExample } from "@/components/sections/home-automation-example";
 import { HomeEvidence } from "@/components/sections/home-evidence";
 import { HomeFeaturedWork } from "@/components/sections/home-featured-work";
 import { HomeHero } from "@/components/sections/home-hero";
@@ -6,6 +7,7 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
+  getPublicAutomationExample,
   getPublicHomeEvidence,
   getPublicHomeHero,
   getPublicSelectedWork,
@@ -17,6 +19,7 @@ export default function Home() {
   const evidence = getPublicHomeEvidence();
   const selectedWork = getPublicSelectedWork();
   const serviceExplorer = getPublicServiceExplorer();
+  const automationExample = getPublicAutomationExample();
 
   return (
     <>
@@ -31,9 +34,9 @@ export default function Home() {
             <p className="mt-4">
               Development starter for the Zatroz website. Homepage sections are
               implemented and reviewed in the local gallery. Proposed copy,
-              proof items, project features, and business-need explorer content
-              stay draft or empty until founders approve them, so this public
-              page does not publish that wording yet.
+              proof items, project features, business-need explorer content, and
+              the automation example stay draft or empty until founders approve
+              them, so this public page does not publish that wording yet.
             </p>
           </Container>
         </Section>
@@ -42,6 +45,9 @@ export default function Home() {
       {selectedWork ? <HomeFeaturedWork selectedWork={selectedWork} /> : null}
       {serviceExplorer ? (
         <HomeServiceExplorer explorer={serviceExplorer} />
+      ) : null}
+      {automationExample ? (
+        <HomeAutomationExample example={automationExample} />
       ) : null}
     </>
   );

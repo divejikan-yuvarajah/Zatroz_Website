@@ -41,4 +41,4 @@ Recorded in `docs/progress.md` after the commands for this step.
 
 ## Next
 
-Step 24 — practical automation example.
+Step 25 — delivery process section.

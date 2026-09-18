@@ -685,6 +685,62 @@ export function validateContentCatalog(
     );
   }
 
+  if (catalog.automationExample.publicationState === "approved") {
+    for (const field of ["heading", "supporting", "workflowLabel"] as const) {
+      if (!catalog.automationExample[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved automation example is missing a required field",
+          catalog.automationExample.id,
+          field,
+        );
+      }
+    }
+
+    if (catalog.automationExample.stages.length !== 4) {
+      pushError(
+        errors,
+        "automation-stage-count",
+        "Automation example must have exactly four stages",
+        catalog.automationExample.id,
+        "stages",
+      );
+    }
+
+    for (const stage of catalog.automationExample.stages) {
+      if (!stage.label.trim() || !stage.detail.trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved automation stage is missing label or detail",
+          catalog.automationExample.id,
+          "stages",
+        );
+      }
+    }
+
+    if (
+      !catalog.automationExample.sampleInvoice.fields.some((f) => f.needsReview)
+    ) {
+      pushError(
+        errors,
+        "missing-review-field",
+        "Automation sample invoice must include at least one Needs review field",
+        catalog.automationExample.id,
+        "sampleInvoice",
+      );
+    }
+  }
+
+  if (catalog.automationExample.publicationState !== "approved") {
+    pushWarning(
+      warnings,
+      "draft-automation-example",
+      "Automation example stays off the public homepage until copy is approved",
+    );
+  }
+
   return {
     ok: errors.length === 0,
     errors,

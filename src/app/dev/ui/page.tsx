@@ -12,6 +12,7 @@ import { UiInteractions } from "@/components/dev/ui-interactions";
 import { FormDemo } from "@/components/dev/form-demo";
 import { DesktopNavigationSpecimen } from "@/components/dev/desktop-navigation-specimen";
 import { FooterSpecimen } from "@/components/dev/footer-specimen";
+import { HomeAutomationExampleSpecimen } from "@/components/dev/home-automation-example-specimen";
 import { HomeEvidenceSpecimen } from "@/components/dev/home-evidence-specimen";
 import { HomeHeroSpecimen } from "@/components/dev/home-hero-specimen";
 import { HomeSelectedWorkSpecimen } from "@/components/dev/home-selected-work-specimen";
@@ -676,6 +677,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <HomeServiceExplorerSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="home-automation-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="home-automation-specimen-heading"
+            eyebrow="Example · local only"
+            description="Charcoal automation illustration with sample invoice and optional manual walkthrough. Public / omits this section until copy is approved. Nothing is uploaded or processed."
+          >
+            Homepage automation example
+          </SectionHeading>
+          <div className="mt-10">
+            <HomeAutomationExampleSpecimen />
           </div>
         </Container>
       </Section>
