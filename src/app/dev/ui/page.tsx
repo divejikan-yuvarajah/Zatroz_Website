@@ -26,6 +26,7 @@ import { ServiceDetailSpecimen } from "@/components/dev/service-detail-specimen"
 import { ServicesOverviewSpecimen } from "@/components/dev/services-overview-specimen";
 import { AiAutomationSpecimen } from "@/components/dev/ai-automation-specimen";
 import { BusinessSystemsSpecimen } from "@/components/dev/business-systems-specimen";
+import { CustomSoftwareSpecimen } from "@/components/dev/custom-software-specimen";
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
 
@@ -907,6 +908,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <AiAutomationSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="light"
+        aria-labelledby="custom-software-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="custom-software-specimen-heading"
+            eyebrow="Example · local only"
+            description="Draft Custom Software service page. Public route returns not-found until copy is approved. Decision guide and system map are labelled samples — not a live product or case study."
+          >
+            Custom Software draft
+          </SectionHeading>
+          <div className="mt-10">
+            <CustomSoftwareSpecimen />
           </div>
         </Container>
       </Section>

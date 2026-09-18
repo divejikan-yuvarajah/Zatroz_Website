@@ -51,7 +51,7 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   customSoftware: {
     id: "customSoftware",
     path: "/services/custom-software",
-    implemented: false,
+    implemented: true,
   },
   uiUxDesign: {
     id: "uiUxDesign",

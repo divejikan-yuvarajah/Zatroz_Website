@@ -238,4 +238,53 @@ export const faqRecords = [
     publicationState: "draft",
     relatedServiceId: "svc-ai-automation",
   },
+  {
+    id: "faq-cs-build-or-buy",
+    question:
+      "How do we decide between an existing product and a custom build?",
+    answer:
+      "We compare configuring what you already use, integrating existing tools, and building a tailored application against your real workflow gaps. Custom software is chosen only when those practical alternatives cannot support the requirements well — not because a build is assumed cheaper or faster.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
+  {
+    id: "faq-cs-current-software",
+    question: "Can you work with our current software and data?",
+    answer:
+      "When authorized access and usable APIs or exports exist, integrations can be assessed and scoped. We do not scrape or bypass access controls. Feasibility depends on what each system actually allows.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
+  {
+    id: "faq-cs-smaller-version",
+    question: "Can we launch a smaller first version?",
+    answer:
+      "Yes. A first useful release for the core journey is preferred. Later roles, integrations, and migrations are planned as separate increments after that release is usable.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
+  {
+    id: "faq-cs-handover",
+    question: "What do we receive at handover?",
+    answer:
+      "Agreed documentation, access notes, and the deliverables listed in the proposal — typically including deployment notes and how to operate the first release. Exact contents are confirmed after discovery.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
+  {
+    id: "faq-cs-ownership",
+    question: "Who owns the code and design files?",
+    answer:
+      "Ownership and licensing terms are agreed in the engagement. Third-party components keep their own licences and may be excluded from a simple ownership statement. This page does not make a blanket legal guarantee.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
+  {
+    id: "faq-cs-after-launch",
+    question: "What happens after launch?",
+    answer:
+      "Hosting, monitoring, provider charges, and support response times continue only as scoped. Maintenance is optional and explicit — not perpetual free support. Changes to APIs or business rules may need follow-on work.",
+    publicationState: "draft",
+    relatedServiceId: "svc-custom-software",
+  },
 ] as const satisfies readonly FaqRecord[];

@@ -2,6 +2,7 @@ import type { RouteId } from "@/config/routes";
 import type { ServiceDetailRecord } from "@/content/service-detail";
 import { aiAutomationDetail } from "@/content/service-detail-ai-automation";
 import { businessSystemsDetail } from "@/content/service-detail-business-systems";
+import { customSoftwareDetail } from "@/content/service-detail-custom-software";
 import { webMobileAppsDetail } from "@/content/service-detail-web-mobile-apps";
 import { websitesEcommerceDetail } from "@/content/service-detail-websites-ecommerce";
 import type { PublicationState, ServiceSlug } from "@/types/content";
@@ -166,12 +167,17 @@ export const serviceRecords = [
     relatedProjectIds: [],
     whoItSuits:
       "Organisations with unusual rules, integrations, or workflows that off-the-shelf tools do not cover well.",
-    problemsAddressed: "",
-    exampleNotes: "",
-    deliverySteps: "",
-    clientInputs: "",
-    scopeBoundaries: "",
-    detail: null,
+    problemsAddressed:
+      "Product workarounds, missing integrations, rules that configuration cannot express, and buy options that still leave the same gap.",
+    exampleNotes:
+      "Illustrative configure/integrate/tailor guide and system map — not a live product or case study.",
+    deliverySteps:
+      "Understand the process, define the first useful release, prototype risky parts, build and test, then launch and hand over.",
+    clientInputs:
+      "Goals, workflows, roles, current tools, allowed data access, constraints, decision makers, and acceptance criteria.",
+    scopeBoundaries:
+      "Not always better than buy/configure. Ownership and support are proposal terms. No scraping or unsupported tech badges.",
+    detail: customSoftwareDetail,
   },
   {
     id: "svc-ui-ux-design",
