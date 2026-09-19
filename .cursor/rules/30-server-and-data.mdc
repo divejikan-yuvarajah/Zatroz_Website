@@ -9,7 +9,9 @@ Use when touching `src/server`, API routes, env access, enquiries, email, or dat
 
 - Keep credentials and secrets **server-only** (no `NEXT_PUBLIC_` for secrets). Prefer helpers under `src/server/`.
 - Validate at the **server boundary** even if the browser already validated.
-- Enquiry records must **not** be publicly readable; no public list/admin of enquiries at launch.
+- Enquiry records must **not** be publicly readable; content-editor roles do **not** include enquiry access by default.
+- Application database is **MongoDB Atlas** (not Supabase). Keep DB calls in narrow server repositories; never spread request JSON into queries.
+- Staff admin auth (Better Auth) and media binaries (Cloudinary) are planned in A02/A04 — do not invent homemade sessions or unrestricted URL fetchers.
 - Do **not** log PII (names, emails, message bodies) in plain application logs or analytics.
 - Report success to the visitor only after a **durable save**; notification failure must be recoverable with bounded retries.
 - When integrations exist: keep test/preview data and recipients separate from production.

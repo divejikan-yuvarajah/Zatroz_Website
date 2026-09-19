@@ -11,6 +11,8 @@ Use when writing copy, placing brand assets, or building visual UI.
 - After Step 11 creates design tokens, use those tokens instead of inventing new ones.
 - Use the **real approved logo** only; do not redraw or invent brand marks.
 - Do **not** invent client logos, testimonials, awards, statistics, or delivery promises. Mark unknowns as TODO.
+- Image sourcing: follow `docs/content/image-policy.md`. Generated artwork cannot replace real project/team evidence.
+- Portfolio projects/case studies/media will be admin-managed (A01–A12); general marketing copy stays repository-managed (`docs/planning/admin-and-media-addendum.md`).
 - Do **not** publish package prices until founders confirm stable inclusions/exclusions.
 - Keep routes and CTAs consistent with `docs/planning/03-sitemap.md`, `navigation-spec.md`, and `visitor-journeys.md` (primary CTA: Start a project → Contact).
 - Content inventory and assets: `docs/content/`.

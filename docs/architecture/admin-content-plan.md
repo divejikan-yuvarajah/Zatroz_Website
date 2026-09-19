@@ -1,10 +1,14 @@
 # Admin content plan (portfolio)
 
-Planning notes for the future MongoDB admin panel and the public project interface introduced in Steps 37–38. This is not a claim that admin, auth, or MongoDB are implemented.
+**Status:** Requirements finalized in **A01**. Auth, UI, uploads, and Mongo public switch are **not** implemented yet.  
+**Canonical plan addendum:** `docs/planning/admin-and-media-addendum.md`  
+**Data foundations:** `docs/backend/data-model.md` (Step 45 collections)
 
-## Public selector interface (Steps 37–39)
+---
 
-Components consume typed public DTOs only. They must not import `projectRecords` or other raw catalog arrays.
+## 1. Public selector interface (stable across A09–A10)
+
+Components consume typed public DTOs only. They must not import `projectRecords` or other raw catalog arrays in page UI.
 
 | Operation                          | Module                                                       | Notes                                 |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
@@ -15,31 +19,131 @@ Components consume typed public DTOs only. They must not import `projectRecords`
 | `listPublishedRelatedProjects`     | same                                                         | Related-work blocks                   |
 | Pure helpers / tests               | `src/lib/public-projects.ts`, `src/lib/public-case-study.ts` | Eligibility, query parse, DTO mapping |
 
-`PublicProjectCard` fields are bounded: id, slug, title, summary, work status + label, approved service refs, approved cover, story-link eligibility, safe links, attribution, and story path (use only when eligible).
+`PublicProjectCard` / `PublicCaseStudy` shapes stay the contract when the adapter switches from repository → MongoDB published revisions.
 
-`PublicCaseStudy` adds structured sections, gallery derivatives, outcomes, optional testimonial, related cards, and page metadata. Draft revision bodies, `reviewNotes`, and unpublished media must never appear.
+**Current adapter:** `src/server/public-projects.ts` → `contentCatalog` / repository records.  
+**Target adapter (A09):** same function names; queries published pointers + revisions only. On DB failure: unavailable/recovery — **no** draft-repo fallback.
 
-## Story model
+### Imports to consolidate before/at A09 (impact list)
 
-Projects keep a separately publishable `story` body (`ProjectStoryRecord`) with controlled paragraph/list blocks. Summary publication can exist without a story. Approved stories require title, intro, context, contribution, and solution. Gallery items reference media IDs with captions; concept screens must be labelled.
+| Area                         | Today                                                                   | Target                                                      |
+| ---------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Work / case-study routes     | `@/server/public-projects`                                              | Keep                                                        |
+| Home featured                | `@/server/public-projects` (+ some `ProjectRecord` typing in `home.ts`) | Prefer public DTOs only                                     |
+| Service detail related       | `@/server/public-projects`                                              | Keep                                                        |
+| Dev specimens                | May use `ProjectRecord` fixtures                                        | Gallery-only; never public                                  |
+| `content-validate` / catalog | Repository arrays                                                       | Remain for repo validation until A10 retires parallel edits |
 
-## Repository adapter (current)
+Do **not** rewrite working UI in A01.
 
-`src/server/public-projects.ts` reads `contentCatalog`. Story routes are live under `/work/[slug]`; eligibility still requires an approved story body. `generateStaticParams` may prerender known slugs but must not permanently block request-time lookup of new admin-created slugs.
+---
 
-## MongoDB switch (A09–A11)
+## 2. Content model (aligned with Step 45)
 
-When admin publishing is live:
+| Collection               | Role                                                                                                                               |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `projects`               | `editorialId`, draft vs published pointers, `draftSlug`/`draftTitle`, `canonicalPublishedSlug`, `workStatus`, `concurrencyVersion` |
+| `project_revisions`      | Immutable `revisionId` + `(projectId, revisionNumber)`; summary and/or story snapshots; `mediaRefs`                                |
+| `media_assets`           | `mediaId` + immutable `versionId`; provider IDs; dimensions; alt; provenance; processing; visibility                               |
+| `site_content_settings`  | Allowlisted keys only (`featured_projects`)                                                                                        |
+| `admin_audit_events`     | Actor/action/target/time/outcome — no private payloads                                                                             |
+| `content_jobs`           | Bounded publish/media/cache recovery jobs (worker later)                                                                           |
+| Auth library collections | Better Auth–owned — do not apply Zatroz content validators                                                                         |
+| `enquiries`              | Separate; editors have no access by default                                                                                        |
 
-1. Replace the repository adapter with queries against published project revisions.
-2. Keep the same DTO shapes so Work listing, case-study pages, homepage, and related-work UI stay unchanged.
-3. On database failure, show an unavailable/recovery state — **do not** fall back to draft repository files as a second source of truth.
-4. Newly published slugs must resolve without a production rebuild; refresh Work listing, featured homepage items, related-work blocks, metadata, and sitemap eligibility as applicable.
-5. Migrate approved repository projects/media once (A10); stop editing repository project records as a parallel live source afterward.
-6. Authenticated private previews remain A07 — out of scope for public routes.
+**Publication independence:** summary publish ≠ story publish. Draft slug/title must not replace live slug until publish + redirect rules (A08).
 
-## Related docs
+**Story blocks:** `paragraph` | `list` only. No arbitrary HTML/scripts/MDX.
 
-- Addendum: `docs/prompts/Zatroz_Admin_and_Image_Plan_Addendum.md` (untracked prompt pack may also exist locally)
-- Step notes: `docs/work/step-37.md`, `docs/work/step-38.md`
-- Image provenance: `docs/content/image-register.md`
+**Integrity (application-enforced):** media refs exist and are eligible; featured IDs are public-ready; pointers reference revisions of the same project.
+
+Optional later: `project_routes` registry for redirects — reserved; do not dual-store slugs in A01–A08 beyond `canonicalPublishedSlug` + documented redirect records in A08.
+
+---
+
+## 3. Roles and publishing rules
+
+See matrix in `docs/planning/admin-and-media-addendum.md`.
+
+### State transitions (content)
+
+| From                      | To                             | Who                                     |
+| ------------------------- | ------------------------------ | --------------------------------------- |
+| (new)                     | draft revision                 | Owner, Editor                           |
+| draft                     | authenticated preview          | Owner, Editor                           |
+| draft                     | published summary and/or story | **Owner only**                          |
+| published                 | unpublished / archived         | **Owner only**                          |
+| archived / older revision | restore as **new** draft       | Owner (Editor if granted archive scope) |
+
+Editing a live project writes draft pointers only until publish. Concurrent editors: conflict when `concurrencyVersion` mismatches — no silent overwrite.
+
+### Featured order
+
+Owner sets ordered `featuredProjectIds`. Homepage selected-work shows only eligible published summaries. Empty list → honest empty public UI.
+
+---
+
+## 4. Admin route map (planned — not created in A01)
+
+| Route                          | Purpose                      | From step |
+| ------------------------------ | ---------------------------- | --------- |
+| `/admin/login`                 | Sign-in + MFA challenge      | A02–A03   |
+| `/admin`                       | Dashboard counts + shortcuts | A03       |
+| `/admin/projects`              | List / search / filter       | A05       |
+| `/admin/projects/new`          | Create draft                 | A05       |
+| `/admin/projects/[id]`         | Edit draft summary           | A05       |
+| `/admin/projects/[id]/story`   | Case-study editor            | A06       |
+| `/admin/projects/[id]/preview` | Authenticated preview        | A07       |
+| `/admin/media`                 | Media library                | A04       |
+| `/admin/settings/featured`     | Featured order               | A08–A09   |
+| `/admin/staff`                 | Role management (owner)      | A02–A03   |
+
+All `/admin/**` (except login) require verified session + completed MFA + permission checks on **server** for every data operation — not button hiding alone.
+
+---
+
+## 5. Auth and media tool recommendations
+
+| Tool                                              | Role                         | A01 status                                                                                           |
+| ------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Better Auth + Mongo adapter + official 2FA plugin | Staff auth                   | **Proposed** — verify package compatibility in A02; preserve if anything already exists (none today) |
+| Cloudinary                                        | Binary storage + derivatives | **Proposed** — verify signed upload + private delivery in A04                                        |
+| Resend                                            | Enquiry / recovery email     | Already planned; not content-admin                                                                   |
+
+Unresolved until setup: Atlas backup tier capability, Cloudinary plan ACLs, Better Auth version pin, production `APP_ORIGIN`, named owner bootstrap identity (no invented founder accounts).
+
+---
+
+## 6. Publish consistency and cache
+
+1. Validate content + permissions + media readiness + slug uniqueness.
+2. Prepare public media derivatives before flipping published pointers.
+3. DB pointer change ≠ CDN/cache refresh — use `content_jobs` + explicit “published, refresh pending” when needed (A11).
+4. New slugs must resolve without rebuild (revisit SSG-only assumptions).
+5. Refresh Work list, featured home, related blocks, metadata/sitemap as applicable.
+
+---
+
+## 7. Impact list
+
+| Area                    | Impact                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------- |
+| Steps 37–39             | Public selectors preserved; empty catalog honest; migration inventory IDs reused in A10 |
+| Steps 44–46             | Collections/indexes/safeguards reused; no Step 47 until A12                             |
+| A01–A12                 | New critical path before live enquiry writes                                            |
+| Launch testing / deploy | Must include admin authZ, draft privacy, media ACL, backups, publish refresh            |
+| Effort                  | Website-only estimate **invalid** for total launch scope                                |
+
+---
+
+## 8. Acceptance criteria (later implementation — A12 verifies)
+
+Documented in the addendum §8: owner publish path, draft-without-live-mutation, editor restrictions, unauthenticated denial, private media ACL, recoverable failed jobs, concurrency conflicts, featured eligibility, delete dependency checks, recovery/handover.
+
+---
+
+## Related
+
+- `docs/content/image-policy.md`
+- `docs/work/admin-migration-inventory.md`
+- `docs/admin/step-a01.md`

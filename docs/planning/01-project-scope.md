@@ -142,7 +142,9 @@ Add only when content or operations justify them:
 | Public package pricing page                        | Founders agree stable inclusions, exclusions, and costs         |
 | Careers / Support / Accessibility standalone pages | Real openings, support process, or accessibility contact exists |
 
-**Launch exclusions for Zatroz’s own marketing site:** customer login/sign-up, custom admin, payments/checkout on this site, live AI chatbot, file uploads on the enquiry form.
+**Launch exclusions for Zatroz’s own marketing site:** customer login/sign-up, on-site payments/checkout, live AI chatbot, file uploads on the enquiry form.
+
+**Owner-authorized addition (A01):** a **staff** admin area for projects, case studies, project images, and featured order (sequence A01–A12 after MongoDB Steps 44–46, before Step 47). This is not customer auth and does not put general marketing copy into a CMS.
 
 Building commerce or AI tools **for clients** does not require those features on the Zatroz marketing website.
 
@@ -150,18 +152,18 @@ Building commerce or AI tools **for clients** does not require those features on
 
 ## 10. Technical baseline
 
-| Topic                   | Baseline choice                                            | Why                                                              |
-| ----------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------- |
-| Frontend                | Next.js App Router, React, TypeScript, Tailwind CSS        | One codebase for pages, metadata, and a small server endpoint    |
-| Content                 | Repository-managed typed content / Markdown                | Simple review via Git; no CMS at launch                          |
-| Enquiries later         | Next.js route + Supabase PostgreSQL + Resend               | Durable save before email; no separate CRM required              |
-| Spam protection later   | Turnstile + host rate limiting                             | Layered protection for a public form                             |
-| Hosting later           | GitHub + Vercel (business-suitable plan)                   | Managed Next.js hosting and previews                             |
-| Design direction        | Warm-white editorial, charcoal sections, orange brand      | From shared decisions / plan                                     |
-| Main colours            | Orange `#FF3B10`, charcoal `#111111`, warm white `#F7F5F2` | Use **dark text** on the bright orange primary button            |
-| Typography later        | Manrope; optional IBM Plex Mono for limited labels         | Step 11+ design system                                           |
-| Motion later            | CSS first; limited GSAP; respect reduced motion            | Distinctive but restrained                                       |
-| Separate Express server | **Not needed**                                             | Node runs behind the Next.js route; Supabase supplies PostgreSQL |
+| Topic                   | Baseline choice                                                                    | Why                                                              |
+| ----------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Frontend                | Next.js App Router, React, TypeScript, Tailwind CSS                                | One codebase for pages, metadata, and a small server endpoint    |
+| Content                 | Marketing copy in repository; portfolio projects/media via MongoDB admin (A01–A12) | Public selectors stable; switch at A09–A10                       |
+| Enquiries later         | Next.js route + Supabase PostgreSQL + Resend                                       | Durable save before email; no separate CRM required              |
+| Spam protection later   | Turnstile + host rate limiting                                                     | Layered protection for a public form                             |
+| Hosting later           | GitHub + Vercel (business-suitable plan)                                           | Managed Next.js hosting and previews                             |
+| Design direction        | Warm-white editorial, charcoal sections, orange brand                              | From shared decisions / plan                                     |
+| Main colours            | Orange `#FF3B10`, charcoal `#111111`, warm white `#F7F5F2`                         | Use **dark text** on the bright orange primary button            |
+| Typography later        | Manrope; optional IBM Plex Mono for limited labels                                 | Step 11+ design system                                           |
+| Motion later            | CSS first; limited GSAP; respect reduced motion                                    | Distinctive but restrained                                       |
+| Separate Express server | **Not needed**                                                                     | Node runs behind the Next.js route; Supabase supplies PostgreSQL |
 
 ---
 

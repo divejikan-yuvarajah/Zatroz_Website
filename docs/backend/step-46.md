@@ -39,13 +39,13 @@
 
 ## Checks
 
-| Check | Result |
-| ----- | ------ |
-| `npm run format` | Passed |
-| `npm run check` (incl. `test:request-safeguards`) | Passed |
-| `npm run build` | Passed (Next.js 16.3.5) |
-| Production smoke (`next start` :3046) | `/` `/contact` `/work` 200; `/dev/ui` 404 |
-| Live Atlas privilege probes / cross-process limiter | **Not run** — awaiting disposable DB |
+| Check                                               | Result                                    |
+| --------------------------------------------------- | ----------------------------------------- |
+| `npm run format`                                    | Passed                                    |
+| `npm run check` (incl. `test:request-safeguards`)   | Passed                                    |
+| `npm run build`                                     | Passed (Next.js 16.3.5)                   |
+| Production smoke (`next start` :3046)               | `/` `/contact` `/work` 200; `/dev/ui` 404 |
+| Live Atlas privilege probes / cross-process limiter | **Not run** — awaiting disposable DB      |
 
 ## Admin handoff
 
