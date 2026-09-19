@@ -1,8 +1,8 @@
 # Enquiry form contract
 
-**Version:** 1.0 (Step 43)  
-**Transport boundary:** Future **Next.js Server Action** (not a parallel Route Handler).  
-**Current submission readiness:** `false` — frontend complete; backend gates remain.
+**Version:** 2.0 (Step 47)  
+**Transport boundary:** Next.js **Server Action** (`submitEnquiryAction` in `src/server/actions/submit-enquiry.ts`).  
+**Current submission readiness:** Controlled by `ENQUIRIES_ENABLED=true` env flag + full readiness gate.
 
 ## Field definitions
 
@@ -75,6 +75,25 @@ Notification delivery is **separate** from enquiry acceptance. Content-editor ad
 
 Environment flags or an installed MongoDB driver alone are **not** evidence that public submission works. Keep `contactPage.formSubmissionReady` false until the gates above are satisfied.
 
-## Step 46 safeguards (no live write yet)
+## Step 46 safeguards (integrated in Step 47)
 
-Transport remains a future **Server Action**. Step 46 added origin allowlisting, payload budgets, MongoDB rate-limit helpers, safe error mapping, readiness checks, and repository boundaries. See `docs/security/request-policy.md` and `docs/backend/step-46.md`. Admin/enquiry inbox authorization is still unavailable until A02–A03.
+Transport is a **Server Action**. Step 46's origin allowlisting, payload budgets, MongoDB rate-limit helpers, safe error mapping, readiness checks, and repository boundaries are now wired into `submitEnquiryAction`. See `src/server/actions/submit-enquiry.ts`.
+
+## Step 47 implementation
+
+The real Server Action pipeline:
+
+1. `ENQUIRIES_ENABLED` env flag check
+2. Request header extraction (origin, fetch-metadata)
+3. Full policy gate: origin → fetch-metadata → payload budget → server-owned field rejection → independent validation
+4. Secret resolution (abuse HMAC + idempotency HMAC)
+5. MongoDB connection + full readiness check (migration ledger, critical indexes)
+6. Distributed rate limiting (per-source + global)
+7. Idempotency key processing (SHA-256 digest of client key)
+8. Payload fingerprint (HMAC with versioned secret)
+9. Atomic insert with majority write concern
+10. Duplicate-key resolution (same key + same payload → replay; different payload → conflict)
+
+Client wrapper: `useSubmitEnquiry` hook manages idempotency keys per captured attempt. Fresh key for each new/changed submission; retained across uncertain retries.
+
+Production activation requires: `ENQUIRIES_ENABLED=true`, valid `MONGODB_URI`, `ABUSE_HASH_SECRET`, `ENQUIRY_IDEMPOTENCY_SECRET`, `APP_ORIGIN`, applied schema migration, and critical indexes.
