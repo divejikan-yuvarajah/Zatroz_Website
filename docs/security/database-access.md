@@ -72,7 +72,7 @@ Record actual denied database operations. No destructive probing against real da
 
 - Repositories: `src/server/repositories/enquiries.ts` — fixed queries only
 - Rate limiter: `src/server/security/rate-limit.ts`
-- Auth gate stubs always deny until A02–A03: `src/server/security/auth-gate.ts`
+- Auth gates (A02): `src/lib/security/auth-gate.ts` + `src/server/auth/session.ts` — require Better Auth session, MFA, and role permissions; no cookie/header role trust.
 - Editors have **no** enquiry read permission by default
 
 Public project selectors remain published-only (`src/server/public-projects.ts`).

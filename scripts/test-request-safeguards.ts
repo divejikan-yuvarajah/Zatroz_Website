@@ -239,10 +239,11 @@ function runIdentityTests() {
 }
 
 function runAuthGateTests() {
+  // Without a session context, gates stay closed (A02+).
   assert.equal(requireAdmin().ok, false);
   assert.equal(requirePermission("enquiries.read").ok, false);
   assert.equal(requirePermission("admin.content.write").ok, false);
-  pass("auth-gate-always-denies");
+  pass("auth-gate-denies-without-session");
 }
 
 function runPolicyGateTests() {
