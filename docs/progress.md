@@ -66,7 +66,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | A09  | Featured + Mongo public selectors | **Implemented** (on branch `feature/a09-featured-public-selectors`; merge may be pending) | 2026-09-19 | Featured settings + Mongo selectors; see `docs/admin/step-a09.md`            |
 | A10  | Repo → Mongo portfolio migration  | **Implemented** (on branch `feature/a10-repo-portfolio-migration`; merge may be pending)  | 2026-09-20 | Idempotent import tooling; empty catalog no-op; see `docs/admin/step-a10.md` |
 | A11  | Cache refresh + media cleanup     | **Implemented** (on branch `feature/a11-cache-refresh-cleanup`; merge may be pending)     | 2026-09-20 | Jobs worker, public derivatives, usage delete; see `docs/admin/step-a11.md`  |
-| A12  | AuthZ suite + handover            | Not started                                                                               | —          | See `docs/planning/admin-and-media-addendum.md`                              |
+| A12  | AuthZ suite + handover            | **Implemented** (on branch `feature/a12-authz-handover`; merge may be pending)            | 2026-09-20 | AuthZ tests + backup/handover docs; see `docs/admin/step-a12.md`             |
 
 ---
 
@@ -607,6 +607,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Media usage dependency scan + owner permanent delete for failed/archived unused assets.
 - Docs: `docs/admin/step-a11.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-content-jobs`); `npm run build` passed (Next.js 16.3.5). Live Cloudinary public-derivative + cron proof **Not run**. Next: **A12** (AuthZ suite + handover). Step 47 remains blocked until A12.
+
+### Admin A12 (2026-09-20)
+
+- Branch: `feature/a12-authz-handover` from `feature/a11-cache-refresh-cleanup`.
+- AuthZ operation matrix + `npm run test:admin-authz` (editor restrictions, unauthenticated denial, featured/delete/job failure paths, source gate inventory).
+- Backup/restore checklist (`docs/admin/backup-restore.md`) — live restore **Not run**.
+- Owner/editor handover + exercise (`docs/admin/handover.md`, `handover-checklist.md`) — teammate acceptance **Pending**.
+- Docs: `docs/admin/step-a12.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-authz`); `npm run build` passed (Next.js 16.3.5). Live Atlas restore **Not run**. Teammate handover **Pending**. **Step 47 is now unblocked** by the A01–A12 sequence (enquiry write path still Not started).
 
 ---
 

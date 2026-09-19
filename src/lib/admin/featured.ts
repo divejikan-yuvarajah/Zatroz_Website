@@ -78,6 +78,14 @@ export function assertFeaturedIdsArePublicReady(input: {
   return { ok: true, featuredProjectIds: input.featuredProjectIds };
 }
 
+/** Drop IDs that are not currently public-ready (honest empty public behaviour). */
+export function filterPublicReadyFeaturedIds(input: {
+  featuredProjectIds: readonly string[];
+  publicReadyIds: ReadonlySet<string>;
+}): string[] {
+  return input.featuredProjectIds.filter((id) => input.publicReadyIds.has(id));
+}
+
 export function orderCandidatesByFeatured(
   candidates: readonly FeaturedCandidate[],
   featuredProjectIds: readonly string[],

@@ -24,7 +24,7 @@ If the email already exists, the script fails safely — resolve in Mongo with a
 | Option                        | Action                                                                                                                                                              |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Backup codes remaining        | Use a backup code on `/admin/mfa`, then enroll a new authenticator                                                                                                  |
-| No backup codes, second owner | Second owner revokes sessions / disables the account via planned A03 staff tools, then re-bootstrap carefully                                                       |
+| No backup codes, second owner | Second owner adjusts role / assists via `/admin/staff`, then re-enroll MFA carefully                                                                                |
 | Sole owner, total lockout     | Rotate `BETTER_AUTH_SECRET` only as last resort (invalidates all sessions); recover via Mongo + documented Better Auth user/2FA collections with two-person control |
 
 Do not disable MFA in production without a written owner decision.
@@ -43,6 +43,8 @@ Better Auth exposes:
 | `POST /api/auth/sign-out`              | End the current session                  |
 
 Until A03 adds UI, operators may call these with an authenticated browser session (devtools) or documented client helpers — never by editing session documents by hand unless Better Auth docs for the installed version require it.
+
+**A03+:** Staff role review lives at `/admin/staff` (owner). Session revoke endpoints above remain available; prefer sign-out + MFA re-enrollment after lockout recovery.
 
 Password reset (when email is wired later) uses `revokeSessionsOnPasswordReset: true` in the A02 config.
 

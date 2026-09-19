@@ -31,6 +31,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS. Public content stays in the
 | Git workflow              | [`docs/setup/git-workflow.md`](docs/setup/git-workflow.md)                                                                                                                                                                                                                       |
 | Prompt pack (Steps 01–10) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_01_to_10.md)                                                                                                                                                                   |
 | Prompt pack (Steps 11–14) | [`docs/prompts/Zatroz_Cursor_Prompts_Steps_11_to_14.md`](docs/prompts/Zatroz_Cursor_Prompts_Steps_11_to_14.md)                                                                                                                                                                   |
+| Admin handover (A12)      | [`docs/admin/handover.md`](docs/admin/handover.md), [`backup-restore.md`](docs/admin/backup-restore.md), [`step-a12.md`](docs/admin/step-a12.md)                                                                                                                                 |
 
 ## Setup status
 
