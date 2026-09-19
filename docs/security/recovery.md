@@ -58,3 +58,5 @@ Never restore over production to “test”. Never copy production enquiries int
 ## Admin auth gap
 
 Until A02–A03, `requireAdmin` / `requirePermission` always deny. No cookie/header role trust. Private admin and enquiry inbox endpoints must remain absent.
+
+**A02 update:** Gates evaluate real Better Auth sessions + MFA + `staffRole`. Unauthenticated / missing MFA / wrong role still deny. Staff recovery and session revocation: `docs/admin/auth-recovery.md`. Admin dashboard shell remains A03.

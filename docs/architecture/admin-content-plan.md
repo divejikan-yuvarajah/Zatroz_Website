@@ -104,13 +104,13 @@ All `/admin/**` (except login) require verified session + completed MFA + permis
 
 ## 5. Auth and media tool recommendations
 
-| Tool                                              | Role                         | A01 status                                                                                           |
-| ------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Better Auth + Mongo adapter + official 2FA plugin | Staff auth                   | **Proposed** — verify package compatibility in A02; preserve if anything already exists (none today) |
-| Cloudinary                                        | Binary storage + derivatives | **Proposed** — verify signed upload + private delivery in A04                                        |
-| Resend                                            | Enquiry / recovery email     | Already planned; not content-admin                                                                   |
+| Tool                                              | Role                         | A01 status                                                               |
+| ------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------ |
+| Better Auth + Mongo adapter + official 2FA plugin | Staff auth                   | **A02 implemented** (1.7.5) — login/MFA pages; dashboard shell still A03 |
+| Cloudinary                                        | Binary storage + derivatives | **Proposed** — verify signed upload + private delivery in A04            |
+| Resend                                            | Enquiry / recovery email     | Already planned; not content-admin                                       |
 
-Unresolved until setup: Atlas backup tier capability, Cloudinary plan ACLs, Better Auth version pin, production `APP_ORIGIN`, named owner bootstrap identity (no invented founder accounts).
+Unresolved until setup: Atlas backup tier capability, Cloudinary plan ACLs, production `APP_ORIGIN`, named owner bootstrap identity (no invented founder accounts). Live MFA proof **Not run** until operators supply secrets.
 
 ---
 

@@ -56,7 +56,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | Step    | Result                          | Status                                                                             | Date       | Evidence                                                              |
 | ------- | ------------------------------- | ---------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- |
 | A01     | Admin requirements + image plan | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending) | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
-| A02     | Auth / MFA / recovery           | Not started                                                                        | —          | —                                                                     |
+| A02     | Auth / MFA / recovery           | **Implemented** (on branch `feature/a02-admin-auth`; merge may be pending)         | 2026-09-19 | Better Auth + MFA pages + bootstrap; see `docs/admin/step-a02.md`     |
 | A03–A12 | Admin UI through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
@@ -512,6 +512,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Docs: `docs/planning/admin-and-media-addendum.md`, `docs/architecture/admin-content-plan.md`, `docs/content/image-policy.md`, `docs/admin/step-a01.md`.
 - Checks: documentation-only step; `npm run check` / `build` not required for prose alignment (not run).
 - Next: **A02** (authentication). Step 47 remains blocked until A12.
+
+### Admin A02 (2026-09-19)
+
+- Branch: `feature/a02-admin-auth` from `feature/a01-admin-requirements`.
+- Better Auth 1.7.5 + `@better-auth/mongo-adapter` 1.7.5 + official `twoFactor` plugin; lazy init without secrets at build.
+- Staff login `/admin/login`, MFA enroll/challenge `/admin/mfa`, API `/api/auth/*`, env placeholders, owner bootstrap script (env-only).
+- Real session permission gates; editors lack enquiry permissions; public sign-up disabled.
+- Docs: `docs/admin/step-a02.md`, `docs/admin/auth-recovery.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-auth`); `npm run build` passed (Next.js 16.3.5). Live Atlas bootstrap + MFA with real credentials **Not run**. Next: **A03** (admin shell). Step 47 remains blocked until A12.
 
 ---
 

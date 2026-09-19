@@ -27,7 +27,11 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 | `src/server/`                               | Server-only env access and content selectors             | `env.ts`, `mongodb.ts`, public project selectors          |
 | `docs/backend/`                             | Backend step notes + data model                          | Steps 44–45                                               |
 | `docs/security/`                            | DB privileges, request policy, readiness, recovery       | Step 46                                                   |
-| `docs/admin/`                               | Admin sequence step notes (A01–A12)                      | A01                                                       |
+| `docs/admin/`                               | Admin sequence step notes (A01–A12)                      | A01–A02                                                   |
+| `src/server/auth/`                          | Server Better Auth accessors                             | A02                                                       |
+| `src/lib/auth/`                             | Auth config / role helpers (no secrets at import)        | A02                                                       |
+| `src/app/admin/`                            | Staff login / MFA (dashboard shell in A03)               | A02                                                       |
+| `src/app/api/auth/`                         | Better Auth HTTP handler                                 | A02                                                       |
 | `docs/planning/admin-and-media-addendum.md` | Owner-authorized admin/media plan                        | A01                                                       |
 | `docs/setup/mongodb-*.md`                   | Atlas + migration runbooks                               | Operator setup (no secrets)                               |
 | `src/types/`                                | Shared domain types when actually used                   | `content.ts`                                              |
