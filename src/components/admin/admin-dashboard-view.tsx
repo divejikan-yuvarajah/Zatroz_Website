@@ -96,7 +96,7 @@ export function AdminDashboardView({
             {data.recentEdits.length === 0 ? (
               <p className="ds-support mt-3">
                 No audit events yet. Activity appears here after editors save
-                and publish in later steps.
+                drafts and owners publish.
               </p>
             ) : (
               <ul className="mt-4 divide-y divide-border-subtle border-t border-border-subtle">

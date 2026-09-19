@@ -85,7 +85,12 @@ export function AdminContentJobsPanel({
             ) : null}
           </form>
         </section>
-      ) : null}
+      ) : (
+        <InlineStatus tone="pending">
+          Editors can view job history. Only owners can process or re-queue
+          jobs.
+        </InlineStatus>
+      )}
 
       <section aria-labelledby="jobs-list-heading">
         <h2 id="jobs-list-heading" className="text-lg font-semibold text-ink">

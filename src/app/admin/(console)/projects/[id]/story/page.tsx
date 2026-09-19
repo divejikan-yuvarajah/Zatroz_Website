@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { AdminProjectStoryForm } from "@/components/admin/admin-project-story-form";
 import { ButtonLink } from "@/components/ui/button-link";
 import { formValuesFromStory } from "@/lib/admin/story";
 import { listMediaLibrary } from "@/server/media/repository";
 import { loadProjectDraft } from "@/server/projects/repository";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,7 @@ export default async function AdminProjectStoryPage({ params }: PageProps) {
   if (!gate.ok) {
     const readGate = await requirePermissionSession("admin.content.read");
     if (!readGate.ok) {
-      redirect("/admin/login");
+      redirectForAuthDenial(readGate.reason);
     }
   }
 
@@ -89,7 +90,8 @@ export default async function AdminProjectStoryPage({ params }: PageProps) {
           <p className="mt-2 max-w-prose text-text-body">
             Structured sections for{" "}
             <code className="text-sm">{loaded.project.editorialId}</code>.
-            Summary may publish before this story (A08). Preview ships in A07.
+            Summary may publish before this story. Use Preview draft to review
+            privately before an owner publishes.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

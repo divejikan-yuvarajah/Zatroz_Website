@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { AdminProjectDraftForm } from "@/components/admin/admin-project-draft-form";
 import { AdminProjectPublishPanel } from "@/components/admin/admin-project-publish-panel";
 import { ButtonLink } from "@/components/ui/button-link";
@@ -15,6 +15,7 @@ import { hasOpenPublishRefreshJob } from "@/server/jobs/content-jobs";
 import { listMediaLibrary } from "@/server/media/repository";
 import { isProjectArchived } from "@/server/projects/admin-state";
 import { loadProjectDraft } from "@/server/projects/repository";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export default async function AdminEditProjectPage({
     ? writeGate
     : await requirePermissionSession("admin.content.read");
   if (!readGate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(readGate.reason);
   }
 
   const { id } = await params;
