@@ -44,8 +44,10 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 | `MONGODB_TEST_DB_NAME`           | Test config                 | Explicit test database name                      |
 | `APP_ORIGIN`                     | Non-secret config           | Later request origin policy                      |
 | `ENQUIRIES_ENABLED`              | Server switch               | Later live form activation (not sole readiness)  |
-| `ABUSE_HASH_SECRET`              | Server secret               | Later abuse controls                             |
-| `ENQUIRY_IDEMPOTENCY_SECRET`     | Server secret               | Later idempotency fingerprints                   |
+| `ABUSE_HASH_SECRET`              | Server secret               | Rate-limit identity HMAC (Step 46+)              |
+| `ABUSE_HASH_SECRET_V2`           | Server secret               | Optional rotation key                            |
+| `ENQUIRY_IDEMPOTENCY_SECRET`     | Server secret               | Payload fingerprint HMAC (Step 47+)              |
+| `ENQUIRY_IDEMPOTENCY_SECRET_V2`  | Server secret               | Optional rotation key                            |
 | `SUPABASE_URL`                   | Legacy unused               | Do not provision — MongoDB replaced this plan    |
 | `SUPABASE_SECRET_KEY`            | Legacy unused               | Do not provision                                 |
 | `RESEND_API_KEY`                 | Server secret               | Email delivery (later)                           |
@@ -68,9 +70,10 @@ MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`
 | MongoDB config + lazy connection (`src/lib/mongodb/*`, `src/server/mongodb.ts`) | Done (Step 44)      |
 | `npm run db:check` connectivity diagnostic                                      | Done (Step 44)      |
 | Collection schemas, indexes, `db:plan` / `db:apply`                             | Done (Step 45)      |
+| Request safeguards, rate-limit helper, readiness/recovery docs                  | Done (Step 46)      |
 | Localhost fallback when `SITE_URL` is empty                                     | Done                |
 | Reject malformed / non-http(s) `SITE_URL`                                       | Done                |
-| Enquiry API / live form / privilege matrix                                      | **Not** implemented |
+| Enquiry API / live form / Atlas privilege verification                          | **Not** implemented |
 | Eager Resend / Turnstile / cron clients                                         | **Not** implemented |
 
 `getSiteUrl()` is server-only and is **not** wired into the home page yet (avoids forcing client or fully dynamic rendering). Call it later from server code (metadata, absolute links, emails).
