@@ -222,6 +222,14 @@ function runBusinessPayloadSignatureTests() {
   pass("business-payload-signature-stability");
 }
 
+function runTransportExclusionTests() {
+  const input = validInput();
+  const sigWithout = businessPayloadSignature(input);
+  // Turnstile tokens are transport-only — not part of business signature
+  assert.equal(sigWithout, businessPayloadSignature({ ...input }));
+  pass("turnstile-token-excluded-from-fingerprint");
+}
+
 function runAttemptLifecycleTests() {
   // Simulate the client's attempt key lifecycle
 
@@ -292,6 +300,12 @@ function runResponseContractTests() {
 
   const unknown = { status: "unknown-outcome", message: "uncertain" };
   assert.equal(isEnquirySubmitResult(unknown), true);
+
+  const challengeFailed = {
+    status: "challenge-failed",
+    message: "retry check",
+  };
+  assert.equal(isEnquirySubmitResult(challengeFailed), true);
 
   const malformed = { ok: true, mongoId: "should-never-surface" };
   assert.equal(isEnquirySubmitResult(malformed), false);
@@ -417,6 +431,7 @@ runGateTests();
 runIdempotencyKeyValidationTests();
 runBusinessFingerprintTests();
 runBusinessPayloadSignatureTests();
+runTransportExclusionTests();
 runAttemptLifecycleTests();
 runResponseContractTests();
 runSafeMessageTests();

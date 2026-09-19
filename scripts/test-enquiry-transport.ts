@@ -72,13 +72,13 @@ async function run() {
     scenario: "delayed",
     delayMs: 30,
   });
-  const wrapped: typeof delayed = async (input) => {
+  const wrapped: typeof delayed = async (input, transport) => {
     calls += 1;
-    return delayed(input);
+    return delayed(input, transport);
   };
   const [a, b] = await Promise.all([
-    wrapped(valid.value),
-    wrapped(valid.value),
+    wrapped(valid.value, { turnstileToken: "demo-token" }),
+    wrapped(valid.value, { turnstileToken: "demo-token" }),
   ]);
   assert(calls === 2, "two-calls-when-invoked-twice");
   assert(a.status === "accepted" && b.status === "accepted", "both-accepted");

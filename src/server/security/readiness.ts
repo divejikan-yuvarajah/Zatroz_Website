@@ -18,7 +18,9 @@ export type ReadinessCheckId =
   | "migration-ledger"
   | "index-enquiries-idempotency"
   | "index-rate-limit-ttl"
-  | "enquiries-enabled-flag";
+  | "enquiries-enabled-flag"
+  | "env-turnstile-site-key"
+  | "env-turnstile-secret";
 
 export type ReadinessItem = Readonly<{
   id: ReadinessCheckId;

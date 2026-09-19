@@ -21,11 +21,14 @@ export function LiveEnquiryForm({
   directContactLabel = "Email or WhatsApp us",
 }: LiveEnquiryFormProps) {
   const submitEnquiry = useSubmitEnquiry();
+  const turnstileSiteKey =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || null;
 
   return (
     <EnquiryForm
       initialService={initialService}
       submitEnquiry={submitEnquiry}
+      turnstileSiteKey={turnstileSiteKey}
       directContactHref={directContactHref}
       directContactLabel={directContactLabel}
       demoMode={false}

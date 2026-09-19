@@ -33,6 +33,8 @@ import {
   type EnquiryFieldName,
   type EnquiryFormValues,
 } from "@/lib/enquiries/input";
+import { TurnstileChallenge } from "@/components/forms/turnstile-challenge";
+import { CUSTOMER_SAFE_MESSAGES } from "@/lib/security/policy";
 import {
   coerceEnquirySubmitResult,
   type EnquirySubmitResult,
@@ -64,6 +66,8 @@ export type EnquiryFormProps = {
   directContactLabel?: string;
   /** When true, accepted confirmation is labelled as demo. */
   demoMode?: boolean;
+  /** Public Turnstile site key — when set, challenge is required before submit. */
+  turnstileSiteKey?: string | null;
   className?: string;
 };
 
@@ -74,7 +78,8 @@ type UiPhase =
   | "accepted"
   | "rate-limited"
   | "unavailable"
-  | "unknown-outcome";
+  | "unknown-outcome"
+  | "challenge-failed";
 
 function fieldId(prefix: string, field: EnquiryFieldName): string {
   return `${prefix}${field}`;
@@ -103,10 +108,12 @@ export function EnquiryForm({
   directContactHref = null,
   directContactLabel = "Email or WhatsApp us",
   demoMode = false,
+  turnstileSiteKey = null,
   className,
 }: EnquiryFormProps) {
   const summaryRef = useRef<HTMLDivElement>(null);
   const submitLock = useRef(false);
+  const challengeRequired = Boolean(turnstileSiteKey);
 
   const [values, setValues] = useState<EnquiryFormValues>(() =>
     createEmptyEnquiryValues(initialService),
@@ -117,6 +124,9 @@ export function EnquiryForm({
   const [statusText, setStatusText] = useState("");
   const [serverFieldErrors, setServerFieldErrors] =
     useState<EnquiryFieldErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const hydrated = useSyncExternalStore(
     subscribeNoop,
     getClientHydrated,
@@ -159,6 +169,12 @@ export function EnquiryForm({
     }
   }
 
+  function resetTurnstileChallenge() {
+    setTurnstileToken(null);
+    setTurnstileReady(false);
+    setTurnstileResetSignal((current) => current + 1);
+  }
+
   function resetForAnotherEnquiry() {
     submitLock.current = false;
     setValues(createEmptyEnquiryValues(initialService));
@@ -167,6 +183,7 @@ export function EnquiryForm({
     setPhase("idle");
     setStatusTone("idle");
     setStatusText("");
+    resetTurnstileChallenge();
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -189,6 +206,15 @@ export function EnquiryForm({
       return;
     }
 
+    if (challengeRequired && !turnstileToken) {
+      flushSync(() => {
+        setPhase("challenge-failed");
+        setStatusTone("error");
+        setStatusText(CUSTOMER_SAFE_MESSAGES.challengeRequired);
+      });
+      return;
+    }
+
     submitLock.current = true;
     setPhase("pending");
     setStatusTone("pending");
@@ -198,7 +224,9 @@ export function EnquiryForm({
 
     let raw: unknown;
     try {
-      raw = await submitEnquiry(validation.value);
+      raw = await submitEnquiry(validation.value, {
+        turnstileToken: turnstileToken ?? undefined,
+      });
     } catch {
       raw = {
         status: "unknown-outcome",
@@ -259,6 +287,10 @@ export function EnquiryForm({
         setPhase("unavailable");
         setStatusTone("error");
         setStatusText(result.message);
+        // Provider/config failures may have spent or invalidated the token.
+        if (challengeRequired) {
+          resetTurnstileChallenge();
+        }
         submitLock.current = false;
         return;
       }
@@ -266,7 +298,15 @@ export function EnquiryForm({
         setPhase("unknown-outcome");
         setStatusTone("error");
         setStatusText(result.message);
-        // Do not auto-retry; keep values.
+        resetTurnstileChallenge();
+        submitLock.current = false;
+        return;
+      }
+      case "challenge-failed": {
+        setPhase("challenge-failed");
+        setStatusTone("error");
+        setStatusText(result.message);
+        resetTurnstileChallenge();
         submitLock.current = false;
         return;
       }
@@ -330,7 +370,8 @@ export function EnquiryForm({
 
       {(phase === "rate-limited" ||
         phase === "unavailable" ||
-        phase === "unknown-outcome") &&
+        phase === "unknown-outcome" ||
+        phase === "challenge-failed") &&
       directContactHref ? (
         <p className="m-0 text-sm text-text-body">
           Prefer a direct channel:{" "}
@@ -582,8 +623,25 @@ export function EnquiryForm({
         link will appear when that policy is published.
       </p>
 
+      {challengeRequired && turnstileSiteKey ? (
+        <TurnstileChallenge
+          siteKey={turnstileSiteKey}
+          disabled={isPending}
+          resetSignal={turnstileResetSignal}
+          onTokenChange={setTurnstileToken}
+          onReadyChange={setTurnstileReady}
+        />
+      ) : null}
+
       <div className="flex flex-wrap gap-3">
-        <Button type="submit" variant="primary" disabled={isPending}>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={
+            isPending ||
+            (challengeRequired && !turnstileReady && !turnstileToken)
+          }
+        >
           {isPending ? "Sending…" : "Send enquiry"}
         </Button>
       </div>

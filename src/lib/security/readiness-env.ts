@@ -3,13 +3,19 @@
  */
 
 import { isMongoRuntimeConfigured } from "@/lib/mongodb/config";
+import {
+  resolveTurnstileConfig,
+  turnstileConfigUsesTestKeysInProduction,
+} from "@/lib/security/turnstile";
 
 export type EnvReadinessItem = Readonly<{
   id:
     | "env-mongodb"
     | "env-abuse-secret"
     | "env-origin"
-    | "enquiries-enabled-flag";
+    | "enquiries-enabled-flag"
+    | "env-turnstile-site-key"
+    | "env-turnstile-secret";
   ok: boolean;
   detail: string;
 }>;
@@ -50,6 +56,30 @@ export function evaluateEnquiryEnvReadiness(
     detail: enabled
       ? "ENQUIRIES_ENABLED=true"
       : "ENQUIRIES_ENABLED is not true — submission stays disabled",
+  });
+
+  const turnstile = resolveTurnstileConfig(env);
+  const turnstileTestKeysInProd =
+    turnstile != null && turnstileConfigUsesTestKeysInProduction(turnstile);
+
+  items.push({
+    id: "env-turnstile-site-key",
+    ok: Boolean(turnstile?.siteKey) && !turnstileTestKeysInProd,
+    detail: !turnstile?.siteKey
+      ? "NEXT_PUBLIC_TURNSTILE_SITE_KEY missing"
+      : turnstileTestKeysInProd
+        ? "Test Turnstile site key refused in production"
+        : "Turnstile site key configured",
+  });
+
+  items.push({
+    id: "env-turnstile-secret",
+    ok: Boolean(turnstile?.secretKey) && !turnstileTestKeysInProd,
+    detail: !turnstile?.secretKey
+      ? "TURNSTILE_SECRET_KEY missing"
+      : turnstileTestKeysInProd
+        ? "Test Turnstile secret refused in production"
+        : "Turnstile secret configured",
   });
 
   return items;

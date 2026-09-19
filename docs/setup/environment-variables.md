@@ -53,8 +53,8 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 | `RESEND_API_KEY`                 | Server secret               | Email delivery (later)                                    |
 | `ENQUIRY_FROM_EMAIL`             | Server config               | Verified notification sender (later)                      |
 | `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification recipient (later)                       |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                      | Contact spam widget (later)                               |
-| `TURNSTILE_SECRET_KEY`           | Server secret               | Server Turnstile verify (later)                           |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                      | Enquiry spam widget (Step 49; required for live form)     |
+| `TURNSTILE_SECRET_KEY`           | Server secret               | Siteverify (Step 49; never NEXT_PUBLIC_)                  |
 | `CRON_SECRET`                    | Server secret               | Content-job worker + later notification retry (≥16 chars) |
 | `BETTER_AUTH_SECRET`             | Server secret               | Staff auth signing (A02+; ≥32 chars)                      |
 | `BETTER_AUTH_URL`                | Server config               | Optional Better Auth base URL (defaults SITE_URL)         |

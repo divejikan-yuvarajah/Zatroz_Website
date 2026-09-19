@@ -16,6 +16,7 @@ import type { EnquiryNormalizedInput } from "@/lib/enquiries/input";
 import {
   coerceEnquirySubmitResult,
   type EnquirySubmitResult,
+  type EnquirySubmitTransport,
   type SubmitEnquiryFn,
 } from "@/lib/enquiries/transport";
 import { submitEnquiryAction } from "@/server/actions/submit-enquiry";
@@ -66,7 +67,10 @@ export function useSubmitEnquiry(): SubmitEnquiryFn {
   const lastPayload = useRef<string | null>(null);
 
   return useCallback(
-    async (input: EnquiryNormalizedInput): Promise<EnquirySubmitResult> => {
+    async (
+      input: EnquiryNormalizedInput,
+      transport?: EnquirySubmitTransport,
+    ): Promise<EnquirySubmitResult> => {
       const signature = businessPayloadSignature(input);
 
       // Generate a new key if this is a new/changed submission
@@ -77,7 +81,11 @@ export function useSubmitEnquiry(): SubmitEnquiryFn {
 
       let raw: unknown;
       try {
-        raw = await submitEnquiryAction(input, currentKey.current);
+        raw = await submitEnquiryAction(
+          input,
+          currentKey.current,
+          transport?.turnstileToken,
+        );
       } catch {
         // Network/transport failure — retain key for retry
         return {

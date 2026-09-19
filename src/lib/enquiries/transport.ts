@@ -35,12 +35,24 @@ export type EnquirySubmitUnknownOutcome = {
   message: string;
 };
 
+export type EnquirySubmitChallengeFailed = {
+  status: "challenge-failed";
+  message: string;
+};
+
 export type EnquirySubmitResult =
   | EnquirySubmitAccepted
   | EnquirySubmitValidationError
   | EnquirySubmitRateLimited
   | EnquirySubmitUnavailable
-  | EnquirySubmitUnknownOutcome;
+  | EnquirySubmitUnknownOutcome
+  | EnquirySubmitChallengeFailed;
+
+/** Transport-only metadata — excluded from business fingerprinting. */
+export type EnquirySubmitTransport = Readonly<{
+  /** Cloudflare Turnstile response token (single-use, ~5 minute lifetime). */
+  turnstileToken?: string;
+}>;
 
 /**
  * Future transport: Next.js Server Action (not a parallel Route Handler).
@@ -48,6 +60,7 @@ export type EnquirySubmitResult =
  */
 export type SubmitEnquiryFn = (
   input: EnquiryNormalizedInput,
+  transport?: EnquirySubmitTransport,
 ) => Promise<EnquirySubmitResult>;
 
 export function isEnquirySubmitResult(
@@ -62,7 +75,8 @@ export function isEnquirySubmitResult(
     status === "validation-error" ||
     status === "rate-limited" ||
     status === "unavailable" ||
-    status === "unknown-outcome"
+    status === "unknown-outcome" ||
+    status === "challenge-failed"
   );
 }
 

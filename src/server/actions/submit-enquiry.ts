@@ -3,7 +3,7 @@
  * This is the single real transport boundary for the Contact form.
  *
  * Pipeline order: readiness → origin/fetch-metadata → payload budget →
- * server-owned rejection → validation → rate limit → idempotent insert.
+ * server-owned rejection → validation → rate limit → Turnstile → idempotent insert.
  */
 
 "use server";
@@ -37,6 +37,7 @@ import {
 import { enforceEnquiryRateLimits } from "@/server/security/rate-limit";
 import { insertEnquiryDocument } from "@/server/repositories/enquiries";
 import { evaluateEnquiryReadiness } from "@/server/security/readiness";
+import { verifyEnquiryTurnstileToken } from "@/server/security/turnstile-verify";
 import { getDb } from "@/lib/mongodb/connection";
 import type { EnquiryDocument } from "@/lib/mongodb/models/types";
 
@@ -111,6 +112,7 @@ function businessFieldsProjection(
 export async function submitEnquiryAction(
   input: EnquiryNormalizedInput,
   idempotencyKey?: string,
+  turnstileToken?: string,
 ): Promise<EnquirySubmitResult> {
   const correlationId = createCorrelationId();
   const started = Date.now();
@@ -221,13 +223,48 @@ export async function submitEnquiryAction(
     };
   }
 
-  // 8. Validate and resolve the idempotency key
+  // 8. Turnstile verification (after cheap gates + rate limits, before insert)
+  const turnstile = await verifyEnquiryTurnstileToken({
+    token: turnstileToken,
+    remoteIp: clientIp,
+    env,
+  });
+
+  if (!turnstile.ok) {
+    const unavailable =
+      turnstile.reason === "missing-config" ||
+      turnstile.reason === "test-keys-in-production" ||
+      turnstile.reason === "provider-unavailable";
+
+    console.warn(
+      `[enquiry] ${formatSafeLogLine({
+        category: unavailable ? "unavailable" : "validation",
+        operation: "enquiry.turnstile",
+        correlationId,
+        elapsedMs: Date.now() - started,
+      })}`,
+    );
+
+    if (unavailable) {
+      return {
+        status: "unavailable",
+        message: CUSTOMER_SAFE_MESSAGES.unavailable,
+      };
+    }
+
+    return {
+      status: "challenge-failed",
+      message: CUSTOMER_SAFE_MESSAGES.challengeFailed,
+    };
+  }
+
+  // 9. Validate and resolve the idempotency key
   const validatedKey = validateIdempotencyKey(idempotencyKey);
   const effectiveKey = validatedKey ?? randomBytes(32).toString("hex");
 
   const digest = idempotencyKeyDigest(effectiveKey);
 
-  // 9. Build payload fingerprint (business fields only)
+  // 10. Build payload fingerprint (business fields only)
   const idempotencySecret =
     idempotencySecrets.secretsByVersion[idempotencySecrets.currentVersion];
   if (!idempotencySecret) {
@@ -244,7 +281,7 @@ export async function submitEnquiryAction(
     .join("\n");
   const fingerprint = hmacHex(idempotencySecret, `enquiry:v1:${sorted}`);
 
-  // 10. Construct enquiry document
+  // 11. Construct enquiry document
   const now = new Date();
   const document: EnquiryDocument = {
     schemaVersion: SCHEMA_VERSION_CURRENT,
@@ -267,7 +304,7 @@ export async function submitEnquiryAction(
     phone: gate.normalized.phone,
   };
 
-  // 11. Insert with idempotent duplicate handling
+  // 12. Insert with idempotent duplicate handling
   const insertResult = await insertEnquiryDocument(db, document);
 
   if (!insertResult.ok) {
