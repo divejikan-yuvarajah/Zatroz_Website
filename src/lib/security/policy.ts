@@ -50,4 +50,8 @@ export const CUSTOMER_SAFE_MESSAGES = {
     "We could not confirm whether your enquiry was received. Try again later, or email / WhatsApp us using the contact details on this page.",
   forbiddenOrigin:
     "This request could not be verified. Use the contact form on our website, or email / WhatsApp us directly.",
+  challengeFailed:
+    "We could not verify this submission. Complete the security check and try again, or email / WhatsApp us using the contact details on this page.",
+  challengeRequired:
+    "Complete the security check below before sending your enquiry.",
 } as const;

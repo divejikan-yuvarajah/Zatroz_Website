@@ -87,16 +87,17 @@ The real Server Action pipeline:
 2. Request header extraction (origin, fetch-metadata)
 3. Full policy gate: origin → fetch-metadata → payload budget → server-owned field rejection → independent validation
 4. Secret resolution (abuse HMAC + idempotency HMAC)
-5. MongoDB connection + full readiness check (migration ledger, critical indexes)
+5. MongoDB connection + full readiness check (migration ledger, critical indexes, Turnstile env)
 6. Distributed rate limiting (per-source + global)
-7. Idempotency key processing (SHA-256 digest of client key)
-8. Payload fingerprint (HMAC with versioned secret)
-9. Atomic insert with majority write concern
-10. Duplicate-key resolution (same key + same payload → replay; different payload → conflict)
+7. Turnstile Siteverify (server-only; tokens never stored)
+8. Idempotency key processing (SHA-256 digest of client key)
+9. Payload fingerprint (HMAC with versioned secret; business fields only)
+10. Atomic insert with majority write concern
+11. Duplicate-key resolution (same key + same payload → replay; different payload → conflict)
 
-Client wrapper: `useSubmitEnquiry` hook manages idempotency keys per captured attempt. Fresh key for each new/changed submission; retained across uncertain retries.
+Client wrapper: `useSubmitEnquiry` hook manages idempotency keys per captured attempt. Fresh key for each new/changed submission; retained across uncertain retries. Fresh Turnstile tokens are passed as transport metadata and do not change the business fingerprint.
 
-Production activation requires: `ENQUIRIES_ENABLED=true`, valid `MONGODB_URI`, `ABUSE_HASH_SECRET`, `ENQUIRY_IDEMPOTENCY_SECRET`, `APP_ORIGIN`, applied schema migration, and critical indexes.
+Production activation requires: `ENQUIRIES_ENABLED=true`, valid `MONGODB_URI`, `ABUSE_HASH_SECRET`, `ENQUIRY_IDEMPOTENCY_SECRET`, `APP_ORIGIN`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` (non-test keys in production), applied schema migration, and critical indexes.
 
 ## Step 48 — Duplicate-submission hardening
 
@@ -104,7 +105,7 @@ Production activation requires: `ENQUIRIES_ENABLED=true`, valid `MONGODB_URI`, `
 
 ### Business-field projection
 
-Only business fields participate in the canonical payload fingerprint. Transport-only metadata (future challenge tokens, trace IDs, retry counters) is excluded so a retry with a fresh token still matches the same business enquiry.
+Only business fields participate in the canonical payload fingerprint. Transport-only metadata (Turnstile tokens, trace IDs, retry counters) is excluded so a retry with a fresh token still matches the same business enquiry.
 
 Business fields: `name`, `email` (lowercased), `company`, `service`, `message`, `timeline`, `requestType`, `preferredContact`, `phone`.
 
@@ -124,3 +125,18 @@ Business fields: `name`, `email` (lowercased), `company`, `service`, `message`, 
 1. Page refresh loses the in-memory key — a retry after refresh may create a second enquiry
 2. Cross-device deduplication is not supported
 3. Not "exactly-once" — guarantee scoped to retained keys within a single page session
+
+## Step 49 — Turnstile spam protection
+
+**Status result:** `challenge-failed` when Siteverify rejects a token (or the client submits without a usable token while the widget is required).
+
+| Concern         | Behaviour                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Transport field | `EnquirySubmitTransport.turnstileToken` — not part of business fingerprint                                                         |
+| Server verify   | After rate limits; before insert; 5s timeout; expected action `enquiry-submit`                                                     |
+| Production      | Cloudflare documented test keys refused                                                                                            |
+| Retry           | Uncertain / challenge failure resets the widget for a fresh token; enquiry attempt key retained when business fields are unchanged |
+| Rate limits     | Existing Mongo buckets unchanged — Turnstile does not replace them                                                                 |
+| Fallback        | Email / WhatsApp remain available when the challenge is blocked or fails                                                           |
+
+See `docs/setup/turnstile.md` and `docs/backend/step-49.md`.

@@ -11,6 +11,7 @@ export type EnquirySimulateScenario =
   | "rate-limited"
   | "unavailable"
   | "unknown-outcome"
+  | "challenge-failed"
   | "malformed"
   | "delayed";
 
@@ -72,6 +73,12 @@ export function createSimulatedSubmitEnquiry(
           status: "unknown-outcome",
           message:
             "We could not confirm whether your enquiry was received. Try again later, or email / WhatsApp us using the contact details on this page.",
+        };
+      case "challenge-failed":
+        return {
+          status: "challenge-failed",
+          message:
+            "We could not verify this submission. Complete the security check and try again, or email / WhatsApp us using the contact details on this page.",
         };
       case "malformed":
         // Caller should coerce; returning a non-contract shape on purpose.
