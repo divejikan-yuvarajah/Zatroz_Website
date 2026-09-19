@@ -47,10 +47,17 @@ Rollback notes per collection are printed in the plan and stored in `docs/backen
 
 ---
 
-## Runtime policy
+## Portfolio content import (A10)
 
-- Do **not** run migrations from `getDb`, page render, route startup, or every request.
-- Normal runtime should fail safely if essential schema readiness is absent — it must not self-create critical indexes or self-grant permissions (Step 46 readiness checks).
+```bash
+npm run migrate:repo-portfolio -- --target development
+npm run migrate:repo-portfolio -- --target development --apply
+```
+
+- Dry-run by default. `--apply` inserts approved/draft rows per planner rules; never auto-publishes drafts.
+- Same target/APP_ENV guards and maintenance URI as schema apply.
+- Current repository catalogs are empty — expect a no-op until approved records exist.
+- See `docs/admin/step-a10.md`.
 
 ---
 

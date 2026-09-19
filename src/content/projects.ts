@@ -96,6 +96,10 @@ export type ProjectRecord = {
 /**
  * Empty on purpose. No verified launch stories are approved yet
  * (see content inventory C-WORK and decision D-028). Do not seed fiction.
+ *
+ * A10: MongoDB is the live portfolio source via admin publish. Do not treat
+ * this array as a parallel live catalog — keep it empty (or fixtures-only)
+ * after migration. Import approved rows with `npm run migrate:repo-portfolio`.
  */
 export const projectRecords: readonly ProjectRecord[] = [];
 

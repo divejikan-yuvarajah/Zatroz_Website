@@ -148,7 +148,9 @@ export type HomeSelectedWorkRecord = {
 
 /**
  * Homepage selected-work copy and feature order.
- * Public section still omits until featured IDs resolve to approved projects.
+ * Public featured IDs live in Mongo `site_content_settings` (A09+).
+ * This repository array remains for content-validation fixtures only — do not
+ * treat it as the live homepage order after A10.
  */
 export const homeSelectedWorkRecord: HomeSelectedWorkRecord = {
   id: "selected-work",
