@@ -5,12 +5,12 @@ import { getServiceDetailSpecimen } from "@/server/service-detail";
  * Gallery specimens for the reusable service detail template.
  * Fixtures are labelled examples — never public service pages.
  */
-export function ServiceDetailSpecimen() {
-  const complete = getServiceDetailSpecimen("complete");
-  const minimal = getServiceDetailSpecimen("minimal");
-  const longCopy = getServiceDetailSpecimen("long-copy");
-  const missingOptional = getServiceDetailSpecimen("missing-optional");
-  const noCta = getServiceDetailSpecimen("no-cta");
+export async function ServiceDetailSpecimen() {
+  const complete = await getServiceDetailSpecimen("complete");
+  const minimal = await getServiceDetailSpecimen("minimal");
+  const longCopy = await getServiceDetailSpecimen("long-copy");
+  const missingOptional = await getServiceDetailSpecimen("missing-optional");
+  const noCta = await getServiceDetailSpecimen("no-cta");
 
   return (
     <div className="flex flex-col gap-12">

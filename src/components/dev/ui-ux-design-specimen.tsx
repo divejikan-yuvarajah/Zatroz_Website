@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the UI/UX Design draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function UiUxDesignSpecimen() {
-  const detail = getServiceDetailGalleryPreview("ui-ux-design");
+export async function UiUxDesignSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("ui-ux-design");
 
   if (!detail) {
     return (

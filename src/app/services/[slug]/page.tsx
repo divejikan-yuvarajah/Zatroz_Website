@@ -18,7 +18,7 @@ export async function generateMetadata({
   params,
 }: ServiceDetailRouteProps): Promise<Metadata> {
   const { slug } = await params;
-  const detail = getPublicServiceDetail(slug);
+  const detail = await getPublicServiceDetail(slug);
 
   if (!detail) {
     return {
@@ -42,7 +42,7 @@ export default async function ServiceDetailRoute({
   params,
 }: ServiceDetailRouteProps) {
   const { slug } = await params;
-  const detail = getPublicServiceDetail(slug);
+  const detail = await getPublicServiceDetail(slug);
 
   if (!detail) {
     notFound();

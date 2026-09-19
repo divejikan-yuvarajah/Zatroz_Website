@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the AI and Automation draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function AiAutomationSpecimen() {
-  const detail = getServiceDetailGalleryPreview("ai-automation");
+export async function AiAutomationSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("ai-automation");
 
   if (!detail) {
     return (

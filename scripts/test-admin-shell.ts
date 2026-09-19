@@ -80,6 +80,8 @@ function runNavVisibility() {
   assert.ok(mediaItem && !mediaItem.comingLater);
   const projectsItem = ownerNav.find((item) => item.id === "projects");
   assert.ok(projectsItem && !projectsItem.comingLater);
+  const featuredItem = ownerNav.find((item) => item.id === "featured");
+  assert.ok(featuredItem && !featuredItem.comingLater);
 
   const staffItem = ownerNav.find((item) => item.id === "staff");
   assert.ok(staffItem);
@@ -92,6 +94,7 @@ function runNavVisibility() {
   assert.ok(!editorShortcuts.some((item) => item.id === "manage-staff"));
   const ownerShortcuts = visibleAdminShortcuts(owner);
   assert.ok(ownerShortcuts.some((item) => item.id === "manage-staff"));
+  assert.ok(ownerShortcuts.some((item) => item.id === "manage-featured"));
 
   assert.deepEqual(visibleAdminNav(UNAUTHENTICATED_AUTH_CONTEXT), []);
   pass("admin-nav-role-enforcement");

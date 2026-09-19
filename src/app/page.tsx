@@ -22,16 +22,30 @@ import {
   getPublicServiceExplorer,
 } from "@/server/home";
 
-export default function Home() {
-  const hero = getPublicHomeHero();
-  const evidence = getPublicHomeEvidence();
-  const selectedWork = getPublicSelectedWork();
-  const serviceExplorer = getPublicServiceExplorer();
-  const automationExample = getPublicAutomationExample();
-  const process = getPublicHomeProcess();
-  const people = getPublicHomePeople();
-  const questions = getPublicHomeQuestions();
-  const finalCta = getPublicHomeFinalCta();
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [
+    hero,
+    evidence,
+    selectedWork,
+    serviceExplorer,
+    automationExample,
+    process,
+    people,
+    questions,
+    finalCta,
+  ] = await Promise.all([
+    getPublicHomeHero(),
+    Promise.resolve(getPublicHomeEvidence()),
+    getPublicSelectedWork(),
+    getPublicServiceExplorer(),
+    getPublicAutomationExample(),
+    getPublicHomeProcess(),
+    getPublicHomePeople(),
+    getPublicHomeQuestions(),
+    getPublicHomeFinalCta(),
+  ]);
 
   return (
     <>

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { CaseStudyPage } from "@/components/sections/case-study-page";
 import {
-  getPublishedCaseStudyBySlug,
+  getPublishedCaseStudyBySlugOrRedirect,
   getPublishedCaseStudySlugsForPrerender,
 } from "@/server/public-projects";
 import { resolveServicesEnquiryCta } from "@/server/services";
@@ -15,17 +15,25 @@ type CaseStudyRouteProps = {
  * Optional prerender of known public stories. Not an eligibility allowlist —
  * unknown/new admin slugs still resolve at request time (dynamicParams default).
  */
-export function generateStaticParams(): { slug: string }[] {
-  return getPublishedCaseStudySlugsForPrerender().map((slug) => ({ slug }));
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const slugs = await getPublishedCaseStudySlugsForPrerender();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: CaseStudyRouteProps): Promise<Metadata> {
   const { slug } = await params;
-  const study = await getPublishedCaseStudyBySlug(slug);
+  const resolved = await getPublishedCaseStudyBySlugOrRedirect(slug);
 
-  if (!study) {
+  if (resolved.kind === "redirect") {
+    return {
+      title: "Redirecting… — Zatroz",
+      robots: { index: false, follow: true },
+    };
+  }
+
+  if (resolved.kind !== "study") {
     return {
       title: "Project not found — Zatroz",
       robots: { index: false, follow: false },
@@ -33,23 +41,28 @@ export async function generateMetadata({
   }
 
   return {
-    title: study.pageTitle,
-    description: study.pageDescription,
+    title: resolved.study.pageTitle,
+    description: resolved.study.pageDescription,
   };
 }
 
 /**
  * Public case-study route. Draft, archived, summary-only, and unknown slugs
- * call notFound(). Empty generateStaticParams is valid while no stories exist.
+ * call notFound(). Former slugs may permanent-redirect via A08 project_routes.
  */
 export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
   const { slug } = await params;
-  const study = await getPublishedCaseStudyBySlug(slug);
+  const resolved = await getPublishedCaseStudyBySlugOrRedirect(slug);
 
-  if (!study) {
+  if (resolved.kind === "redirect") {
+    permanentRedirect(`/work/${resolved.toSlug}`);
+  }
+
+  if (resolved.kind !== "study") {
     notFound();
   }
 
+  const study = resolved.study;
   const serviceHint =
     study.facts.services.length === 1
       ? study.facts.services[0]?.slug

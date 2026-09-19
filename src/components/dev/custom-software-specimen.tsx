@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the Custom Software draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function CustomSoftwareSpecimen() {
-  const detail = getServiceDetailGalleryPreview("custom-software");
+export async function CustomSoftwareSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("custom-software");
 
   if (!detail) {
     return (

@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the Web and Mobile Applications draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function WebMobileAppsSpecimen() {
-  const detail = getServiceDetailGalleryPreview("web-mobile-apps");
+export async function WebMobileAppsSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("web-mobile-apps");
 
   if (!detail) {
     return (

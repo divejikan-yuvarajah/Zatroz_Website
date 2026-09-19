@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the Websites and E-commerce draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function WebsitesEcommerceSpecimen() {
-  const detail = getServiceDetailGalleryPreview("websites-ecommerce");
+export async function WebsitesEcommerceSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("websites-ecommerce");
 
   if (!detail) {
     return (

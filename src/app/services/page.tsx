@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     "Compare Zatroz service groups for websites, applications, business systems, automation, custom software, and UI/UX design.",
 };
 
-export default function ServicesPage() {
-  const overview = getPublicServicesOverview();
+export default async function ServicesPage() {
+  const overview = await getPublicServicesOverview();
 
   if (overview) {
     return <ServicesOverview overview={overview} headingLevel={1} />;

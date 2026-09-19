@@ -76,10 +76,15 @@ export async function publishSummaryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
+  revalidatePath("/");
+  revalidatePath("/work");
+  revalidatePath("/about");
+  revalidatePath("/services");
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${editorialId}`);
   revalidatePath(`/admin/projects/${editorialId}/preview`);
+  revalidatePath("/admin/settings/featured");
 
   return {
     ok: true,
@@ -122,6 +127,10 @@ export async function publishStoryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
+  revalidatePath("/");
+  revalidatePath("/work");
+  revalidatePath("/about");
+  revalidatePath("/services");
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${editorialId}`);
@@ -169,9 +178,14 @@ export async function unpublishSummaryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
+  revalidatePath("/");
+  revalidatePath("/work");
+  revalidatePath("/about");
+  revalidatePath("/services");
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${editorialId}`);
+  revalidatePath("/admin/settings/featured");
 
   return {
     ok: true,

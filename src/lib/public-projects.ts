@@ -1,6 +1,6 @@
 /**
- * Public project projections — repository adapter until A09–A10 switches to MongoDB.
- * Pure module (no server-only) so scripts can test eligibility, filters, and DTOs.
+ * Public project projections — pure helpers for eligibility, filters, and DTOs.
+ * Server adapter loads Mongo published revisions (A09); tests use fixtures.
  *
  * Components must consume DTOs via `src/server/public-projects.ts`, not raw arrays.
  */
@@ -468,4 +468,4 @@ export function buildWorkListHref(options: {
  * - Keep the same PublicProjectCard shape
  */
 export const PUBLIC_PROJECTS_ADAPTER_NOTE =
-  "Repository adapter active until A09–A10 MongoDB public selectors replace it. Database outages must not fall back to draft repository content.";
+  "MongoDB published-revision adapter (A09). Database outages must not fall back to draft repository content.";

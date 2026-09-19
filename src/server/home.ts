@@ -8,12 +8,14 @@ import {
 import { publicRoutes } from "@/config/routes";
 import { isPublicServiceDetailEligible } from "@/server/service-detail";
 import {
-  getPublishedFeaturedProjectCardsSync,
-  getPublishedRelatedProjectCardsSync,
+  listPublishedFeaturedProjects,
+  listPublishedRelatedProjects,
 } from "@/server/public-projects";
+import { loadMongoPublicProjectsRepository } from "@/server/projects/public-catalog";
 import { contentCatalog } from "@/content/catalog";
 import { WORK_STATUS_LABELS, type ProjectRecord } from "@/content/projects";
 import type { PublicProjectCard } from "@/lib/public-projects";
+import { listPublishedFeaturedProjectCards } from "@/lib/public-projects";
 import {
   homeAutomationExampleRecord,
   type PublicAutomationExample,
@@ -541,14 +543,16 @@ function projectToFeature(
 }
 
 /**
- * Resolve featured IDs through the public project selector.
- * Drafts and unknown IDs are skipped (validation should already reject them).
+ * Resolve featured IDs through the Mongo public project selector.
+ * Drafts and unknown IDs are skipped.
  */
-function getApprovedFeaturedProjects(): PublicProjectFeature[] {
+async function getApprovedFeaturedProjects(): Promise<PublicProjectFeature[]> {
+  const repo = await loadMongoPublicProjectsRepository();
+  const cards = listPublishedFeaturedProjectCards(repo, 3);
   const features: PublicProjectFeature[] = [];
 
-  for (const card of getPublishedFeaturedProjectCardsSync(3)) {
-    const project = contentCatalog.projects.find((row) => row.id === card.id);
+  for (const card of cards) {
+    const project = repo.projects.find((row) => row.id === card.id);
     if (!project) {
       continue;
     }
@@ -558,8 +562,9 @@ function getApprovedFeaturedProjects(): PublicProjectFeature[] {
   return features;
 }
 
-function hasPublicSelectedWork(): boolean {
-  return getApprovedFeaturedProjects().length > 0;
+async function hasPublicSelectedWork(): Promise<boolean> {
+  const featured = await listPublishedFeaturedProjects(3);
+  return featured.length > 0;
 }
 
 function resolveNeedAction(
@@ -586,14 +591,14 @@ function resolveNeedAction(
   });
 }
 
-function projectNeed(
+async function projectNeed(
   need: BusinessNeedRecord,
   number: number,
   options?: {
     includeDraftServices?: boolean;
     composition?: HomeComposition;
   },
-): PublicBusinessNeed {
+): Promise<PublicBusinessNeed> {
   const includeDraft = options?.includeDraftServices ?? false;
   const composition =
     options?.composition ??
@@ -631,8 +636,8 @@ function projectNeed(
     ];
   });
 
-  const relatedWork = getPublishedRelatedProjectCardsSync(
-    need.relatedProjectIds,
+  const relatedWork = (
+    await listPublishedRelatedProjects(need.relatedProjectIds)
   ).map((card) => ({
     id: card.id,
     title: card.title,
@@ -655,7 +660,7 @@ function projectNeed(
   };
 }
 
-function buildServiceExplorer(
+async function buildServiceExplorer(
   needs: readonly BusinessNeedRecord[],
   options?: {
     includeDraftServices?: boolean;
@@ -665,21 +670,23 @@ function buildServiceExplorer(
     longDeliverable?: boolean;
     composition?: HomeComposition;
   },
-): PublicServiceExplorer {
-  const projected = needs.map((need, index) => {
-    const base = projectNeed(need, index + 1, {
-      includeDraftServices: options?.includeDraftServices,
-      composition: options?.composition,
-    });
-    if (options?.longDeliverable && index === 0) {
-      return {
-        ...base,
-        deliverable:
-          "A clear business website or online catalogue that explains what you sell, how customers can contact you, and the next step they should take — written long here only to check wrapping on narrow viewports.",
-      };
-    }
-    return base;
-  });
+): Promise<PublicServiceExplorer> {
+  const projected = await Promise.all(
+    needs.map(async (need, index) => {
+      const base = await projectNeed(need, index + 1, {
+        includeDraftServices: options?.includeDraftServices,
+        composition: options?.composition,
+      });
+      if (options?.longDeliverable && index === 0) {
+        return {
+          ...base,
+          deliverable:
+            "A clear business website or online catalogue that explains what you sell, how customers can contact you, and the next step they should take — written long here only to check wrapping on narrow viewports.",
+        };
+      }
+      return base;
+    }),
+  );
 
   const defaultNeedId =
     options?.defaultNeedId ??
@@ -1098,11 +1105,11 @@ function buildPublicEvidence(
 }
 
 /** Public homepage composition — approved sections only. */
-export function getHomeComposition(): HomeComposition {
+export async function getHomeComposition(): Promise<HomeComposition> {
   return buildComposition({
     heroApproved: homeHeroRecord.publicationState === "approved",
     evidenceRenders: hasPublicEvidenceContent(),
-    selectedWorkRenders: hasPublicSelectedWork(),
+    selectedWorkRenders: await hasPublicSelectedWork(),
     servicesExplorerRenders: hasPublicServiceExplorer(),
     automationExampleRenders: hasPublicAutomationExample(),
     processRenders: hasPublicHomeProcess(),
@@ -1116,12 +1123,12 @@ export function getHomeComposition(): HomeComposition {
  * Approved public hero projection, or null while copy remains draft.
  * Does not silently publish proposed marketing copy.
  */
-export function getPublicHomeHero(): PublicHomeHero | null {
+export async function getPublicHomeHero(): Promise<PublicHomeHero | null> {
   if (homeHeroRecord.publicationState !== "approved") {
     return null;
   }
 
-  return buildPublicHero(getHomeComposition());
+  return buildPublicHero(await getHomeComposition());
 }
 
 /**
@@ -1140,8 +1147,8 @@ export function getPublicHomeEvidence(): PublicHomeEvidence | null {
  * Approved selected-work section, or null when no featured approved projects.
  * Never invents stories, media paths, or fake “Read story” links.
  */
-export function getPublicSelectedWork(): PublicSelectedWork | null {
-  const features = getApprovedFeaturedProjects();
+export async function getPublicSelectedWork(): Promise<PublicSelectedWork | null> {
+  const features = await getApprovedFeaturedProjects();
   if (features.length === 0) {
     return null;
   }
@@ -1158,74 +1165,74 @@ export function getPublicSelectedWork(): PublicSelectedWork | null {
  * Approved service explorer, or null while need copy remains draft.
  * Never invents service titles/paths in the projection — resolves from records.
  */
-export function getPublicServiceExplorer(): PublicServiceExplorer | null {
+export async function getPublicServiceExplorer(): Promise<PublicServiceExplorer | null> {
   if (!hasPublicServiceExplorer()) {
     return null;
   }
 
   return buildServiceExplorer(getApprovedBusinessNeeds(), {
     includeDraftServices: false,
-    composition: getHomeComposition(),
+    composition: await getHomeComposition(),
   });
 }
 
 /**
  * Approved charcoal automation example, or null while copy remains draft.
  */
-export function getPublicAutomationExample(): PublicAutomationExample | null {
+export async function getPublicAutomationExample(): Promise<PublicAutomationExample | null> {
   if (!hasPublicAutomationExample()) {
     return null;
   }
 
-  return buildPublicAutomationExample(getHomeComposition());
+  return buildPublicAutomationExample(await getHomeComposition());
 }
 
 /**
  * Approved delivery process section, or null while copy remains draft.
  * Does not publish guarantees about timelines, revisions, or free support.
  */
-export function getPublicHomeProcess(): PublicHomeProcess | null {
+export async function getPublicHomeProcess(): Promise<PublicHomeProcess | null> {
   if (!hasPublicHomeProcess()) {
     return null;
   }
 
-  return buildPublicHomeProcess(getHomeComposition());
+  return buildPublicHomeProcess(await getHomeComposition());
 }
 
 /**
  * Approved people / company section, or null while copy remains draft.
  * Never invents founders, portraits, or headcount.
  */
-export function getPublicHomePeople(): PublicHomePeople | null {
+export async function getPublicHomePeople(): Promise<PublicHomePeople | null> {
   if (!hasPublicHomePeople()) {
     return null;
   }
 
-  return buildPublicHomePeople(getHomeComposition());
+  return buildPublicHomePeople(await getHomeComposition());
 }
 
 /**
  * Approved feedback / FAQ section, or null while framing stays draft or
  * there is no approved FAQ/feedback content. Never invents quotes.
  */
-export function getPublicHomeQuestions(): PublicHomeQuestions | null {
+export async function getPublicHomeQuestions(): Promise<PublicHomeQuestions | null> {
   if (!hasPublicHomeQuestions()) {
     return null;
   }
 
-  return buildPublicHomeQuestions(getHomeComposition());
+  return buildPublicHomeQuestions(await getHomeComposition());
 }
 
 /**
  * Approved final enquiry invitation, or null while copy stays draft or no
  * usable contact action exists. Never renders a dead button.
  */
-export function getPublicHomeFinalCta(): PublicHomeFinalCta | null {
+export async function getPublicHomeFinalCta(): Promise<PublicHomeFinalCta | null> {
   if (!hasPublicFinalCta()) {
     return null;
   }
 
-  return buildPublicHomeFinalCta(getHomeComposition());
+  return buildPublicHomeFinalCta(await getHomeComposition());
 }
 
 function buildPublicHomeFinalCta(
@@ -1447,9 +1454,9 @@ export function getSelectedWorkSpecimen(
  * Gallery service-explorer projection. Includes draft service summaries for
  * layout review — never used as the public homepage projection.
  */
-export function getServiceExplorerSpecimen(options?: {
+export async function getServiceExplorerSpecimen(options?: {
   longDeliverable?: boolean;
-}): PublicServiceExplorer {
+}): Promise<PublicServiceExplorer> {
   return buildServiceExplorer([...businessNeedRecords], {
     includeDraftServices: true,
     heading: `${homeServiceExplorerRecord.heading} (specimen)`,

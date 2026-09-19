@@ -13,7 +13,7 @@ import type {
 import type { ServiceRecord } from "@/content/services";
 import { SERVICE_SLUGS, type ServiceSlug } from "@/types/content";
 import { resolveServicesEnquiryCta } from "@/server/services";
-import { getPublishedRelatedProjectCardsSync } from "@/server/public-projects";
+import { listPublishedRelatedProjects } from "@/server/public-projects";
 
 export type PublicServiceDetailFaq = {
   id: string;
@@ -115,7 +115,7 @@ function hasRequiredDetailFields(detail: ServiceDetailRecord): boolean {
   return true;
 }
 
-function projectDetail(
+async function projectDetail(
   service: ServiceRecord,
   detail: ServiceDetailRecord,
   options?: {
@@ -123,7 +123,7 @@ function projectDetail(
     /** Gallery-only: include draft FAQs and draft related-service summaries. */
     includeDraftExtras?: boolean;
   },
-): PublicServiceDetail {
+): Promise<PublicServiceDetail> {
   const includeDraftExtras = options?.includeDraftExtras ?? false;
 
   const faqs = detail.faqIds.flatMap((faqId) => {
@@ -143,8 +143,8 @@ function projectDetail(
     ];
   });
 
-  const relatedWork = getPublishedRelatedProjectCardsSync(
-    detail.relatedProjectIds,
+  const relatedWork = (
+    await listPublishedRelatedProjects(detail.relatedProjectIds)
   ).map((card) => ({
     id: card.id,
     title: card.title,
@@ -258,9 +258,9 @@ export function getEligibleServiceDetailSlugs(): readonly ServiceSlug[] {
  * Public detail projection for a canonical slug, or null when unavailable.
  * Does not fall back to another service or draft copy.
  */
-export function getPublicServiceDetail(
+export async function getPublicServiceDetail(
   slug: string,
-): PublicServiceDetail | null {
+): Promise<PublicServiceDetail | null> {
   if (!isServiceSlug(slug)) {
     return null;
   }
@@ -281,15 +281,15 @@ export function getPublicServiceDetail(
  * Includes draft FAQs and related-service summaries for review.
  * Never used by public routes or metadata.
  */
-export function getServiceDetailGalleryPreview(
+export async function getServiceDetailGalleryPreview(
   slug: ServiceSlug,
-): PublicServiceDetail | null {
+): Promise<PublicServiceDetail | null> {
   const service = contentCatalog.services.find((row) => row.slug === slug);
   if (!service || !service.detail) {
     return null;
   }
 
-  const projected = projectDetail(service, service.detail, {
+  const projected = await projectDetail(service, service.detail, {
     includeDraftExtras: true,
   });
 
@@ -415,9 +415,9 @@ function specimenBaseDetail(): ServiceDetailRecord {
  * Gallery fixtures for the service detail template.
  * Never used as public `/services/[slug]` content.
  */
-export function getServiceDetailSpecimen(
+export async function getServiceDetailSpecimen(
   variant: "complete" | "minimal" | "long-copy" | "no-cta" | "missing-optional",
-): PublicServiceDetail {
+): Promise<PublicServiceDetail> {
   const service = contentCatalog.services[0]!;
   let detail = specimenBaseDetail();
 
@@ -473,7 +473,7 @@ export function getServiceDetailSpecimen(
     };
   }
 
-  const projected = projectDetail(service, detail, {
+  const projected = await projectDetail(service, detail, {
     enquiryAction:
       variant === "no-cta"
         ? null

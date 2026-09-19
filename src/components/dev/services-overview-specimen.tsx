@@ -5,8 +5,8 @@ import { getServicesOverviewSpecimen } from "@/server/services";
  * Gallery specimen for the Services overview.
  * Shows all six draft rows with review labels — not public evidence.
  */
-export function ServicesOverviewSpecimen() {
-  const overview = getServicesOverviewSpecimen();
+export async function ServicesOverviewSpecimen() {
+  const overview = await getServicesOverviewSpecimen();
 
   return (
     <div className="overflow-hidden rounded-md border border-border-subtle">
