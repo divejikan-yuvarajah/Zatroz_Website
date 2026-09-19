@@ -114,6 +114,13 @@ export default async function AdminEditProjectPage({
         </div>
         <div className="flex flex-wrap gap-2">
           <ButtonLink
+            href={`/admin/projects/${id}/preview`}
+            variant="secondary"
+            size="compact"
+          >
+            Preview draft
+          </ButtonLink>
+          <ButtonLink
             href={`/admin/projects/${id}/story`}
             variant="secondary"
             size="compact"

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { isAdminMediaPreviewSrc } from "@/lib/admin/preview";
 import type { PublicCaseStudy } from "@/lib/public-case-study";
 import { cn } from "@/lib/cn";
 
@@ -19,6 +20,8 @@ export function CaseStudyHero({
   const HeadingTag = headingLevel === 1 ? "h1" : "h2";
   const titleId = `${idPrefix}hero-heading`;
   const isSvg = study.cover?.src.toLowerCase().endsWith(".svg") ?? false;
+  const unoptimized =
+    isSvg || (study.cover ? isAdminMediaPreviewSrc(study.cover.src) : false);
 
   return (
     <div className={cn("min-w-0", className)}>
@@ -54,7 +57,7 @@ export function CaseStudyHero({
               priority
               sizes="(max-width: 1023px) 100vw, 72rem"
               className="h-auto w-full object-contain object-top"
-              unoptimized={isSvg}
+              unoptimized={unoptimized}
             />
           </div>
           {study.cover.caption ? (

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isAdminMediaPreviewSrc } from "@/lib/admin/preview";
 import type {
   PublicCaseStudyGalleryItem,
   PublicCaseStudySection,
@@ -111,6 +112,7 @@ export function CaseStudyGallery({
       <ul className="mt-6 grid list-none gap-10 p-0">
         {items.map((item, index) => {
           const isSvg = item.src.toLowerCase().endsWith(".svg");
+          const unoptimized = isSvg || isAdminMediaPreviewSrc(item.src);
           return (
             <li key={`${item.src}-${index}`} className="min-w-0">
               <figure className="m-0">
@@ -123,7 +125,7 @@ export function CaseStudyGallery({
                     loading="lazy"
                     sizes="(max-width: 1023px) 100vw, 48rem"
                     className="h-auto w-full object-contain object-top"
-                    unoptimized={isSvg}
+                    unoptimized={unoptimized}
                   />
                 </div>
                 <figcaption className="mt-3 text-sm text-text-body">

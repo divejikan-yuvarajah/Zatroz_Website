@@ -61,7 +61,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | A04     | Media provider + library        | **Implemented** (on branch `feature/a04-admin-media`; merge may be pending)        | 2026-09-19 | Cloudinary uploads + private preview; see `docs/admin/step-a04.md`    |
 | A05     | Project list + draft forms      | **Implemented** (on branch `feature/a05-admin-projects`; merge may be pending)     | 2026-09-19 | List/search/filter + Save draft; see `docs/admin/step-a05.md`         |
 | A06     | Case-study editor + gallery     | **Implemented** (on branch `feature/a06-admin-case-study`; merge may be pending)   | 2026-09-19 | Structured blocks + gallery order; see `docs/admin/step-a06.md`       |
-| A07–A12 | Preview through handover        | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| A07     | Authenticated draft preview     | **Implemented** (on branch `feature/a07-admin-preview`; merge may be pending)      | 2026-09-19 | Public components + private media; see `docs/admin/step-a07.md`       |
+| A08–A12 | Publish through handover        | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -558,6 +559,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Save draft preserves summary snapshot, writes immutable revision, bumps concurrency; link from summary edit page.
 - Docs: `docs/admin/step-a06.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-story`); `npm run build` passed (Next.js 16.3.5). Live Mongo story save with real credentials **Not run**. Next: **A07** (authenticated preview). Step 47 remains blocked until A12.
+
+### Admin A07 (2026-09-19)
+
+- Branch: `feature/a07-admin-preview` from `feature/a06-admin-case-study`.
+- `/admin/projects/[id]/preview` renders draft summary card + case-study page via public `ProjectCard` / `CaseStudyPage` components.
+- Private media uses authenticated preview API paths with `unoptimized` images (browser cookies); reviewNotes omitted; story link disabled until publish.
+- Docs: `docs/admin/step-a07.md`.
+- Checks: recorded after format/check/build on this branch. Live Mongo + Cloudinary preview with real credentials **Not run**. Next: **A08** (publish/unpublish). Step 47 remains blocked until A12.
 
 ---
 

@@ -94,6 +94,13 @@ export default async function AdminProjectStoryPage({ params }: PageProps) {
         </div>
         <div className="flex flex-wrap gap-2">
           <ButtonLink
+            href={`/admin/projects/${loaded.project.editorialId}/preview`}
+            variant="secondary"
+            size="compact"
+          >
+            Preview draft
+          </ButtonLink>
+          <ButtonLink
             href={`/admin/projects/${loaded.project.editorialId}`}
             variant="secondary"
             size="compact"
