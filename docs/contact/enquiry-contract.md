@@ -74,3 +74,7 @@ Bump this document’s version when fields, enums, or result statuses change. Ke
 Notification delivery is **separate** from enquiry acceptance. Content-editor admin roles must not automatically access private enquiries.
 
 Environment flags or an installed MongoDB driver alone are **not** evidence that public submission works. Keep `contactPage.formSubmissionReady` false until the gates above are satisfied.
+
+## Step 46 safeguards (no live write yet)
+
+Transport remains a future **Server Action**. Step 46 added origin allowlisting, payload budgets, MongoDB rate-limit helpers, safe error mapping, readiness checks, and repository boundaries. See `docs/security/request-policy.md` and `docs/backend/step-46.md`. Admin/enquiry inbox authorization is still unavailable until A02–A03.

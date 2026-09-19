@@ -39,15 +39,15 @@
 
 ## Checks
 
-| Check | Result |
-| ----- | ------ |
-| `npm run format` | Passed |
-| `npm run check` (incl. `test:mongodb-models`) | Passed |
-| `npm run build` | Passed (Next.js 16.3.5) |
-| `npm run db:plan` | Failed — no `MONGODB_MIGRATION_URI` (expected); live plan **Not run** |
-| `npm run db:apply` (no `--target`) | Failed as expected (requires explicit target) |
-| Production smoke (`next start` :3045) | `/` `/contact` `/work` 200; `/dev/ui` 404 |
-| Live `db:apply` + synthetic inserts | **Not run** — awaiting disposable Atlas DB |
+| Check                                         | Result                                                                |
+| --------------------------------------------- | --------------------------------------------------------------------- |
+| `npm run format`                              | Passed                                                                |
+| `npm run check` (incl. `test:mongodb-models`) | Passed                                                                |
+| `npm run build`                               | Passed (Next.js 16.3.5)                                               |
+| `npm run db:plan`                             | Failed — no `MONGODB_MIGRATION_URI` (expected); live plan **Not run** |
+| `npm run db:apply` (no `--target`)            | Failed as expected (requires explicit target)                         |
+| Production smoke (`next start` :3045)         | `/` `/contact` `/work` 200; `/dev/ui` 404                             |
+| Live `db:apply` + synthetic inserts           | **Not run** — awaiting disposable Atlas DB                            |
 
 ## Remaining operator actions
 

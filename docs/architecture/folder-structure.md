@@ -26,6 +26,7 @@ This repository uses Next.js App Router with a `src/` directory and `@/*` → `s
 | `src/lib/`                  | Shared utilities only; **no** secret barrel exports      | Includes `mongodb/` models/schema/migrations (no secrets) |
 | `src/server/`               | Server-only env access and content selectors             | `env.ts`, `mongodb.ts`, public project selectors          |
 | `docs/backend/`             | Backend step notes + data model                          | Steps 44–45                                               |
+| `docs/security/`            | DB privileges, request policy, readiness, recovery       | Step 46                                                   |
 | `docs/setup/mongodb-*.md`   | Atlas + migration runbooks                               | Operator setup (no secrets)                               |
 | `src/types/`                | Shared domain types when actually used                   | `content.ts`                                              |
 | `public/brand/`             | Approved logo / brand assets                             | Empty placeholder                                         |
