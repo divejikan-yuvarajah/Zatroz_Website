@@ -1,7 +1,7 @@
 # Backend data model (Step 45)
 
 **Status:** Schema definitions and migration tooling implemented. Live `db:apply` / Atlas insert proofs **Not run** until maintenance credentials exist.  
-**Public portfolio adapter:** Still repository-backed (`src/server/public-projects.ts`). MongoDB project documents are foundations for A09–A10 — not the live public source yet.
+**Public portfolio adapter:** MongoDB published revisions via `src/server/public-projects.ts` (A09). Repository project arrays remain for content validation until A10 migration retires parallel edits.
 
 Application validation (TypeScript) and MongoDB `$jsonSchema` share limits and enums but are **not interchangeable**: BSON dates must be real `Date` values; integers should be BSON int/long where validators require `int`/`long`; string length rules may differ slightly at edges. Prefer validating in application code before insert, then rely on collection validators as a safety net.
 

@@ -20,7 +20,7 @@ import {
 import type { ServiceRecord } from "@/content/services";
 import type { ServiceSlug } from "@/types/content";
 import { siteRecord } from "@/content/site";
-import { getPublishedProjectCardsSync } from "@/server/public-projects";
+import { listPublishedProjects } from "@/server/public-projects";
 
 export type { PublicServicesOverview };
 
@@ -181,12 +181,12 @@ function projectNotSureItems(
   });
 }
 
-function getApprovedRelatedWork(): {
+async function getApprovedRelatedWork(): Promise<{
   heading: string;
   supporting: string;
   items: readonly { id: string; title: string; href: string | null }[];
-} | null {
-  const listed = getPublishedProjectCardsSync({ page: 1, pageSize: 3 });
+} | null> {
+  const listed = await listPublishedProjects({ page: 1, pageSize: 3 });
   const items = listed.items.map((card) => ({
     id: card.id,
     title: card.title,
@@ -209,12 +209,12 @@ function getApprovedRelatedWork(): {
   };
 }
 
-function buildPublicServicesOverview(options?: {
+async function buildPublicServicesOverview(options?: {
   includeDraftServices?: boolean;
   includeDraftFraming?: boolean;
   heading?: string;
   supporting?: string;
-}): PublicServicesOverview | null {
+}): Promise<PublicServicesOverview | null> {
   const includeDraft = options?.includeDraftServices ?? false;
   const includeDraftFraming = options?.includeDraftFraming ?? false;
 
@@ -286,7 +286,7 @@ function buildPublicServicesOverview(options?: {
           body: servicesOverviewRecord.deliveryBody,
         }
       : null,
-    work: includeDraft ? null : getApprovedRelatedWork(),
+    work: includeDraft ? null : await getApprovedRelatedWork(),
     finalAction: resolveServicesEnquiryCta({
       label: siteRecord.cta.primaryLabel,
     }),
@@ -298,7 +298,7 @@ function buildPublicServicesOverview(options?: {
  * Returns null when there is nothing approved to show — caller may render
  * an honest sparse placeholder instead of leaking proposed marketing copy.
  */
-export function getPublicServicesOverview(): PublicServicesOverview | null {
+export async function getPublicServicesOverview(): Promise<PublicServicesOverview | null> {
   return buildPublicServicesOverview({
     includeDraftServices: false,
     includeDraftFraming: false,
@@ -309,11 +309,15 @@ export function getPublicServicesOverview(): PublicServicesOverview | null {
  * Gallery specimen — labelled draft framing and all six service rows.
  * Never used as the public `/services` projection.
  */
-export function getServicesOverviewSpecimen(): PublicServicesOverview {
-  return buildPublicServicesOverview({
+export async function getServicesOverviewSpecimen(): Promise<PublicServicesOverview> {
+  const overview = await buildPublicServicesOverview({
     includeDraftServices: true,
     includeDraftFraming: true,
     heading: `${servicesOverviewRecord.heading} (specimen)`,
     supporting: `${servicesOverviewRecord.supporting} Gallery specimen — not published until approved.`,
-  })!;
+  });
+  if (!overview) {
+    throw new Error("Services overview specimen should always resolve.");
+  }
+  return overview;
 }

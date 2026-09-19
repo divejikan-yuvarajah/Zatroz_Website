@@ -53,17 +53,18 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 
 ### Admin sequence (between Step 46 and Step 47)
 
-| Step    | Result                          | Status                                                                             | Date       | Evidence                                                              |
-| ------- | ------------------------------- | ---------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| A01     | Admin requirements + image plan | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending) | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
-| A02     | Auth / MFA / recovery           | **Implemented** (on branch `feature/a02-admin-auth`; merge may be pending)         | 2026-09-19 | Better Auth + MFA pages + bootstrap; see `docs/admin/step-a02.md`     |
-| A03     | Admin shell + dashboard         | **Implemented** (on branch `feature/a03-admin-shell`; merge may be pending)        | 2026-09-19 | Protected shell, counts, staff roles; see `docs/admin/step-a03.md`    |
-| A04     | Media provider + library        | **Implemented** (on branch `feature/a04-admin-media`; merge may be pending)        | 2026-09-19 | Cloudinary uploads + private preview; see `docs/admin/step-a04.md`    |
-| A05     | Project list + draft forms      | **Implemented** (on branch `feature/a05-admin-projects`; merge may be pending)     | 2026-09-19 | List/search/filter + Save draft; see `docs/admin/step-a05.md`         |
-| A06     | Case-study editor + gallery     | **Implemented** (on branch `feature/a06-admin-case-study`; merge may be pending)   | 2026-09-19 | Structured blocks + gallery order; see `docs/admin/step-a06.md`       |
-| A07     | Authenticated draft preview     | **Implemented** (on branch `feature/a07-admin-preview`; merge may be pending)      | 2026-09-19 | Public components + private media; see `docs/admin/step-a07.md`       |
-| A08     | Publish / unpublish / archive   | **Implemented** (on branch `feature/a08-admin-publish`; merge may be pending)      | 2026-09-19 | Pointers, audit, slug redirects; see `docs/admin/step-a08.md`         |
-| A09–A12 | Featured through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| Step    | Result                            | Status                                                                                    | Date       | Evidence                                                              |
+| ------- | --------------------------------- | ----------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- |
+| A01     | Admin requirements + image plan   | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending)        | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
+| A02     | Auth / MFA / recovery             | **Implemented** (on branch `feature/a02-admin-auth`; merge may be pending)                | 2026-09-19 | Better Auth + MFA pages + bootstrap; see `docs/admin/step-a02.md`     |
+| A03     | Admin shell + dashboard           | **Implemented** (on branch `feature/a03-admin-shell`; merge may be pending)               | 2026-09-19 | Protected shell, counts, staff roles; see `docs/admin/step-a03.md`    |
+| A04     | Media provider + library          | **Implemented** (on branch `feature/a04-admin-media`; merge may be pending)               | 2026-09-19 | Cloudinary uploads + private preview; see `docs/admin/step-a04.md`    |
+| A05     | Project list + draft forms        | **Implemented** (on branch `feature/a05-admin-projects`; merge may be pending)            | 2026-09-19 | List/search/filter + Save draft; see `docs/admin/step-a05.md`         |
+| A06     | Case-study editor + gallery       | **Implemented** (on branch `feature/a06-admin-case-study`; merge may be pending)          | 2026-09-19 | Structured blocks + gallery order; see `docs/admin/step-a06.md`       |
+| A07     | Authenticated draft preview       | **Implemented** (on branch `feature/a07-admin-preview`; merge may be pending)             | 2026-09-19 | Public components + private media; see `docs/admin/step-a07.md`       |
+| A08     | Publish / unpublish / archive     | **Implemented** (on branch `feature/a08-admin-publish`; merge may be pending)             | 2026-09-19 | Pointers, audit, slug redirects; see `docs/admin/step-a08.md`         |
+| A09     | Featured + Mongo public selectors | **Implemented** (on branch `feature/a09-featured-public-selectors`; merge may be pending) | 2026-09-19 | Featured settings + Mongo selectors; see `docs/admin/step-a09.md`     |
+| A10–A12 | Migration through handover        | Not started                                                                               | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -577,6 +578,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Publication panel on `/admin/projects/[id]`; archived filter on project list. Public Work still repository-backed until A09.
 - Docs: `docs/admin/step-a08.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-publish`); `npm run build` passed (Next.js 16.3.5). Live Mongo publish with real credentials **Not run**. Next: **A09** (featured + Mongo public selectors). Step 47 remains blocked until A12.
+
+### Admin A09 (2026-09-19)
+
+- Branch: `feature/a09-featured-public-selectors` from `feature/a08-admin-publish`.
+- Owner featured order at `/admin/settings/featured` (`site_content_settings`); public-ready IDs only.
+- Public selectors (`listPublishedProjects`, featured, related, case studies) load Mongo published revisions; DB failure returns empty — no repository draft fallback.
+- Case-study route follows A08 slug redirects. Public Cloudinary derivatives deferred to A11 (text-led cards until then).
+- Docs: `docs/admin/step-a09.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-featured`); `npm run build` passed (Next.js 16.3.5). Live Mongo featured/public proof **Not run**. Next: **A10** (repository→Mongo migration). Step 47 remains blocked until A12.
 
 ---
 

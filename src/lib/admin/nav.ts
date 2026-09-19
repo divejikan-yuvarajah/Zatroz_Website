@@ -39,8 +39,6 @@ export const ADMIN_PRIMARY_NAV: readonly AdminNavItem[] = [
     label: "Featured",
     href: "/admin/settings/featured",
     permission: "admin.content.publish",
-    comingLater: true,
-    comingLaterNote: "Featured ordering arrives in A08–A09.",
   },
   {
     id: "staff",
@@ -82,6 +80,14 @@ export const ADMIN_DASHBOARD_SHORTCUTS: readonly AdminShortcut[] = [
     description: "Upload and organise project media.",
     href: "/admin/media",
     permission: "admin.content.write",
+    available: true,
+  },
+  {
+    id: "manage-featured",
+    label: "Featured order",
+    description: "Choose homepage selected-work projects.",
+    href: "/admin/settings/featured",
+    permission: "admin.content.publish",
     available: true,
   },
   {

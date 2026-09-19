@@ -16,8 +16,8 @@ export const metadata: Metadata = {
  * Public About route. While page copy stays draft, shows an honest sparse
  * placeholder; full draft lives in `/dev/ui`.
  */
-export default function AboutRoute() {
-  const about = getPublicAboutPage();
+export default async function AboutRoute() {
+  const about = await getPublicAboutPage();
 
   if (about) {
     return <AboutPage about={about} headingLevel={1} />;
@@ -37,11 +37,6 @@ export default function AboutRoute() {
           The About page is prepared for review in the local gallery. Proposed
           company story, mission, vision, and values stay draft until founders
           approve them, so this public page does not publish that wording yet.
-        </p>
-        <p className="mt-4">
-          Zatroz is a small software studio. When approved founder profiles and
-          project evidence are ready, they will appear here with accurate labels
-          — not invented titles or stock portraits.
         </p>
       </Container>
     </Section>

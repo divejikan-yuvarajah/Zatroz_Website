@@ -7,7 +7,7 @@ import type { PublicPerson } from "@/content/people";
 import { publicRoutes } from "@/config/routes";
 import { getPublishedFounders } from "@/server/content";
 import {
-  getPublishedProjectCardsSync,
+  listPublishedProjects,
   type PublicProjectCard,
 } from "@/server/public-projects";
 import { resolveServicesEnquiryCta } from "@/server/services";
@@ -56,10 +56,10 @@ function projectValues(
   }));
 }
 
-function buildAboutPage(
+async function buildAboutPage(
   record: AboutPageRecord,
   options?: { includeDraftStatements?: boolean },
-): PublicAboutPage {
+): Promise<PublicAboutPage> {
   const includeDraftStatements = options?.includeDraftStatements ?? false;
 
   const mission =
@@ -83,10 +83,12 @@ function buildAboutPage(
     links: [],
   }));
 
-  const evidence = getPublishedProjectCardsSync({
-    page: 1,
-    pageSize: 3,
-  }).items;
+  const evidence = (
+    await listPublishedProjects({
+      page: 1,
+      pageSize: 3,
+    })
+  ).items;
 
   return {
     id: "about",
@@ -124,7 +126,7 @@ function buildAboutPage(
  * Public About page. Returns null while the page body stays draft so `/about`
  * can show an honest sparse placeholder instead of unpublished marketing copy.
  */
-export function getPublicAboutPage(): PublicAboutPage | null {
+export async function getPublicAboutPage(): Promise<PublicAboutPage | null> {
   const record = contentCatalog.about;
   if (record.publicationState !== "approved") {
     return null;
@@ -133,7 +135,7 @@ export function getPublicAboutPage(): PublicAboutPage | null {
 }
 
 /** Gallery-only draft projection — includes draft mission/vision for review. */
-export function getAboutGalleryPreview(): PublicAboutPage {
+export async function getAboutGalleryPreview(): Promise<PublicAboutPage> {
   return buildAboutPage(contentCatalog.about, {
     includeDraftStatements: true,
   });

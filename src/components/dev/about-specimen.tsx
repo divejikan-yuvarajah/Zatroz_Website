@@ -5,8 +5,8 @@ import { getAboutGalleryPreview } from "@/server/about";
  * Gallery preview of the About page draft.
  * Not a public page — copy stays draft until founders approve.
  */
-export function AboutSpecimen() {
-  const about = getAboutGalleryPreview();
+export async function AboutSpecimen() {
+  const about = await getAboutGalleryPreview();
 
   return (
     <div>

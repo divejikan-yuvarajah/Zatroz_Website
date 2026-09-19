@@ -1,6 +1,5 @@
 import "server-only";
 
-import { contentCatalog } from "@/content/catalog";
 import { publicRoutes } from "@/config/routes";
 import {
   listPublishedCaseStudySlugs,
@@ -21,6 +20,11 @@ import {
   type PublicProjectListResult,
   type PublicProjectsRepository,
 } from "@/lib/public-projects";
+import {
+  getEmptyPublicProjectsRepository,
+  loadMongoPublicProjectsRepository,
+} from "@/server/projects/public-catalog";
+import { findProjectRedirect } from "@/server/projects/publish";
 import type { ServiceSlug, WorkStatus } from "@/types/content";
 
 export {
@@ -33,20 +37,11 @@ export {
 export type { PublicProjectCard, PublicProjectListResult, PublicCaseStudy };
 
 /**
- * Temporary repository adapter. A09–A10 will swap this to MongoDB published
- * revisions without changing PublicProjectCard / PublicCaseStudy consumers.
- *
- * workStoriesImplemented is true once `/work/[slug]` exists (Step 38).
- * New admin-published slugs resolve at request time (dynamicParams stays default).
+ * MongoDB published-revision adapter (A09).
+ * On DB failure or missing config: empty catalog — never repository drafts.
  */
-function getRepository(): PublicProjectsRepository {
-  return {
-    projects: contentCatalog.projects,
-    media: contentCatalog.media,
-    services: contentCatalog.services,
-    featuredProjectIds: contentCatalog.featuredProjectIds,
-    workStoriesImplemented: publicRoutes.work.implemented,
-  };
+async function getRepository(): Promise<PublicProjectsRepository> {
+  return loadMongoPublicProjectsRepository();
 }
 
 export async function listPublishedProjects(options?: {
@@ -55,61 +50,101 @@ export async function listPublishedProjects(options?: {
   page?: number;
   pageSize?: number;
 }): Promise<PublicProjectListResult> {
-  return listPublishedProjectCards(getRepository(), options);
+  return listPublishedProjectCards(await getRepository(), options);
 }
 
 export async function getPublishedProjectSummaryBySlug(
   slug: string,
 ): Promise<PublicProjectCard | null> {
-  return getPublishedProjectCardBySlug(getRepository(), slug);
+  return getPublishedProjectCardBySlug(await getRepository(), slug);
 }
 
 export async function getPublishedCaseStudyBySlug(
   slug: string,
   options?: { idPrefix?: string },
 ): Promise<PublicCaseStudy | null> {
-  return projectPublishedCaseStudy(getRepository(), slug, options);
+  return projectPublishedCaseStudy(await getRepository(), slug, options);
+}
+
+/**
+ * Resolve a published case study, following A08 slug redirects when needed.
+ */
+export async function getPublishedCaseStudyBySlugOrRedirect(
+  slug: string,
+  options?: { idPrefix?: string },
+): Promise<
+  | { kind: "study"; study: PublicCaseStudy }
+  | { kind: "redirect"; toSlug: string }
+  | { kind: "missing" }
+> {
+  const study = await getPublishedCaseStudyBySlug(slug, options);
+  if (study) {
+    return { kind: "study", study };
+  }
+  const redirectTarget = await findProjectRedirect(slug);
+  if (redirectTarget?.toSlug && redirectTarget.toSlug !== slug) {
+    return { kind: "redirect", toSlug: redirectTarget.toSlug };
+  }
+  return { kind: "missing" };
 }
 
 export async function listPublishedFeaturedProjects(
   limit = 3,
 ): Promise<readonly PublicProjectCard[]> {
-  return listPublishedFeaturedProjectCards(getRepository(), limit);
+  return listPublishedFeaturedProjectCards(await getRepository(), limit);
 }
 
 export async function listPublishedRelatedProjects(
   projectIds: readonly string[],
   limit = 3,
 ): Promise<readonly PublicProjectCard[]> {
-  return listPublishedRelatedProjectCards(getRepository(), projectIds, limit);
+  return listPublishedRelatedProjectCards(
+    await getRepository(),
+    projectIds,
+    limit,
+  );
 }
 
 /** Known public story slugs for optional prerender — not a permanent eligibility allowlist. */
-export function getPublishedCaseStudySlugsForPrerender(): string[] {
-  return listPublishedCaseStudySlugs(getRepository());
+export async function getPublishedCaseStudySlugsForPrerender(): Promise<
+  string[]
+> {
+  return listPublishedCaseStudySlugs(await getRepository());
 }
 
-/** Thin sync helpers for existing homepage/service projections. */
+/**
+ * @deprecated Sync helpers cannot load Mongo. Prefer async listPublished* APIs.
+ * Returns an empty portfolio so callers never see repository drafts.
+ */
 export function getPublishedProjectCardsSync(options?: {
   service?: ServiceSlug | null;
   status?: WorkStatus | null;
   page?: number;
   pageSize?: number;
 }): PublicProjectListResult {
-  return listPublishedProjectCards(getRepository(), options);
+  return listPublishedProjectCards(getEmptyPublicProjectsRepository(), options);
 }
 
+/** @deprecated Prefer listPublishedFeaturedProjects. */
 export function getPublishedFeaturedProjectCardsSync(
   limit = 3,
 ): readonly PublicProjectCard[] {
-  return listPublishedFeaturedProjectCards(getRepository(), limit);
+  return listPublishedFeaturedProjectCards(
+    getEmptyPublicProjectsRepository(),
+    limit,
+  );
 }
 
+/** @deprecated Prefer listPublishedRelatedProjects. */
 export function getPublishedRelatedProjectCardsSync(
   projectIds: readonly string[],
   limit = 3,
 ): readonly PublicProjectCard[] {
-  return listPublishedRelatedProjectCards(getRepository(), projectIds, limit);
+  return listPublishedRelatedProjectCards(
+    getEmptyPublicProjectsRepository(),
+    projectIds,
+    limit,
+  );
 }
 
 export function isWorkListingImplemented(): boolean {

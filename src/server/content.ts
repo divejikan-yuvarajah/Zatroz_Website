@@ -19,7 +19,7 @@ import {
   type NavDestination,
 } from "@/config/navigation";
 import { publicRoutes } from "@/config/routes";
-import { getPublishedProjectCardsSync } from "@/server/public-projects";
+import { listPublishedProjects } from "@/server/public-projects";
 import { isPublicServiceDetailEligible } from "@/server/service-detail";
 
 export type PublicService = Readonly<{
@@ -85,8 +85,11 @@ export function getLinkableServices(): readonly PublicService[] {
  * Approved project summaries. Prefer `listPublishedProjects` for Work page
  * filters and pagination. Story paths are only linkable when storyLinkEligible.
  */
-export function getPublishedProjects(): readonly PublicProject[] {
-  return getPublishedProjectCardsSync().items.map((card) => ({
+export async function getPublishedProjects(): Promise<
+  readonly PublicProject[]
+> {
+  const listed = await listPublishedProjects();
+  return listed.items.map((card) => ({
     id: card.id,
     slug: card.slug,
     title: card.title,
@@ -101,11 +104,12 @@ export function getPublishedProjects(): readonly PublicProject[] {
  * Approved projects that may be linked as story destinations.
  * Empty while case-study routes / stories are not public-ready.
  */
-export function getLinkableProjects(): readonly PublicProject[] {
+export async function getLinkableProjects(): Promise<readonly PublicProject[]> {
   if (!publicRoutes.work.implemented) {
     return [];
   }
-  return getPublishedProjects().filter((project) => project.storyLinkEligible);
+  const projects = await getPublishedProjects();
+  return projects.filter((project) => project.storyLinkEligible);
 }
 
 export function getPublishedFounders(): readonly PublicFounder[] {

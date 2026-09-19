@@ -5,9 +5,9 @@ import { getServiceExplorerSpecimen } from "@/server/home";
  * Gallery-only service explorer specimen. Draft needs for layout review —
  * not published on public `/` until approved.
  */
-export function HomeServiceExplorerSpecimen() {
-  const explorer = getServiceExplorerSpecimen();
-  const longCopy = getServiceExplorerSpecimen({ longDeliverable: true });
+export async function HomeServiceExplorerSpecimen() {
+  const explorer = await getServiceExplorerSpecimen();
+  const longCopy = await getServiceExplorerSpecimen({ longDeliverable: true });
 
   return (
     <div className="flex flex-col gap-12">

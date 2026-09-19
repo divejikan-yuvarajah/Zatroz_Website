@@ -5,8 +5,8 @@ import { getServiceDetailGalleryPreview } from "@/server/service-detail";
  * Gallery preview of the Business Systems draft detail.
  * Not a public page — copy stays draft until founders approve.
  */
-export function BusinessSystemsSpecimen() {
-  const detail = getServiceDetailGalleryPreview("business-systems");
+export async function BusinessSystemsSpecimen() {
+  const detail = await getServiceDetailGalleryPreview("business-systems");
 
   if (!detail) {
     return (
