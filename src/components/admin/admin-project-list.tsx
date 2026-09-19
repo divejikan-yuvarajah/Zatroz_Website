@@ -14,6 +14,7 @@ export type AdminProjectListProps = {
   search: string;
   workStatus: string;
   publication: string;
+  archived: boolean;
   unavailableDetail: string | null;
   canWrite: boolean;
 };
@@ -26,6 +27,7 @@ export function AdminProjectList({
   search,
   workStatus,
   publication,
+  archived,
   unavailableDetail,
   canWrite,
 }: AdminProjectListProps) {
@@ -92,6 +94,23 @@ export function AdminProjectList({
               <option value="all">All</option>
               <option value="draft">Draft only</option>
               <option value="published">Has published summary</option>
+            </SelectField>
+          </div>
+          <div>
+            <label
+              htmlFor="project-archived"
+              className="block text-sm font-medium text-ink"
+            >
+              List
+            </label>
+            <SelectField
+              id="project-archived"
+              name="archived"
+              defaultValue={archived ? "1" : "0"}
+              className="mt-1"
+            >
+              <option value="0">Active</option>
+              <option value="1">Archived</option>
             </SelectField>
           </div>
           <Button type="submit" variant="secondary" size="compact">
@@ -212,6 +231,7 @@ export function AdminProjectList({
                   search,
                   workStatus,
                   publication,
+                  archived,
                   page: page - 1,
                 })}
                 variant="secondary"
@@ -226,6 +246,7 @@ export function AdminProjectList({
                   search,
                   workStatus,
                   publication,
+                  archived,
                   page: page + 1,
                 })}
                 variant="secondary"
@@ -245,12 +266,14 @@ function pageHref(input: {
   search: string;
   workStatus: string;
   publication: string;
+  archived: boolean;
   page: number;
 }): string {
   const params = new URLSearchParams();
   if (input.search) params.set("q", input.search);
   if (input.workStatus !== "all") params.set("workStatus", input.workStatus);
   if (input.publication !== "all") params.set("publication", input.publication);
+  if (input.archived) params.set("archived", "1");
   if (input.page > 1) params.set("page", String(input.page));
   const qs = params.toString();
   return qs ? `/admin/projects?${qs}` : "/admin/projects";

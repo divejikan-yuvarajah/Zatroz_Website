@@ -39,6 +39,8 @@ export type ProjectListQuery = Readonly<{
   workStatus: WorkStatus | "all";
   publication: ProjectPublicationFilter;
   page: number;
+  /** When true, list only archived projects; default excludes them. */
+  archived?: boolean;
 }>;
 
 export type ProjectListItem = Readonly<{
@@ -107,6 +109,7 @@ export function parseProjectListQuery(input: {
   workStatus?: string | string[];
   publication?: string | string[];
   page?: string | string[];
+  archived?: string | string[];
 }): ProjectListQuery {
   const search = firstParam(input.q)?.trim() ?? "";
   const workRaw = firstParam(input.workStatus)?.trim() ?? "all";
@@ -119,7 +122,9 @@ export function parseProjectListQuery(input: {
   const page = Number.isFinite(pageRaw)
     ? Math.min(Math.max(pageRaw, 1), ADMIN_PROJECT_MAX_PAGE)
     : 1;
-  return { search, workStatus, publication, page };
+  const archivedRaw = firstParam(input.archived)?.trim() ?? "";
+  const archived = archivedRaw === "1" || archivedRaw === "true";
+  return { search, workStatus, publication, page, archived };
 }
 
 function firstParam(value: string | string[] | undefined): string | undefined {

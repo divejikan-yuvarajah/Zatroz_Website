@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { AdminProjectDraftForm } from "@/components/admin/admin-project-draft-form";
+import { AdminProjectPublishPanel } from "@/components/admin/admin-project-publish-panel";
+import { ButtonLink } from "@/components/ui/button-link";
 import { serviceRecords } from "@/content/services";
+import {
+  assessStoryPublishReadiness,
+  assessSummaryPublishReadiness,
+  getProjectPublicationStatus,
+} from "@/lib/admin/publish";
 import { formValuesFromDraft } from "@/lib/admin/projects";
 import { listMediaLibrary } from "@/server/media/repository";
+import { isProjectArchived } from "@/server/projects/admin-state";
 import { loadProjectDraft } from "@/server/projects/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export const dynamic = "force-dynamic";
 
@@ -31,12 +38,12 @@ export default async function AdminEditProjectPage({
   params,
   searchParams,
 }: PageProps) {
-  const gate = await requirePermissionSession("admin.content.write");
-  if (!gate.ok) {
-    const readGate = await requirePermissionSession("admin.content.read");
-    if (!readGate.ok) {
-      redirect("/admin/login");
-    }
+  const writeGate = await requirePermissionSession("admin.content.write");
+  const readGate = writeGate.ok
+    ? writeGate
+    : await requirePermissionSession("admin.content.read");
+  if (!readGate.ok) {
+    redirect("/admin/login");
   }
 
   const { id } = await params;
@@ -66,7 +73,23 @@ export default async function AdminEditProjectPage({
     );
   }
 
-  const canWrite = gate.ok;
+  const canWrite = writeGate.ok;
+  const canPublish = readGate.context.permissions.includes(
+    "admin.content.publish",
+  );
+  const canArchive =
+    canWrite || readGate.context.permissions.includes("admin.content.publish");
+  const archived = await isProjectArchived(loaded.project.editorialId);
+  const pubStatus = getProjectPublicationStatus(loaded.project);
+  const summaryReady = assessSummaryPublishReadiness({
+    project: loaded.project,
+    summary: loaded.summary,
+  });
+  const storyReady = assessStoryPublishReadiness({
+    project: loaded.project,
+    story: loaded.story,
+  });
+
   const initial = formValuesFromDraft({
     project: loaded.project,
     summary: loaded.summary,
@@ -81,7 +104,6 @@ export default async function AdminEditProjectPage({
       }))
     : [];
 
-  // Ensure current cover/gallery ids appear even if archived from library list
   const knownIds = new Set(mediaOptions.map((m) => m.mediaId));
   if (initial.coverMediaId && !knownIds.has(initial.coverMediaId)) {
     mediaOptions.push({
@@ -108,8 +130,7 @@ export default async function AdminEditProjectPage({
           </h1>
           <p className="mt-2 max-w-prose text-text-body">
             Saves a new immutable summary revision. Use the case-study editor
-            for structured story sections and gallery order. Publish remains
-            owner-only (A08).
+            for structured story sections. Owner publish controls are below.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -132,6 +153,19 @@ export default async function AdminEditProjectPage({
           </ButtonLink>
         </div>
       </header>
+
+      <AdminProjectPublishPanel
+        editorialId={loaded.project.editorialId}
+        concurrencyVersion={loaded.project.concurrencyVersion}
+        status={pubStatus}
+        summaryReady={summaryReady.ok}
+        storyReady={storyReady.ok}
+        archived={archived}
+        canPublish={canPublish}
+        canArchive={canArchive}
+        summaryReadyMessage={summaryReady.ok ? null : summaryReady.message}
+        storyReadyMessage={storyReady.ok ? null : storyReady.message}
+      />
 
       {canWrite ? (
         <AdminProjectDraftForm
