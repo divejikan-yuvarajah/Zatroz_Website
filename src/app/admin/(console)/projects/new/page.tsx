@@ -4,7 +4,7 @@ import { serviceRecords } from "@/content/services";
 import { DRAFT_PLACEHOLDER } from "@/lib/admin/projects";
 import { listMediaLibrary } from "@/server/media/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
-import { redirect } from "next/navigation";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import type { WorkStatus } from "@/types/content";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function AdminNewProjectPage() {
   const gate = await requirePermissionSession("admin.content.write");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const media = await listMediaLibrary({ limit: 100 });
@@ -38,7 +38,8 @@ export default async function AdminNewProjectPage() {
         </h1>
         <p className="mt-2 max-w-prose text-text-body">
           Starts a MongoDB draft with a summary-and-story revision stub.
-          Case-study body editing arrives in A06; publishing in A08.
+          Continue with the case-study editor, preview, then owner publish when
+          ready.
         </p>
       </header>
 

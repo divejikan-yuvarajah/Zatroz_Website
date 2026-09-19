@@ -654,7 +654,7 @@ export function AdminProjectStoryForm({
         </h2>
         <p className="ds-support mt-2">
           Leave both fields empty to omit. Public display still requires
-          approved state at publish time (A08).
+          approved state at publish time.
         </p>
         <div className="mt-4 flex flex-col gap-4">
           <FormField id="story-testimonial-quote" label="Quote" optional>
@@ -739,8 +739,8 @@ export function AdminProjectStoryForm({
           Save draft
         </Button>
         <p className="ds-support">
-          Explicit save only. Summary fields stay unchanged; publish remains
-          A08.
+          Explicit save only. Summary fields stay unchanged; owners publish from
+          the project Publication panel.
         </p>
       </div>
     </form>

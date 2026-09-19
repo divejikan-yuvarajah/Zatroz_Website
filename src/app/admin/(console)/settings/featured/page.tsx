@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { AdminFeaturedSettings } from "@/components/admin/admin-featured-settings";
 import { ButtonLink } from "@/components/ui/button-link";
 import { loadFeaturedSettings } from "@/server/projects/featured";
 import { requirePermissionSession } from "@/server/security/auth-gate";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function AdminFeaturedSettingsPage() {
   const gate = await requirePermissionSession("admin.content.publish");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const loaded = await loadFeaturedSettings();

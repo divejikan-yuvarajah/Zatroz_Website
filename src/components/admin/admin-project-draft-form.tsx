@@ -176,7 +176,7 @@ export function AdminProjectDraftForm({
       <FormField
         id="project-slug"
         label="Slug"
-        hint="Public path segment after publish (draft only until A08)."
+        hint="Public path segment after publish."
         required
       >
         {(control) => (
@@ -310,7 +310,7 @@ export function AdminProjectDraftForm({
       <FormField
         id="project-cover"
         label="Cover media"
-        hint="Pick a media id from the library (A04). Leave empty if none yet."
+        hint="Pick a media id from the library. Leave empty if none yet."
         optional
       >
         {(control) => (
@@ -332,7 +332,7 @@ export function AdminProjectDraftForm({
       <FormField
         id="project-gallery"
         label="Gallery"
-        hint="One per line: mediaId | caption. Full case-study ordering ships in A06."
+        hint="One per line: mediaId | caption. Reorder gallery in the case-study editor."
         optional
       >
         {(control) => (
@@ -349,8 +349,8 @@ export function AdminProjectDraftForm({
       <fieldset className="min-w-0">
         <legend className="font-medium text-ink">Featured eligibility</legend>
         <p className="ds-support mt-1">
-          Marks draft ranking only. Public featured order is owner-controlled in
-          A08–A09.
+          Marks draft ranking only. Live homepage featured order is set by an
+          owner under Featured.
         </p>
         <div className="mt-3 flex flex-col gap-3">
           <CheckboxField

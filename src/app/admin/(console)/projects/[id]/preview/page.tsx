@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { CaseStudyPage } from "@/components/sections/case-study-page";
 import { ProjectCard } from "@/components/sections/project-card";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { loadProjectPreview } from "@/server/projects/preview";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 import { resolveServicesEnquiryCta } from "@/server/services";
 
@@ -34,7 +35,7 @@ export async function generateMetadata({
 export default async function AdminProjectPreviewPage({ params }: PageProps) {
   const gate = await requirePermissionSession("admin.content.read");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const { id } = await params;
@@ -147,7 +148,7 @@ export default async function AdminProjectPreviewPage({ params }: PageProps) {
           </h2>
           <p className="ds-support mt-1">
             Summary card as it would appear on Work listings after publish.
-            Story link stays disabled until A08 publishes an approved story.
+            Story link stays disabled until an approved story is published.
           </p>
           <div className="mt-6 max-w-md">
             <ProjectCard

@@ -24,7 +24,9 @@ export function loadEnvFiles(cwd: string = process.cwd()) {
       ) {
         value = value.slice(1, -1);
       }
-      if (!(key in process.env)) {
+      // Overwrite blank shell/CI placeholders so .env.local wins.
+      const existing = process.env[key];
+      if (existing === undefined || existing.trim() === "") {
         process.env[key] = value;
       }
     }

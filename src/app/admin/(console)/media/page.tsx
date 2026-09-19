@@ -6,7 +6,7 @@ import { isCloudinaryConfigured } from "@/lib/media/config";
 import { listMediaLibrary } from "@/server/media/repository";
 import { listCleanupCandidates } from "@/server/media/usage";
 import { requirePermissionSession } from "@/server/security/auth-gate";
-import { redirect } from "next/navigation";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,7 @@ type PageProps = {
 export default async function AdminMediaPage({ searchParams }: PageProps) {
   const gate = await requirePermissionSession("admin.content.read");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const params = await searchParams;

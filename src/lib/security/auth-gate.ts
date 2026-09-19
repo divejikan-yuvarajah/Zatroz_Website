@@ -22,6 +22,13 @@ export type Permission =
 export type AuthDenialReason =
   "auth-unavailable" | "unauthenticated" | "mfa-required" | "denied";
 
+/** Where to send the browser after a failed admin gate. */
+export function pathForAuthDenial(reason: AuthDenialReason): string {
+  if (reason === "mfa-required") return "/admin/mfa";
+  if (reason === "denied") return "/admin";
+  return "/admin/login";
+}
+
 export type AuthContext = Readonly<{
   /** Auth library + Mongo are configured enough to evaluate sessions. */
   authAvailable: boolean;

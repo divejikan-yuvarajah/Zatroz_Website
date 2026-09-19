@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { visibleAdminNav } from "@/lib/admin/nav";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import { requireAdminSession } from "@/server/security/auth-gate";
 
 export const dynamic = "force-dynamic";
@@ -22,10 +22,7 @@ export default async function AdminConsoleLayout({
   const gate = await requireAdminSession();
 
   if (!gate.ok) {
-    if (gate.reason === "mfa-required") {
-      redirect("/admin/mfa");
-    }
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const navItems = visibleAdminNav(gate.context);

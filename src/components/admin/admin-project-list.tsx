@@ -140,9 +140,9 @@ export function AdminProjectList({
 
       {items && items.length === 0 ? (
         <p className="ds-support">
-          No projects match these filters. Create a draft when MongoDB is
-          configured — the public site still uses repository selectors until
-          A09–A10.
+          {search || workStatus || publication || archived
+            ? "No projects match these filters. Clear filters or create a new draft."
+            : "No projects yet. Create a draft to start the portfolio catalog."}
         </p>
       ) : null}
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdminMfaPanel } from "@/components/admin/admin-mfa-panel";
 import { requireAdminSession } from "@/server/security/auth-gate";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,9 @@ export default async function AdminMfaPage() {
   const gate = await requireAdminSession();
   if (gate.ok) {
     redirect("/admin");
+  }
+  if (gate.reason === "unauthenticated" || gate.reason === "auth-unavailable") {
+    redirectForAuthDenial(gate.reason);
   }
 
   return (

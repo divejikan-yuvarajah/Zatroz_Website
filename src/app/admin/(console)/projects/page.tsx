@@ -3,7 +3,7 @@ import { AdminProjectList } from "@/components/admin/admin-project-list";
 import { parseProjectListQuery } from "@/lib/admin/projects";
 import { listAdminProjects } from "@/server/projects/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
-import { redirect } from "next/navigation";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +25,7 @@ type PageProps = {
 export default async function AdminProjectsPage({ searchParams }: PageProps) {
   const gate = await requirePermissionSession("admin.content.read");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const params = await searchParams;
@@ -40,8 +40,8 @@ export default async function AdminProjectsPage({ searchParams }: PageProps) {
           Projects
         </h1>
         <p className="mt-2 max-w-prose text-text-body">
-          Create and edit portfolio drafts in MongoDB. Owner publish flips live
-          pointers; public Work still uses repository selectors until A09.
+          Create and edit portfolio drafts in MongoDB. Owner publish updates
+          live Work pages after content-job refresh.
         </p>
       </header>
 

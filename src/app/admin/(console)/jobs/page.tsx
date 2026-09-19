@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { AdminContentJobsPanel } from "@/components/admin/admin-content-jobs-panel";
 import { listContentJobs } from "@/server/jobs/content-jobs";
 import { requirePermissionSession } from "@/server/security/auth-gate";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function AdminJobsPage() {
   const gate = await requirePermissionSession("admin.content.read");
   if (!gate.ok) {
-    redirect("/admin/login");
+    redirectForAuthDenial(gate.reason);
   }
 
   const listed = await listContentJobs({ limit: 50 });

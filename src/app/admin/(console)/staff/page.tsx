@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { AdminStaffPanel } from "@/components/admin/admin-staff-panel";
+import { redirectForAuthDenial } from "@/server/security/admin-redirect";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 import { listStaffMembers } from "@/server/admin/staff";
 
@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 export default async function AdminStaffPage() {
   const gate = await requirePermissionSession("admin.staff.manage");
   if (!gate.ok) {
-    // Editors and other roles must not reach staff management.
-    redirect("/admin");
+    redirectForAuthDenial(gate.reason);
   }
 
   const listed = await listStaffMembers();

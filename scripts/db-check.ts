@@ -5,36 +5,11 @@
  * Usage: npm run db:check
  */
 
-import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { closeMongoClient, pingMongo } from "../src/lib/mongodb/connection";
 import { resolveMongoRuntimeConfig } from "../src/lib/mongodb/config";
+import { loadEnvFiles } from "../src/lib/mongodb/scripts-env";
 
-/** Minimal .env loader — does not print values; skips missing files. */
-function loadEnvFile(filePath: string) {
-  if (!existsSync(filePath)) return;
-  const text = readFileSync(filePath, "utf8");
-  for (const rawLine of text.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line || line.startsWith("#")) continue;
-    const eq = line.indexOf("=");
-    if (eq <= 0) continue;
-    const key = line.slice(0, eq).trim();
-    let value = line.slice(eq + 1).trim();
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    if (!(key in process.env)) {
-      process.env[key] = value;
-    }
-  }
-}
-
-loadEnvFile(resolve(process.cwd(), ".env.local"));
-loadEnvFile(resolve(process.cwd(), ".env"));
+loadEnvFiles();
 
 async function main() {
   const resolved = resolveMongoRuntimeConfig();

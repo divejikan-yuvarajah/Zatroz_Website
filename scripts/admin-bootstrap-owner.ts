@@ -31,7 +31,8 @@ function loadEnvFile(filePath: string) {
     ) {
       value = value.slice(1, -1);
     }
-    if (!(key in process.env)) {
+    const existing = process.env[key];
+    if (existing === undefined || existing.trim() === "") {
       process.env[key] = value;
     }
   }

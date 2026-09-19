@@ -14,6 +14,7 @@ import {
 } from "../src/lib/auth/staff-role";
 import {
   buildAuthContext,
+  pathForAuthDenial,
   requireAdmin,
   requirePermission,
   UNAUTHENTICATED_AUTH_CONTEXT,
@@ -76,6 +77,10 @@ function runGateTests() {
   if (!requireAdmin(noMfa).ok) {
     assert.equal(requireAdmin(noMfa).reason, "mfa-required");
   }
+  assert.equal(pathForAuthDenial("mfa-required"), "/admin/mfa");
+  assert.equal(pathForAuthDenial("unauthenticated"), "/admin/login");
+  assert.equal(pathForAuthDenial("auth-unavailable"), "/admin/login");
+  assert.equal(pathForAuthDenial("denied"), "/admin");
   assert.equal(noMfa.permissions.length, 0);
 
   const editorReady = buildAuthContext({

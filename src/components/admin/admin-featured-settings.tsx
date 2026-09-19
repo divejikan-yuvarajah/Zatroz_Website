@@ -40,6 +40,7 @@ export function AdminFeaturedSettings({
       : null;
   const effectiveConcurrency = Math.max(concurrencyVersion, fromState ?? 0);
 
+  // Adjust local ack when the server action returns a newer concurrency token.
   if (
     state?.ok &&
     typeof state.concurrencyVersion === "number" &&
@@ -104,7 +105,7 @@ export function AdminFeaturedSettings({
         </h2>
         <p className="ds-support mt-2">
           Only published summaries can be featured. Empty list hides the
-          selected-work section. Public pages read Mongo settings (A09).
+          selected-work section. Public pages read the saved Mongo order.
         </p>
 
         {featured.length === 0 ? (

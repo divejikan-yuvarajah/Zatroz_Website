@@ -3,9 +3,11 @@ import "server-only";
 import {
   DEFAULT_EDITOR_PERMISSIONS,
   OWNER_ENQUIRY_PERMISSIONS,
+  pathForAuthDenial,
   requireAdmin as requireAdminPure,
   requirePermission as requirePermissionPure,
   type AuthContext,
+  type AuthDenialReason,
   type AuthGateDenied,
   type AuthGateOk,
   type Permission,
@@ -15,7 +17,9 @@ import { resolveStaffAuthContext } from "@/server/auth/session";
 export {
   DEFAULT_EDITOR_PERMISSIONS,
   OWNER_ENQUIRY_PERMISSIONS,
+  pathForAuthDenial,
   type AuthContext,
+  type AuthDenialReason,
   type Permission,
 };
 
