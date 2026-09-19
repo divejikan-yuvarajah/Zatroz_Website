@@ -136,14 +136,13 @@ Unresolved until setup: Atlas backup tier capability, Cloudinary plan ACLs, prod
 
 ---
 
-## 8. Acceptance criteria (later implementation — A12 verifies)
+## 8. Acceptance criteria (A12 verifies)
 
-Documented in the addendum §8: owner publish path, draft-without-live-mutation, editor restrictions, unauthenticated denial, private media ACL, recoverable failed jobs, concurrency conflicts, featured eligibility, delete dependency checks, recovery/handover.
+Documented in the addendum §8. Unit/source verification: `npm run test:admin-authz` + `src/lib/admin/authz-matrix.ts`. Operator docs: `docs/admin/step-a12.md`, `handover.md`, `backup-restore.md`. Live Atlas restore and teammate handover remain **Not run** / **Pending** until operators record evidence.
 
 ---
 
 ## Related
 
-- `docs/content/image-policy.md`
-- `docs/work/admin-migration-inventory.md`
-- `docs/admin/step-a01.md`
+- Related: `docs/admin/handover.md`, `docs/admin/backup-restore.md`
+- `docs/admin/step-a01.md` through `docs/admin/step-a12.md`
