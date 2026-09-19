@@ -35,8 +35,6 @@ export const ADMIN_PRIMARY_NAV: readonly AdminNavItem[] = [
     label: "Media",
     href: "/admin/media",
     permission: "admin.content.read",
-    comingLater: true,
-    comingLaterNote: "Media library arrives in A04.",
   },
   {
     id: "featured",
@@ -83,10 +81,10 @@ export const ADMIN_DASHBOARD_SHORTCUTS: readonly AdminShortcut[] = [
   {
     id: "manage-media",
     label: "Manage media",
-    description: "Upload and organise project media (A04).",
+    description: "Upload and organise project media.",
     href: "/admin/media",
     permission: "admin.content.write",
-    available: false,
+    available: true,
   },
   {
     id: "manage-staff",

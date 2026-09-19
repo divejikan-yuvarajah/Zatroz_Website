@@ -30,7 +30,7 @@ Protected `/admin` console with role-aware navigation, owner staff role manageme
 
 ## Explicitly not done (later steps)
 
-- Media uploads (A04)
+- Media uploads (**done in A04**)
 - Project list/forms (A05)
 - Case-study editor (A06)
 - Publish / featured Mongo switch (A08–A09)

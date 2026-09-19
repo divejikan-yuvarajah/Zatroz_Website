@@ -62,6 +62,10 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 | `ADMIN_BOOTSTRAP_EMAIL`          | Bootstrap secret            | One-time owner create script only                 |
 | `ADMIN_BOOTSTRAP_PASSWORD`       | Bootstrap secret            | One-time owner create script only (≥12)           |
 | `ADMIN_BOOTSTRAP_NAME`           | Bootstrap config            | Display name for first owner                      |
+| `CLOUDINARY_CLOUD_NAME`          | Server config               | Admin media cloud name (A04+)                     |
+| `CLOUDINARY_API_KEY`             | Server secret               | Cloudinary API key (A04+)                         |
+| `CLOUDINARY_API_SECRET`          | Server secret               | Cloudinary API secret (never NEXT_PUBLIC_)        |
+| `CLOUDINARY_FOLDER_PREFIX`       | Server config               | Optional folder hint (not an ACL)                 |
 
 MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`. Importing Mongo helpers does not require secrets during a marketing-page build; validate/connect lazily when a DB operation runs.
 
@@ -78,10 +82,13 @@ MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`
 | Collection schemas, indexes, `db:plan` / `db:apply`                             | Done (Step 45)      |
 | Request safeguards, rate-limit helper, readiness/recovery docs                  | Done (Step 46)      |
 | Better Auth staff login / MFA foundation                                        | Done (A02)          |
+| Protected admin shell + dashboard + staff roles                                 | Done (A03)          |
+| Cloudinary media library + signed private preview                               | Done (A04)          |
 | Localhost fallback when `SITE_URL` is empty                                     | Done                |
 | Reject malformed / non-http(s) `SITE_URL`                                       | Done                |
 | Enquiry API / live form / Atlas privilege verification                          | **Not** implemented |
 | Live owner bootstrap + MFA with production secrets                              | **Not** run         |
+| Live Cloudinary upload/preview with production secrets                          | **Not** run         |
 | Eager Resend / Turnstile / cron clients                                         | **Not** implemented |
 
 `getSiteUrl()` is server-only and is **not** wired into the home page yet (avoids forcing client or fully dynamic rendering). Call it later from server code (metadata, absolute links, emails).
