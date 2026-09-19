@@ -3,11 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { parseProjectDraftFormData } from "@/lib/admin/projects";
+import { parseStoryDraftFormData } from "@/lib/admin/story";
 import { isMongoRuntimeConfigured } from "@/lib/mongodb/config";
 import { serviceRecords } from "@/content/services";
 import {
   createProjectDraft,
   saveProjectDraft,
+  saveProjectStoryDraft,
   writeProjectAuditEvent,
 } from "@/server/projects/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
@@ -148,6 +150,81 @@ export async function saveProjectDraftAction(
   return {
     ok: true,
     message: "Draft saved.",
+    editorialId,
+    concurrencyVersion: result.concurrencyVersion,
+  };
+}
+
+export async function saveProjectStoryDraftAction(
+  _prev: ProjectActionState | null,
+  formData: FormData,
+): Promise<ProjectActionState> {
+  const gate = await requirePermissionSession("admin.content.write");
+  if (!gate.ok || !gate.context.userId) {
+    return {
+      ok: false,
+      message: "You do not have permission to edit case studies.",
+    };
+  }
+
+  if (!isMongoRuntimeConfigured()) {
+    return {
+      ok: false,
+      message:
+        "Case-study drafts require MongoDB credentials in this environment.",
+    };
+  }
+
+  const editorialId = String(formData.get("editorialId") ?? "").trim();
+  const concurrencyRaw = String(
+    formData.get("concurrencyVersion") ?? "",
+  ).trim();
+  const expectedConcurrencyVersion = Number.parseInt(concurrencyRaw, 10);
+
+  if (!editorialId) {
+    return { ok: false, message: "Missing project id." };
+  }
+  if (!Number.isFinite(expectedConcurrencyVersion)) {
+    return { ok: false, message: "Missing concurrency version." };
+  }
+
+  const parsed = parseStoryDraftFormData(formData);
+  if (!parsed.ok) {
+    return { ok: false, message: parsed.message, field: parsed.field };
+  }
+
+  const result = await saveProjectStoryDraft({
+    editorialId,
+    expectedConcurrencyVersion,
+    values: parsed.values,
+    actorId: gate.context.userId,
+  });
+
+  if (!result.ok) {
+    await writeProjectAuditEvent({
+      actorId: gate.context.userId,
+      action: "project.save_story_draft",
+      targetId: editorialId,
+      outcome: "failed",
+    });
+    return { ok: false, message: result.detail };
+  }
+
+  await writeProjectAuditEvent({
+    actorId: gate.context.userId,
+    action: "project.save_story_draft",
+    targetId: editorialId,
+    outcome: "succeeded",
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath(`/admin/projects/${editorialId}`);
+  revalidatePath(`/admin/projects/${editorialId}/story`);
+
+  return {
+    ok: true,
+    message: "Case-study draft saved.",
     editorialId,
     concurrencyVersion: result.concurrencyVersion,
   };

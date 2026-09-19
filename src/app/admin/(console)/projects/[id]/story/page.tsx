@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { AdminProjectDraftForm } from "@/components/admin/admin-project-draft-form";
-import { serviceRecords } from "@/content/services";
-import { formValuesFromDraft } from "@/lib/admin/projects";
+import { AdminProjectStoryForm } from "@/components/admin/admin-project-story-form";
+import { ButtonLink } from "@/components/ui/button-link";
+import { formValuesFromStory } from "@/lib/admin/story";
 import { listMediaLibrary } from "@/server/media/repository";
 import { loadProjectDraft } from "@/server/projects/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ saved?: string | string[] }>;
 };
 
 export async function generateMetadata({
@@ -22,15 +20,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   return {
-    title: `Edit ${id} — Zatroz admin`,
+    title: `Case study ${id} — Zatroz admin`,
     robots: { index: false, follow: false },
   };
 }
 
-export default async function AdminEditProjectPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function AdminProjectStoryPage({ params }: PageProps) {
   const gate = await requirePermissionSession("admin.content.write");
   if (!gate.ok) {
     const readGate = await requirePermissionSession("admin.content.read");
@@ -40,17 +35,13 @@ export default async function AdminEditProjectPage({
   }
 
   const { id } = await params;
-  const sp = await searchParams;
-  const savedRaw = sp.saved;
-  const justSaved = (Array.isArray(savedRaw) ? savedRaw[0] : savedRaw) === "1";
-
   const loaded = await loadProjectDraft(id);
   if (!loaded.ok) {
     if (loaded.reason === "not-found") notFound();
     return (
       <div className="flex flex-col gap-6">
         <h1 className="text-3xl font-semibold tracking-tight text-ink">
-          Edit project
+          Case study
         </h1>
         <div
           className="rounded-md border border-border-subtle bg-warning-soft p-4 text-warning"
@@ -67,11 +58,7 @@ export default async function AdminEditProjectPage({
   }
 
   const canWrite = gate.ok;
-  const initial = formValuesFromDraft({
-    project: loaded.project,
-    summary: loaded.summary,
-    story: loaded.story,
-  });
+  const initial = formValuesFromStory(loaded.story, loaded.project.draftTitle);
 
   const media = await listMediaLibrary({ limit: 100 });
   const mediaOptions = media.ok
@@ -81,16 +68,9 @@ export default async function AdminEditProjectPage({
       }))
     : [];
 
-  // Ensure current cover/gallery ids appear even if archived from library list
   const knownIds = new Set(mediaOptions.map((m) => m.mediaId));
-  if (initial.coverMediaId && !knownIds.has(initial.coverMediaId)) {
-    mediaOptions.push({
-      mediaId: initial.coverMediaId,
-      label: `${initial.coverMediaId} (current)`,
-    });
-  }
   for (const item of initial.gallery) {
-    if (!knownIds.has(item.mediaId)) {
+    if (item.mediaId && !knownIds.has(item.mediaId)) {
       mediaOptions.push({
         mediaId: item.mediaId,
         label: `${item.mediaId} (current)`,
@@ -104,21 +84,21 @@ export default async function AdminEditProjectPage({
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-ink">
-            Edit draft
+            Case-study editor
           </h1>
           <p className="mt-2 max-w-prose text-text-body">
-            Saves a new immutable summary revision. Use the case-study editor
-            for structured story sections and gallery order. Publish remains
-            owner-only (A08).
+            Structured sections for{" "}
+            <code className="text-sm">{loaded.project.editorialId}</code>.
+            Summary may publish before this story (A08). Preview ships in A07.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <ButtonLink
-            href={`/admin/projects/${id}/story`}
+            href={`/admin/projects/${loaded.project.editorialId}`}
             variant="secondary"
             size="compact"
           >
-            Case-study editor
+            Edit summary
           </ButtonLink>
           <ButtonLink href="/admin/projects" variant="quiet" size="compact">
             Back to list
@@ -127,21 +107,15 @@ export default async function AdminEditProjectPage({
       </header>
 
       {canWrite ? (
-        <AdminProjectDraftForm
-          mode="edit"
+        <AdminProjectStoryForm
           editorialId={loaded.project.editorialId}
           concurrencyVersion={loaded.project.concurrencyVersion}
           initial={initial}
-          services={serviceRecords.map((s) => ({
-            id: s.id,
-            title: s.title,
-          }))}
           mediaOptions={mediaOptions}
-          justSaved={justSaved}
         />
       ) : (
         <p className="ds-support" role="status">
-          You can view project metadata but need write permission to save
+          You can view this route but need write permission to save case-study
           drafts.
         </p>
       )}
