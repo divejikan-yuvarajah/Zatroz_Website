@@ -94,7 +94,7 @@ Owner sets ordered `featuredProjectIds`. Homepage selected-work shows only eligi
 | `/admin/projects/[id]`         | Edit draft summary           | A05       |
 | `/admin/projects/[id]/story`   | Case-study editor            | A06       |
 | `/admin/projects/[id]/preview` | Authenticated preview        | A07       |
-| `/admin/media`                 | Media library                | A04       |
+| `/admin/media`                 | Media library                | **A04**   |
 | `/admin/settings/featured`     | Featured order               | A08–A09   |
 | `/admin/staff`                 | Role management (owner)      | **A03**   |
 
@@ -104,11 +104,11 @@ All `/admin/**` (except login) require verified session + completed MFA + permis
 
 ## 5. Auth and media tool recommendations
 
-| Tool                                              | Role                         | A01 status                                                      |
-| ------------------------------------------------- | ---------------------------- | --------------------------------------------------------------- |
-| Better Auth + Mongo adapter + official 2FA plugin | Staff auth                   | **A02–A03** — login/MFA + protected shell/dashboard/staff roles |
-| Cloudinary                                        | Binary storage + derivatives | **Proposed** — verify signed upload + private delivery in A04   |
-| Resend                                            | Enquiry / recovery email     | Already planned; not content-admin                              |
+| Tool                                              | Role                         | A01 status                                                                                       |
+| ------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Better Auth + Mongo adapter + official 2FA plugin | Staff auth                   | **A02–A03** — login/MFA + protected shell/dashboard/staff roles                                  |
+| Cloudinary                                        | Binary storage + derivatives | **A04 implemented** (2.10.0) — authenticated upload + signed private preview; live proof Not run |
+| Resend                                            | Enquiry / recovery email     | Already planned; not content-admin                                                               |
 
 Unresolved until setup: Atlas backup tier capability, Cloudinary plan ACLs, production `APP_ORIGIN`, named owner bootstrap identity (no invented founder accounts). Live MFA proof **Not run** until operators supply secrets.
 

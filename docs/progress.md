@@ -58,7 +58,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | A01     | Admin requirements + image plan | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending) | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
 | A02     | Auth / MFA / recovery           | **Implemented** (on branch `feature/a02-admin-auth`; merge may be pending)         | 2026-09-19 | Better Auth + MFA pages + bootstrap; see `docs/admin/step-a02.md`     |
 | A03     | Admin shell + dashboard         | **Implemented** (on branch `feature/a03-admin-shell`; merge may be pending)        | 2026-09-19 | Protected shell, counts, staff roles; see `docs/admin/step-a03.md`    |
-| A04–A12 | Media through handover          | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| A04     | Media provider + library        | **Implemented** (on branch `feature/a04-admin-media`; merge may be pending)        | 2026-09-19 | Cloudinary uploads + private preview; see `docs/admin/step-a04.md`    |
+| A05–A12 | Projects through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -530,6 +531,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Shortcuts for A04/A05 marked unavailable honestly. Editors cannot open staff management.
 - Docs: `docs/admin/step-a03.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-shell`); `npm run build` passed (Next.js 16.3.5; `/admin*` dynamic). Live Mongo dashboard/staff with real credentials **Not run**. Next: **A04** (media). Step 47 remains blocked until A12.
+
+### Admin A04 (2026-09-19)
+
+- Branch: `feature/a04-admin-media` from `feature/a03-admin-shell`.
+- Cloudinary 2.10.0 + private authenticated uploads, magic-byte/size/pixel policy, Mongo `media_assets` records, `/admin/media` library, signed preview API.
+- Replace creates a new immutable version; archive marks processing state. Folder prefix is not ACL.
+- Docs: `docs/admin/step-a04.md`, `docs/setup/cloudinary.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-media`); `npm run build` passed (Next.js 16.3.5). Live Cloudinary upload/preview with real credentials **Not run**. Next: **A05** (project forms). Step 47 remains blocked until A12.
 
 ---
 
