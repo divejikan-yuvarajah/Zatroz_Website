@@ -74,6 +74,16 @@ export function AdminDashboardView({
                 hint="Content jobs queued, leased, or failed"
               />
             </div>
+            <p className="ds-support mt-4">
+              Open{" "}
+              <a
+                href="/admin/jobs"
+                className="font-medium text-ink underline underline-offset-4"
+              >
+                Content jobs
+              </a>{" "}
+              to run the refresh worker or re-queue failed work.
+            </p>
           </section>
 
           <section aria-labelledby="admin-recent-heading">

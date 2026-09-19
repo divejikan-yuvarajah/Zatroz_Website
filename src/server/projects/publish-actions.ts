@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import {
   archiveProject,
   publishProjectStory,
@@ -9,6 +8,7 @@ import {
   unpublishProjectStory,
   unpublishProjectSummary,
 } from "@/server/projects/publish";
+import { revalidatePublicPortfolioPaths } from "@/server/projects/revalidate-public";
 import { writeProjectAuditEvent } from "@/server/projects/repository";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 import { isMongoRuntimeConfigured } from "@/lib/mongodb/config";
@@ -76,15 +76,7 @@ export async function publishSummaryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/");
-  revalidatePath("/work");
-  revalidatePath("/about");
-  revalidatePath("/services");
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
-  revalidatePath(`/admin/projects/${editorialId}/preview`);
-  revalidatePath("/admin/settings/featured");
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,
@@ -127,15 +119,7 @@ export async function publishStoryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/");
-  revalidatePath("/work");
-  revalidatePath("/about");
-  revalidatePath("/services");
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
-  revalidatePath(`/admin/projects/${editorialId}/story`);
-  revalidatePath(`/admin/projects/${editorialId}/preview`);
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,
@@ -178,14 +162,7 @@ export async function unpublishSummaryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/");
-  revalidatePath("/work");
-  revalidatePath("/about");
-  revalidatePath("/services");
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
-  revalidatePath("/admin/settings/featured");
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,
@@ -228,9 +205,7 @@ export async function unpublishStoryAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,
@@ -276,9 +251,7 @@ export async function archiveProjectAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,
@@ -324,9 +297,7 @@ export async function restoreProjectAction(
 
   if (!result.ok) return { ok: false, message: result.detail };
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/projects");
-  revalidatePath(`/admin/projects/${editorialId}`);
+  revalidatePublicPortfolioPaths({ editorialId });
 
   return {
     ok: true,

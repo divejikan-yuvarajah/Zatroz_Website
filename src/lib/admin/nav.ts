@@ -35,6 +35,12 @@ export const ADMIN_PRIMARY_NAV: readonly AdminNavItem[] = [
     permission: "admin.content.read",
   },
   {
+    id: "jobs",
+    label: "Jobs",
+    href: "/admin/jobs",
+    permission: "admin.content.read",
+  },
+  {
     id: "featured",
     label: "Featured",
     href: "/admin/settings/featured",
@@ -80,6 +86,14 @@ export const ADMIN_DASHBOARD_SHORTCUTS: readonly AdminShortcut[] = [
     description: "Upload and organise project media.",
     href: "/admin/media",
     permission: "admin.content.write",
+    available: true,
+  },
+  {
+    id: "content-jobs",
+    label: "Content jobs",
+    description: "Cache refresh, retries, and recovery.",
+    href: "/admin/jobs",
+    permission: "admin.content.read",
     available: true,
   },
   {

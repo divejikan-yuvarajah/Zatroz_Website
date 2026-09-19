@@ -1,6 +1,5 @@
 import "server-only";
 
-import { randomBytes } from "node:crypto";
 import { Int32 } from "mongodb";
 import {
   assessStoryPublishReadiness,
@@ -14,6 +13,7 @@ import {
 } from "@/lib/mongodb/config";
 import { getDb } from "@/lib/mongodb/connection";
 import { SCHEMA_VERSION_CURRENT } from "@/lib/mongodb/limits";
+import { queuePublishRefreshJob } from "@/server/jobs/content-jobs";
 import { loadProjectDraft } from "@/server/projects/repository";
 import {
   isProjectArchived,
@@ -99,38 +99,6 @@ async function writeRedirect(input: {
     },
     { upsert: true },
   );
-}
-
-async function queuePublishRefreshJob(input: {
-  editorialId: string;
-  action: string;
-}): Promise<void> {
-  if (!isMongoRuntimeConfigured()) return;
-  try {
-    const db = await getDb();
-    const jobId = `job_${randomBytes(6).toString("hex")}`;
-    const dedupeKey = `publish-refresh:${input.editorialId}:${input.action}`;
-    await db.collection(COLLECTION_NAMES.contentJobs).updateOne(
-      { dedupeKey, state: { $in: ["queued", "leased"] } },
-      {
-        $setOnInsert: {
-          schemaVersion: new Int32(SCHEMA_VERSION_CURRENT),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          jobId,
-          dedupeKey,
-          state: "queued",
-          attempts: new Int32(0),
-          nextRunAt: new Date(),
-          leaseOwner: null,
-          leaseExpiresAt: null,
-        },
-      },
-      { upsert: true },
-    );
-  } catch {
-    // Job queue is best-effort in A08; publish itself must still succeed.
-  }
 }
 
 export async function findProjectRedirect(
@@ -267,8 +235,8 @@ export async function publishProjectSummary(input: {
       editorialId: input.editorialId,
       concurrencyVersion: nextConcurrency,
       message: createRedirect
-        ? `Summary published. Redirect recorded from /work/${previousCanonical} to /work/${nextSlug}. Public pages switch in A09.`
-        : "Summary published. Public Work pages still use repository selectors until A09.",
+        ? `Summary published. Redirect recorded from /work/${previousCanonical} to /work/${nextSlug}. Cache refresh queued.`
+        : "Summary published. Cache refresh queued for public pages.",
       redirectFrom: createRedirect
         ? (previousCanonical ?? undefined)
         : undefined,
@@ -367,7 +335,7 @@ export async function publishProjectStory(input: {
       editorialId: input.editorialId,
       concurrencyVersion: nextConcurrency,
       message:
-        "Case-study story published (summary was already live). Public story pages switch in A09.",
+        "Case-study story published (summary was already live). Cache refresh queued.",
     };
   } catch (error) {
     return {

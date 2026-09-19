@@ -33,39 +33,39 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 
 ## Variable contract
 
-| Variable                         | Classification              | Required when                                     |
-| -------------------------------- | --------------------------- | ------------------------------------------------- |
-| `SITE_URL`                       | Public-safe, read on server | Absolute URLs / metadata; localhost during setup  |
-| `APP_ENV`                        | Server policy marker        | MongoDB / later policy (default development)      |
-| `MONGODB_URI`                    | Server secret               | Database operations (Step 44+)                    |
-| `MONGODB_DB_NAME`                | Server config               | Explicit `zatroz_<label>` database name           |
-| `MONGODB_MIGRATION_URI`          | Maintenance secret          | Schema/index tooling only (Step 45+)              |
-| `MONGODB_TEST_URI`               | Test secret                 | Disposable integration tests                      |
-| `MONGODB_TEST_DB_NAME`           | Test config                 | Explicit test database name                       |
-| `APP_ORIGIN`                     | Non-secret config           | Later request origin policy                       |
-| `ENQUIRIES_ENABLED`              | Server switch               | Later live form activation (not sole readiness)   |
-| `ABUSE_HASH_SECRET`              | Server secret               | Rate-limit identity HMAC (Step 46+)               |
-| `ABUSE_HASH_SECRET_V2`           | Server secret               | Optional rotation key                             |
-| `ENQUIRY_IDEMPOTENCY_SECRET`     | Server secret               | Payload fingerprint HMAC (Step 47+)               |
-| `ENQUIRY_IDEMPOTENCY_SECRET_V2`  | Server secret               | Optional rotation key                             |
-| `SUPABASE_URL`                   | Legacy unused               | Do not provision — MongoDB replaced this plan     |
-| `SUPABASE_SECRET_KEY`            | Legacy unused               | Do not provision                                  |
-| `RESEND_API_KEY`                 | Server secret               | Email delivery (later)                            |
-| `ENQUIRY_FROM_EMAIL`             | Server config               | Verified notification sender (later)              |
-| `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification recipient (later)               |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                      | Contact spam widget (later)                       |
-| `TURNSTILE_SECRET_KEY`           | Server secret               | Server Turnstile verify (later)                   |
-| `CRON_SECRET`                    | Server secret               | Protected notification retry job (later)          |
-| `BETTER_AUTH_SECRET`             | Server secret               | Staff auth signing (A02+; ≥32 chars)              |
-| `BETTER_AUTH_URL`                | Server config               | Optional Better Auth base URL (defaults SITE_URL) |
-| `BETTER_AUTH_APP_NAME`           | Server config               | TOTP issuer label (optional)                      |
-| `ADMIN_BOOTSTRAP_EMAIL`          | Bootstrap secret            | One-time owner create script only                 |
-| `ADMIN_BOOTSTRAP_PASSWORD`       | Bootstrap secret            | One-time owner create script only (≥12)           |
-| `ADMIN_BOOTSTRAP_NAME`           | Bootstrap config            | Display name for first owner                      |
-| `CLOUDINARY_CLOUD_NAME`          | Server config               | Admin media cloud name (A04+)                     |
-| `CLOUDINARY_API_KEY`             | Server secret               | Cloudinary API key (A04+)                         |
-| `CLOUDINARY_API_SECRET`          | Server secret               | Cloudinary API secret (never NEXT_PUBLIC_)        |
-| `CLOUDINARY_FOLDER_PREFIX`       | Server config               | Optional folder hint (not an ACL)                 |
+| Variable                         | Classification              | Required when                                             |
+| -------------------------------- | --------------------------- | --------------------------------------------------------- |
+| `SITE_URL`                       | Public-safe, read on server | Absolute URLs / metadata; localhost during setup          |
+| `APP_ENV`                        | Server policy marker        | MongoDB / later policy (default development)              |
+| `MONGODB_URI`                    | Server secret               | Database operations (Step 44+)                            |
+| `MONGODB_DB_NAME`                | Server config               | Explicit `zatroz_<label>` database name                   |
+| `MONGODB_MIGRATION_URI`          | Maintenance secret          | Schema/index tooling only (Step 45+)                      |
+| `MONGODB_TEST_URI`               | Test secret                 | Disposable integration tests                              |
+| `MONGODB_TEST_DB_NAME`           | Test config                 | Explicit test database name                               |
+| `APP_ORIGIN`                     | Non-secret config           | Later request origin policy                               |
+| `ENQUIRIES_ENABLED`              | Server switch               | Later live form activation (not sole readiness)           |
+| `ABUSE_HASH_SECRET`              | Server secret               | Rate-limit identity HMAC (Step 46+)                       |
+| `ABUSE_HASH_SECRET_V2`           | Server secret               | Optional rotation key                                     |
+| `ENQUIRY_IDEMPOTENCY_SECRET`     | Server secret               | Payload fingerprint HMAC (Step 47+)                       |
+| `ENQUIRY_IDEMPOTENCY_SECRET_V2`  | Server secret               | Optional rotation key                                     |
+| `SUPABASE_URL`                   | Legacy unused               | Do not provision — MongoDB replaced this plan             |
+| `SUPABASE_SECRET_KEY`            | Legacy unused               | Do not provision                                          |
+| `RESEND_API_KEY`                 | Server secret               | Email delivery (later)                                    |
+| `ENQUIRY_FROM_EMAIL`             | Server config               | Verified notification sender (later)                      |
+| `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification recipient (later)                       |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                      | Contact spam widget (later)                               |
+| `TURNSTILE_SECRET_KEY`           | Server secret               | Server Turnstile verify (later)                           |
+| `CRON_SECRET`                    | Server secret               | Content-job worker + later notification retry (≥16 chars) |
+| `BETTER_AUTH_SECRET`             | Server secret               | Staff auth signing (A02+; ≥32 chars)                      |
+| `BETTER_AUTH_URL`                | Server config               | Optional Better Auth base URL (defaults SITE_URL)         |
+| `BETTER_AUTH_APP_NAME`           | Server config               | TOTP issuer label (optional)                              |
+| `ADMIN_BOOTSTRAP_EMAIL`          | Bootstrap secret            | One-time owner create script only                         |
+| `ADMIN_BOOTSTRAP_PASSWORD`       | Bootstrap secret            | One-time owner create script only (≥12)                   |
+| `ADMIN_BOOTSTRAP_NAME`           | Bootstrap config            | Display name for first owner                              |
+| `CLOUDINARY_CLOUD_NAME`          | Server config               | Admin media cloud name (A04+)                             |
+| `CLOUDINARY_API_KEY`             | Server secret               | Cloudinary API key (A04+)                                 |
+| `CLOUDINARY_API_SECRET`          | Server secret               | Cloudinary API secret (never NEXT_PUBLIC_)                |
+| `CLOUDINARY_FOLDER_PREFIX`       | Server config               | Optional folder hint (not an ACL)                         |
 
 MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`. Importing Mongo helpers does not require secrets during a marketing-page build; validate/connect lazily when a DB operation runs.
 

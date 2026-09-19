@@ -215,14 +215,13 @@ export async function loadMongoPublicProjectsRepository(): Promise<PublicProject
         if (typeof doc.mediaId !== "string" || seenMedia.has(doc.mediaId)) {
           continue;
         }
-        // Durable public delivery for Cloudinary public assets is A11.
-        // Until then, omit publicPath so cards stay text-led rather than
-        // leaking private signed URLs into anonymous HTML.
+        // Only durable public paths (site-relative or https). Never signed
+        // authenticated preview URLs — those must not appear in anonymous HTML.
+        const hint =
+          typeof doc.storageHint === "string" ? doc.storageHint.trim() : "";
         const publicPath =
-          typeof doc.storageHint === "string" && doc.storageHint.startsWith("/")
-            ? doc.storageHint
-            : "";
-        if (!publicPath.trim()) {
+          hint.startsWith("/") || hint.startsWith("https://") ? hint : "";
+        if (!publicPath) {
           continue;
         }
         if (typeof doc.width !== "number" || typeof doc.height !== "number") {
