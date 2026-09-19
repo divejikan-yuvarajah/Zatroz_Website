@@ -35,6 +35,11 @@ export const ALLOWED_JSON_CONTENT_TYPE_PATTERN =
 
 export const SAFE_CACHE_CONTROL = "no-store" as const;
 
+/** Idempotency key constraints — 32–128 hex chars. */
+export const IDEMPOTENCY_KEY_MIN_LENGTH = 32;
+export const IDEMPOTENCY_KEY_MAX_LENGTH = 128;
+export const IDEMPOTENCY_KEY_PATTERN = /^[0-9a-f]+$/i;
+
 export const CUSTOMER_SAFE_MESSAGES = {
   validation: "Please check the highlighted fields and try again.",
   rateLimited:

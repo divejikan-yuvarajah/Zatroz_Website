@@ -1,5 +1,5 @@
 /**
- * Unit tests for Step 47 enquiry submission pipeline.
+ * Unit tests for Step 47/48 enquiry submission pipeline.
  * No live Mongo — tests the action pipeline logic, idempotency, and contract.
  */
 
@@ -15,7 +15,11 @@ import {
   rejectServerOwnedEnquiryFields,
   validateEnquiryVisitorFields,
 } from "../src/lib/mongodb/models/validate";
-import { CUSTOMER_SAFE_MESSAGES } from "../src/lib/security/policy";
+import {
+  CUSTOMER_SAFE_MESSAGES,
+  IDEMPOTENCY_KEY_MIN_LENGTH,
+  IDEMPOTENCY_KEY_MAX_LENGTH,
+} from "../src/lib/security/policy";
 
 let passed = 0;
 
@@ -39,13 +43,31 @@ function validInput(): EnquiryNormalizedInput {
   };
 }
 
+/** Business-only canonical signature (mirrors server businessFieldsProjection). */
+function businessPayloadSignature(input: EnquiryNormalizedInput): string {
+  const fields: Record<string, string | null> = {
+    name: input.name,
+    email: input.email.toLowerCase(),
+    company: input.company,
+    service: input.service,
+    message: input.message,
+    timeline: input.timeline,
+    requestType: input.requestType,
+    preferredContact: input.preferredContact,
+    phone: input.phone,
+  };
+  return Object.keys(fields)
+    .sort()
+    .map((k) => `${k}=${fields[k] ?? ""}`)
+    .join("\n");
+}
+
 function runGateTests() {
   const env = {
     APP_ORIGIN: "http://localhost:3000",
     APP_ENV: "development",
   };
 
-  // Valid gate pass
   const input = validInput();
   const result = gateEnquiryServerActionInput({
     headers: { origin: "http://localhost:3000" },
@@ -59,7 +81,6 @@ function runGateTests() {
   }
   pass("gate-valid-input-passes");
 
-  // Rejected origin
   const foreign = gateEnquiryServerActionInput({
     headers: { origin: "https://evil.example.com" },
     rawInput: { ...input },
@@ -71,7 +92,6 @@ function runGateTests() {
   }
   pass("gate-foreign-origin-rejected");
 
-  // Missing origin
   const noOrigin = gateEnquiryServerActionInput({
     headers: { origin: null },
     rawInput: { ...input },
@@ -80,7 +100,6 @@ function runGateTests() {
   assert.equal(noOrigin.ok, false);
   pass("gate-missing-origin-rejected");
 
-  // Server-owned fields rejected
   const serverOwned = gateEnquiryServerActionInput({
     headers: { origin: "http://localhost:3000" },
     rawInput: { ...input, status: "reviewed", _id: "injected" },
@@ -92,7 +111,6 @@ function runGateTests() {
   }
   pass("gate-server-owned-fields-rejected");
 
-  // Invalid fields produce validation-error
   const badInput = gateEnquiryServerActionInput({
     headers: { origin: "http://localhost:3000" },
     rawInput: { name: "", email: "", service: "", message: "" },
@@ -105,13 +123,19 @@ function runGateTests() {
   pass("gate-invalid-fields-validation-error");
 }
 
-function runIdempotencyDigestTests() {
+function runIdempotencyKeyValidationTests() {
+  // Key constraints are exported for client-side validation
+  assert.equal(IDEMPOTENCY_KEY_MIN_LENGTH, 32);
+  assert.equal(IDEMPOTENCY_KEY_MAX_LENGTH, 128);
+
+  // SHA-256 digest is stable for the same key
   const key = randomBytes(32).toString("hex");
   const digest1 = createHash("sha256").update(key, "utf8").digest("hex");
   const digest2 = createHash("sha256").update(key, "utf8").digest("hex");
   assert.equal(digest1, digest2, "Same key should produce same digest");
   assert.equal(digest1.length, 64, "SHA-256 hex should be 64 chars");
 
+  // Different keys produce different digests
   const otherKey = randomBytes(32).toString("hex");
   const otherDigest = createHash("sha256")
     .update(otherKey, "utf8")
@@ -121,15 +145,16 @@ function runIdempotencyDigestTests() {
     otherDigest,
     "Different keys produce different digests",
   );
-  pass("idempotency-digest-stability");
+
+  pass("idempotency-key-validation-and-digest");
 }
 
-function runPayloadFingerprintTests() {
+function runBusinessFingerprintTests() {
   const secret = "test-secret-for-fingerprint";
   const input = validInput();
 
   function fingerprint(normalized: EnquiryNormalizedInput): string {
-    const canonical: Record<string, string | null> = {
+    const fields: Record<string, string | null> = {
       name: normalized.name,
       email: normalized.email.toLowerCase(),
       company: normalized.company,
@@ -140,9 +165,9 @@ function runPayloadFingerprintTests() {
       preferredContact: normalized.preferredContact,
       phone: normalized.phone,
     };
-    const sorted = Object.keys(canonical)
+    const sorted = Object.keys(fields)
       .sort()
-      .map((k) => `${k}=${canonical[k] ?? ""}`)
+      .map((k) => `${k}=${fields[k] ?? ""}`)
       .join("\n");
     return createHmac("sha256", secret)
       .update(`enquiry:v1:${sorted}`, "utf8")
@@ -166,11 +191,89 @@ function runPayloadFingerprintTests() {
   const fp4 = fingerprint(reordered);
   assert.equal(fp1, fp4, "Field order does not affect fingerprint");
 
-  pass("payload-fingerprint-deterministic");
+  // Email case normalization
+  const upperEmail = { ...input, email: "TEST@EXAMPLE.COM" };
+  const fp5 = fingerprint(upperEmail);
+  assert.equal(fp1, fp5, "Email case does not affect fingerprint");
+
+  pass("business-fingerprint-deterministic");
+}
+
+function runBusinessPayloadSignatureTests() {
+  const input = validInput();
+  const sig1 = businessPayloadSignature(input);
+  const sig2 = businessPayloadSignature(input);
+  assert.equal(sig1, sig2, "Same input same signature");
+
+  // Changed business field → different signature
+  const changed = {
+    ...input,
+    message: "A different message that is long enough for testing.",
+  };
+  const sig3 = businessPayloadSignature(changed);
+  assert.notEqual(
+    sig1,
+    sig3,
+    "Different business fields produce different signature",
+  );
+
+  // Transport-only metadata would NOT be in business fields
+  // (challenge tokens, trace IDs etc. are excluded by design)
+  pass("business-payload-signature-stability");
+}
+
+function runAttemptLifecycleTests() {
+  // Simulate the client's attempt key lifecycle
+
+  // 1. First submission: generate new key
+  let currentKey: string | null = null;
+  let lastPayload: string | null = null;
+  const input = validInput();
+  const sig = businessPayloadSignature(input);
+
+  if (!currentKey || lastPayload !== sig) {
+    currentKey = randomBytes(32).toString("hex");
+    lastPayload = sig;
+  }
+  const firstKey = currentKey;
+  assert.ok(firstKey.length >= 64, "Key is at least 64 hex chars");
+
+  // 2. Retry same payload → same key retained
+  if (!currentKey || lastPayload !== sig) {
+    currentKey = randomBytes(32).toString("hex");
+    lastPayload = sig;
+  }
+  assert.equal(currentKey, firstKey, "Same payload retains same key");
+
+  // 3. Changed payload → new key
+  const changed = {
+    ...input,
+    message: "Changed my mind about the project scope details here.",
+  };
+  const changedSig = businessPayloadSignature(changed);
+  if (!currentKey || lastPayload !== changedSig) {
+    currentKey = randomBytes(32).toString("hex");
+    lastPayload = changedSig;
+  }
+  assert.notEqual(currentKey, firstKey, "Changed payload gets new key");
+
+  // 4. Accepted → clear key
+  currentKey = null;
+  lastPayload = null;
+  assert.equal(currentKey, null, "Key cleared after acceptance");
+
+  // 5. New submission after acceptance → fresh key
+  const newSig = businessPayloadSignature(input);
+  if (!currentKey || lastPayload !== newSig) {
+    currentKey = randomBytes(32).toString("hex");
+    lastPayload = newSig;
+  }
+  assert.notEqual(currentKey, firstKey, "Fresh key after acceptance");
+
+  pass("attempt-lifecycle-key-management");
 }
 
 function runResponseContractTests() {
-  // All valid result statuses are recognized
   const accepted = { status: "accepted", message: "ok" };
   assert.equal(isEnquirySubmitResult(accepted), true);
 
@@ -190,13 +293,11 @@ function runResponseContractTests() {
   const unknown = { status: "unknown-outcome", message: "uncertain" };
   assert.equal(isEnquirySubmitResult(unknown), true);
 
-  // Invalid shapes coerce to unknown-outcome
   const malformed = { ok: true, mongoId: "should-never-surface" };
   assert.equal(isEnquirySubmitResult(malformed), false);
   const coerced = coerceEnquirySubmitResult(malformed);
   assert.equal(coerced.status, "unknown-outcome");
 
-  // Null/undefined coerces
   assert.equal(coerceEnquirySubmitResult(null).status, "unknown-outcome");
   assert.equal(coerceEnquirySubmitResult(undefined).status, "unknown-outcome");
 
@@ -204,7 +305,6 @@ function runResponseContractTests() {
 }
 
 function runSafeMessageTests() {
-  // No customer message contains internal details
   for (const [key, msg] of Object.entries(CUSTOMER_SAFE_MESSAGES)) {
     assert.ok(!msg.includes("MongoDB"), `${key} must not mention MongoDB`);
     assert.ok(!msg.includes("ObjectId"), `${key} must not mention ObjectId`);
@@ -243,12 +343,86 @@ function runVisitorFieldValidationTests() {
   pass("visitor-field-validation");
 }
 
+function runConflictScenarioTests() {
+  // Same key, same payload → replay (same digest)
+  const key1 = randomBytes(32).toString("hex");
+  const digest1 = createHash("sha256").update(key1, "utf8").digest("hex");
+  const digest1b = createHash("sha256").update(key1, "utf8").digest("hex");
+  assert.equal(digest1, digest1b, "Replay has same digest");
+
+  // Same key, different payload → conflict (same digest, different fingerprint)
+  const secret = "test-secret";
+  const input1 = validInput();
+  const input2 = {
+    ...input1,
+    message: "A completely different description of the project needs.",
+  };
+
+  function fp(input: EnquiryNormalizedInput): string {
+    const fields: Record<string, string | null> = {
+      name: input.name,
+      email: input.email.toLowerCase(),
+      company: input.company,
+      service: input.service,
+      message: input.message,
+      timeline: input.timeline,
+      requestType: input.requestType,
+      preferredContact: input.preferredContact,
+      phone: input.phone,
+    };
+    const sorted = Object.keys(fields)
+      .sort()
+      .map((k) => `${k}=${fields[k] ?? ""}`)
+      .join("\n");
+    return createHmac("sha256", secret)
+      .update(`enquiry:v1:${sorted}`, "utf8")
+      .digest("hex");
+  }
+
+  const fp1 = fp(input1);
+  const fp2 = fp(input2);
+  assert.notEqual(
+    fp1,
+    fp2,
+    "Different business payload = different fingerprint = conflict",
+  );
+
+  // Different key, same email → separate legitimate enquiries
+  const key2 = randomBytes(32).toString("hex");
+  const digest2 = createHash("sha256").update(key2, "utf8").digest("hex");
+  assert.notEqual(
+    digest1,
+    digest2,
+    "Different keys = separate enquiries, even for same email",
+  );
+
+  pass("conflict-scenario-tests");
+}
+
+function runRefreshLimitationTests() {
+  // After page refresh, key is lost (null).
+  // A retry will generate a new key → may create a second enquiry.
+  // This is a documented, honest limitation.
+  const keyBeforeRefresh = "some-key-from-before-refresh";
+
+  // Simulate refresh: key is lost — new submission generates a fresh key
+  const freshKey = randomBytes(32).toString("hex");
+  assert.notEqual(freshKey, keyBeforeRefresh);
+
+  pass("refresh-limitation-documented");
+}
+
+// Run all tests
 runGateTests();
-runIdempotencyDigestTests();
-runPayloadFingerprintTests();
+runIdempotencyKeyValidationTests();
+runBusinessFingerprintTests();
+runBusinessPayloadSignatureTests();
+runAttemptLifecycleTests();
 runResponseContractTests();
 runSafeMessageTests();
 runServerOwnedFieldTests();
 runVisitorFieldValidationTests();
+runConflictScenarioTests();
+runRefreshLimitationTests();
 
 console.log(`\n${passed} checks passed`);

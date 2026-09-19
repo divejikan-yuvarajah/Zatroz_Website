@@ -97,3 +97,30 @@ The real Server Action pipeline:
 Client wrapper: `useSubmitEnquiry` hook manages idempotency keys per captured attempt. Fresh key for each new/changed submission; retained across uncertain retries.
 
 Production activation requires: `ENQUIRIES_ENABLED=true`, valid `MONGODB_URI`, `ABUSE_HASH_SECRET`, `ENQUIRY_IDEMPOTENCY_SECRET`, `APP_ORIGIN`, applied schema migration, and critical indexes.
+
+## Step 48 — Duplicate-submission hardening
+
+**Key fix:** Idempotency keys are now passed as a direct parameter to `submitEnquiryAction(input, idempotencyKey)` instead of via request headers (which Server Actions cannot receive from the client).
+
+### Business-field projection
+
+Only business fields participate in the canonical payload fingerprint. Transport-only metadata (future challenge tokens, trace IDs, retry counters) is excluded so a retry with a fresh token still matches the same business enquiry.
+
+Business fields: `name`, `email` (lowercased), `company`, `service`, `message`, `timeline`, `requestType`, `preferredContact`, `phone`.
+
+### Attempt lifecycle
+
+| Event                         | Key behaviour                               |
+| ----------------------------- | ------------------------------------------- |
+| New submission                | Fresh cryptographic key generated           |
+| Retry (same business fields)  | Same key retained                           |
+| Changed business fields       | New key generated                           |
+| Accepted result               | Key cleared; next submission gets fresh key |
+| Unknown-outcome / unavailable | Key retained for deliberate retry           |
+| Page refresh                  | Key lost (documented limitation)            |
+
+### Documented limitations
+
+1. Page refresh loses the in-memory key — a retry after refresh may create a second enquiry
+2. Cross-device deduplication is not supported
+3. Not "exactly-once" — guarantee scoped to retained keys within a single page session

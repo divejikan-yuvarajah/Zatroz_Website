@@ -12,7 +12,12 @@ import { headers } from "next/headers";
 import { randomBytes, createHash } from "node:crypto";
 import type { EnquiryNormalizedInput } from "@/lib/enquiries/input";
 import type { EnquirySubmitResult } from "@/lib/enquiries/transport";
-import { CUSTOMER_SAFE_MESSAGES } from "@/lib/security/policy";
+import {
+  CUSTOMER_SAFE_MESSAGES,
+  IDEMPOTENCY_KEY_MIN_LENGTH,
+  IDEMPOTENCY_KEY_MAX_LENGTH,
+  IDEMPOTENCY_KEY_PATTERN,
+} from "@/lib/security/policy";
 import {
   gateEnquiryServerActionInput,
   type EnquiryPolicyHeaders,
@@ -65,14 +70,32 @@ function idempotencyKeyDigest(key: string): string {
 }
 
 /**
- * Canonical payload fingerprint (HMAC with versioned secret).
- * Deterministic across field order by sorting keys.
+ * Validate an idempotency key from the client.
+ * Returns the key if valid, null otherwise.
  */
-function canonicalPayloadFingerprint(
+function validateIdempotencyKey(key: unknown): string | null {
+  if (typeof key !== "string") return null;
+  const trimmed = key.trim();
+  if (
+    trimmed.length < IDEMPOTENCY_KEY_MIN_LENGTH ||
+    trimmed.length > IDEMPOTENCY_KEY_MAX_LENGTH
+  ) {
+    return null;
+  }
+  if (!IDEMPOTENCY_KEY_PATTERN.test(trimmed)) return null;
+  return trimmed;
+}
+
+/**
+ * Extract the business-only fields for canonical fingerprinting.
+ * Transport metadata (idempotency key, challenge tokens, trace IDs)
+ * is deliberately excluded so retries with fresh transport tokens
+ * still match the same business enquiry.
+ */
+function businessFieldsProjection(
   normalized: EnquiryNormalizedInput,
-  secret: string,
-): string {
-  const canonical: Record<string, string | null> = {
+): Record<string, string | null> {
+  return {
     name: normalized.name,
     email: normalized.email.toLowerCase(),
     company: normalized.company,
@@ -83,15 +106,11 @@ function canonicalPayloadFingerprint(
     preferredContact: normalized.preferredContact,
     phone: normalized.phone,
   };
-  const sorted = Object.keys(canonical)
-    .sort()
-    .map((k) => `${k}=${canonical[k] ?? ""}`)
-    .join("\n");
-  return hmacHex(secret, `enquiry:v1:${sorted}`);
 }
 
 export async function submitEnquiryAction(
   input: EnquiryNormalizedInput,
+  idempotencyKey?: string,
 ): Promise<EnquirySubmitResult> {
   const correlationId = createCorrelationId();
   const started = Date.now();
@@ -202,27 +221,13 @@ export async function submitEnquiryAction(
     };
   }
 
-  // 8. Build the idempotency key from client-supplied header
-  const idempotencyKey = reqHeaders.get("x-idempotency-key")?.trim() ?? "";
-  if (
-    !idempotencyKey ||
-    idempotencyKey.length < 32 ||
-    idempotencyKey.length > 128
-  ) {
-    // No valid idempotency key — generate a one-shot key (no retry dedup)
-    // This is fine for a first submission; the client should provide a key for retries.
-  }
-
-  const effectiveKey =
-    idempotencyKey &&
-    idempotencyKey.length >= 32 &&
-    idempotencyKey.length <= 128
-      ? idempotencyKey
-      : randomBytes(32).toString("hex");
+  // 8. Validate and resolve the idempotency key
+  const validatedKey = validateIdempotencyKey(idempotencyKey);
+  const effectiveKey = validatedKey ?? randomBytes(32).toString("hex");
 
   const digest = idempotencyKeyDigest(effectiveKey);
 
-  // 9. Build payload fingerprint
+  // 9. Build payload fingerprint (business fields only)
   const idempotencySecret =
     idempotencySecrets.secretsByVersion[idempotencySecrets.currentVersion];
   if (!idempotencySecret) {
@@ -232,10 +237,12 @@ export async function submitEnquiryAction(
     };
   }
 
-  const fingerprint = canonicalPayloadFingerprint(
-    gate.normalized,
-    idempotencySecret,
-  );
+  const businessFields = businessFieldsProjection(gate.normalized);
+  const sorted = Object.keys(businessFields)
+    .sort()
+    .map((k) => `${k}=${businessFields[k] ?? ""}`)
+    .join("\n");
+  const fingerprint = hmacHex(idempotencySecret, `enquiry:v1:${sorted}`);
 
   // 10. Construct enquiry document
   const now = new Date();
