@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { AdminMediaCleanupPanel } from "@/components/admin/admin-media-cleanup-panel";
 import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminMediaUploadForm } from "@/components/admin/admin-media-upload-form";
 import { isCloudinaryConfigured } from "@/lib/media/config";
 import { listMediaLibrary } from "@/server/media/repository";
+import { listCleanupCandidates } from "@/server/media/usage";
 import { requirePermissionSession } from "@/server/security/auth-gate";
 import { redirect } from "next/navigation";
 
@@ -27,8 +29,12 @@ export default async function AdminMediaPage({ searchParams }: PageProps) {
   const rawQ = params.q;
   const search = Array.isArray(rawQ) ? (rawQ[0] ?? "") : (rawQ ?? "");
 
-  const listed = await listMediaLibrary({ search });
+  const [listed, cleanup] = await Promise.all([
+    listMediaLibrary({ search }),
+    listCleanupCandidates(),
+  ]);
   const canWrite = gate.context.permissions.includes("admin.content.write");
+  const canDelete = gate.context.permissions.includes("admin.content.publish");
 
   return (
     <div className="flex flex-col gap-12">
@@ -40,6 +46,7 @@ export default async function AdminMediaPage({ searchParams }: PageProps) {
           Private Cloudinary uploads with MongoDB metadata. Folder names are not
           access control — drafts use authenticated delivery and signed
           previews. Replacing an asset creates a new immutable version.
+          Publishing prepares explicit public derivatives for anonymous pages.
         </p>
       </header>
 
@@ -74,6 +81,12 @@ export default async function AdminMediaPage({ searchParams }: PageProps) {
           />
         </div>
       </section>
+
+      <AdminMediaCleanupPanel
+        items={cleanup.ok ? cleanup.items : null}
+        unavailableDetail={cleanup.ok ? null : cleanup.detail}
+        canDelete={canDelete}
+      />
     </div>
   );
 }

@@ -26,6 +26,8 @@ export type AdminProjectPublishPanelProps = {
   canArchive: boolean;
   summaryReadyMessage?: string | null;
   storyReadyMessage?: string | null;
+  /** When summary is live but a refresh job is still open. */
+  refreshPendingLabel?: string | null;
 };
 
 const initial: PublishActionState | null = null;
@@ -121,6 +123,7 @@ export function AdminProjectPublishPanel({
   canArchive,
   summaryReadyMessage,
   storyReadyMessage,
+  refreshPendingLabel,
 }: AdminProjectPublishPanelProps) {
   return (
     <section
@@ -134,16 +137,17 @@ export function AdminProjectPublishPanel({
         Publication
       </h2>
       <p className="ds-support mt-2">
-        Summary and story publish independently. Live public pages still use
-        repository selectors until A09 — Mongo pointers and slug routes are
-        prepared here.
+        Summary and story publish independently. Pointers update immediately;
+        public cache refresh runs via content jobs (see Admin → Jobs).
       </p>
 
       <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
         <div>
           <dt className="text-text-muted">Summary</dt>
           <dd className="font-medium text-ink">
-            {status.summaryPublished ? "Published" : "Draft"}
+            {status.summaryPublished
+              ? refreshPendingLabel || "Published"
+              : "Draft"}
           </dd>
         </div>
         <div>

@@ -155,6 +155,79 @@ export function destroyCloudinaryAsset(publicId: string): Promise<boolean> {
     .catch(() => false);
 }
 
+/** Destroy a public (type=upload) delivery copy created for published pages. */
+export function destroyPublicCloudinaryAsset(
+  publicId: string,
+): Promise<boolean> {
+  const resolved = resolveCloudinaryRuntimeConfig();
+  if (!resolved.ok) return Promise.resolve(false);
+  ensureConfigured(resolved.config);
+  return cloudinary.uploader
+    .destroy(publicId, { type: "upload", resource_type: "image" })
+    .then(() => true)
+    .catch(() => false);
+}
+
+/**
+ * Upload bytes as a public Cloudinary asset (type=upload) for anonymous HTML.
+ * Used only for server-owned derivatives of already-authenticated media — never
+ * for arbitrary remote URLs submitted by clients.
+ */
+export async function uploadPublicImage(input: {
+  buffer: Buffer;
+  publicId: string;
+  mimeType: string;
+}): Promise<CloudinaryUploadResult & { publicUrl?: string }> {
+  const resolved = resolveCloudinaryRuntimeConfig();
+  if (!resolved.ok) {
+    return {
+      ok: false,
+      message: resolved.issues.map((i) => i.message).join(" "),
+    };
+  }
+
+  ensureConfigured(resolved.config);
+
+  try {
+    const dataUri = `data:${input.mimeType};base64,${input.buffer.toString("base64")}`;
+    const result = await cloudinary.uploader.upload(dataUri, {
+      public_id: input.publicId,
+      resource_type: "image",
+      type: "upload",
+      overwrite: true,
+      unique_filename: false,
+      use_filename: false,
+    });
+
+    const publicUrl = cloudinary.url(String(result.public_id), {
+      secure: true,
+      resource_type: "image",
+      type: "upload",
+    });
+
+    return {
+      ok: true,
+      publicId: String(result.public_id),
+      providerVersionId: String(result.version ?? result.version_id ?? "1"),
+      width: typeof result.width === "number" ? result.width : null,
+      height: typeof result.height === "number" ? result.height : null,
+      bytes:
+        typeof result.bytes === "number" ? result.bytes : input.buffer.length,
+      format: typeof result.format === "string" ? result.format : null,
+      resourceType:
+        typeof result.resource_type === "string"
+          ? result.resource_type
+          : "image",
+      publicUrl,
+    };
+  } catch {
+    return {
+      ok: false,
+      message: "Cloudinary public upload failed (details omitted).",
+    };
+  }
+}
+
 export function mediaProviderReadyLabel(): string | null {
   const config = getCloudinaryConfigOrNull();
   if (!config) return null;

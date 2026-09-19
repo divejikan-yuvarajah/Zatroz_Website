@@ -4,12 +4,14 @@ import { AdminProjectDraftForm } from "@/components/admin/admin-project-draft-fo
 import { AdminProjectPublishPanel } from "@/components/admin/admin-project-publish-panel";
 import { ButtonLink } from "@/components/ui/button-link";
 import { serviceRecords } from "@/content/services";
+import { formatRefreshPendingLabel } from "@/lib/admin/content-jobs";
 import {
   assessStoryPublishReadiness,
   assessSummaryPublishReadiness,
   getProjectPublicationStatus,
 } from "@/lib/admin/publish";
 import { formValuesFromDraft } from "@/lib/admin/projects";
+import { hasOpenPublishRefreshJob } from "@/server/jobs/content-jobs";
 import { listMediaLibrary } from "@/server/media/repository";
 import { isProjectArchived } from "@/server/projects/admin-state";
 import { loadProjectDraft } from "@/server/projects/repository";
@@ -79,8 +81,15 @@ export default async function AdminEditProjectPage({
   );
   const canArchive =
     canWrite || readGate.context.permissions.includes("admin.content.publish");
-  const archived = await isProjectArchived(loaded.project.editorialId);
+  const [archived, refreshOpen] = await Promise.all([
+    isProjectArchived(loaded.project.editorialId),
+    hasOpenPublishRefreshJob(loaded.project.editorialId),
+  ]);
   const pubStatus = getProjectPublicationStatus(loaded.project);
+  const refreshPendingLabel = formatRefreshPendingLabel({
+    summaryPublished: pubStatus.summaryPublished,
+    hasOpenRefreshJob: refreshOpen,
+  });
   const summaryReady = assessSummaryPublishReadiness({
     project: loaded.project,
     summary: loaded.summary,
@@ -165,6 +174,7 @@ export default async function AdminEditProjectPage({
         canArchive={canArchive}
         summaryReadyMessage={summaryReady.ok ? null : summaryReady.message}
         storyReadyMessage={storyReady.ok ? null : storyReady.message}
+        refreshPendingLabel={refreshPendingLabel}
       />
 
       {canWrite ? (

@@ -18,6 +18,7 @@ import type { MediaAlt } from "@/types/content";
 export type MediaLibraryItem = Readonly<{
   mediaId: string;
   versionId: string;
+  provider: string;
   providerAssetId: string;
   width: number | null;
   height: number | null;
@@ -43,6 +44,7 @@ function toItem(doc: MediaAssetDocument & { _id?: unknown }): MediaLibraryItem {
   return {
     mediaId: doc.mediaId,
     versionId: doc.versionId,
+    provider: doc.provider,
     providerAssetId: doc.providerAssetId,
     width: doc.width,
     height: doc.height,

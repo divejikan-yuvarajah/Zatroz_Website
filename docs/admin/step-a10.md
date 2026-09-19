@@ -51,8 +51,6 @@ Empty import is intentional and honest — no fiction seeded.
 
 ## Explicitly not done (later steps)
 
-- Public Cloudinary derivatives / image cleanup (A11)
-- Cache refresh worker (A11)
 - AuthZ/failure suite + handover (A12)
 
 ## Checks
