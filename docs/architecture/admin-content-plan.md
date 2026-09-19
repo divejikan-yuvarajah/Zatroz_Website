@@ -89,9 +89,9 @@ Owner sets ordered `featuredProjectIds`. Homepage selected-work shows only eligi
 | ------------------------------ | ---------------------------- | --------- |
 | `/admin/login`                 | Sign-in + MFA challenge      | A02–A03   |
 | `/admin`                       | Dashboard counts + shortcuts | **A03**   |
-| `/admin/projects`              | List / search / filter       | A05       |
-| `/admin/projects/new`          | Create draft                 | A05       |
-| `/admin/projects/[id]`         | Edit draft summary           | A05       |
+| `/admin/projects`              | List / search / filter       | **A05**   |
+| `/admin/projects/new`          | Create draft                 | **A05**   |
+| `/admin/projects/[id]`         | Edit draft summary           | **A05**   |
 | `/admin/projects/[id]/story`   | Case-study editor            | A06       |
 | `/admin/projects/[id]/preview` | Authenticated preview        | A07       |
 | `/admin/media`                 | Media library                | **A04**   |

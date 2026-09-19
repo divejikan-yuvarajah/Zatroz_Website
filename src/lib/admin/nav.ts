@@ -27,8 +27,6 @@ export const ADMIN_PRIMARY_NAV: readonly AdminNavItem[] = [
     label: "Projects",
     href: "/admin/projects",
     permission: "admin.content.read",
-    comingLater: true,
-    comingLaterNote: "Project list and forms arrive in A05.",
   },
   {
     id: "media",
@@ -65,18 +63,18 @@ export const ADMIN_DASHBOARD_SHORTCUTS: readonly AdminShortcut[] = [
   {
     id: "new-project",
     label: "Create project",
-    description: "Start a new draft project (A05).",
+    description: "Start a new draft project.",
     href: "/admin/projects/new",
     permission: "admin.content.write",
-    available: false,
+    available: true,
   },
   {
     id: "edit-projects",
     label: "Edit projects",
-    description: "Open the project list when it ships (A05).",
+    description: "Search, filter, and open draft projects.",
     href: "/admin/projects",
     permission: "admin.content.read",
-    available: false,
+    available: true,
   },
   {
     id: "manage-media",
