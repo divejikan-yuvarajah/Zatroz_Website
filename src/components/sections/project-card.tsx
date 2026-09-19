@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { TextLink } from "@/components/ui/text-link";
+import { isAdminMediaPreviewSrc } from "@/lib/admin/preview";
 import type { PublicProjectCard } from "@/lib/public-projects";
 import { cn } from "@/lib/cn";
 
@@ -24,6 +25,9 @@ export function ProjectCard({
   const HeadingTag = headingLevel === 2 ? "h2" : "h3";
   const titleId = `${idPrefix}${project.id}-title`;
   const isSvg = project.cover?.src.toLowerCase().endsWith(".svg") ?? false;
+  const unoptimized =
+    isSvg ||
+    (project.cover ? isAdminMediaPreviewSrc(project.cover.src) : false);
   const primaryLink = project.storyLinkEligible
     ? { label: "Read case study", href: project.storyPath }
     : (project.links[0] ?? null);
@@ -40,7 +44,7 @@ export function ProjectCard({
               height={project.cover.height}
               sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
               className="size-full object-cover object-top"
-              unoptimized={isSvg}
+              unoptimized={unoptimized}
             />
           </div>
           {project.cover.caption ? (

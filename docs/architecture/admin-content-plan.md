@@ -93,7 +93,7 @@ Owner sets ordered `featuredProjectIds`. Homepage selected-work shows only eligi
 | `/admin/projects/new`          | Create draft                 | **A05**   |
 | `/admin/projects/[id]`         | Edit draft summary           | **A05**   |
 | `/admin/projects/[id]/story`   | Case-study editor            | **A06**   |
-| `/admin/projects/[id]/preview` | Authenticated preview        | A07       |
+| `/admin/projects/[id]/preview` | Authenticated preview        | **A07**   |
 | `/admin/media`                 | Media library                | **A04**   |
 | `/admin/settings/featured`     | Featured order               | A08–A09   |
 | `/admin/staff`                 | Role management (owner)      | **A03**   |

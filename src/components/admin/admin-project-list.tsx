@@ -175,12 +175,20 @@ export function AdminProjectList({
                       .replace(/\.\d+Z$/, " UTC")}
                   </td>
                   <td className="py-3 align-top">
-                    <Link
-                      href={`/admin/projects/${item.editorialId}`}
-                      className="font-medium text-ink underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:[outline-color:var(--ink)]"
-                    >
-                      Edit draft
-                    </Link>
+                    <div className="flex flex-col gap-1">
+                      <Link
+                        href={`/admin/projects/${item.editorialId}`}
+                        className="font-medium text-ink underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:[outline-color:var(--ink)]"
+                      >
+                        Edit draft
+                      </Link>
+                      <Link
+                        href={`/admin/projects/${item.editorialId}/preview`}
+                        className="text-sm text-text-muted underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:[outline-color:var(--ink)]"
+                      >
+                        Preview
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
