@@ -107,6 +107,8 @@ function runGateTests() {
   assert.equal(requireAdmin(ownerReady).ok, true);
   assert.equal(requirePermission("enquiries.manage", ownerReady).ok, true);
   assert.equal(requirePermission("admin.content.publish", ownerReady).ok, true);
+  assert.equal(requirePermission("admin.staff.manage", ownerReady).ok, true);
+  assert.equal(requirePermission("admin.staff.manage", editorReady).ok, false);
 
   const unknownRole = buildAuthContext({
     authAvailable: true,

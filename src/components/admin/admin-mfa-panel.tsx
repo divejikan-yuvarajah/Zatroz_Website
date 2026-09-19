@@ -39,7 +39,7 @@ export function AdminMfaPanel() {
         // Already MFA-complete — content shell arrives in A03.
         setMode("challenge");
         setInfo(
-          "MFA is already enabled on this account. Enter a code only if you were redirected mid sign-in; otherwise you can sign out and sign in again.",
+          "MFA is already enabled on this account. Enter a code only if you were redirected mid sign-in; otherwise continue to the dashboard after verifying.",
         );
         return;
       }
@@ -68,10 +68,9 @@ export function AdminMfaPanel() {
         );
         return;
       }
-      setInfo(
-        "MFA verified. The admin dashboard arrives in a later step (A03).",
-      );
+      setInfo("MFA verified. Opening the admin dashboard…");
       setCode("");
+      router.push("/admin");
       router.refresh();
     } catch {
       setError("Verification is temporarily unavailable.");
@@ -94,8 +93,9 @@ export function AdminMfaPanel() {
         );
         return;
       }
-      setInfo("Backup code accepted. Store remaining codes securely.");
+      setInfo("Backup code accepted. Opening the admin dashboard…");
       setCode("");
+      router.push("/admin");
       router.refresh();
     } catch {
       setError("Verification is temporarily unavailable.");
@@ -153,11 +153,10 @@ export function AdminMfaPanel() {
         );
         return;
       }
-      setInfo(
-        "MFA is enabled. Sign out of other devices from your password manager workflow if needed; full session UI arrives in A03.",
-      );
+      setInfo("MFA is enabled. Opening the admin dashboard…");
       setCode("");
       setMode("challenge");
+      router.push("/admin");
       router.refresh();
     } catch {
       setError("Could not confirm enrollment.");

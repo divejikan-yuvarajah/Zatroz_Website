@@ -57,7 +57,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | ------- | ------------------------------- | ---------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- |
 | A01     | Admin requirements + image plan | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending) | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
 | A02     | Auth / MFA / recovery           | **Implemented** (on branch `feature/a02-admin-auth`; merge may be pending)         | 2026-09-19 | Better Auth + MFA pages + bootstrap; see `docs/admin/step-a02.md`     |
-| A03–A12 | Admin UI through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| A03     | Admin shell + dashboard         | **Implemented** (on branch `feature/a03-admin-shell`; merge may be pending)        | 2026-09-19 | Protected shell, counts, staff roles; see `docs/admin/step-a03.md`    |
+| A04–A12 | Media through handover          | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -521,6 +522,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Real session permission gates; editors lack enquiry permissions; public sign-up disabled.
 - Docs: `docs/admin/step-a02.md`, `docs/admin/auth-recovery.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-auth`); `npm run build` passed (Next.js 16.3.5). Live Atlas bootstrap + MFA with real credentials **Not run**. Next: **A03** (admin shell). Step 47 remains blocked until A12.
+
+### Admin A03 (2026-09-19)
+
+- Branch: `feature/a03-admin-shell` from `feature/a02-admin-auth`.
+- Protected `/admin` console (no marketing chrome), role-filtered nav, owner `/admin/staff` role updates, Mongo dashboard counts + recent audit list.
+- Shortcuts for A04/A05 marked unavailable honestly. Editors cannot open staff management.
+- Docs: `docs/admin/step-a03.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-shell`); `npm run build` passed (Next.js 16.3.5; `/admin*` dynamic). Live Mongo dashboard/staff with real credentials **Not run**. Next: **A04** (media). Step 47 remains blocked until A12.
 
 ---
 

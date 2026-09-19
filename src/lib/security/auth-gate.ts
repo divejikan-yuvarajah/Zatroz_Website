@@ -15,6 +15,7 @@ export type Permission =
   | "admin.content.read"
   | "admin.content.write"
   | "admin.content.publish"
+  | "admin.staff.manage"
   | "enquiries.read"
   | "enquiries.manage";
 

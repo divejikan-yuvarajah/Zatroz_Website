@@ -23,11 +23,12 @@ export const EDITOR_PERMISSIONS: readonly Permission[] = [
   "admin.content.write",
 ] as const;
 
-/** Owner content + enquiry inbox (when A03+ surfaces those routes). */
+/** Owner content + staff management + enquiry inbox (when surfaced). */
 export const OWNER_PERMISSIONS: readonly Permission[] = [
   "admin.content.read",
   "admin.content.write",
   "admin.content.publish",
+  "admin.staff.manage",
   "enquiries.read",
   "enquiries.manage",
 ] as const;

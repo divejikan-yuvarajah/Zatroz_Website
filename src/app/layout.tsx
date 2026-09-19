@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { AppChrome } from "@/components/layout/app-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { SiteShell } from "@/components/layout/site-shell";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -22,9 +22,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={manrope.variable}>
       <body className="font-sans">
-        <SiteShell header={<SiteHeader />} footer={<SiteFooter />}>
+        <AppChrome
+          marketingHeader={<SiteHeader />}
+          marketingFooter={<SiteFooter />}
+        >
           {children}
-        </SiteShell>
+        </AppChrome>
       </body>
     </html>
   );

@@ -41,8 +41,8 @@ Staff authentication with Better Auth + MongoDB adapter + official 2FA plugin. N
 
 ## Explicitly not done (later steps)
 
-- Admin dashboard shell and navigation (A03)
-- Staff invitation UI / role management screens (A03)
+- Admin dashboard shell and navigation (**done in A03**)
+- Staff role management UI (**done in A03**; invitations still not emailed)
 - Password-reset email delivery (needs Resend + verified domain — later)
 - Live Mongo bootstrap / MFA proof with production secrets (**Not run**)
 
