@@ -18,6 +18,7 @@ type PageProps = {
     workStatus?: string | string[];
     publication?: string | string[];
     page?: string | string[];
+    archived?: string | string[];
   }>;
 };
 
@@ -39,9 +40,8 @@ export default async function AdminProjectsPage({ searchParams }: PageProps) {
           Projects
         </h1>
         <p className="mt-2 max-w-prose text-text-body">
-          Create and edit portfolio drafts in MongoDB. Saving writes an
-          immutable revision and bumps concurrency — live public pages stay
-          unchanged until publish (A08).
+          Create and edit portfolio drafts in MongoDB. Owner publish flips live
+          pointers; public Work still uses repository selectors until A09.
         </p>
       </header>
 
@@ -53,6 +53,7 @@ export default async function AdminProjectsPage({ searchParams }: PageProps) {
         search={query.search}
         workStatus={query.workStatus}
         publication={query.publication}
+        archived={Boolean(query.archived)}
         unavailableDetail={listed.ok ? null : listed.detail}
         canWrite={canWrite}
       />

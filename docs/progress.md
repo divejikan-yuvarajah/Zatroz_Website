@@ -62,7 +62,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | A05     | Project list + draft forms      | **Implemented** (on branch `feature/a05-admin-projects`; merge may be pending)     | 2026-09-19 | List/search/filter + Save draft; see `docs/admin/step-a05.md`         |
 | A06     | Case-study editor + gallery     | **Implemented** (on branch `feature/a06-admin-case-study`; merge may be pending)   | 2026-09-19 | Structured blocks + gallery order; see `docs/admin/step-a06.md`       |
 | A07     | Authenticated draft preview     | **Implemented** (on branch `feature/a07-admin-preview`; merge may be pending)      | 2026-09-19 | Public components + private media; see `docs/admin/step-a07.md`       |
-| A08–A12 | Publish through handover        | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| A08     | Publish / unpublish / archive   | **Implemented** (on branch `feature/a08-admin-publish`; merge may be pending)      | 2026-09-19 | Pointers, audit, slug redirects; see `docs/admin/step-a08.md`         |
+| A09–A12 | Featured through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -566,7 +567,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - `/admin/projects/[id]/preview` renders draft summary card + case-study page via public `ProjectCard` / `CaseStudyPage` components.
 - Private media uses authenticated preview API paths with `unoptimized` images (browser cookies); reviewNotes omitted; story link disabled until publish.
 - Docs: `docs/admin/step-a07.md`.
-- Checks: recorded after format/check/build on this branch. Live Mongo + Cloudinary preview with real credentials **Not run**. Next: **A08** (publish/unpublish). Step 47 remains blocked until A12.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-preview`); `npm run build` passed (Next.js 16.3.5). Live Mongo + Cloudinary preview with real credentials **Not run**. Next: **A08** (publish/unpublish). Step 47 remains blocked until A12.
+
+### Admin A08 (2026-09-19)
+
+- Branch: `feature/a08-admin-publish` from `feature/a07-admin-preview`.
+- Owner publish/unpublish for summary and story (independent pointers); editors/owners soft-archive via `project_admin_state`.
+- Slug change records `project_routes` redirects; unpublish/archive reserves former slug; audit events + best-effort `content_jobs` refresh queue.
+- Publication panel on `/admin/projects/[id]`; archived filter on project list. Public Work still repository-backed until A09.
+- Docs: `docs/admin/step-a08.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-publish`); `npm run build` passed (Next.js 16.3.5). Live Mongo publish with real credentials **Not run**. Next: **A09** (featured + Mongo public selectors). Step 47 remains blocked until A12.
 
 ---
 

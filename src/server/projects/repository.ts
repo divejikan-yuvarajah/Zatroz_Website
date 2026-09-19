@@ -33,6 +33,7 @@ import type {
 } from "@/lib/mongodb/models/types";
 import { escapeRegexLiteral } from "@/lib/media/policy";
 import { findLatestMediaVersion } from "@/server/media/repository";
+import { listArchivedEditorialIds } from "@/server/projects/admin-state";
 
 export type ProjectListResult =
   | {
@@ -115,6 +116,16 @@ export async function listAdminProjects(
     const db = await getDb();
     const collection = db.collection(COLLECTION_NAMES.projects);
     const match: Record<string, unknown> = {};
+
+    const archivedIds = await listArchivedEditorialIds();
+    if (query.archived) {
+      if (archivedIds.length === 0) {
+        return { ok: true, items: [], total: 0, page, pageSize };
+      }
+      match.editorialId = { $in: [...archivedIds] };
+    } else if (archivedIds.length > 0) {
+      match.editorialId = { $nin: [...archivedIds] };
+    }
 
     if (query.workStatus !== "all") {
       match.workStatus = query.workStatus;
