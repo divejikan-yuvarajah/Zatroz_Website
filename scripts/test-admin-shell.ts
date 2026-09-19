@@ -78,6 +78,8 @@ function runNavVisibility() {
   assert.ok(ownerNav.some((item) => item.id === "media"));
   const mediaItem = ownerNav.find((item) => item.id === "media");
   assert.ok(mediaItem && !mediaItem.comingLater);
+  const projectsItem = ownerNav.find((item) => item.id === "projects");
+  assert.ok(projectsItem && !projectsItem.comingLater);
 
   const staffItem = ownerNav.find((item) => item.id === "staff");
   assert.ok(staffItem);

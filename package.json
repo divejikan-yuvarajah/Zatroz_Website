@@ -26,11 +26,12 @@
     "test:admin-auth": "tsx scripts/test-admin-auth.ts",
     "test:admin-shell": "tsx scripts/test-admin-shell.ts",
     "test:admin-media": "tsx scripts/test-admin-media.ts",
+    "test:admin-projects": "tsx scripts/test-admin-projects.ts",
     "admin:bootstrap-owner": "tsx scripts/admin-bootstrap-owner.ts",
     "db:check": "tsx scripts/db-check.ts",
     "db:plan": "tsx scripts/db-plan.ts",
     "db:apply": "tsx scripts/db-apply.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport && npm run test:mongodb-foundation && npm run test:mongodb-models && npm run test:request-safeguards && npm run test:admin-auth && npm run test:admin-shell && npm run test:admin-media"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport && npm run test:mongodb-foundation && npm run test:mongodb-models && npm run test:request-safeguards && npm run test:admin-auth && npm run test:admin-shell && npm run test:admin-media && npm run test:admin-projects"
   },
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.7.5",
