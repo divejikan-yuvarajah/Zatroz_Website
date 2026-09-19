@@ -7,12 +7,17 @@ import {
   buildStoryStub,
   buildSummarySnapshot,
   classifyListPublication,
+  DRAFT_PLACEHOLDER,
   editorialIdFromSlug,
   type ProjectDraftFormValues,
   type ProjectListItem,
   type ProjectListQuery,
   workStatusLabel,
 } from "@/lib/admin/projects";
+import {
+  buildStorySnapshot,
+  type StoryDraftFormValues,
+} from "@/lib/admin/story";
 import { COLLECTION_NAMES } from "@/lib/mongodb/collections";
 import {
   isMongoRuntimeConfigured,
@@ -472,6 +477,147 @@ export async function saveProjectDraft(input: {
       revisionNumber: new Int32(nextRevisionNumber),
       kind: "summary_and_story",
       summary,
+      story,
+      mediaRefs,
+      createdByActorId: input.actorId,
+    });
+
+    return {
+      ok: true,
+      editorialId: input.editorialId,
+      concurrencyVersion: nextConcurrency,
+      revisionId,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      reason: "unavailable",
+      detail: sanitizeMongoError(error),
+    };
+  }
+}
+
+/**
+ * Save case-study story draft while preserving the current summary snapshot.
+ * Writes a new immutable revision and bumps concurrencyVersion.
+ */
+export async function saveProjectStoryDraft(input: {
+  editorialId: string;
+  expectedConcurrencyVersion: number;
+  values: StoryDraftFormValues;
+  actorId: string;
+}): Promise<ProjectMutationResult> {
+  if (!isMongoRuntimeConfigured()) {
+    return {
+      ok: false,
+      reason: "unavailable",
+      detail: "MongoDB is not configured.",
+    };
+  }
+
+  const mediaCheck = await assertMediaIdsExist(
+    input.values.gallery.map((g) => g.mediaId),
+  );
+  if (!mediaCheck.ok) {
+    return { ok: false, reason: "validation", detail: mediaCheck.detail };
+  }
+
+  try {
+    const loaded = await loadProjectDraft(input.editorialId);
+    if (!loaded.ok) {
+      return {
+        ok: false,
+        reason: loaded.reason === "not-found" ? "not-found" : "unavailable",
+        detail: loaded.detail,
+      };
+    }
+
+    if (
+      loaded.project.concurrencyVersion !== input.expectedConcurrencyVersion
+    ) {
+      return {
+        ok: false,
+        reason: "conflict",
+        detail:
+          "This project was changed by someone else. Reload the page, then save again.",
+      };
+    }
+
+    const story = buildStorySnapshot(input.values);
+    const summary: ProjectSummarySnapshot = loaded.summary ?? {
+      title: loaded.project.draftTitle || input.values.title,
+      summary: DRAFT_PLACEHOLDER,
+      workStatus: loaded.project.workStatus,
+      serviceIds: [],
+      contributors: [],
+      zatrozContribution: DRAFT_PLACEHOLDER,
+      problem: DRAFT_PLACEHOLDER,
+      approach: DRAFT_PLACEHOLDER,
+      deliverables: [],
+      verifiedOutcomes: [],
+      mediaIds: [],
+      publicLinks: [],
+      editorialOrder: null,
+    };
+
+    // Keep cover/mediaIds; refresh gallery refs into mediaIds without dropping cover.
+    const mediaIds = [...summary.mediaIds];
+    for (const item of story.gallery) {
+      if (!mediaIds.includes(item.mediaId)) {
+        mediaIds.push(item.mediaId);
+      }
+    }
+
+    const nextSummary: ProjectSummarySnapshot = {
+      ...summary,
+      mediaIds,
+    };
+
+    const mediaRefs = [
+      ...new Set([
+        ...nextSummary.mediaIds,
+        ...story.gallery.map((g) => g.mediaId),
+      ]),
+    ];
+
+    const nextRevisionNumber = loaded.revisionNumber + 1;
+    const revisionId = createRevisionId(input.editorialId, nextRevisionNumber);
+    const now = new Date();
+    const nextConcurrency = input.expectedConcurrencyVersion + 1;
+
+    const db = await getDb();
+    const update = await db.collection(COLLECTION_NAMES.projects).updateOne(
+      {
+        editorialId: input.editorialId,
+        concurrencyVersion: input.expectedConcurrencyVersion,
+      },
+      {
+        $set: {
+          draftTitle: input.values.title || loaded.project.draftTitle,
+          draftRevisionId: revisionId,
+          updatedAt: now,
+          concurrencyVersion: new Int32(nextConcurrency),
+        },
+      },
+    );
+
+    if (update.matchedCount === 0) {
+      return {
+        ok: false,
+        reason: "conflict",
+        detail:
+          "This project was changed by someone else. Reload the page, then save again.",
+      };
+    }
+
+    await db.collection(COLLECTION_NAMES.projectRevisions).insertOne({
+      schemaVersion: new Int32(SCHEMA_VERSION_CURRENT),
+      createdAt: now,
+      revisionId,
+      projectId: input.editorialId,
+      revisionNumber: new Int32(nextRevisionNumber),
+      kind: "summary_and_story",
+      summary: nextSummary,
       story,
       mediaRefs,
       createdByActorId: input.actorId,

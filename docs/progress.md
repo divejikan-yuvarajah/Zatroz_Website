@@ -60,7 +60,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | A03     | Admin shell + dashboard         | **Implemented** (on branch `feature/a03-admin-shell`; merge may be pending)        | 2026-09-19 | Protected shell, counts, staff roles; see `docs/admin/step-a03.md`    |
 | A04     | Media provider + library        | **Implemented** (on branch `feature/a04-admin-media`; merge may be pending)        | 2026-09-19 | Cloudinary uploads + private preview; see `docs/admin/step-a04.md`    |
 | A05     | Project list + draft forms      | **Implemented** (on branch `feature/a05-admin-projects`; merge may be pending)     | 2026-09-19 | List/search/filter + Save draft; see `docs/admin/step-a05.md`         |
-| A06–A12 | Case studies through handover   | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+| A06     | Case-study editor + gallery     | **Implemented** (on branch `feature/a06-admin-case-study`; merge may be pending)   | 2026-09-19 | Structured blocks + gallery order; see `docs/admin/step-a06.md`       |
+| A07–A12 | Preview through handover        | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
 
 ---
 
@@ -549,6 +550,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Nav + dashboard shortcuts for projects enabled. Public site still repository-backed until A09–A10.
 - Docs: `docs/admin/step-a05.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-projects`); `npm run build` passed (Next.js 16.3.5). Live Mongo create/save with real credentials **Not run**. Next: **A06** (case-study editor). Step 47 remains blocked until A12.
+
+### Admin A06 (2026-09-19)
+
+- Branch: `feature/a06-admin-case-study` from `feature/a05-admin-projects`.
+- `/admin/projects/[id]/story` structured case-study editor: paragraph/list blocks, features/technologies/outcomes, ordered gallery, optional testimonial, internal review notes.
+- Save draft preserves summary snapshot, writes immutable revision, bumps concurrency; link from summary edit page.
+- Docs: `docs/admin/step-a06.md`.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-story`); `npm run build` passed (Next.js 16.3.5). Live Mongo story save with real credentials **Not run**. Next: **A07** (authenticated preview). Step 47 remains blocked until A12.
 
 ---
 
