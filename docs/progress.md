@@ -50,6 +50,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 44   | MongoDB foundation              | **Implemented** (on branch `feature/44-mongodb-foundation`; merge may be pending)    | 2026-09-18 | Driver + lazy connection + Atlas runbook; live ping Not run until credentials; see `docs/backend/step-44.md`              |
 | 45   | MongoDB models + migrations     | **Implemented** (on branch `feature/45-mongodb-models`; merge may be pending)        | 2026-09-18 | Schemas/indexes + `db:plan`/`db:apply`; live apply Not run; see `docs/backend/step-45.md`                                 |
 | 46   | DB access + request safeguards  | **Implemented** (on branch `feature/46-db-request-safeguards`; merge may be pending) | 2026-09-19 | Privileges docs + rate limit + policy helpers; live probes Not run; see `docs/backend/step-46.md`                         |
+| 47   | Enquiry submission backend      | **Implemented** (on branch `feature/47-enquiry-backend`; merge may be pending)       | 2026-09-20 | Server Action + idempotent insert + live form wiring; activation pending; see `docs/backend/step-47.md`                   |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -616,6 +617,16 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Owner/editor handover + exercise (`docs/admin/handover.md`, `handover-checklist.md`) — teammate acceptance **Pending**.
 - Docs: `docs/admin/step-a12.md`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:admin-authz`); `npm run build` passed (Next.js 16.3.5). Live Atlas restore **Not run**. Teammate handover **Pending**. **Step 47 is now unblocked** by the A01–A12 sequence (enquiry write path still Not started).
+
+### Step 47 (2026-09-20)
+
+- Branch: `feature/47-enquiry-backend` from `feature/a12-authz-handover`.
+- Real Server Action `submitEnquiryAction` with full pipeline: env flag → origin/policy gate → secret resolution → readiness check → distributed rate limit → idempotent MongoDB insert.
+- Client `useSubmitEnquiry` hook manages idempotency keys per captured attempt; `LiveEnquiryForm` bridges to the existing `EnquiryForm` component.
+- Contact page route wires the live form slot when `formSubmissionReady` is true. Flag remains `false` until activation checklist is completed.
+- Gallery harness preserved with simulated transport for UI testing.
+- Docs: `docs/backend/step-47.md`, `docs/contact/enquiry-contract.md` updated to v2.0.
+- Checks: `npm run format` passed; `npm run check` passed (includes `test:enquiry-submission`); `npm run build` passed (Next.js 16.3.5). Live MongoDB enquiry insert **Not run** (activation checklist pending). Public `/contact` continues to show channels only (form gated by `formSubmissionReady: false`).
 
 ---
 

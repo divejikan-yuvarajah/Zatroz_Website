@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ContactPage } from "@/components/sections/contact-page";
+import { LiveEnquiryForm } from "@/components/forms/live-enquiry-form";
 import { Container } from "@/components/ui/container";
 import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { parseContactServiceParam } from "@/lib/contact-service-query";
 import { getPublicContactPage } from "@/server/contact";
+import { siteContact, getEnquiryMailtoHref } from "@/config/brand";
 
 type ContactRouteProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -33,7 +35,23 @@ export default async function ContactRoute({
   const contact = getPublicContactPage(service);
 
   if (contact) {
-    return <ContactPage contact={contact} headingLevel={1} formSlot={null} />;
+    const formSlot = contact.formSubmissionReady ? (
+      <LiveEnquiryForm
+        initialService={service ?? null}
+        directContactHref={
+          siteContact.email.status === "confirmed"
+            ? getEnquiryMailtoHref(siteContact.email, {
+                serviceTitle: contact.serviceContext?.title,
+              })
+            : null
+        }
+        directContactLabel="Email or WhatsApp us"
+      />
+    ) : null;
+
+    return (
+      <ContactPage contact={contact} headingLevel={1} formSlot={formSlot} />
+    );
   }
 
   return (
