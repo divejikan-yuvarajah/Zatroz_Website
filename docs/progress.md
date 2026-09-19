@@ -51,6 +51,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 45   | MongoDB models + migrations     | **Implemented** (on branch `feature/45-mongodb-models`; merge may be pending)        | 2026-09-18 | Schemas/indexes + `db:plan`/`db:apply`; live apply Not run; see `docs/backend/step-45.md`                                 |
 | 46   | DB access + request safeguards  | **Implemented** (on branch `feature/46-db-request-safeguards`; merge may be pending) | 2026-09-19 | Privileges docs + rate limit + policy helpers; live probes Not run; see `docs/backend/step-46.md`                         |
 
+### Admin sequence (between Step 46 and Step 47)
+
+| Step    | Result                          | Status                                                                             | Date       | Evidence                                                              |
+| ------- | ------------------------------- | ---------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- |
+| A01     | Admin requirements + image plan | **Implemented** (on branch `feature/a01-admin-requirements`; merge may be pending) | 2026-09-19 | `docs/planning/admin-and-media-addendum.md`, `docs/admin/step-a01.md` |
+| A02     | Auth / MFA / recovery           | Not started                                                                        | —          | —                                                                     |
+| A03–A12 | Admin UI through handover       | Not started                                                                        | —          | See `docs/planning/admin-and-media-addendum.md`                       |
+
 ---
 
 ## Step notes
@@ -496,6 +504,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Docs: `docs/backend/step-46.md`, `docs/security/*`.
 - Checks: `npm run format` passed; `npm run check` passed (includes `test:request-safeguards`); `npm run build` passed (Next.js 16.3.5). Live Atlas privilege probes and cross-process limiter tests **Not run**. Production `next start` on port 3046: `/` `/contact` `/work` HTTP 200; `/dev/ui` HTTP 404.
 
+### Admin A01 (2026-09-19)
+
+- Branch: `feature/a01-admin-requirements` from `feature/46-db-request-safeguards`.
+- Finalized admin/media requirements: first scope (projects, case studies, media, featured), roles, publishing rules, route map, image policy, public selector stability, impact list.
+- Decision register updated (D-011, D-012, D-021, D-038–D-041). Cursor rules + scope docs aligned. No auth/UI/SDK installs.
+- Docs: `docs/planning/admin-and-media-addendum.md`, `docs/architecture/admin-content-plan.md`, `docs/content/image-policy.md`, `docs/admin/step-a01.md`.
+- Checks: documentation-only step; `npm run check` / `build` not required for prose alignment (not run).
+- Next: **A02** (authentication). Step 47 remains blocked until A12.
+
 ---
 
 ## Steps 11–14 summary
@@ -507,7 +524,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 13   | Form fields, error summary, inline status, local demo    | 404 when last checked |
 | 14   | Skip link, `SiteShell`, one main, documented composition | 404 (port 3014)       |
 
-These steps 11–24 are merged to `main`. Steps 25–46 are on stacked feature branches (`feature/25-home-process` … `feature/46-db-request-safeguards`).
+These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on stacked feature branches (`feature/25-home-process` … `feature/a01-admin-requirements`).
 
 ---
 

@@ -196,6 +196,7 @@ All marketing paths above are unique.
 
 | Route                           | Add when                                                   |
 | ------------------------------- | ---------------------------------------------------------- |
+| `/admin/*`                      | Staff admin sequence **A02–A12** (not public marketing)    |
 | `/labs`                         | ≥2 documented experiments with maturity labels             |
 | `/products`, `/products/[slug]` | Real product with owner, support path, usable demo         |
 | `/insights`, `/insights/[slug]` | Publishing owner + enough useful articles                  |
