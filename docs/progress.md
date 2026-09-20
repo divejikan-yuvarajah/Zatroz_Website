@@ -649,6 +649,14 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Docs: `docs/backend/step-49.md`, `docs/setup/turnstile.md`, `docs/security/request-policy.md`, enquiry contract + env docs.
 - Checks: `npm run check` (includes `test:turnstile-verification`); `npm run build`. Real Cloudflare Siteverify **Not run** (account/hostname pending). Full CSP deferred to Step 61.
 
+### Step 50 (2026-09-21)
+
+- Branch: `feature/50-transactional-email` from `feature/49-enquiry-spam-protection`.
+- Resend SDK + pure email lib (`src/lib/email/*`) and server-only wrapper; transports `capture` | `provider`; typed accept/reject/transient/uncertain outcomes.
+- Versioned internal template `enquiry-internal/v1` (HTML + text); recipient gates for non-prod (`@resend.dev` / authorized test inbox); 24h provider idempotency window documented.
+- Docs: `docs/setup/transactional-email.md`, `docs/backend/step-50.md`, env examples + privacy data-flow notes in the runbook.
+- Checks: `npm run check` (includes `test:transactional-email`); `npm run build`. Live Resend / DNS verification / form-triggered mail **Not run** (Step 51).
+
 ---
 
 ## Steps 11–14 summary

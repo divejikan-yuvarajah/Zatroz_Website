@@ -10,16 +10,16 @@ Add **server-verified** Cloudflare Turnstile to the enquiry Server Action withou
 
 ## What was implemented
 
-| Area           | Detail                                                                                                             |
-| -------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Pure helpers   | `src/lib/security/turnstile.ts` — config, test-key detection, token bounds, Siteverify parse/evaluate              |
-| Siteverify     | `src/lib/security/turnstile-siteverify.ts` (+ `src/server/security/turnstile-verify.ts` re-export) — 5s timeout     |
-| Client widget  | `src/components/forms/turnstile-challenge.tsx` — explicit render, load/expiry/error/reset, shared script promise   |
-| Form wiring    | `EnquiryForm` + `LiveEnquiryForm` — transport `turnstileToken`; reset on challenge failure / unknown / unavailable |
-| Server Action  | Verify **after** rate limits, **before** insert; map failures to `challenge-failed` / `unavailable`                |
-| Readiness      | Turnstile site + secret required; production rejects Cloudflare test keys                                          |
-| Transport      | New result status `challenge-failed`; `EnquirySubmitTransport.turnstileToken` excluded from fingerprint            |
-| Tests          | `scripts/test-turnstile-verification.ts` + enquiry submission fingerprint exclusion                                |
+| Area          | Detail                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Pure helpers  | `src/lib/security/turnstile.ts` — config, test-key detection, token bounds, Siteverify parse/evaluate              |
+| Siteverify    | `src/lib/security/turnstile-siteverify.ts` (+ `src/server/security/turnstile-verify.ts` re-export) — 5s timeout    |
+| Client widget | `src/components/forms/turnstile-challenge.tsx` — explicit render, load/expiry/error/reset, shared script promise   |
+| Form wiring   | `EnquiryForm` + `LiveEnquiryForm` — transport `turnstileToken`; reset on challenge failure / unknown / unavailable |
+| Server Action | Verify **after** rate limits, **before** insert; map failures to `challenge-failed` / `unavailable`                |
+| Readiness     | Turnstile site + secret required; production rejects Cloudflare test keys                                          |
+| Transport     | New result status `challenge-failed`; `EnquirySubmitTransport.turnstileToken` excluded from fingerprint            |
+| Tests         | `scripts/test-turnstile-verification.ts` + enquiry submission fingerprint exclusion                                |
 
 ## Pipeline order (unchanged intent)
 

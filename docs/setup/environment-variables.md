@@ -50,9 +50,12 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 | `ENQUIRY_IDEMPOTENCY_SECRET_V2`  | Server secret               | Optional rotation key                                     |
 | `SUPABASE_URL`                   | Legacy unused               | Do not provision — MongoDB replaced this plan             |
 | `SUPABASE_SECRET_KEY`            | Legacy unused               | Do not provision                                          |
-| `RESEND_API_KEY`                 | Server secret               | Email delivery (later)                                    |
-| `ENQUIRY_FROM_EMAIL`             | Server config               | Verified notification sender (later)                      |
-| `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification recipient (later)                       |
+| `EMAIL_TRANSPORT`                | Server config               | `capture` (default) or `provider` (Step 50+)              |
+| `EMAIL_NOTIFICATIONS_ENABLED`    | Server switch               | Must be `true` to send (Step 50+)                         |
+| `RESEND_API_KEY`                 | Server secret               | Resend send when transport is `provider` (Step 50+)       |
+| `ENQUIRY_FROM_EMAIL`             | Server config               | Verified From identity (Step 50+)                         |
+| `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification allowlist (Step 50+)                    |
+| `EMAIL_AUTHORIZED_TEST_INBOX`    | Server config               | Optional non-prod provider test inbox (Step 50+)          |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public                      | Enquiry spam widget (Step 49; required for live form)     |
 | `TURNSTILE_SECRET_KEY`           | Server secret               | Siteverify (Step 49; never NEXT_PUBLIC_)                  |
 | `CRON_SECRET`                    | Server secret               | Content-job worker + later notification retry (≥16 chars) |
@@ -89,7 +92,10 @@ MongoDB Atlas is the **application database**. See `docs/setup/mongodb-atlas.md`
 | Enquiry API / live form / Atlas privilege verification                          | **Not** implemented |
 | Live owner bootstrap + MFA with production secrets                              | **Not** run         |
 | Live Cloudinary upload/preview with production secrets                          | **Not** run         |
-| Eager Resend / Turnstile / cron clients                                         | **Not** implemented |
+| Turnstile Siteverify + widget (lazy; Step 49)                                   | Done                |
+| Transactional email adapter + template (capture/provider; Step 50)              | Done                |
+| Enquiry → email wiring / live Resend domain verification                        | **Not** implemented |
+| Eager cron clients                                                              | **Not** implemented |
 
 `getSiteUrl()` is server-only and is **not** wired into the home page yet (avoids forcing client or fully dynamic rendering). Call it later from server code (metadata, absolute links, emails).
 
