@@ -144,3 +144,7 @@ See `docs/setup/turnstile.md` and `docs/backend/step-49.md`.
 ## Step 50 — Transactional email foundation (not wired yet)
 
 Internal team notification template and Resend adapter exist (`enquiry-internal/v1`, capture/provider transports). **Enquiry submission does not send mail yet** — that is Step 51. Email failure must never mean the stored enquiry was rejected. See `docs/setup/transactional-email.md` and `docs/backend/step-50.md`.
+
+## Step 51 — Durable notification intents
+
+Each newly accepted enquiry embeds a `notificationIntent` in the same MongoDB document. Acceptance does not wait on email. A protected dispatcher claims intents with a lease and calls the Step 50 adapter. Replay returns the original intent and does not enqueue a second notice. See `docs/backend/step-51.md`.

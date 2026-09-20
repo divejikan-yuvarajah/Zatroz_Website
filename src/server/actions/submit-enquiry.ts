@@ -40,6 +40,8 @@ import { evaluateEnquiryReadiness } from "@/server/security/readiness";
 import { verifyEnquiryTurnstileToken } from "@/server/security/turnstile-verify";
 import { getDb } from "@/lib/mongodb/connection";
 import type { EnquiryDocument } from "@/lib/mongodb/models/types";
+import { resolveEmailConfig } from "@/lib/email/config";
+import { buildInitialNotificationIntent } from "@/lib/enquiries/notification-intent";
 
 /**
  * Extract trusted client IP from request headers.
@@ -281,8 +283,9 @@ export async function submitEnquiryAction(
     .join("\n");
   const fingerprint = hmacHex(idempotencySecret, `enquiry:v1:${sorted}`);
 
-  // 11. Construct enquiry document
+  // 11. Construct enquiry document (notification intent is atomic with accept)
   const now = new Date();
+  const emailConfig = resolveEmailConfig(env);
   const document: EnquiryDocument = {
     schemaVersion: SCHEMA_VERSION_CURRENT,
     createdAt: now,
@@ -302,6 +305,10 @@ export async function submitEnquiryAction(
     requestType: gate.normalized.requestType,
     preferredContact: gate.normalized.preferredContact,
     phone: gate.normalized.phone,
+    notificationIntent: buildInitialNotificationIntent({
+      now,
+      notificationsEnabled: emailConfig?.notificationsEnabled === true,
+    }),
   };
 
   // 12. Insert with idempotent duplicate handling

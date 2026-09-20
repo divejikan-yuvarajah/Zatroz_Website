@@ -63,6 +63,7 @@ export function rejectServerOwnedEnquiryFields(
     "fingerprintVersion",
     "keyVersion",
     "payloadFingerprint",
+    "notificationIntent",
     "_id",
   ] as const;
 

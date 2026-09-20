@@ -4,6 +4,7 @@
  */
 
 import type { EnquiryNormalizedInput } from "@/lib/enquiries/input";
+import type { EnquiryNotificationIntent } from "@/lib/enquiries/notification-intent";
 import type { PublicationState, WorkStatus, MediaAlt } from "@/types/content";
 import type {
   StoryContentBlock,
@@ -44,6 +45,11 @@ export type EnquiryDocument = {
   requestType: string;
   preferredContact: string;
   phone: string | null;
+  /**
+   * Durable team notification intent (Step 51).
+   * Required on newly accepted enquiries; absent on legacy pre-51 rows.
+   */
+  notificationIntent?: EnquiryNotificationIntent;
 };
 
 /** Visitor-writable fields only — server metadata must never come from the client. */

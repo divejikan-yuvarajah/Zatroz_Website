@@ -657,6 +657,15 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 - Docs: `docs/setup/transactional-email.md`, `docs/backend/step-50.md`, env examples + privacy data-flow notes in the runbook.
 - Checks: `npm run check` (includes `test:transactional-email`); `npm run build`. Live Resend / DNS verification / form-triggered mail **Not run** (Step 51).
 
+### Step 51 (2026-09-21)
+
+- Branch: `feature/51-enquiry-notifications` from `feature/50-transactional-email`.
+- Embedded `notificationIntent` created atomically with enquiry accept; replay keeps the original intent.
+- Protected dispatcher with lease/fencing token calls the Step 50 adapter; freeze + provider idempotency key fixed before first send.
+- Invocation: `CRON_SECRET` route `/api/jobs/enquiry-notifications` + `npm run jobs:dispatch-enquiry-notifications` (no production schedule enabled).
+- Docs: `docs/backend/step-51.md`; schema migration id bumped for notification index.
+- Checks: `npm run check` (includes `test:enquiry-notifications`); `npm run build`. Live Mongo concurrency / live Resend / production cron **Not run**. Automated recovery is Step 52.
+
 ---
 
 ## Steps 11–14 summary
