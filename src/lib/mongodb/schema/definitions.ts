@@ -333,6 +333,78 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
           requestType: enumString(ENQUIRY_REQUEST_TYPE_VALUES),
           preferredContact: enumString(ENQUIRY_PREFERRED_CONTACT_VALUES),
           phone: nullableString(ENQUIRY_LIMITS.phoneMax),
+          /** Optional on legacy rows; required by application for new accepts (Step 51). */
+          notificationIntent: {
+            bsonType: "object",
+            required: [
+              "intentId",
+              "type",
+              "state",
+              "templateVersion",
+              "providerIdempotencyKey",
+              "attempts",
+              "nextAttemptAt",
+              "createdAt",
+              "updatedAt",
+            ],
+            additionalProperties: false,
+            properties: {
+              intentId: boundedString(64, 8),
+              type: enumString(["enquiry-internal"] as const),
+              state: enumString([
+                "pending",
+                "paused",
+                "leased",
+                "provider-accepted",
+                "rejected",
+                "uncertain",
+              ] as const),
+              templateVersion: boundedString(64, 4),
+              providerIdempotencyKey: boundedString(160, 8),
+              freeze: {
+                bsonType: ["object", "null"],
+                required: [
+                  "fromHeader",
+                  "to",
+                  "replyTo",
+                  "receivedAtDisplay",
+                  "templateVersion",
+                  "requestFingerprint",
+                ],
+                additionalProperties: false,
+                properties: {
+                  fromHeader: boundedString(320, 3),
+                  to: {
+                    bsonType: "array",
+                    minItems: 1,
+                    maxItems: 5,
+                    items: boundedString(254, 3),
+                  },
+                  replyTo: boundedString(254, 3),
+                  receivedAtDisplay: boundedString(64, 10),
+                  templateVersion: boundedString(64, 4),
+                  requestFingerprint: boundedString(64, 32),
+                },
+              },
+              attempts: { bsonType: "int", minimum: 0, maximum: 100 },
+              nextAttemptAt: dateProp(),
+              leaseOwner: nullableString(80),
+              leaseToken: nullableString(80),
+              leaseExpiresAt: {
+                bsonType: ["date", "null"],
+              },
+              firstProviderAttemptAt: {
+                bsonType: ["date", "null"],
+              },
+              providerMessageId: nullableString(128),
+              lastErrorCategory: {
+                bsonType: ["string", "null"],
+                maxLength: 64,
+              },
+              createdAt: dateProp(),
+              updatedAt: dateProp(),
+            },
+          },
         },
       },
     },
@@ -358,6 +430,22 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
         key: { status: 1, createdAt: -1 },
         rationale: "Owner workflow inbox ordering by status then recency.",
         rollbackNote: "Non-unique; safe to drop if the owner workflow changes.",
+      },
+      {
+        name: "idx_enquiries_notification_dispatch",
+        key: {
+          "notificationIntent.state": 1,
+          "notificationIntent.nextAttemptAt": 1,
+        },
+        options: {
+          partialFilterExpression: {
+            notificationIntent: { $type: "object" },
+          },
+        },
+        rationale:
+          "Step 51 dispatcher claim of pending/uncertain/leased-expired notification intents.",
+        rollbackNote:
+          "Safe to drop if notification dispatch moves off enquiry documents.",
       },
     ],
   },
@@ -797,7 +885,7 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
   },
 ];
 
-export const MIGRATION_ID = "2026-09-18-step-45-application-collections";
+export const MIGRATION_ID = "2026-09-21-step-51-enquiry-notification-intent";
 
 export function listApplicationCollectionNames(): readonly string[] {
   return APPLICATION_COLLECTION_NAMES;

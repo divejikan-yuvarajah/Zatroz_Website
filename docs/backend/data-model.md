@@ -41,17 +41,18 @@ Better Auth (or similar) user/session collections are **library-owned** — do n
 
 **Visitor fields (allowlisted from Step 43):** `name`, `email`, `company`, `service`, `message`, `timeline`, `requestType`, `preferredContact`, `phone`.
 
-**Server-owned metadata:** `schemaVersion`, `createdAt`, `updatedAt`, `status` (`new` → `reviewed` → `archived`), `publicReference`, `idempotencyDigest`, `fingerprintVersion`, `keyVersion`, `payloadFingerprint`.
+**Server-owned metadata:** `schemaVersion`, `createdAt`, `updatedAt`, `status` (`new` → `reviewed` → `archived`), `publicReference`, `idempotencyDigest`, `fingerprintVersion`, `keyVersion`, `payloadFingerprint`, optional `notificationIntent` (Step 51 — durable team notification work; absent on legacy pre-51 rows).
 
 **Must not store:** raw headers, full IP, full user agent, cookies, arbitrary JSON, unvalidated payloads, attachments.
 
-| Index                               | Type            | Why                              |
-| ----------------------------------- | --------------- | -------------------------------- |
-| `uniq_enquiries_idempotency_digest` | unique ordinary | Idempotent accept on same digest |
-| `uniq_enquiries_public_reference`   | unique          | Opaque confirmation lookup       |
-| `idx_enquiries_status_createdAt`    | compound        | Owner workflow listing           |
+| Index                                 | Type             | Why                              |
+| ------------------------------------- | ---------------- | -------------------------------- |
+| `uniq_enquiries_idempotency_digest`   | unique ordinary  | Idempotent accept on same digest |
+| `uniq_enquiries_public_reference`     | unique           | Opaque confirmation lookup       |
+| `idx_enquiries_status_createdAt`      | compound         | Owner workflow listing           |
+| `idx_enquiries_notification_dispatch` | partial compound | Step 51 notification claim queue |
 
-Email is **not** unique. Acceptance/idempotency fields live on the **same** inserted document.
+Email is **not** unique. Acceptance/idempotency fields live on the **same** inserted document. `notificationIntent` is created with new accepts; historical documents without it are never auto-selected for send.
 
 **Public projection:** `{ reference }` only (see `toPublicEnquiryAcceptance`). Never expose digests, status, or `_id`.
 
