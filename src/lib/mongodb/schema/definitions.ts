@@ -356,8 +356,11 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
                 "paused",
                 "leased",
                 "provider-accepted",
-                "rejected",
+                "retry-scheduled",
                 "uncertain",
+                "rejected",
+                "permanently-failed",
+                "needs-review",
               ] as const),
               templateVersion: boundedString(64, 4),
               providerIdempotencyKey: boundedString(160, 8),
@@ -400,6 +403,21 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
               lastErrorCategory: {
                 bsonType: ["string", "null"],
                 maxLength: 64,
+              },
+              deliveryFact: {
+                bsonType: ["string", "null"],
+                enum: [
+                  null,
+                  "delivered",
+                  "bounced",
+                  "complained",
+                  "suppressed",
+                ],
+              },
+              recoveryVersion: {
+                bsonType: "int",
+                minimum: 0,
+                maximum: 1000000,
               },
               createdAt: dateProp(),
               updatedAt: dateProp(),
@@ -883,9 +901,80 @@ export const COLLECTION_SCHEMAS: readonly CollectionSchemaSpec[] = [
       },
     ],
   },
+  {
+    name: COLLECTION_NAMES.emailDeliveryEvents,
+    validationLevel: "strict" as const,
+    validationAction: "error" as const,
+    rollbackNote:
+      "Delivery events are append-only receipts. Dropping uniqueness can allow duplicate webhook application.",
+    validator: {
+      $jsonSchema: {
+        bsonType: "object",
+        required: [
+          "schemaVersion",
+          "providerEventId",
+          "providerMessageId",
+          "eventType",
+          "status",
+          "providerOccurredAt",
+          "receivedAt",
+          "createdAt",
+          "updatedAt",
+        ],
+        additionalProperties: false,
+        properties: {
+          _id: {},
+          schemaVersion: { bsonType: "int", minimum: 1, maximum: 100 },
+          providerEventId: { bsonType: "string", minLength: 8, maxLength: 128 },
+          providerMessageId: {
+            bsonType: "string",
+            minLength: 4,
+            maxLength: 128,
+          },
+          eventType: { bsonType: "string", minLength: 4, maxLength: 64 },
+          deliveryFact: {
+            bsonType: ["string", "null"],
+            enum: [null, "delivered", "bounced", "complained", "suppressed"],
+          },
+          status: {
+            enum: ["received", "applied", "unmatched", "ignored"],
+          },
+          publicReference: { bsonType: ["string", "null"], maxLength: 64 },
+          intentId: { bsonType: ["string", "null"], maxLength: 64 },
+          providerOccurredAt: { bsonType: "date" },
+          receivedAt: { bsonType: "date" },
+          appliedAt: { bsonType: ["date", "null"] },
+          createdAt: { bsonType: "date" },
+          updatedAt: { bsonType: "date" },
+        },
+      },
+    },
+    indexes: [
+      {
+        name: "uniq_email_delivery_events_providerEventId",
+        key: { providerEventId: 1 },
+        options: { unique: true },
+        rationale: "Idempotent webhook receipt by verified provider event id.",
+        rollbackNote: "Removing uniqueness risks duplicate state application.",
+      },
+      {
+        name: "idx_email_delivery_events_providerMessageId",
+        key: { providerMessageId: 1, receivedAt: -1 },
+        rationale:
+          "Correlate events to notification intents by provider message id.",
+        rollbackNote: "Non-unique; safe to drop if unused.",
+      },
+      {
+        name: "idx_email_delivery_events_status_receivedAt",
+        key: { status: 1, receivedAt: 1 },
+        rationale: "Replay unmatched/received events for reconciliation.",
+        rollbackNote: "Non-unique; safe to drop if unused.",
+      },
+    ],
+  },
 ];
 
-export const MIGRATION_ID = "2026-09-21-step-51-enquiry-notification-intent";
+export const MIGRATION_ID = "2026-09-21-step-52-notification-recovery";
 
 export function listApplicationCollectionNames(): readonly string[] {
   return APPLICATION_COLLECTION_NAMES;

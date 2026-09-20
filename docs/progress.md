@@ -688,3 +688,7 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 3. Confirm contact details and provide missing LinkedIn URL / production domain. **Email + WhatsApp confirmed in Step 42**; phone voice calls and social URLs still open.
 4. Provide logo files and portrait/project publication permissions.
 5. Choose and approve 2–3 launch project stories with honest status labels.
+
+### Step 52 (2026-09-21)
+
+- Bounded retries, delivery facts, Resend webhook, owner recovery UI. See `docs/backend/step-52.md`.

@@ -12,6 +12,7 @@ export const COLLECTION_NAMES = {
   adminAuditEvents: "admin_audit_events",
   contentJobs: "content_jobs",
   rateLimitBuckets: "rate_limit_buckets",
+  emailDeliveryEvents: "email_delivery_events",
   schemaMigrations: "_schema_migrations",
   schemaMigrationLock: "_schema_migration_lock",
 } as const;
@@ -29,6 +30,7 @@ export const APPLICATION_COLLECTION_NAMES = [
   COLLECTION_NAMES.adminAuditEvents,
   COLLECTION_NAMES.contentJobs,
   COLLECTION_NAMES.rateLimitBuckets,
+  COLLECTION_NAMES.emailDeliveryEvents,
 ] as const;
 
 /** Ledger/lock collections managed by migration tooling only. */

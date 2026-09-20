@@ -131,3 +131,11 @@ Replace placeholders with operator-owned values before any provider send. Keep `
 | `src/server/email/send-notification.ts` | Server-only Resend wiring       |
 | `docs/backend/step-50.md`               | Step completion notes           |
 | `scripts/test-transactional-email.ts`   | Capture + mock provider tests   |
+
+## Delivery events and recovery (Step 52)
+
+- Webhook endpoint: `POST /api/webhooks/resend` (raw body + `RESEND_WEBHOOK_SECRET`).
+- Durable receipts: `email_delivery_events` (unique `providerEventId`).
+- Dispatch state and destination `deliveryFact` remain separate.
+- After Resend’s 24h idempotency window, automatic retries stop at `needs-review`.
+- Owner recovery: `/admin/notifications` (`enquiries.manage`).

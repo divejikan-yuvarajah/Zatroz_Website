@@ -21,6 +21,7 @@ import {
   ENQUIRY_NOTIFICATION_DISPATCH_BATCH_MAX,
   ENQUIRY_NOTIFICATION_LEASE_MS,
   ENQUIRY_NOTIFICATION_PROVIDER_BUDGET_MS,
+  decideNotificationRetry,
   formatReceivedAtDisplay,
   mapSendResultToIntentOutcome,
 } from "@/lib/enquiries/notification-intent";
@@ -35,6 +36,9 @@ export type NotificationDispatchCounts = Readonly<{
   providerAccepted: number;
   rejected: number;
   uncertain: number;
+  retryScheduled: number;
+  needsReview: number;
+  permanentlyFailed: number;
   paused: number;
   leaseLost: number;
   skipped: number;
@@ -70,6 +74,9 @@ function emptyCounts(): NotificationDispatchCounts {
     providerAccepted: 0,
     rejected: 0,
     uncertain: 0,
+    retryScheduled: 0,
+    needsReview: 0,
+    permanentlyFailed: 0,
     paused: 0,
     leaseLost: 0,
     skipped: 0,
@@ -86,13 +93,22 @@ async function dispatchOne(
   const config = resolveEmailConfig(env);
 
   if (!config) {
+    const decision = decideNotificationRetry({
+      intentId: work.notificationIntent.intentId,
+      attempts: work.notificationIntent.attempts,
+      createdAt: work.notificationIntent.createdAt,
+      firstProviderAttemptAt: work.notificationIntent.firstProviderAttemptAt,
+      now,
+      errorCategory: "missing-config",
+      kind: "retryable",
+    });
     const finalized = await finalizeNotificationIntentClaim(options.db, {
       publicReference: work.publicReference,
       leaseOwner: work.leaseOwner,
       leaseToken: work.leaseToken,
-      state: "uncertain",
-      lastErrorCategory: "missing-config",
-      nextAttemptAt: new Date(now.getTime() + 5 * 60_000),
+      state: decision.state,
+      lastErrorCategory: decision.errorCategory,
+      nextAttemptAt: decision.nextAttemptAt ?? undefined,
       now,
     });
     if (!finalized.ok || !finalized.matched) {
@@ -102,10 +118,24 @@ async function dispatchOne(
       };
       return;
     }
-    counts.value = {
-      ...counts.value,
-      uncertain: counts.value.uncertain + 1,
-    };
+    if (decision.state === "retry-scheduled") {
+      counts.value = {
+        ...counts.value,
+        retryScheduled: counts.value.retryScheduled + 1,
+        uncertain: counts.value.uncertain + 1,
+      };
+    } else if (decision.state === "needs-review") {
+      counts.value = {
+        ...counts.value,
+        needsReview: counts.value.needsReview + 1,
+        uncertain: counts.value.uncertain + 1,
+      };
+    } else {
+      counts.value = {
+        ...counts.value,
+        uncertain: counts.value.uncertain + 1,
+      };
+    }
     return;
   }
 
@@ -169,19 +199,53 @@ async function dispatchOne(
     "reason" in sendResult ? sendResult.reason : undefined,
   );
 
-  const nextAttemptAt =
-    outcome.state === "uncertain"
-      ? new Date(now.getTime() + 5 * 60_000)
-      : undefined;
+  let finalState:
+    | "provider-accepted"
+    | "rejected"
+    | "uncertain"
+    | "paused"
+    | "retry-scheduled"
+    | "permanently-failed"
+    | "needs-review" =
+    outcome.state === "rejected" ? "permanently-failed" : outcome.state;
+  let nextAttemptAt: Date | undefined;
+  let errorCategory = outcome.errorCategory;
+
+  if (outcome.state === "uncertain") {
+    const decision = decideNotificationRetry({
+      intentId: intent.intentId,
+      attempts: intent.attempts,
+      createdAt: intent.createdAt,
+      firstProviderAttemptAt: intent.firstProviderAttemptAt,
+      now,
+      errorCategory: outcome.errorCategory,
+      kind: "retryable",
+    });
+    finalState = decision.state;
+    nextAttemptAt = decision.nextAttemptAt ?? undefined;
+    errorCategory = decision.errorCategory;
+  } else if (
+    outcome.state === "permanently-failed" ||
+    outcome.state === "rejected"
+  ) {
+    finalState = "permanently-failed";
+  }
 
   const finalized = await finalizeNotificationIntentClaim(options.db, {
     publicReference: work.publicReference,
     leaseOwner: work.leaseOwner,
     leaseToken: work.leaseToken,
-    state: outcome.state,
+    state: finalState as
+      | "provider-accepted"
+      | "rejected"
+      | "uncertain"
+      | "paused"
+      | "retry-scheduled"
+      | "permanently-failed"
+      | "needs-review",
     providerMessageId:
       sendResult.status === "accepted" ? sendResult.messageId : null,
-    lastErrorCategory: outcome.errorCategory,
+    lastErrorCategory: errorCategory,
     nextAttemptAt,
     freeze,
     now,
@@ -192,13 +256,31 @@ async function dispatchOne(
     return;
   }
 
-  if (outcome.state === "provider-accepted") {
+  if (finalState === "provider-accepted") {
     counts.value = {
       ...counts.value,
       providerAccepted: counts.value.providerAccepted + 1,
     };
-  } else if (outcome.state === "rejected") {
-    counts.value = { ...counts.value, rejected: counts.value.rejected + 1 };
+  } else if (finalState === "permanently-failed") {
+    counts.value = {
+      ...counts.value,
+      permanentlyFailed: counts.value.permanentlyFailed + 1,
+      rejected: counts.value.rejected + 1,
+    };
+  } else if (finalState === "retry-scheduled") {
+    counts.value = {
+      ...counts.value,
+      retryScheduled: counts.value.retryScheduled + 1,
+      uncertain: counts.value.uncertain + 1,
+    };
+  } else if (finalState === "needs-review") {
+    counts.value = {
+      ...counts.value,
+      needsReview: counts.value.needsReview + 1,
+      uncertain: counts.value.uncertain + 1,
+    };
+  } else if (finalState === "paused") {
+    counts.value = { ...counts.value, paused: counts.value.paused + 1 };
   } else {
     counts.value = { ...counts.value, uncertain: counts.value.uncertain + 1 };
   }
