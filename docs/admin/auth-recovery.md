@@ -61,7 +61,7 @@ Password reset (when email is wired later) uses `revokeSessionsOnPasswordReset: 
 
 ## Password reset email
 
-**Not wired in A02.** Resend + verified sender remain future work. Until then, recovery is MFA backup codes + owner-assisted account repair, not self-serve email reset.
+**Not wired in A02.** Step 50 adds the Resend enquiry-notification adapter and template only — auth/password-reset mail remains separate and unwired. Until then, recovery is MFA backup codes + owner-assisted account repair, not self-serve email reset.
 
 ---
 
