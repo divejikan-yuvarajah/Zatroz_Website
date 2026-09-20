@@ -10,6 +10,8 @@ import {
   buildRequestFingerprint,
   formatReceivedAtDisplay,
   mapSendResultToIntentOutcome,
+  decideNotificationRetry,
+  mergeDeliveryFact,
 } from "../src/lib/enquiries/notification-intent";
 import { ENQUIRY_INTERNAL_TEMPLATE_VERSION } from "../src/lib/email/templates/enquiry-internal";
 import type { EmailConfig } from "../src/lib/email/config";
@@ -138,7 +140,7 @@ function testSendOutcomeMapping() {
   );
   assert.equal(
     mapSendResultToIntentOutcome("rejected", "provider-rejected").state,
-    "rejected",
+    "permanently-failed",
   );
   assert.equal(
     mapSendResultToIntentOutcome("transient-failure", "rate-limited").state,
@@ -174,12 +176,59 @@ function testFingerprintCanonicalOrder() {
   pass("fingerprint-canonical-recipient-order");
 }
 
+function testRetryPolicyWithinIdempotencyWindow() {
+  const now = new Date("2026-09-21T12:00:00.000Z");
+  const first = new Date("2026-09-21T01:00:00.000Z");
+  const decision = decideNotificationRetry({
+    intentId: "eni_retry_1",
+    attempts: 2,
+    createdAt: first,
+    firstProviderAttemptAt: first,
+    now,
+    errorCategory: "provider-unavailable",
+    kind: "retryable",
+  });
+  assert.equal(decision.state, "retry-scheduled");
+  assert.ok(decision.nextAttemptAt);
+  assert.ok(decision.nextAttemptAt.getTime() > now.getTime());
+  pass("retry-policy-within-idempotency-window");
+}
+
+function testRetryPolicyAfterIdempotencyWindow() {
+  const first = new Date("2026-09-19T12:00:00.000Z");
+  const now = new Date("2026-09-21T12:00:00.000Z");
+  const decision = decideNotificationRetry({
+    intentId: "eni_retry_2",
+    attempts: 2,
+    createdAt: first,
+    firstProviderAttemptAt: first,
+    now,
+    errorCategory: "network-loss",
+    kind: "retryable",
+  });
+  assert.equal(decision.state, "needs-review");
+  assert.equal(decision.reason, "idempotency-expired");
+  assert.equal(decision.nextAttemptAt, null);
+  pass("retry-policy-after-idempotency-window");
+}
+
+function testDeliveryFactMergeDoesNotDowngrade() {
+  assert.equal(mergeDeliveryFact("delivered", "bounced"), "bounced");
+  assert.equal(mergeDeliveryFact("bounced", "delivered"), "bounced");
+  assert.equal(mergeDeliveryFact(null, "delivered"), "delivered");
+  assert.equal(mergeDeliveryFact("complained", "bounced"), "complained");
+  pass("delivery-fact-merge-no-downgrade");
+}
+
 function main() {
   testInitialIntentStates();
   testFreezeStability();
   testProviderKeyExcludesBrowserMaterial();
   testSendOutcomeMapping();
   testFingerprintCanonicalOrder();
+  testRetryPolicyWithinIdempotencyWindow();
+  testRetryPolicyAfterIdempotencyWindow();
+  testDeliveryFactMergeDoesNotDowngrade();
   console.log(`\n${passed} checks passed`);
 }
 

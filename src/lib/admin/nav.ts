@@ -52,6 +52,12 @@ export const ADMIN_PRIMARY_NAV: readonly AdminNavItem[] = [
     href: "/admin/staff",
     permission: "admin.staff.manage",
   },
+  {
+    id: "notifications",
+    label: "Notifications",
+    href: "/admin/notifications",
+    permission: "enquiries.read",
+  },
 ] as const;
 
 export type AdminShortcut = Readonly<{

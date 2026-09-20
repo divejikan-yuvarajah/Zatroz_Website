@@ -211,7 +211,7 @@ function runSchemaRegistryTests() {
   pass("rate-limit-ttl-index-present");
 
   assert.ok(/step-\d+/.test(MIGRATION_ID));
-  assert.ok(MIGRATION_ID.includes("step-51"));
+  assert.ok(MIGRATION_ID.includes("step-52"));
   assert.ok(schemaPlanChecksum().startsWith("s45-"));
   pass("migration-id-and-checksum");
 }

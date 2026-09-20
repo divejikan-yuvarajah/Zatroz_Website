@@ -52,6 +52,7 @@ After changing `.env.local`, **restart** `npm run dev` so Next.js reloads values
 | `SUPABASE_SECRET_KEY`            | Legacy unused               | Do not provision                                          |
 | `EMAIL_TRANSPORT`                | Server config               | `capture` (default) or `provider` (Step 50+)              |
 | `EMAIL_NOTIFICATIONS_ENABLED`    | Server switch               | Must be `true` to send (Step 50+)                         |
+| `RESEND_WEBHOOK_SECRET`          | Server secret               | Resend webhook signature verification (Step 52+)          |
 | `RESEND_API_KEY`                 | Server secret               | Resend send when transport is `provider` (Step 50+)       |
 | `ENQUIRY_FROM_EMAIL`             | Server config               | Verified From identity (Step 50+)                         |
 | `ENQUIRY_NOTIFICATION_EMAIL`     | Server config               | Team notification allowlist (Step 50+)                    |
