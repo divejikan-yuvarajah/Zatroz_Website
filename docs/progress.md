@@ -57,6 +57,8 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 51   | Enquiry notifications           | **Implemented** (on branch `feature/51-enquiry-notifications`; merge may be pending)   | 2026-09-21 | Durable intents + dispatcher; see `docs/backend/step-51.md`                                                               |
 | 52   | Notification retries + recovery | **Implemented** (on branch `feature/52-notification-recovery`; merge may be pending)   | 2026-09-21 | Retries, webhook, owner recovery; see `docs/backend/step-52.md`                                                           |
 | 53   | Complete enquiry journey        | **Implemented** (on branch `feature/53-enquiry-journey`; merge may be pending)         | 2026-09-22 | Journey map + ops runbook + `test:enquiry-journey`; live form/cron/Resend Not run; see `docs/backend/step-53.md`          |
+| 54   | Privacy and Terms drafts        | **Implemented** (on branch `feature/54-privacy-terms`; merge may be pending)           | 2026-09-22 | Policy facts + draft pages; public links gated; see `docs/pages/step-54.md`                                               |
+| 55   | System pages and states         | **Implemented** (on branch `feature/55-system-pages`; merge may be pending)            | 2026-09-22 | 404/error/loading/unavailable; inventory; see `docs/quality/step-55.md`                                                   |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -714,3 +716,12 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - `publicRoutes.privacy/terms.implemented` remain **false** — footer and Contact stay unlinked until approval.
 - Enquiry form accepts optional `privacyHref` for when Privacy is published.
 - Checks: `npm run format`, `npm run check`, `npm run build` passed. Interactive layout/TOC browser sweep Not run.
+
+### Step 55 (2026-09-22)
+
+- Branch: `feature/55-system-pages` from `feature/54-privacy-terms`.
+- Added public not-found, segment/global/admin error boundaries, and purposeful loading shells for Work and service detail.
+- Work catalogue now distinguishes empty, no-match, and unavailable (Mongo catch) without treating outages as an empty portfolio.
+- Boundary logs record digest + error name only; retry does not replay mutations.
+- Checks: format/check/build recorded in `docs/quality/step-55.md`. Interactive layout and production HTTP status probes Not run.
+- Stop before Step 56 (motion).

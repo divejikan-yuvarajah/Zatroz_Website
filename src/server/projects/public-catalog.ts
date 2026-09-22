@@ -18,13 +18,16 @@ import type { PublicProjectsRepository } from "@/lib/public-projects";
 import { listArchivedEditorialIds } from "@/server/projects/admin-state";
 import { loadFeaturedProjectIds } from "@/server/projects/featured";
 
-function emptyPublicRepository(): PublicProjectsRepository {
+function emptyPublicRepository(
+  availability: "ready" | "unavailable" = "ready",
+): PublicProjectsRepository {
   return {
     projects: [],
     media: [],
     services: contentCatalog.services,
     featuredProjectIds: [],
     workStoriesImplemented: publicRoutes.work.implemented,
+    availability,
   };
 }
 
@@ -252,10 +255,12 @@ export async function loadMongoPublicProjectsRepository(): Promise<PublicProject
       services: contentCatalog.services,
       featuredProjectIds: eligibleFeatured,
       workStoriesImplemented: publicRoutes.work.implemented,
+      availability: "ready",
     };
   } catch {
-    // Database outages must not fall back to repository draft content.
-    return emptyPublicRepository();
+    // Database outages must not fall back to repository draft content,
+    // and must not look like an honestly empty portfolio.
+    return emptyPublicRepository("unavailable");
   }
 }
 

@@ -65,6 +65,9 @@ export type PublicProjectListFilters = Readonly<{
   pageSize: number;
 }>;
 
+/** Catalogue source health for public Work listings. */
+export type PublicCatalogAvailability = "ready" | "unavailable";
+
 export type PublicProjectListResult = Readonly<{
   items: readonly PublicProjectCard[];
   total: number;
@@ -79,6 +82,8 @@ export type PublicProjectListResult = Readonly<{
     value: WorkStatus;
     label: string;
   }[];
+  /** Catalogue source health — see PublicProjectsRepository.availability. */
+  availability: PublicCatalogAvailability;
 }>;
 
 export type PublicProjectsRepository = Readonly<{
@@ -88,6 +93,11 @@ export type PublicProjectsRepository = Readonly<{
   featuredProjectIds: readonly string[];
   /** When false, storyLinkEligible is always false. */
   workStoriesImplemented: boolean;
+  /**
+   * `unavailable` means the catalogue source failed (e.g. database).
+   * Must not be presented as an empty portfolio.
+   */
+  availability?: PublicCatalogAvailability;
 }>;
 
 function isHttpsUrl(href: string): boolean {
@@ -296,6 +306,26 @@ export function listPublishedProjectCards(
   const service = options?.service ?? null;
   const status = options?.status ?? null;
 
+  // Outages must not surface residual/fixture rows as a ready portfolio.
+  if (repo.availability === "unavailable") {
+    return {
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize,
+      pageCount: 0,
+      filters: {
+        service,
+        status,
+        page: 1,
+        pageSize,
+      },
+      availableServices: [],
+      availableStatuses: [],
+      availability: "unavailable",
+    };
+  }
+
   const eligible = listEligibleProjectRecords(repo.projects);
   const filtered = eligible.filter((project) =>
     matchesFilters(project, { service, status }, repo.services),
@@ -337,6 +367,7 @@ export function listPublishedProjectCards(
     availableStatuses: [...availableStatuses.entries()]
       .map(([value, label]) => ({ value, label }))
       .sort((a, b) => a.label.localeCompare(b.label)),
+    availability: "ready",
   };
 }
 

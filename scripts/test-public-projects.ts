@@ -195,10 +195,20 @@ function run(name: string, fn: () => void) {
 run("excludes-unpublished-and-archived", () => {
   const result = listPublishedProjectCards(repo());
   assert.equal(result.total, 2);
+  assert.equal(result.availability, "ready");
   assert.deepEqual(
     result.items.map((item) => item.id),
     ["proj-b", "proj-a"],
   );
+});
+
+run("unavailable-catalog-is-not-empty-ready", () => {
+  const result = listPublishedProjectCards(
+    repo({ availability: "unavailable" }),
+  );
+  assert.equal(result.availability, "unavailable");
+  assert.equal(result.total, 0);
+  assert.equal(result.items.length, 0);
 });
 
 run("dto-omits-draft-fields-and-unapproved-media", () => {

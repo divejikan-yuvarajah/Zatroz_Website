@@ -28,12 +28,12 @@
 
 ## Checks
 
-| Check | Result |
-| --- | --- |
-| `npm run format` | Passed |
-| `npm run check` | Passed |
-| `npm run build` | Passed (`/privacy`, `/terms` present) |
-| Interactive 320px / 200% zoom / keyboard TOC | **Not run** |
+| Check                                        | Result                                |
+| -------------------------------------------- | ------------------------------------- |
+| `npm run format`                             | Passed                                |
+| `npm run check`                              | Passed                                |
+| `npm run build`                              | Passed (`/privacy`, `/terms` present) |
+| Interactive 320px / 200% zoom / keyboard TOC | **Not run**                           |
 
 ## Honesty rows
 
