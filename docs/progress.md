@@ -59,6 +59,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 53   | Complete enquiry journey        | **Implemented** (on branch `feature/53-enquiry-journey`; merge may be pending)         | 2026-09-22 | Journey map + ops runbook + `test:enquiry-journey`; live form/cron/Resend Not run; see `docs/backend/step-53.md`          |
 | 54   | Privacy and Terms drafts        | **Implemented** (on branch `feature/54-privacy-terms`; merge may be pending)           | 2026-09-22 | Policy facts + draft pages; public links gated; see `docs/pages/step-54.md`                                               |
 | 55   | System pages and states         | **Implemented** (on branch `feature/55-system-pages`; merge may be pending)            | 2026-09-22 | 404/error/loading/unavailable; inventory; see `docs/quality/step-55.md`                                                   |
+| 56   | Motion and micro-interactions   | **Implemented** (on branch `feature/56-motion`; merge may be pending)                  | 2026-09-23 | CSS feedback + scoped GSAP reveal; see `docs/design/motion.md`, `docs/quality/step-56.md`                                 |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -725,3 +726,11 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Boundary logs record digest + error name only; retry does not replay mutations.
 - Checks: format/check/build recorded in `docs/quality/step-55.md`. Interactive layout and production HTTP status probes Not run.
 - Stop before Step 56 (motion).
+
+### Step 56 (2026-09-23)
+
+- Branch: `feature/56-motion` from `feature/55-system-pages`.
+- Added motion tokens, pressable control feedback, mobile-nav open CSS, hero decorative accent, and GSAP `RevealOnScroll` for selected-work cards (transform-only; reduced-motion via `matchMedia`).
+- Dependencies: `gsap`, `@gsap/react` — justified for scroll-linked stagger + cleanup; no Framer Motion / Lenis.
+- Checks: format/check/build recorded in `docs/quality/step-56.md`. Manual reduced-motion / no-JS / device scroll profile Not run.
+- Stop before Step 57 (responsive audit).

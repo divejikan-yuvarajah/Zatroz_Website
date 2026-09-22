@@ -143,14 +143,34 @@ code {
 }
 
 .ds-transition {
-  transition-property: background-color, color, border-color, box-shadow;
+  transition-property:
+    background-color, color, border-color, box-shadow, text-decoration-color,
+    outline-color, opacity;
   transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-standard);
 }
 
+.ds-pressable {
+  transition-property:
+    background-color, color, border-color, box-shadow, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ds-pressable:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ds-transition {
+  .ds-transition,
+  .ds-pressable {
     transition: none;
+  }
+
+  .ds-pressable:active:not(:disabled) {
+    transform: none;
   }
 }
 
@@ -198,6 +218,72 @@ code {
     max(1rem, env(safe-area-inset-right, 0px))
     max(1.5rem, env(safe-area-inset-bottom, 0px))
     max(1rem, env(safe-area-inset-left, 0px));
+}
+
+/* Open motion only — close stays immediate so aria/focus stay in sync. */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-nav-dialog[open]::backdrop {
+    animation: mobile-nav-backdrop-in var(--duration-base) var(--ease-out) both;
+  }
+
+  .mobile-nav-dialog[open] .mobile-nav-panel {
+    animation: mobile-nav-panel-in var(--duration-base) var(--ease-out) both;
+  }
+}
+
+@keyframes mobile-nav-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-nav-panel-in {
+  from {
+    transform: translateX(0.75rem);
+    opacity: 0.96;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Decorative hero accent — never gates headline/CTA visibility. */
+.hero-motion-accent {
+  display: block;
+  width: 3rem;
+  height: 0.25rem;
+  margin-block-end: 1.25rem;
+  border-radius: 999px;
+  background: var(--brand, #ff3b10);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-motion-accent {
+    animation: hero-accent-in var(--duration-enter) var(--ease-out) both;
+  }
+}
+
+@keyframes hero-accent-in {
+  from {
+    transform: scaleX(0.35);
+    opacity: 0.55;
+    transform-origin: left center;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+    transform-origin: left center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-motion-accent {
+    animation: none;
+  }
 }
 
 @media print {

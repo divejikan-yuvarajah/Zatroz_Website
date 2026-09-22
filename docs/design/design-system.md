@@ -97,7 +97,9 @@ Container **components** are Step 12. These tokens are ready for them.
 
 Use `.ds-transition` for colour/border/shadow only. **No** `transition: all`. No smooth-scroll default. No entrance animations in this step.
 
-**Reduced motion:** `.ds-transition` is disabled when `prefers-reduced-motion: reduce`. Do not globally zero all animations (that can break future functional states).
+**Reduced motion:** `.ds-transition` / `.ds-pressable` are disabled when `prefers-reduced-motion: reduce`. Do not globally zero all animations (that can break future functional states).
+
+Step 56 expands motion in `docs/design/motion.md` (CSS-first; GSAP only for the selected-work reveal).
 
 ---
 

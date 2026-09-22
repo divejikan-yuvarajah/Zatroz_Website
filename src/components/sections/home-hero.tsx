@@ -1,3 +1,4 @@
+import { HeroMotionAccent } from "@/components/motion/hero-motion-accent";
 import { HeroScenarioPanel } from "@/components/sections/hero-scenario-panel";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
@@ -38,6 +39,7 @@ export function HomeHero({
       <Container>
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="min-w-0 max-w-reading">
+            <HeroMotionAccent />
             <SectionHeading
               level={headingLevel}
               visualLevel={1}

@@ -27,7 +27,7 @@ export function TextLink({
   const resolvedRel = opensInNewTab ? cn("noopener", "noreferrer", rel) : rel;
 
   const classes = cn(
-    "font-medium underline decoration-from-font underline-offset-2",
+    "ds-transition font-medium underline decoration-from-font underline-offset-2 hover:underline-offset-4 focus-visible:underline-offset-4",
     surface === "inverse" ? "text-text-inverse" : "text-brand-strong",
     className,
   );
