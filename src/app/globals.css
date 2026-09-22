@@ -199,3 +199,19 @@ code {
     max(1.5rem, env(safe-area-inset-bottom, 0px))
     max(1rem, env(safe-area-inset-left, 0px));
 }
+
+@media print {
+  .policy-document nav[aria-label="On this page"] {
+    display: none;
+  }
+
+  .policy-document {
+    color: #111;
+    background: #fff;
+  }
+
+  .policy-document a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}

@@ -68,6 +68,8 @@ export type EnquiryFormProps = {
   demoMode?: boolean;
   /** Public Turnstile site key — when set, challenge is required before submit. */
   turnstileSiteKey?: string | null;
+  /** Canonical Privacy href once that policy is public-ready; omit while draft. */
+  privacyHref?: string | null;
   className?: string;
 };
 
@@ -109,6 +111,7 @@ export function EnquiryForm({
   directContactLabel = "Email or WhatsApp us",
   demoMode = false,
   turnstileSiteKey = null,
+  privacyHref = null,
   className,
 }: EnquiryFormProps) {
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -619,8 +622,16 @@ export function EnquiryForm({
       </p>
 
       <p className="m-0 text-sm text-text-body">
-        We use the details you type to respond to this enquiry. A privacy page
-        link will appear when that policy is published.
+        We use the details you type to respond to this enquiry.
+        {privacyHref ? (
+          <>
+            {" "}
+            Read the <TextLink href={privacyHref}>Privacy</TextLink> page for
+            more detail.
+          </>
+        ) : (
+          <> A privacy page link will appear when that policy is published.</>
+        )}
       </p>
 
       {challengeRequired && turnstileSiteKey ? (

@@ -705,3 +705,12 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Public `formSubmissionReady` remains **false**; production notification cron remains **off**.
 - Live Atlas / Turnstile / Resend / production activation **Not run**. Privacy/Terms remain Step 54.
 - Checks: `npm run format`, `npm run check` (includes journey + authz), `npm run build`.
+
+### Step 54 (2026-09-22)
+
+- Branch: `feature/54-privacy-terms` from `feature/53-enquiry-journey`.
+- Added factual inventory `docs/legal/policy-facts.md` and versioned Privacy/Terms drafts (`publicationState: draft`, no public effective date).
+- Routes `/privacy` and `/terms` render sparse public placeholders; full drafts only in `/dev/ui`.
+- `publicRoutes.privacy/terms.implemented` remain **false** — footer and Contact stay unlinked until approval.
+- Enquiry form accepts optional `privacyHref` for when Privacy is published.
+- Checks: `npm run format`, `npm run check`, `npm run build` passed. Interactive layout/TOC browser sweep Not run.

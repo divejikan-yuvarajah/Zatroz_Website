@@ -13,12 +13,15 @@ export type LiveEnquiryFormProps = {
   initialService?: ServiceSlug | null;
   directContactHref?: string | null;
   directContactLabel?: string;
+  /** Set only when Privacy is approved and publicly linked. */
+  privacyHref?: string | null;
 };
 
 export function LiveEnquiryForm({
   initialService = null,
   directContactHref = null,
   directContactLabel = "Email or WhatsApp us",
+  privacyHref = null,
 }: LiveEnquiryFormProps) {
   const submitEnquiry = useSubmitEnquiry();
   const turnstileSiteKey =
@@ -31,6 +34,7 @@ export function LiveEnquiryForm({
       turnstileSiteKey={turnstileSiteKey}
       directContactHref={directContactHref}
       directContactLabel={directContactLabel}
+      privacyHref={privacyHref}
       demoMode={false}
     />
   );

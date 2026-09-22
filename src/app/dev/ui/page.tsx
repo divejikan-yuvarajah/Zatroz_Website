@@ -33,6 +33,7 @@ import { CaseStudySpecimen } from "@/components/dev/case-study-specimen";
 import { AboutSpecimen } from "@/components/dev/about-specimen";
 import { ProcessSpecimen } from "@/components/dev/process-specimen";
 import { ContactSpecimen } from "@/components/dev/contact-specimen";
+import { PolicySpecimen } from "@/components/dev/policy-specimen";
 
 import { WebMobileAppsSpecimen } from "@/components/dev/web-mobile-apps-specimen";
 import { WebsitesEcommerceSpecimen } from "@/components/dev/websites-ecommerce-specimen";
@@ -1055,6 +1056,26 @@ export default function DevUiPage() {
           </SectionHeading>
           <div className="mt-10">
             <ContactSpecimen />
+          </div>
+        </Container>
+      </Section>
+
+      <Section
+        as="section"
+        surface="muted"
+        aria-labelledby="policy-specimen-heading"
+      >
+        <Container>
+          <SectionHeading
+            level={2}
+            id="policy-specimen-heading"
+            eyebrow="Example · local only"
+            description="Privacy and website-terms drafts grounded in the real enquiry stack. Public /privacy and /terms stay sparse and unlinked until owner approval sets an effective date and flips route implemented flags."
+          >
+            Privacy and terms drafts
+          </SectionHeading>
+          <div className="mt-10">
+            <PolicySpecimen />
           </div>
         </Container>
       </Section>

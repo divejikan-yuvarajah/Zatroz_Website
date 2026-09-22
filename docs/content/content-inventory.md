@@ -105,10 +105,10 @@ Suggested candidates (not approved): FlowPilot AI; InvoiceX AI. Unfinished conce
 
 ### Privacy (`/privacy`) and Terms (`/terms`)
 
-| ID         | Page                                    | Status  | Missing inputs                         |
-| ---------- | --------------------------------------- | ------- | -------------------------------------- |
-| C-LEGAL-01 | Privacy notice matching real processing | Missing | Legal review; data retention decisions |
-| C-LEGAL-02 | Website terms (not a service contract)  | Missing | Legal review                           |
+| ID         | Page                                    | Status          | Missing inputs                                 |
+| ---------- | --------------------------------------- | --------------- | ---------------------------------------------- |
+| C-LEGAL-01 | Privacy notice matching real processing | Draft (gallery) | Legal review; retention; identity; publication |
+| C-LEGAL-02 | Website terms (not a service contract)  | Draft (gallery) | Legal review; publication                      |
 
 ---
 
