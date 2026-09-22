@@ -35,15 +35,15 @@ There is **no approved logo file** for dark backgrounds. The footer uses a text 
 
 ## Live footer (now)
 
-| Block       | Content                                                            |
-| ----------- | ------------------------------------------------------------------ |
-| Identity    | Text “Zatroz” → `/`                                                |
-| Description | Omitted (`description.status` is unconfirmed)                      |
-| Explore     | Home                                                               |
-| Services    | Omitted (no implemented service routes)                            |
-| Contact     | Omitted (phone/email/WhatsApp/socials unconfirmed or missing URLs) |
-| Policies    | Omitted (`/privacy` and `/terms` not implemented)                  |
-| Copyright   | `© {year} Zatroz`                                                  |
+| Block       | Content                                                                                      |
+| ----------- | -------------------------------------------------------------------------------------------- |
+| Identity    | Text “Zatroz” → `/`                                                                          |
+| Description | Omitted (`description.status` is unconfirmed)                                                |
+| Explore     | Home                                                                                         |
+| Services    | Omitted (no implemented service routes)                                                      |
+| Contact     | Omitted (phone/email/WhatsApp/socials unconfirmed or missing URLs)                           |
+| Policies    | Omitted (`/privacy` and `/terms` exist as draft/sparse; `implemented: false` until approval) |
+| Copyright   | `© {year} Zatroz`                                                                            |
 
 ### Year strategy
 

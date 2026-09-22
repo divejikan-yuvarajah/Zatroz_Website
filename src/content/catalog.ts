@@ -12,6 +12,11 @@ import {
 } from "@/content/business-needs";
 import type { ContactPageRecord } from "@/content/contact-page";
 import { contactPageRecord } from "@/content/contact-page";
+import type { PolicyPageRecord } from "@/content/legal-policies";
+import {
+  privacyPolicyRecord,
+  termsOfUseRecord,
+} from "@/content/legal-policies";
 import type {
   EvidenceRecord,
   HomeEvidenceIntroRecord,
@@ -69,6 +74,8 @@ export type ContentCatalog = {
   servicesOverview: ServicesOverviewRecord;
   about: AboutPageRecord;
   contactPage: ContactPageRecord;
+  privacyPolicy: PolicyPageRecord;
+  termsOfUse: PolicyPageRecord;
 };
 
 /** Full editorial catalog for validation and server selectors. */
@@ -95,4 +102,6 @@ export const contentCatalog: ContentCatalog = {
   servicesOverview: servicesOverviewRecord,
   about: aboutPageRecord,
   contactPage: contactPageRecord,
+  privacyPolicy: privacyPolicyRecord,
+  termsOfUse: termsOfUseRecord,
 };

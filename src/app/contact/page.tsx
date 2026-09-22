@@ -46,6 +46,7 @@ export default async function ContactRoute({
             : null
         }
         directContactLabel="Email or WhatsApp us"
+        privacyHref={contact.privacyHref}
       />
     ) : null;
 

@@ -22,13 +22,13 @@
 
 ## Layer distinctions (do not conflate)
 
-| Layer                      | Current truth                                                                           |
-| -------------------------- | --------------------------------------------------------------------------------------- |
-| Page availability          | `/contact` is implemented and linked                                                    |
-| Form submission acceptance | `contactPageRecord.formSubmissionReady === false` — public Live form is **not** mounted |
-| Notification dispatch      | Worker + capture adapter exist; production schedule remains **off**                     |
-| Event tracking             | Resend webhook route exists; signing secret required                                    |
-| Policy approval            | Privacy/Terms pages are Step 54 (routes still `implemented: false`)                     |
+| Layer                      | Current truth                                                                                                   |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Page availability          | `/contact` is implemented and linked                                                                            |
+| Form submission acceptance | `contactPageRecord.formSubmissionReady === false` — public Live form is **not** mounted                         |
+| Notification dispatch      | Worker + capture adapter exist; production schedule remains **off**                                             |
+| Event tracking             | Resend webhook route exists; signing secret required                                                            |
+| Policy approval            | Privacy/Terms routes exist as drafts; public copy and `implemented` remain gated until owner approval (Step 54) |
 
 ## Failure matrix (Step 53)
 
@@ -65,14 +65,14 @@
 
 ## Readiness matrix
 
-| Area                           | Status                                | Evidence                                                   |
-| ------------------------------ | ------------------------------------- | ---------------------------------------------------------- |
-| Implementation (code path)     | Ready for controlled activation       | Steps 42–52 modules + Step 53 wiring inventory             |
-| Mock / unit journey matrix     | Passed                                | `npm run test:enquiry-journey` (+ prior suite)             |
-| Real database concurrency      | Not run                               | Requires Atlas credentials                                 |
-| Provider-test Resend + webhook | Not run                               | Requires authorized test inbox + webhook secret            |
-| Owner workflow (UI)            | Implemented; live MFA session Not run | `/admin/notifications`                                     |
-| Production readiness           | **Not ready**                         | Form flag false; cron off; Privacy/Terms pending (Step 54) |
+| Area                           | Status                                | Evidence                                                                         |
+| ------------------------------ | ------------------------------------- | -------------------------------------------------------------------------------- |
+| Implementation (code path)     | Ready for controlled activation       | Steps 42–52 modules + Step 53 wiring inventory                                   |
+| Mock / unit journey matrix     | Passed                                | `npm run test:enquiry-journey` (+ prior suite)                                   |
+| Real database concurrency      | Not run                               | Requires Atlas credentials                                                       |
+| Provider-test Resend + webhook | Not run                               | Requires authorized test inbox + webhook secret                                  |
+| Owner workflow (UI)            | Implemented; live MFA session Not run | `/admin/notifications`                                                           |
+| Production readiness           | **Not ready**                         | Form flag false; cron off; Privacy/Terms drafts ready; publication still pending |
 
 ## Activation checklist (owner; not done here)
 

@@ -1,6 +1,7 @@
 import { publicRoutes, type RouteId } from "@/config/routes";
 import type { ContentCatalog } from "@/content/catalog";
 import { contentCatalog } from "@/content/catalog";
+import type { PolicyPageRecord } from "@/content/legal-policies";
 import {
   PROJECT_STORY_LIMITS,
   type ProjectStoryRecord,
@@ -63,6 +64,82 @@ function pushWarning(
   field?: string,
 ) {
   warnings.push({ level: "warning", code, message, recordId, field });
+}
+
+function validatePolicyPage(
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[],
+  record: PolicyPageRecord,
+  routeId: "privacy" | "terms",
+): void {
+  const sectionIds = new Set<string>();
+  for (const section of record.sections) {
+    if (sectionIds.has(section.id)) {
+      pushError(
+        errors,
+        "duplicate-policy-section-id",
+        `Duplicate policy section id "${section.id}"`,
+        record.id,
+        section.id,
+      );
+    }
+    sectionIds.add(section.id);
+    if (!section.title.trim() || section.paragraphs.length === 0) {
+      pushError(
+        errors,
+        "empty-policy-section",
+        "Policy section requires a title and at least one paragraph",
+        record.id,
+        section.id,
+      );
+    }
+  }
+
+  if (record.publicationState === "approved") {
+    for (const field of [
+      "heroTitle",
+      "introduction",
+      "pageTitle",
+      "pageDescription",
+      "version",
+    ] as const) {
+      if (!record[field].trim()) {
+        pushError(
+          errors,
+          "approved-missing-field",
+          "Approved policy is missing a required field",
+          record.id,
+          field,
+        );
+      }
+    }
+    if (!record.effectiveOn || !record.effectiveOn.trim()) {
+      pushError(
+        errors,
+        "approved-policy-missing-effective-on",
+        "Approved policy must set a real effectiveOn date",
+        record.id,
+        "effectiveOn",
+      );
+    }
+    if (record.sections.length === 0) {
+      pushError(
+        errors,
+        "approved-missing-field",
+        "Approved policy requires at least one section",
+        record.id,
+        "sections",
+      );
+    }
+  } else {
+    pushWarning(
+      warnings,
+      `draft-${routeId}-policy`,
+      `${routeId === "privacy" ? "Privacy" : "Terms"} policy stays draft — public route stays sparse and unlinked until approved`,
+      record.id,
+      "publicationState",
+    );
+  }
 }
 
 function validateStoryBlocks(
@@ -1651,6 +1728,61 @@ export function validateContentCatalog(
       warnings,
       "no-usable-enquiry-action",
       "No usable enquiry action yet — confirm email/WhatsApp or implement /contact before the final invitation can publish",
+    );
+  }
+
+  validatePolicyPage(errors, warnings, catalog.privacyPolicy, "privacy");
+  validatePolicyPage(errors, warnings, catalog.termsOfUse, "terms");
+
+  if (
+    catalog.privacyPolicy.publicationState === "approved" &&
+    !publicRoutes.privacy.implemented
+  ) {
+    pushError(
+      errors,
+      "approved-privacy-not-implemented",
+      "Approved Privacy policy requires publicRoutes.privacy.implemented before linking",
+      catalog.privacyPolicy.id,
+      "publicationState",
+    );
+  }
+
+  if (
+    publicRoutes.privacy.implemented &&
+    catalog.privacyPolicy.publicationState !== "approved"
+  ) {
+    pushError(
+      errors,
+      "privacy-route-before-approval",
+      "Do not set privacy.implemented while the Privacy policy is still draft",
+      catalog.privacyPolicy.id,
+      "publicationState",
+    );
+  }
+
+  if (
+    catalog.termsOfUse.publicationState === "approved" &&
+    !publicRoutes.terms.implemented
+  ) {
+    pushError(
+      errors,
+      "approved-terms-not-implemented",
+      "Approved Terms policy requires publicRoutes.terms.implemented before linking",
+      catalog.termsOfUse.id,
+      "publicationState",
+    );
+  }
+
+  if (
+    publicRoutes.terms.implemented &&
+    catalog.termsOfUse.publicationState !== "approved"
+  ) {
+    pushError(
+      errors,
+      "terms-route-before-approval",
+      "Do not set terms.implemented while the Terms policy is still draft",
+      catalog.termsOfUse.id,
+      "publicationState",
     );
   }
 
