@@ -3,6 +3,7 @@ import {
   WorkFilters,
   WorkPagination,
 } from "@/components/sections/work-filters";
+import { InlineUnavailableNotice } from "@/components/system/system-state";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
@@ -50,15 +51,20 @@ export function WorkPage({
   showBreadcrumb = true,
 }: WorkPageProps) {
   const headingId = `${idPrefix}work-heading`;
+  const catalogueUnavailable = list.availability === "unavailable";
   const eligibleUniverseEmpty =
+    !catalogueUnavailable &&
     list.availableServices.length === 0 &&
     list.availableStatuses.length === 0 &&
     list.total === 0;
   const noMatches =
+    !catalogueUnavailable &&
     !eligibleUniverseEmpty &&
     list.total === 0 &&
     (Boolean(list.filters.service) || Boolean(list.filters.status));
   const filterLabel = describeFilters(list);
+  const showResults =
+    !catalogueUnavailable && !eligibleUniverseEmpty && !noMatches;
 
   return (
     <div className={cn(className)}>
@@ -85,7 +91,11 @@ export function WorkPage({
             Selected work
           </SectionHeading>
 
-          {!eligibleUniverseEmpty ? <WorkFilters list={list} /> : null}
+          {catalogueUnavailable ? <InlineUnavailableNotice /> : null}
+
+          {!catalogueUnavailable && !eligibleUniverseEmpty ? (
+            <WorkFilters list={list} />
+          ) : null}
 
           {eligibleUniverseEmpty ? (
             <div className="mt-10 max-w-reading">
@@ -120,7 +130,7 @@ export function WorkPage({
             </div>
           ) : null}
 
-          {!eligibleUniverseEmpty && !noMatches ? (
+          {showResults ? (
             <>
               <p
                 className="mt-8 m-0 text-sm text-text-muted"
@@ -151,7 +161,7 @@ export function WorkPage({
             </>
           ) : null}
 
-          {!eligibleUniverseEmpty && enquiryAction ? (
+          {!catalogueUnavailable && !eligibleUniverseEmpty && enquiryAction ? (
             <div className="mt-14 max-w-reading border-t border-border-subtle pt-10">
               <h2 className="ds-h3 m-0">Discuss a similar project</h2>
               <p className="mt-3 m-0 text-text-body">

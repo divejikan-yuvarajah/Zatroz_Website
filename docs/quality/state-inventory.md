@@ -1,0 +1,24 @@
+# System state inventory (Step 55)
+
+How Zatroz distinguishes missing, empty, loading, failed, and unavailable content. Private details must never appear in public HTML, metadata, or boundary copy.
+
+| State                                                     | Where handled                                                                          | Visitor / staff experience                                                                  | Must not become                                  |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Unknown public route                                      | `src/app/not-found.tsx`                                                                | "Page not found" + Home / Services / Work / Contact                                         | Echo of path or query string                     |
+| Known but unpublished / draft / archived story or service | `notFound()` in `/work/[slug]`, `/services/[slug]`                                     | Same non-disclosing not-found                                                               | "Draft", private titles, or 200 empty page       |
+| Empty published portfolio                                 | Work list when `availability === "ready"` and no eligible projects                     | Honest "being prepared" empty copy + enquiry CTA when available                             | "Temporarily unavailable"                        |
+| No filter matches                                         | Work list when filters apply and `total === 0`                                         | "No published projects match…" + Clear filters                                              | Empty portfolio copy                             |
+| Catalogue / DB unavailable                                | Mongo load catch → `availability: "unavailable"`; Work shows `InlineUnavailableNotice` | Service problem + contact link; not an empty list                                           | "No projects yet"                                |
+| Route segment loading                                     | `loading.tsx` on `/work`, `/work/[slug]`, `/services/[slug]`                           | Restrained skeleton + `role="status"` label; skeletons `aria-hidden`                        | Fake % progress or full-shell loader             |
+| Unexpected render failure (segment)                       | `src/app/error.tsx`, `src/app/admin/error.tsx`                                         | Safe fixed copy + manual `retry` + digest reference                                         | `Error.message`, stacks, enquiry/mutation replay |
+| Root layout failure                                       | `src/app/global-error.tsx`                                                             | Self-contained `html`/`body`, inline styles, Home + Try again                               | SiteShell, DB, auth, image CDN dependency        |
+| Unauthorized / expired admin session                      | Existing Better Auth gates + login redirect                                            | Re-authenticate; no protected record fetch for a detailed deny                              | Public error with project names                  |
+| Optimistic-edit / version conflict                        | Existing admin save paths (A05–A08)                                                    | Editor distinguishes conflict vs network failure; unsaved input preserved where implemented | Generic "not found" for save conflicts           |
+| Enquiry / form uncertainty                                | Existing enquiry UI + transport (Steps 43–53)                                          | Field/errors in form machine; boundaries do not resubmit                                    | Boundary retry that posts again                  |
+| JSON / route-handler failure                              | API and Server Action contracts                                                        | Status + JSON error shape                                                                   | HTML not-found body for JSON clients             |
+
+## Framework notes (Next.js 16.3.5)
+
+- App Router error UI receives `error` and `retry` (and `reset`). Recovery uses **`retry`** so the router refreshes; it must not call mutations.
+- Root `not-found.tsx` UI is used for unmatched routes and `notFound()` under the root layout. Experimental `globalNotFound` was **not** enabled.
+- Streaming can defer when a 404 status is finalized; early eligibility checks before streaming remain preferred for story/service slugs. Recorded interactive status probes: see `docs/quality/step-55.md`.
