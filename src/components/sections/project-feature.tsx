@@ -31,6 +31,7 @@ export function ProjectFeature({
 
   return (
     <article
+      data-reveal-item
       aria-labelledby={titleId}
       className={cn(
         "min-w-0",

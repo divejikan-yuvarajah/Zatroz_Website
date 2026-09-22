@@ -1,3 +1,4 @@
+import { RevealOnScroll } from "@/components/motion/reveal-on-scroll";
 import { ProjectFeature } from "@/components/sections/project-feature";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -46,18 +47,18 @@ export function HomeFeaturedWork({
         </SectionHeading>
 
         {count === 1 ? (
-          <div className="mt-12">
+          <RevealOnScroll className="mt-12">
             <ProjectFeature
               feature={features[0]!}
               emphasis="lead"
               headingLevel={3}
               idPrefix={idPrefix}
             />
-          </div>
+          </RevealOnScroll>
         ) : null}
 
         {count === 2 ? (
-          <div className="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-12">
+          <RevealOnScroll className="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-12">
             {features.map((feature) => (
               <ProjectFeature
                 key={feature.id}
@@ -67,11 +68,11 @@ export function HomeFeaturedWork({
                 idPrefix={idPrefix}
               />
             ))}
-          </div>
+          </RevealOnScroll>
         ) : null}
 
         {count >= 3 ? (
-          <div className="mt-12 flex flex-col gap-14">
+          <RevealOnScroll className="mt-12 flex flex-col gap-14">
             <ProjectFeature
               feature={features[0]!}
               emphasis="lead"
@@ -89,7 +90,7 @@ export function HomeFeaturedWork({
                 />
               ))}
             </div>
-          </div>
+          </RevealOnScroll>
         ) : null}
       </Container>
     </Section>

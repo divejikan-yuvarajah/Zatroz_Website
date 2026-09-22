@@ -18,7 +18,7 @@ const sizeClass: Record<ButtonSize, string> = {
 };
 
 const baseClass =
-  "ds-transition inline-flex max-w-full items-center justify-center gap-2 rounded-sm font-medium text-center break-words disabled:cursor-not-allowed disabled:opacity-60";
+  "ds-pressable inline-flex max-w-full items-center justify-center gap-2 rounded-sm font-medium text-center break-words disabled:cursor-not-allowed disabled:opacity-60";
 
 export function buttonClassName({
   variant = "primary",
