@@ -38,6 +38,7 @@
     "test:turnstile-verification": "tsx scripts/test-turnstile-verification.ts",
     "test:transactional-email": "tsx scripts/test-transactional-email.ts",
     "test:enquiry-notifications": "tsx scripts/test-enquiry-notifications.ts",
+    "test:enquiry-journey": "tsx scripts/test-enquiry-journey.ts",
     "jobs:dispatch-enquiry-notifications": "tsx scripts/dispatch-enquiry-notifications.ts",
     "migrate:repo-portfolio": "tsx scripts/migrate-repo-portfolio.ts",
     "jobs:content-refresh": "tsx scripts/run-content-jobs.ts",
@@ -45,7 +46,7 @@
     "db:check": "tsx scripts/db-check.ts",
     "db:plan": "tsx scripts/db-plan.ts",
     "db:apply": "tsx scripts/db-apply.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport && npm run test:mongodb-foundation && npm run test:mongodb-models && npm run test:request-safeguards && npm run test:admin-auth && npm run test:admin-shell && npm run test:admin-media && npm run test:admin-projects && npm run test:admin-story && npm run test:admin-preview && npm run test:admin-publish && npm run test:admin-featured && npm run test:admin-repo-migration && npm run test:admin-content-jobs && npm run test:admin-authz && npm run test:enquiry-submission && npm run test:turnstile-verification && npm run test:transactional-email && npm run test:enquiry-notifications"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run validate:content && npm run test:public-projects && npm run test:public-case-studies && npm run test:contact-service-query && npm run test:enquiry-input && npm run test:enquiry-transport && npm run test:mongodb-foundation && npm run test:mongodb-models && npm run test:request-safeguards && npm run test:admin-auth && npm run test:admin-shell && npm run test:admin-media && npm run test:admin-projects && npm run test:admin-story && npm run test:admin-preview && npm run test:admin-publish && npm run test:admin-featured && npm run test:admin-repo-migration && npm run test:admin-content-jobs && npm run test:admin-authz && npm run test:enquiry-submission && npm run test:turnstile-verification && npm run test:transactional-email && npm run test:enquiry-notifications && npm run test:enquiry-journey"
   },
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.7.5",

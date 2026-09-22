@@ -53,6 +53,10 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 47   | Enquiry submission backend      | **Implemented** (on branch `feature/47-enquiry-backend`; merge may be pending)         | 2026-09-20 | Server Action + idempotent insert + live form wiring; activation pending; see `docs/backend/step-47.md`                   |
 | 48   | Duplicate-submission protection | **Implemented** (on branch `feature/48-submission-protection`; merge may be pending)   | 2026-09-20 | Fixed client→server key transmission; business-field projection; 15 tests; see `docs/backend/step-48.md`                  |
 | 49   | Spam protection + rate limiting | **Implemented** (on branch `feature/49-enquiry-spam-protection`; merge may be pending) | 2026-09-20 | Server-verified Turnstile + existing distributed limits; see `docs/backend/step-49.md`, `docs/setup/turnstile.md`         |
+| 50   | Transactional email foundation  | **Implemented** (on branch `feature/50-transactional-email`; merge may be pending)     | 2026-09-21 | Capture/Resend adapter; see `docs/backend/step-50.md`                                                                     |
+| 51   | Enquiry notifications           | **Implemented** (on branch `feature/51-enquiry-notifications`; merge may be pending)   | 2026-09-21 | Durable intents + dispatcher; see `docs/backend/step-51.md`                                                               |
+| 52   | Notification retries + recovery | **Implemented** (on branch `feature/52-notification-recovery`; merge may be pending)   | 2026-09-21 | Retries, webhook, owner recovery; see `docs/backend/step-52.md`                                                           |
+| 53   | Complete enquiry journey        | **Implemented** (on branch `feature/53-enquiry-journey`; merge may be pending)         | 2026-09-22 | Journey map + ops runbook + `test:enquiry-journey`; live form/cron/Resend Not run; see `docs/backend/step-53.md`          |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -692,3 +696,12 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 ### Step 52 (2026-09-21)
 
 - Bounded retries, delivery facts, Resend webhook, owner recovery UI. See `docs/backend/step-52.md`.
+
+### Step 53 (2026-09-22)
+
+- Branch: `feature/53-enquiry-journey` from `feature/52-notification-recovery`.
+- Mapped the full enquiry path in `docs/contact/end-to-end-journey.md` and operator runbook in `docs/contact/enquiry-operations.md`.
+- Added `npm run test:enquiry-journey` composition matrix (9 checks) and extended AuthZ surface inventory for notifications/worker/webhook.
+- Public `formSubmissionReady` remains **false**; production notification cron remains **off**.
+- Live Atlas / Turnstile / Resend / production activation **Not run**. Privacy/Terms remain Step 54.
+- Checks: `npm run format`, `npm run check` (includes journey + authz), `npm run build`.

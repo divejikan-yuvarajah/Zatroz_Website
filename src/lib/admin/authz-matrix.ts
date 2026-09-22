@@ -257,6 +257,7 @@ export const STAFF_PROTECTED_SURFACES: readonly string[] = [
   "/admin/projects",
   "/admin/media",
   "/admin/jobs",
+  "/admin/notifications",
   "/admin/settings/featured",
   "/admin/staff",
   "/api/admin/media/[mediaId]/preview",
@@ -278,8 +279,15 @@ export const STAFF_PROTECTED_SURFACES: readonly string[] = [
   "retryContentJobAction",
   "saveFeaturedProjectsAction",
   "updateStaffRoleAction",
+  "notificationRecoveryAction",
 ] as const;
 
 export const CRON_PROTECTED_SURFACES: readonly string[] = [
   "POST /api/jobs/content-refresh",
+  "POST /api/jobs/enquiry-notifications",
+] as const;
+
+/** Service-to-service webhooks — signature secret, not staff session or CRON_SECRET. */
+export const WEBHOOK_PROTECTED_SURFACES: readonly string[] = [
+  "POST /api/webhooks/resend",
 ] as const;

@@ -16,6 +16,7 @@ import {
   sampleEditorContext,
   sampleOwnerContext,
   STAFF_PROTECTED_SURFACES,
+  WEBHOOK_PROTECTED_SURFACES,
 } from "../src/lib/admin/authz-matrix";
 import { planContentJobEnqueue } from "../src/lib/admin/content-jobs";
 import {
@@ -77,7 +78,13 @@ function runMatrixCompleteness() {
   assert.ok(ownerOnlyOperations().length >= 8);
   assert.ok(editorAllowedOperations().length >= 8);
   assert.ok(STAFF_PROTECTED_SURFACES.length >= 10);
+  assert.ok(STAFF_PROTECTED_SURFACES.includes("/admin/notifications"));
+  assert.ok(STAFF_PROTECTED_SURFACES.includes("notificationRecoveryAction"));
   assert.ok(CRON_PROTECTED_SURFACES.includes("POST /api/jobs/content-refresh"));
+  assert.ok(
+    CRON_PROTECTED_SURFACES.includes("POST /api/jobs/enquiry-notifications"),
+  );
+  assert.ok(WEBHOOK_PROTECTED_SURFACES.includes("POST /api/webhooks/resend"));
   pass("authz-matrix-completeness");
 }
 
