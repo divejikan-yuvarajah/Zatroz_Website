@@ -50,7 +50,7 @@ export function AdminShellHeader({
       </div>
       <nav
         aria-label="Admin"
-        className="mx-auto w-full max-w-6xl overflow-x-auto px-gutter pb-3"
+        className="mx-auto w-full max-w-6xl overflow-x-auto overscroll-x-contain px-gutter pb-3 [-webkit-overflow-scrolling:touch]"
       >
         <ul className="flex min-w-0 gap-1">
           {navItems.map((item) => {

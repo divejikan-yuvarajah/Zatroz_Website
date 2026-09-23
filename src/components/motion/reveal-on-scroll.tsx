@@ -39,9 +39,15 @@ export function RevealOnScroll({ children, className }: RevealOnScrollProps) {
         {
           reduceMotion: "(prefers-reduced-motion: reduce)",
           allowMotion: "(prefers-reduced-motion: no-preference)",
+          finePointer: "(hover: hover) and (pointer: fine)",
+          wideEnough: "(min-width: 640px)",
         },
         (context) => {
-          if (context.conditions?.reduceMotion) {
+          if (
+            context.conditions?.reduceMotion ||
+            !context.conditions?.finePointer ||
+            !context.conditions?.wideEnough
+          ) {
             return;
           }
 

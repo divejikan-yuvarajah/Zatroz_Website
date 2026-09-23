@@ -60,6 +60,22 @@ body {
   letter-spacing: 0;
 }
 
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prefer wrapping long tokens over page-level horizontal scroll. */
+p,
+li,
+td,
+th,
+dd,
+dt {
+  overflow-wrap: anywhere;
+}
+
 h1,
 h2,
 h3 {

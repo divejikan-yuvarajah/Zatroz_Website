@@ -90,6 +90,7 @@ export function ContactPage({
                             method.kind === "email" ? "primary" : "secondary"
                           }
                           newTab={method.href.startsWith("https://")}
+                          className="w-full sm:w-auto"
                         >
                           {method.actionLabel}
                         </ButtonLink>
