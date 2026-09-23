@@ -33,7 +33,7 @@ export function WorkFilters({ list }: WorkFiltersProps) {
       aria-label="Filter selected work"
     >
       {showService ? (
-        <p className="m-0 min-w-[12rem] flex-1">
+        <p className="m-0 min-w-0 w-full flex-1 sm:min-w-[12rem]">
           <label htmlFor="work-filter-service" className="ds-support block">
             Service
           </label>
@@ -54,7 +54,7 @@ export function WorkFilters({ list }: WorkFiltersProps) {
       ) : null}
 
       {showStatus ? (
-        <p className="m-0 min-w-[12rem] flex-1">
+        <p className="m-0 min-w-0 w-full flex-1 sm:min-w-[12rem]">
           <label htmlFor="work-filter-status" className="ds-support block">
             Work type
           </label>

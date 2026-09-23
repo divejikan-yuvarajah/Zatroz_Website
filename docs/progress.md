@@ -60,6 +60,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 54   | Privacy and Terms drafts        | **Implemented** (on branch `feature/54-privacy-terms`; merge may be pending)           | 2026-09-22 | Policy facts + draft pages; public links gated; see `docs/pages/step-54.md`                                               |
 | 55   | System pages and states         | **Implemented** (on branch `feature/55-system-pages`; merge may be pending)            | 2026-09-22 | 404/error/loading/unavailable; inventory; see `docs/quality/step-55.md`                                                   |
 | 56   | Motion and micro-interactions   | **Implemented** (on branch `feature/56-motion`; merge may be pending)                  | 2026-09-23 | CSS feedback + scoped GSAP reveal; see `docs/design/motion.md`, `docs/quality/step-56.md`                                 |
+| 57   | Responsive layout review        | **Implemented** (on branch `feature/57-responsive`; merge may be pending)              | 2026-09-23 | Matrix + overflow/filter/admin scroll fixes; see `docs/quality/responsive-matrix.md`, `docs/quality/step-57.md`           |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -734,3 +735,11 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Dependencies: `gsap`, `@gsap/react` — justified for scroll-linked stagger + cleanup; no Framer Motion / Lenis.
 - Checks: format/check/build recorded in `docs/quality/step-56.md`. Manual reduced-motion / no-JS / device scroll profile Not run.
 - Stop before Step 57 (responsive audit).
+
+### Step 57 (2026-09-23)
+
+- Branch: `feature/57-responsive` from `feature/56-motion`.
+- Added `docs/quality/responsive-matrix.md` covering public + admin routes at 320–1440 (emulation/code review; real devices Not run).
+- Fixes: sticky header safe-area, intrinsic media + long-token wrapping, Work/admin filter min-widths, labelled admin/projects and comparison table scroll regions, contact method full-width CTAs, motion hover/reveal gated for fine pointer / wider viewports.
+- Checks: format/check/build recorded in `docs/quality/step-57.md`. DevTools viewport sweep and real-device passes Not run.
+- Stop before Step 58 (accessibility review).

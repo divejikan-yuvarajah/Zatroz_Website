@@ -39,7 +39,12 @@ export function CustomSoftwareGuide() {
           bands.
         </p>
 
-        <div className="mt-4 hidden overflow-x-auto lg:block">
+        <div
+          className="mt-4 hidden overflow-x-auto overscroll-x-contain lg:block"
+          role="region"
+          aria-label="Approach comparison table"
+          tabIndex={0}
+        >
           <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
             <caption className="sr-only">
               Comparison of configuring a product, integrating tools, and

@@ -41,7 +41,7 @@ export function AdminProjectList({
           className="flex w-full max-w-3xl flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end"
           role="search"
         >
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 w-full flex-1 sm:min-w-[12rem]">
             <label
               htmlFor="project-search"
               className="block text-sm font-medium text-ink"
@@ -147,7 +147,12 @@ export function AdminProjectList({
       ) : null}
 
       {items && items.length > 0 ? (
-        <div className="overflow-x-auto">
+        <div
+          className="overflow-x-auto overscroll-x-contain rounded-sm border border-border-subtle [-webkit-overflow-scrolling:touch]"
+          role="region"
+          aria-label="Projects table"
+          tabIndex={0}
+        >
           <table className="w-full min-w-[40rem] border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-border-subtle text-text-muted">

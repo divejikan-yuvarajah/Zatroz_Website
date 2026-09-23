@@ -46,7 +46,7 @@ export function ProjectFeature({
               "overflow-hidden rounded-md border border-border-subtle bg-surface-muted",
               "aspect-[16/10]",
               "motion-safe:transition-transform motion-safe:duration-200",
-              "motion-safe:hover:scale-[1.01] motion-safe:focus-within:scale-[1.01]",
+              "[@media(hover:hover)_and_(pointer:fine)]:motion-safe:hover:scale-[1.01] motion-safe:focus-within:scale-[1.01]",
             )}
           >
             <Image

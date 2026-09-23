@@ -14,7 +14,7 @@ export function SiteHeader() {
   const noscriptItems = getImplementedNavDestinations(navigation);
 
   return (
-    <header className="sticky top-0 z-[40] border-b border-border-subtle bg-canvas">
+    <header className="sticky top-0 z-[40] border-b border-border-subtle bg-canvas pt-[env(safe-area-inset-top,0px)]">
       <Container>
         <div className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-3 lg:min-h-[4.5rem]">
           <HomeLink id="site-home-link" />
