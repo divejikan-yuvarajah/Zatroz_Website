@@ -130,7 +130,7 @@ export function SiteFooterContent({
               className="inline-flex min-h-11 items-center font-semibold text-text-inverse"
               aria-label={`${brand.name} home`}
             >
-              <span aria-hidden="true">{brand.name}</span>
+              {brand.name}
             </Link>
           </p>
           {showDescription ? (

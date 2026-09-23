@@ -312,6 +312,7 @@ export function AdminProjectStoryForm({
                       variant="quiet"
                       size="compact"
                       disabled={index === 0}
+                      aria-label={`Move ${key} block ${index + 1} up`}
                       onClick={() =>
                         updateSection(key, moveItem(sections[key], index, "up"))
                       }
@@ -323,6 +324,7 @@ export function AdminProjectStoryForm({
                       variant="quiet"
                       size="compact"
                       disabled={index === sections[key].length - 1}
+                      aria-label={`Move ${key} block ${index + 1} down`}
                       onClick={() =>
                         updateSection(
                           key,
@@ -336,6 +338,7 @@ export function AdminProjectStoryForm({
                       type="button"
                       variant="quiet"
                       size="compact"
+                      aria-label={`Remove ${key} block ${index + 1}`}
                       onClick={() =>
                         updateSection(
                           key,
@@ -524,6 +527,7 @@ export function AdminProjectStoryForm({
                     variant="quiet"
                     size="compact"
                     disabled={index === 0}
+                    aria-label={`Move gallery item ${index + 1} up`}
                     onClick={() => {
                       setGallery((prev) => moveItem(prev, index, "up"));
                       markDirty();
@@ -536,6 +540,7 @@ export function AdminProjectStoryForm({
                     variant="quiet"
                     size="compact"
                     disabled={index === gallery.length - 1}
+                    aria-label={`Move gallery item ${index + 1} down`}
                     onClick={() => {
                       setGallery((prev) => moveItem(prev, index, "down"));
                       markDirty();
@@ -547,6 +552,7 @@ export function AdminProjectStoryForm({
                     type="button"
                     variant="quiet"
                     size="compact"
+                    aria-label={`Remove gallery item ${index + 1}`}
                     onClick={() => {
                       setGallery((prev) => prev.filter((_, i) => i !== index));
                       markDirty();

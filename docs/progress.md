@@ -61,6 +61,7 @@ Track setup progress honestly. Mark a step **Implemented** only when its deliver
 | 55   | System pages and states         | **Implemented** (on branch `feature/55-system-pages`; merge may be pending)            | 2026-09-22 | 404/error/loading/unavailable; inventory; see `docs/quality/step-55.md`                                                   |
 | 56   | Motion and micro-interactions   | **Implemented** (on branch `feature/56-motion`; merge may be pending)                  | 2026-09-23 | CSS feedback + scoped GSAP reveal; see `docs/design/motion.md`, `docs/quality/step-56.md`                                 |
 | 57   | Responsive layout review        | **Implemented** (on branch `feature/57-responsive`; merge may be pending)              | 2026-09-23 | Matrix + overflow/filter/admin scroll fixes; see `docs/quality/responsive-matrix.md`, `docs/quality/step-57.md`           |
+| 58   | Accessibility review            | **Implemented** (on branch eature/58-accessibility; merge may be pending)              | 2026-09-23 | Audit + targeted fixes; SR/axe browser Not run; see docs/quality/accessibility-audit.md, docs/quality/step-58.md          |
 
 ### Admin sequence (between Step 46 and Step 47)
 
@@ -743,3 +744,12 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Fixes: sticky header safe-area, intrinsic media + long-token wrapping, Work/admin filter min-widths, labelled admin/projects and comparison table scroll regions, contact method full-width CTAs, motion hover/reveal gated for fine pointer / wider viewports.
 - Checks: format/check/build recorded in `docs/quality/step-57.md`. DevTools viewport sweep and real-device passes Not run.
 - Stop before Step 58 (accessibility review).
+
+### Step 58 (2026-09-23)
+
+- Branch: eature/58-accessibility from eature/57-responsive.
+- Wrote docs/quality/accessibility-audit.md (WCAG 2.2 AA review target; no certification claim).
+- Fixes: brand link names, error-summary grouping, sticky-header focus scroll-margin, FAQ focus ring, forced-colors focus, admin gallery/block reorder accessible names.
+- Automated: ESLint jsx-a11y via lint. Live axe browser + screen-reader sessions Not run.
+- Checks: format/check/build recorded in docs/quality/step-58.md.
+- Stop before Step 59 (SEO / social).
