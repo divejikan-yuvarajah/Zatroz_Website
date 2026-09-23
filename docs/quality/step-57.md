@@ -20,9 +20,9 @@
 
 | Check                            | Result              |
 | -------------------------------- | ------------------- |
-| `npm run format`                 | Recorded after run  |
-| `npm run check`                  | Recorded after run  |
-| `npm run build`                  | Recorded after run  |
+| `npm run format`                 | Passed              |
+| `npm run check`                  | Passed              |
+| `npm run build`                  | Passed              |
 | DevTools viewport sweep 320–1440 | **Not run** (agent) |
 | iOS Safari / Android Chrome      | **Not run**         |
 
