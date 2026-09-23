@@ -5,12 +5,19 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublicAboutPage } from "@/server/about";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "About — Zatroz",
-  description:
-    "Meet Zatroz — a small software studio helping SMEs with practical digital solutions across design and custom software.",
-};
+const FALLBACK_DESCRIPTION =
+  "Meet Zatroz — a small software studio helping SMEs with practical digital solutions across design and custom software.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await getPublicAboutPage();
+  return buildPublicPageMetadata({
+    title: about?.pageTitle ?? "About",
+    description: about?.pageDescription ?? FALLBACK_DESCRIPTION,
+    canonicalPath: "/about",
+  });
+}
 
 /**
  * Public About route. While page copy stays draft, shows an honest sparse

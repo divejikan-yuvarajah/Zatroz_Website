@@ -6,6 +6,7 @@ import {
   getPublishedCaseStudySlugsForPrerender,
 } from "@/server/public-projects";
 import { resolveServicesEnquiryCta } from "@/server/services";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
 type CaseStudyRouteProps = {
   params: Promise<{ slug: string }>;
@@ -27,23 +28,29 @@ export async function generateMetadata({
   const resolved = await getPublishedCaseStudyBySlugOrRedirect(slug);
 
   if (resolved.kind === "redirect") {
-    return {
-      title: "Redirecting… — Zatroz",
-      robots: { index: false, follow: true },
-    };
+    return buildPublicPageMetadata({
+      title: "Redirecting…",
+      description: "This project has moved to a new address.",
+      canonicalPath: `/work/${resolved.toSlug}`,
+      indexable: false,
+    });
   }
 
   if (resolved.kind !== "study") {
-    return {
-      title: "Project not found — Zatroz",
-      robots: { index: false, follow: false },
-    };
+    return buildPublicPageMetadata({
+      title: "Project not found",
+      description: "That project is not available on the Zatroz website.",
+      canonicalPath: `/work/${slug}`,
+      indexable: false,
+    });
   }
 
-  return {
+  return buildPublicPageMetadata({
     title: resolved.study.pageTitle,
     description: resolved.study.pageDescription,
-  };
+    canonicalPath: `/work/${resolved.study.slug}`,
+    ogImagePath: `/work/${resolved.study.slug}/opengraph-image`,
+  });
 }
 
 /**

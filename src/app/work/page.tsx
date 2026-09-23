@@ -5,6 +5,7 @@ import {
   parseWorkListSearchParams,
 } from "@/server/public-projects";
 import { resolveServicesEnquiryCta } from "@/server/services";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
 type WorkRouteProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -19,14 +20,14 @@ export async function generateMetadata({
     parsed.service || parsed.status || parsed.page > 1,
   );
 
-  return {
-    title: "Work — Zatroz",
+  return buildPublicPageMetadata({
+    title: "Work",
     description:
       "Selected digital work from Zatroz — published project summaries with accurate labels when approved stories are ready.",
-    robots: hasQueryFilters
-      ? { index: false, follow: true }
-      : { index: true, follow: true },
-  };
+    canonicalPath: "/work",
+    // Filtered / paginated combinations are not separate landing pages.
+    indexable: !hasQueryFilters,
+  });
 }
 
 /**

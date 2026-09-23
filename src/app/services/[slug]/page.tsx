@@ -5,6 +5,7 @@ import {
   getEligibleServiceDetailSlugs,
   getPublicServiceDetail,
 } from "@/server/service-detail";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
 type ServiceDetailRouteProps = {
   params: Promise<{ slug: string }>;
@@ -21,16 +22,19 @@ export async function generateMetadata({
   const detail = await getPublicServiceDetail(slug);
 
   if (!detail) {
-    return {
-      title: "Service not found — Zatroz",
-      robots: { index: false, follow: false },
-    };
+    return buildPublicPageMetadata({
+      title: "Service not found",
+      description: "That service page is not available on the Zatroz website.",
+      canonicalPath: `/services/${slug}`,
+      indexable: false,
+    });
   }
 
-  return {
+  return buildPublicPageMetadata({
     title: detail.pageTitle,
     description: detail.pageDescription,
-  };
+    canonicalPath: `/services/${detail.slug}`,
+  });
 }
 
 /**
