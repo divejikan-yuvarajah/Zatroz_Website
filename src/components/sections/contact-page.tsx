@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ButtonLink } from "@/components/ui/button-link";
+import { TrackedButtonLink } from "@/components/observability/tracked-button-link";
 import { Container } from "@/components/ui/container";
 import { FaqDisclosure } from "@/components/ui/faq-disclosure";
 import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
@@ -84,16 +84,31 @@ export function ContactPage({
                         {method.detail}
                       </p>
                       <p className="mt-3 m-0">
-                        <ButtonLink
+                        <TrackedButtonLink
                           href={method.href}
                           variant={
                             method.kind === "email" ? "primary" : "secondary"
                           }
                           newTab={method.href.startsWith("https://")}
                           className="w-full sm:w-auto"
+                          event={{
+                            name: "contact_alternative_clicked",
+                            routePath: "/contact",
+                            properties: {
+                              routeTemplate: "/contact",
+                              placement: "contact",
+                              outcome: "alternative",
+                              channel:
+                                method.kind === "email" ||
+                                method.kind === "whatsapp" ||
+                                method.kind === "phone"
+                                  ? method.kind
+                                  : undefined,
+                            },
+                          }}
                         >
                           {method.actionLabel}
-                        </ButtonLink>
+                        </TrackedButtonLink>
                       </p>
                     </li>
                   ))}

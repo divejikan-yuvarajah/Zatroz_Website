@@ -780,3 +780,25 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Enforced limited CSP plus nosniff, referrer, frame, and permissions headers. Stricter script policy is report-only so Next.js inline scripts keep working without a nonce.
 - Checks recorded in `docs/quality/step-61.md`. `npm audit` reported 0 vulnerabilities. Remote Atlas settings Not run.
 - Stop before Step 62 (analytics and monitoring).
+
+### Step 62 (2026-09-24)
+
+- Branch: `feature/62-observability` from `feature/61-security`.
+- Event catalog, local sink, and alert thresholds in `docs/observability/`. Browser product analytics stay disabled. No vendor SDK.
+- `GET /api/health` is liveness only. Enquiry acceptance notes a new insert and ignores replays.
+- Checks recorded in `docs/quality/step-62.md`. External receipt and uptime monitors Not run.
+- Stop before Step 63 (critical functionality tests).
+
+### Content approval for Steps 39–40 (2026-09-24)
+
+- Owner instruction approved existing reviewed company copy, founder biographies, project text, and images. Approval is publication consent, not independent fact-checking.
+- About page body in `src/content/about.ts` set to `approved` (story, mission, vision, values). Public `/about` now shows that copy.
+- Founder records, project records, and real portraits/screenshots were still absent, so no profiles or case studies were invented or published. Work stays empty. Homepage people and featured work stay on their existing gates.
+- Not deployed. No production deployment was authorized in this session.
+
+### Public pages published (2026-09-24)
+
+- Owner instruction: show all existing public pages. Existing page copy set to `approved` (home sections, six services and details, About, Process, Contact framing, Privacy, and Terms).
+- Privacy and Terms routes are implemented, effective 2026-09-24. That date is the publication date of the existing notice, not a legal certification.
+- Work, founder cards, testimonials, and proof metrics stay empty because those records still do not exist.
+- Local check: `npm run validate:content` passed (4 readiness warnings). Public routes returned HTTP 200 on the dev server.

@@ -1,4 +1,5 @@
 import { FaqDisclosure } from "@/components/ui/faq-disclosure";
+import { TrackedButtonLink } from "@/components/observability/tracked-button-link";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
@@ -509,13 +510,23 @@ export function ServiceDetailPage({
               Next step
             </SectionHeading>
             <p className="mt-8 m-0">
-              <ButtonLink
+              <TrackedButtonLink
                 href={detail.enquiryAction.href}
                 variant="primary"
                 newTab={detail.enquiryAction.href.startsWith("https://")}
+                event={{
+                  name: "service_cta_clicked",
+                  routePath: `/services/${detail.slug}`,
+                  properties: {
+                    serviceKey: detail.slug,
+                    routeTemplate: "/services/[slug]",
+                    placement: "service-detail",
+                    outcome: "click",
+                  },
+                }}
               >
                 {detail.enquiryAction.label}
-              </ButtonLink>
+              </TrackedButtonLink>
             </p>
             {(detail.enquiryAction.href.startsWith("mailto:") ||
               detail.enquiryAction.href.startsWith("https://wa.me/")) && (
