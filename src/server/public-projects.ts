@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { publicRoutes } from "@/config/routes";
 import {
   listPublishedCaseStudySlugs,
@@ -40,8 +41,17 @@ export type { PublicProjectCard, PublicProjectListResult, PublicCaseStudy };
  * MongoDB published-revision adapter (A09).
  * On DB failure or missing config: empty catalog — never repository drafts.
  */
-async function getRepository(): Promise<PublicProjectsRepository> {
+/**
+ * One published-catalogue read per request. Home, Work, About, and sitemap
+ * selectors share this so a single render does not repeat the Mongo round trip.
+ */
+const getRepository = cache(async (): Promise<PublicProjectsRepository> => {
   return loadMongoPublicProjectsRepository();
+});
+
+/** Request-scoped published catalogue. Safe to share across public selectors. */
+export function getPublicProjectsRepository(): Promise<PublicProjectsRepository> {
+  return getRepository();
 }
 
 export async function listPublishedProjects(options?: {

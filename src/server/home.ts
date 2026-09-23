@@ -10,8 +10,8 @@ import { isPublicServiceDetailEligible } from "@/server/service-detail";
 import {
   listPublishedFeaturedProjects,
   listPublishedRelatedProjects,
+  getPublicProjectsRepository,
 } from "@/server/public-projects";
-import { loadMongoPublicProjectsRepository } from "@/server/projects/public-catalog";
 import { contentCatalog } from "@/content/catalog";
 import { WORK_STATUS_LABELS, type ProjectRecord } from "@/content/projects";
 import type { PublicProjectCard } from "@/lib/public-projects";
@@ -547,7 +547,7 @@ function projectToFeature(
  * Drafts and unknown IDs are skipped.
  */
 async function getApprovedFeaturedProjects(): Promise<PublicProjectFeature[]> {
-  const repo = await loadMongoPublicProjectsRepository();
+  const repo = await getPublicProjectsRepository();
   const cards = listPublishedFeaturedProjectCards(repo, 3);
   const features: PublicProjectFeature[] = [];
 

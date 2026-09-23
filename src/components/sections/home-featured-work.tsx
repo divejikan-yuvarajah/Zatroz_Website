@@ -1,10 +1,16 @@
-import { RevealOnScroll } from "@/components/motion/reveal-on-scroll";
 import { ProjectFeature } from "@/components/sections/project-feature";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import type { PublicSelectedWork } from "@/server/home";
 import { cn } from "@/lib/cn";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(() =>
+  import("@/components/motion/reveal-on-scroll").then(
+    (mod) => mod.RevealOnScroll,
+  ),
+);
 
 export type HomeFeaturedWorkProps = {
   selectedWork: PublicSelectedWork;

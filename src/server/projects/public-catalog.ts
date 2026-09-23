@@ -18,6 +18,25 @@ import type { PublicProjectsRepository } from "@/lib/public-projects";
 import { listArchivedEditorialIds } from "@/server/projects/admin-state";
 import { loadFeaturedProjectIds } from "@/server/projects/featured";
 
+/**
+ * After a public catalogue read fails, skip new connection attempts briefly.
+ * Avoids repeating the driver server-selection timeout on every page view
+ * during an outage. The next request after the window retries. Admin writes
+ * do not use this helper, so they are not delayed by the cooldown.
+ */
+const PUBLIC_CATALOG_FAILURE_COOLDOWN_MS = 15_000;
+
+let publicCatalogFailureUntil = 0;
+
+export function publicCatalogFailureCooldownMs(): number {
+  return PUBLIC_CATALOG_FAILURE_COOLDOWN_MS;
+}
+
+/** Test hook — reset the outage cooldown between cases. */
+export function resetPublicCatalogFailureCooldown(): void {
+  publicCatalogFailureUntil = 0;
+}
+
 function emptyPublicRepository(
   availability: "ready" | "unavailable" = "ready",
 ): PublicProjectsRepository {
@@ -119,6 +138,10 @@ function mapPublishedProject(input: {
 export async function loadMongoPublicProjectsRepository(): Promise<PublicProjectsRepository> {
   if (!isMongoRuntimeConfigured()) {
     return emptyPublicRepository();
+  }
+
+  if (Date.now() < publicCatalogFailureUntil) {
+    return emptyPublicRepository("unavailable");
   }
 
   try {
@@ -260,6 +283,7 @@ export async function loadMongoPublicProjectsRepository(): Promise<PublicProject
   } catch {
     // Database outages must not fall back to repository draft content,
     // and must not look like an honestly empty portfolio.
+    publicCatalogFailureUntil = Date.now() + PUBLIC_CATALOG_FAILURE_COOLDOWN_MS;
     return emptyPublicRepository("unavailable");
   }
 }
