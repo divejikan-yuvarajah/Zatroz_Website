@@ -62,6 +62,6 @@ export const publicRoutes: Record<RouteId, PublicRoute> = {
   about: { id: "about", path: "/about", implemented: true },
   process: { id: "process", path: "/process", implemented: true },
   contact: { id: "contact", path: "/contact", implemented: true },
-  privacy: { id: "privacy", path: "/privacy", implemented: false },
-  terms: { id: "terms", path: "/terms", implemented: false },
+  privacy: { id: "privacy", path: "/privacy", implemented: true },
+  terms: { id: "terms", path: "/terms", implemented: true },
 };

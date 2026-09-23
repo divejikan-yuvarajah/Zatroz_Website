@@ -41,7 +41,7 @@ export type ContactPageRecord = {
 
 export const contactPageRecord = {
   id: "contact-page",
-  publicationState: "draft",
+  publicationState: "approved",
   formSubmissionReady: false,
   heroTitle: "Tell us what you want to build.",
   introduction:

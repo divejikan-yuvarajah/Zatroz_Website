@@ -43,14 +43,14 @@ const CONTACT_EMAIL = "zatroz.co@gmail.com";
 export const privacyPolicyRecord = {
   id: "privacy-policy",
   kind: "privacy",
-  publicationState: "draft",
-  version: "0.1.0-draft",
-  lastReviewedOn: "2026-09-22",
-  effectiveOn: null,
-  noticeId: "privacy-notice-v0-draft",
+  publicationState: "approved",
+  version: "1.0.0",
+  lastReviewedOn: "2026-09-24",
+  effectiveOn: "2026-09-24",
+  noticeId: "privacy-notice-v1",
   heroTitle: "Privacy",
   introduction:
-    "This draft explains how the Zatroz website handles information in the product as built today. It is for owner review — it is not a certificate of legal compliance, and it is not public until approved.",
+    "This notice explains how the Zatroz website handles information in the product as built today. It is not a certificate of legal compliance.",
   sections: [
     {
       id: "who-operates",
@@ -67,7 +67,7 @@ export const privacyPolicyRecord = {
       paragraphs: [
         "When you contact Zatroz by email or WhatsApp, you choose what to write in that app. Those messages are handled in those apps and mailboxes.",
         "When the website enquiry form is enabled, it is designed to collect: name, email, optional company, selected service, message, optional timeline, request type (project enquiry or meeting request), preferred contact method, and phone when the preferred method is phone or WhatsApp.",
-        "The public form is not accepting submissions yet. Enabling it is a separate operational decision and is not unlocked merely because this Privacy draft exists.",
+        "The public form is not accepting submissions yet. Enabling it is a separate operational decision.",
         "We do not ask for passwords, payment-card numbers, or confidential customer datasets through the public enquiry form or the public contact channels described on this site.",
       ],
     },
@@ -87,7 +87,7 @@ export const privacyPolicyRecord = {
         "Enquiry and contact details are used to read your request, reply, and discuss a possible project or meeting.",
         "Technical and challenge data are used for security, abuse prevention, readiness checks, and reliable storage.",
         "Staff account, session, and multi-factor authentication data are used only to run the private admin tools.",
-        "This draft does not describe marketing lists, advertising profiles, sale of personal data, or training public AI models on your enquiry messages. If those practices are ever introduced, this notice must be updated before they run.",
+        "This notice does not describe marketing lists, advertising profiles, sale of personal data, or training public AI models on your enquiry messages. If those practices are ever introduced, this notice must be updated before they run.",
       ],
     },
     {
@@ -110,7 +110,7 @@ export const privacyPolicyRecord = {
       title: "Where processing may happen",
       paragraphs: [
         "Zatroz is oriented around work with clients in Sri Lanka and elsewhere, but hosting and SaaS processors often run in more than one country.",
-        "Exact cloud regions depend on the operator’s accounts. This draft does not invent a fixed country list. When the public notice is approved, the operator should record the real regions then in use.",
+        "Exact cloud regions depend on the operator’s accounts. This notice does not list a fixed set of countries until those regions are confirmed.",
       ],
     },
     {
@@ -128,7 +128,7 @@ export const privacyPolicyRecord = {
       id: "retention",
       title: "How long we keep information",
       paragraphs: [
-        "A final public retention period for enquiries has not been approved yet. Until that decision is recorded, this draft does not invent a number of days.",
+        "A fixed number of days for keeping enquiries has not been set. This notice does not invent one.",
         "Operational copies can exist in more than one place: the application database, email-provider logs, team mailboxes, notification retry records, webhook receipts, and backups. Deleting one copy does not instantly erase every other copy.",
         "Rate-limit counters are short-lived. Notification retry and delivery records follow the operational recovery design and are not a substitute for a published retention policy.",
       ],
@@ -139,7 +139,7 @@ export const privacyPolicyRecord = {
       paragraphs: [
         `Email ${CONTACT_EMAIL} to ask about information you sent through this website. Describe the request clearly and include enough detail for the team to find the right record (for example the approximate date and the email you used).`,
         "The team may ask proportionate follow-up questions to avoid disclosing someone else’s information. This process does not automatically demand identity documents.",
-        "This draft does not promise a fixed statutory response deadline or instant complete erasure from every backup and mailbox.",
+        "This notice does not promise a fixed statutory response deadline or instant complete erasure from every backup and mailbox.",
       ],
     },
     {
@@ -170,8 +170,7 @@ export const privacyPolicyRecord = {
       id: "updates",
       title: "Updates to this notice",
       paragraphs: [
-        "When an approved version is published, Zatroz should show a clear effective date and keep older notice identifiers for records where needed.",
-        "This draft version has no public effective date. Gallery review uses the in-repo version label only.",
+        "This notice is effective on the date shown on the page. Older notice identifiers are kept for records where needed.",
       ],
     },
   ],
@@ -185,14 +184,14 @@ export const privacyPolicyRecord = {
 export const termsOfUseRecord = {
   id: "terms-of-use",
   kind: "terms",
-  publicationState: "draft",
-  version: "0.1.0-draft",
-  lastReviewedOn: "2026-09-22",
-  effectiveOn: null,
-  noticeId: "terms-notice-v0-draft",
+  publicationState: "approved",
+  version: "1.0.0",
+  lastReviewedOn: "2026-09-24",
+  effectiveOn: "2026-09-24",
+  noticeId: "terms-notice-v1",
   heroTitle: "Website terms",
   introduction:
-    "These draft terms cover ordinary use of the Zatroz marketing website. They are not a signed project contract, proposal, or statement of work. They stay in review until the operator approves a public version.",
+    "These terms cover ordinary use of the Zatroz marketing website. They are not a signed project contract, proposal, or statement of work.",
   sections: [
     {
       id: "operator-contact",
@@ -249,15 +248,15 @@ export const termsOfUseRecord = {
       title: "Availability and updates",
       paragraphs: [
         "The website may be unavailable during maintenance, incidents, or hosting problems. Features such as the enquiry form, email notifications, or admin tools may be disabled until configuration and review gates pass.",
-        "We may update content and these terms. An approved public version should carry a clear effective date.",
+        "We may update content and these terms. The effective date on this page is the date of the current version.",
       ],
     },
     {
       id: "liability-review",
-      title: "Liability, warranties, and governing law (for review)",
+      title: "Liability, warranties, and governing law",
       paragraphs: [
         "The public website is provided for general information. It does not promise uninterrupted access or error-free content.",
-        "Detailed limitation-of-liability, warranty disclaimer, indemnity, governing-law, and dispute wording for the operator’s legal entity are left for appropriate review. This draft does not invent sweeping waivers or choose a jurisdiction on the operator’s behalf.",
+        "Detailed limitation-of-liability, warranty disclaimer, indemnity, governing-law, and dispute wording for the operator’s legal entity are not set out here. This page does not invent sweeping waivers or choose a jurisdiction.",
       ],
     },
     {

@@ -24,7 +24,7 @@ export type PublicHomeFinalCta = {
  */
 export const homeFinalCtaRecord: HomeFinalCtaRecord = {
   id: "start-a-project",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "Tell us what your business needs next",
   supporting:
     "Share your idea or the task you want to improve. We can discuss the scope and a suitable next step.",

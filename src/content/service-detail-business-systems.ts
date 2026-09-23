@@ -6,7 +6,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * Not a claim that Zatroz ships a complete off-the-shelf ERP product.
  */
 export const businessSystemsDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "Bring sales, stock, and daily work into a clearer system",
   introduction:
     "Build practical tools around the way your team works, with scope, responsibilities, and support agreed from the start. Start with one operational workflow — sales, stock, internal tasks, or reporting — then expand only when that first piece is useful.",

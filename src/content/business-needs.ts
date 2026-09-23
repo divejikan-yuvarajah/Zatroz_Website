@@ -62,7 +62,7 @@ export type PublicServiceExplorer = {
  */
 export const homeServiceExplorerRecord: HomeServiceExplorerRecord = {
   id: "services-explorer",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "What do you need help with?",
   supporting:
     "Choose a business need to see how Zatroz can help — without jargon-first service names.",
@@ -76,7 +76,7 @@ export const homeServiceExplorerRecord: HomeServiceExplorerRecord = {
 export const businessNeedRecords: readonly BusinessNeedRecord[] = [
   {
     id: "need-reach-customers",
-    publicationState: "draft",
+    publicationState: "approved",
     title: "Reach more customers",
     explanation:
       "Make it easier for people to find your business, understand what you offer, and take the next step online.",
@@ -87,7 +87,7 @@ export const businessNeedRecords: readonly BusinessNeedRecord[] = [
   },
   {
     id: "need-launch-product",
-    publicationState: "draft",
+    publicationState: "approved",
     title: "Launch a digital product",
     explanation:
       "Turn a focused idea into a first usable application that your team and customers can try for real.",
@@ -102,7 +102,7 @@ export const businessNeedRecords: readonly BusinessNeedRecord[] = [
   },
   {
     id: "need-organise-operations",
-    publicationState: "draft",
+    publicationState: "approved",
     title: "Organise daily operations",
     explanation:
       "Replace scattered notes and spreadsheets with a clearer system for stock, sales, or internal workflows.",
@@ -113,7 +113,7 @@ export const businessNeedRecords: readonly BusinessNeedRecord[] = [
   },
   {
     id: "need-reduce-repetition",
-    publicationState: "draft",
+    publicationState: "approved",
     title: "Reduce repetitive work",
     explanation:
       "Connect routine tasks so people spend less time copying information and more time checking what matters.",

@@ -5,6 +5,8 @@
 
 **Catalog status:** `src/content/projects.ts` remains **empty** (0 published summaries, 0 published stories). No screenshots exist under `public/images/projects/` except the labelled gallery fixture `specimen-ui-frame.svg`.
 
+**2026-09-24 owner approval:** The owner approved existing reviewed project summaries, case-study text, and images. The repository still has no summary sentences, story prose, or real screenshots — only TODO outlines. Those outlines were not filled in or published. The specimen SVG stays a gallery fixture, not portfolio evidence.
+
 ---
 
 ## Selection decision

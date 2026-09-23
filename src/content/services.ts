@@ -45,7 +45,7 @@ export const serviceRecords = [
     slug: "websites-ecommerce",
     routeId: "websitesEcommerce",
     title: "Websites and E-commerce",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Help visitors understand your business and take the next step — enquiry, catalogue browse, or online order.",
     deliverables: [
@@ -73,7 +73,7 @@ export const serviceRecords = [
     slug: "web-mobile-apps",
     routeId: "webMobileApps",
     title: "Web and Mobile Applications",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Help customers or staff complete a focused digital task in a first usable application.",
     deliverables: [
@@ -101,7 +101,7 @@ export const serviceRecords = [
     slug: "business-systems",
     routeId: "businessSystems",
     title: "Business Systems",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Organise sales, stock, reporting, and internal workflows in one clearer place for daily operations.",
     deliverables: [
@@ -129,7 +129,7 @@ export const serviceRecords = [
     slug: "ai-automation",
     routeId: "aiAutomation",
     title: "AI and Automation",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Reduce repetitive copying and routine steps with rules, AI assistance, and human review where it matters.",
     deliverables: [
@@ -157,7 +157,7 @@ export const serviceRecords = [
     slug: "custom-software",
     routeId: "customSoftware",
     title: "Custom Software",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Address requirements and integrations that need a tailored solution when standard tools are not enough.",
     deliverables: [
@@ -185,7 +185,7 @@ export const serviceRecords = [
     slug: "ui-ux-design",
     routeId: "uiUxDesign",
     title: "UI/UX Design",
-    publicationState: "draft",
+    publicationState: "approved",
     summary:
       "Clarify user journeys and design usable interfaces — as a design engagement with or without development.",
     deliverables: [

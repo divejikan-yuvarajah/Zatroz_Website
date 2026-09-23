@@ -8,7 +8,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * UX = how the journey works for the person. UI = how screens look and behave.
  */
 export const uiUxDesignDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "Clearer journeys. Interfaces people can use.",
   introduction:
     "Useful design starts with what people need to accomplish and the constraints of your business, then moves from structure to visual detail and handoff. UX is how the journey works for the person; UI is how screens look and behave. We do not promise conversion lifts, “world-class” polish, or accessibility compliance from mockups alone.",

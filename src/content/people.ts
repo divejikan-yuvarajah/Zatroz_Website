@@ -66,7 +66,7 @@ export type PublicHomePeople = {
  */
 export const homePeopleRecord: HomePeopleRecord = {
   id: "people",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "The people behind the work",
   companyIntro:
     "Zatroz is a small software studio. We work directly with business owners and teams to turn a clear need into a useful digital result.",

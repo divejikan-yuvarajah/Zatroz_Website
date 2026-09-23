@@ -14,8 +14,10 @@ export type AboutStatementRecord = {
 
 /**
  * About page editorial record.
- * Remains draft until founders approve the page body.
- * Do not invent founder identities, offices, clients, or metrics here.
+ * Company story, mission, vision, and values were approved for public use
+ * by the owner on 2026-09-24. That approval covers this existing copy only.
+ * It is not independent verification of facts, and it does not create founder
+ * profiles or project stories that are not in the catalog.
  */
 export type AboutPageRecord = {
   id: "about";
@@ -42,7 +44,7 @@ export type AboutPageRecord = {
 
 export const aboutPageRecord = {
   id: "about",
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "A small team focused on useful digital solutions.",
   introduction:
     "Zatroz is a service-based software studio. We help SMEs and local businesses improve how they sell, serve customers, and run everyday operations — through design and custom software, not through invented scale.",
@@ -54,15 +56,15 @@ export const aboutPageRecord = {
   ],
   mission: {
     text: "Help businesses turn a clear operational need into a digital result they can run and maintain.",
-    publicationState: "draft",
+    publicationState: "approved",
   },
   vision: {
     text: "Become a trusted partner for SMEs that need software shaped around real work — starting with strong delivery, then expanding product ideas only when they are ready.",
-    publicationState: "draft",
+    publicationState: "approved",
   },
   valuesHeading: "How we work",
   valuesSupporting:
-    "These are proposed working commitments for review — not proof that every past project followed a formal process.",
+    "These are working commitments — not proof that every past project followed a formal process.",
   values: [
     {
       id: "about-value-understand",
@@ -91,7 +93,7 @@ export const aboutPageRecord = {
   ],
   teamHeading: "The founding team",
   teamSupporting:
-    "Zatroz has three founders. Public names, roles, biographies, and portraits appear here only after each person approves them. Until then, this page stays text-first — we do not invent “Founder 2” cards or stock portraits.",
+    "Zatroz has three founders. Names, roles, biographies, and portraits appear here when each person has supplied them for the public site. Until then, this section stays text-first.",
   evidenceHeading: "Selected evidence",
   evidenceSupporting:
     "Approved project summaries from Work appear here when they exist. We do not invent logos, awards, or metrics to fill this section.",

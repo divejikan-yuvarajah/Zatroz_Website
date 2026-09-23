@@ -40,7 +40,7 @@ export type PublicHomeQuestions = {
  */
 export const homeQuestionsRecord: HomeQuestionsRecord = {
   id: "questions",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "Questions before you enquire",
   supporting:
     "Practical answers to common buying questions. Exact scope, timing, and commercial terms are agreed in the proposal for your project.",

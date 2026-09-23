@@ -2,10 +2,10 @@ import "server-only";
 
 import { contentCatalog } from "@/content/catalog";
 import type { AboutPageRecord, AboutValueRecord } from "@/content/about";
+import type { FounderRecord } from "@/content/founders";
 import type { PublicCta } from "@/content/home";
 import type { PublicPerson } from "@/content/people";
 import { publicRoutes } from "@/config/routes";
-import { getPublishedFounders } from "@/server/content";
 import {
   listPublishedProjects,
   type PublicProjectCard,
@@ -56,6 +56,50 @@ function projectValues(
   }));
 }
 
+function isHttpsUrl(href: string): boolean {
+  try {
+    const url = new URL(href);
+    return url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function projectFounder(founder: FounderRecord): PublicPerson {
+  const media = founder.portraitMediaId
+    ? contentCatalog.media.find((row) => row.id === founder.portraitMediaId)
+    : undefined;
+  const portrait =
+    media &&
+    media.publicationState === "approved" &&
+    media.width != null &&
+    media.height != null &&
+    media.publicPath.trim()
+      ? {
+          src: media.publicPath,
+          width: media.width,
+          height: media.height,
+          alt:
+            media.alt.decorative === true
+              ? ""
+              : media.alt.alt.trim() || `Portrait of ${founder.displayName}`,
+        }
+      : null;
+
+  const links = founder.professionalUrls
+    .filter((link) => isHttpsUrl(link.href.trim()))
+    .map((link) => ({ label: link.label, href: link.href.trim() }));
+
+  return {
+    id: founder.id,
+    displayName: founder.displayName,
+    role: founder.role,
+    bio: founder.bio,
+    portrait,
+    links,
+  };
+}
+
 async function buildAboutPage(
   record: AboutPageRecord,
   options?: { includeDraftStatements?: boolean },
@@ -74,14 +118,9 @@ async function buildAboutPage(
       ? { text: record.vision.text }
       : null;
 
-  const founders: PublicPerson[] = getPublishedFounders().map((founder) => ({
-    id: founder.id,
-    displayName: founder.displayName,
-    role: founder.role,
-    bio: founder.bio,
-    portrait: null,
-    links: [],
-  }));
+  const founders: PublicPerson[] = contentCatalog.founders
+    .filter((founder) => founder.publicationState === "approved")
+    .map(projectFounder);
 
   const evidence = (
     await listPublishedProjects({

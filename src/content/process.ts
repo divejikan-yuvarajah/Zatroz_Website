@@ -44,7 +44,7 @@ export type PublicHomeProcess = {
  */
 export const homeProcessRecord: HomeProcessRecord = {
   id: "how-we-work",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "How we work together",
   supporting:
     "A calm path from understanding your business to a careful handover — summarised here, with fuller stages on Process when that page is approved. Support after launch follows the scope we agree — it is not automatically free forever.",

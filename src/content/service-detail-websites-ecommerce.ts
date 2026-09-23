@@ -6,7 +6,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * Capability claims remain draft until founders confirm delivery capacity.
  */
 export const websitesEcommerceDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "A website that helps customers understand, enquire, and buy",
   introduction:
     "Build a clear online presence and an ordering experience suited to how your business actually works. Choose a business website, a catalogue with assisted ordering, or a full online store — then agree scope before build work starts.",
