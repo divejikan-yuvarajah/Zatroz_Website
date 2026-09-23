@@ -5,12 +5,18 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublicProcessPage } from "@/server/process";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Process — Zatroz",
-  description:
-    "How Zatroz works with clients — from first conversation through design, build, launch, and handover.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const process = getPublicProcessPage();
+  return buildPublicPageMetadata({
+    title: process?.pageTitle ?? "Process",
+    description:
+      process?.pageDescription ??
+      "How Zatroz works with clients — from first conversation through design, build, launch, and handover.",
+    canonicalPath: "/process",
+  });
+}
 
 /**
  * Public Process route. While page copy stays draft, shows an honest sparse

@@ -5,12 +5,14 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublicServicesOverview } from "@/server/services";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Services — Zatroz",
+export const metadata: Metadata = buildPublicPageMetadata({
+  title: "Services",
   description:
     "Compare Zatroz service groups for websites, applications, business systems, automation, custom software, and UI/UX design.",
-};
+  canonicalPath: "/services",
+});
 
 export default async function ServicesPage() {
   const overview = await getPublicServicesOverview();

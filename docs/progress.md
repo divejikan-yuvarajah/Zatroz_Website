@@ -753,3 +753,13 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Automated: ESLint jsx-a11y via lint. Live axe browser + screen-reader sessions Not run.
 - Checks: format/check/build recorded in docs/quality/step-58.md.
 - Stop before Step 59 (SEO / social).
+
+### Step 59 (2026-09-23)
+
+- Branch: `feature/59-seo` from `feature/58-accessibility`.
+- SEO policy docs: `docs/seo/route-policy.md`, `docs/seo/metadata-inventory.md`.
+- Canonical origin from trusted `SITE_URL`; indexing gated by `APP_ENV` + `VERCEL_ENV` (previews noindex).
+- Root + public page metadata, robots.txt, dynamic sitemap (fail closed on catalogue outage), Organization/WebSite/Breadcrumb JSON-LD, default + work OG images.
+- Publish revalidation covers sitemap and OG image paths.
+- Checks: recorded in `docs/quality/step-59.md`. Search Console / live crawler Not run.
+- Stop before Step 60 (performance).

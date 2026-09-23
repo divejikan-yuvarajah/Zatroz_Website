@@ -5,13 +5,20 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublicPrivacyPage } from "@/server/legal-policies";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Privacy — Zatroz",
-  description:
-    "How the Zatroz website handles enquiry and technical information. Full notice publishes when approved.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const privacy = getPublicPrivacyPage();
+  return buildPublicPageMetadata({
+    title: privacy?.pageTitle ?? "Privacy",
+    description:
+      privacy?.pageDescription ??
+      "How the Zatroz website handles enquiry and technical information. Full notice publishes when approved.",
+    canonicalPath: "/privacy",
+    // Draft sparse notice stays non-indexable until approved public content exists.
+    indexable: Boolean(privacy),
+  });
+}
 
 /**
  * Public Privacy route. While the policy stays draft, shows an honest sparse

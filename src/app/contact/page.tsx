@@ -8,19 +8,20 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { parseContactServiceParam } from "@/lib/contact-service-query";
 import { getPublicContactPage } from "@/server/contact";
 import { siteContact, getEnquiryMailtoHref } from "@/config/brand";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
 type ContactRouteProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Contact — Zatroz",
+  // Service query must not create alternate indexable pages — always canonical /contact.
+  return buildPublicPageMetadata({
+    title: "Contact",
     description:
       "Contact Zatroz by email or WhatsApp to discuss a website, app, system, or design project.",
-    // Service query must not create alternate indexable pages.
-    alternates: { canonical: "/contact" },
-  };
+    canonicalPath: "/contact",
+  });
 }
 
 /**

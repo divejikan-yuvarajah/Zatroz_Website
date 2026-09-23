@@ -11,6 +11,8 @@ export function revalidatePublicPortfolioPaths(input?: {
   revalidatePath("/work");
   revalidatePath("/about");
   revalidatePath("/services");
+  revalidatePath("/sitemap.xml");
+  revalidatePath("/opengraph-image");
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath("/admin/settings/featured");
@@ -26,5 +28,6 @@ export function revalidatePublicPortfolioPaths(input?: {
   const slug = input?.slug?.trim();
   if (slug) {
     revalidatePath(`/work/${slug}`);
+    revalidatePath(`/work/${slug}/opengraph-image`);
   }
 }

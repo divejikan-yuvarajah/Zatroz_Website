@@ -5,13 +5,20 @@ import { PageBreadcrumb } from "@/components/ui/page-breadcrumb";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublicTermsPage } from "@/server/legal-policies";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Website terms — Zatroz",
-  description:
-    "Terms for using the Zatroz marketing website. Project work is agreed separately. Full terms publish when approved.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const terms = getPublicTermsPage();
+  return buildPublicPageMetadata({
+    title: terms?.pageTitle ?? "Website terms",
+    description:
+      terms?.pageDescription ??
+      "Terms for using the Zatroz marketing website. Project work is agreed separately. Full terms publish when approved.",
+    canonicalPath: "/terms",
+    // Draft sparse terms stay non-indexable until approved public content exists.
+    indexable: Boolean(terms),
+  });
+}
 
 /**
  * Public Terms route. While the policy stays draft, shows an honest sparse

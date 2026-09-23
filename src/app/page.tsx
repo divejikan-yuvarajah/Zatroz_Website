@@ -21,8 +21,16 @@ import {
   getPublicSelectedWork,
   getPublicServiceExplorer,
 } from "@/server/home";
+import { defaultSiteDescription } from "@/lib/seo/site-copy";
+import { buildPublicPageMetadata } from "@/server/seo/metadata";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = buildPublicPageMetadata({
+  title: "Zatroz",
+  description: defaultSiteDescription(),
+  canonicalPath: "/",
+});
 
 export default async function Home() {
   const [
