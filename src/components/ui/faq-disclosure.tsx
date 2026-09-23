@@ -32,6 +32,7 @@ export function FaqDisclosure({
         className={cn(
           "flex cursor-pointer list-none items-start justify-between gap-4",
           "text-left text-base font-semibold text-ink",
+          "rounded-sm focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:[outline-color:var(--ink)]",
           "[&::-webkit-details-marker]:hidden",
         )}
       >

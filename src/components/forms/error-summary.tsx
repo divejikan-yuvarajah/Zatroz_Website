@@ -43,6 +43,7 @@ export function ErrorSummary({
     <div
       ref={ref}
       id={id}
+      role="group"
       tabIndex={-1}
       aria-labelledby={headingId}
       className="rounded-md border border-error bg-error-soft p-4 text-error focus:outline focus:outline-[3px] focus:outline-offset-[3px] focus:[outline-color:var(--ink)]"

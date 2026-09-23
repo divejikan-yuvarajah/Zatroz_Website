@@ -116,6 +116,8 @@ code {
 :focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 3px;
+  /* Keep focused controls clear of the sticky public header. */
+  scroll-margin-top: 5.75rem;
 }
 
 .bg-ink :focus-visible,
@@ -315,5 +317,16 @@ code {
   .policy-document a {
     color: inherit;
     text-decoration: underline;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+
+  .ds-pressable:active:not(:disabled) {
+    transform: none;
   }
 }

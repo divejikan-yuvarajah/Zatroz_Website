@@ -28,7 +28,7 @@ export function HomeLink({
       aria-label="Zatroz home"
       aria-current={isCurrent ? "page" : undefined}
     >
-      <span aria-hidden="true">Zatroz</span>
+      Zatroz
     </Link>
   );
 }
