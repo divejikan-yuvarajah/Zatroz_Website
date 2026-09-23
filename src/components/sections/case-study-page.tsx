@@ -14,6 +14,7 @@ import { Section } from "@/components/ui/section";
 import { TextLink } from "@/components/ui/text-link";
 import type { PublicCta } from "@/content/home";
 import type { PublicCaseStudy } from "@/lib/public-case-study";
+import { WorkDetailBeacon } from "@/components/observability/work-detail-beacon";
 import { cn } from "@/lib/cn";
 
 export type CaseStudyPageProps = {
@@ -47,6 +48,7 @@ export function CaseStudyPage({
 
   return (
     <div className={cn(className)}>
+      <WorkDetailBeacon />
       <Section
         as="section"
         surface="light"

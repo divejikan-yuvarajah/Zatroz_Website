@@ -58,14 +58,14 @@ export type ProcessPageRecord = {
 
 export const processPageRecord = {
   id: "process-page",
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "From the first conversation to a useful launch.",
   introduction:
     "Every project follows a calm sequence: understand the need, agree the first useful release, design and build in reviewable steps, then hand over clearly. The exact depth of each stage depends on the work — an early conversation helps us choose the right next step together.",
   primaryCtaLabel: "Start a project",
   stagesHeading: "Six stages we work through",
   stagesSupporting:
-    "These are proposed working stages for review — not a promise that every project uses every activity in the same way. Outputs are agreed for your scope.",
+    "These are working stages — not a promise that every project uses every activity in the same way. Outputs are agreed for your scope.",
   stages: [
     {
       id: "process-understand",

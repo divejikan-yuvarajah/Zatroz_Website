@@ -6,7 +6,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * Describes services only — no live chatbot, model API, upload, or runner.
  */
 export const aiAutomationDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "AI and automation for everyday business work",
   introduction:
     "Start from a specific repetitive task, the data you already have, and a measurable review process. Ordinary workflow rules are often enough; AI helps with extraction or drafting when a person still checks uncertain results. This is not a promise to replace your team or to run decisions without oversight.",

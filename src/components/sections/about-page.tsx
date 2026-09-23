@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ProjectCard } from "@/components/sections/project-card";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
@@ -153,6 +154,21 @@ export function AboutPage({
               {about.founders.map((person) => (
                 <li key={person.id} className="min-w-0">
                   <article aria-labelledby={`${idPrefix}${person.id}-name`}>
+                    {person.portrait ? (
+                      <div className="mb-4 overflow-hidden rounded-md border border-border-subtle bg-surface-muted">
+                        <Image
+                          src={person.portrait.src}
+                          alt={person.portrait.alt}
+                          width={person.portrait.width}
+                          height={person.portrait.height}
+                          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 20vw"
+                          className="h-auto w-full object-cover object-top"
+                          unoptimized={person.portrait.src
+                            .toLowerCase()
+                            .endsWith(".svg")}
+                        />
+                      </div>
+                    ) : null}
                     <h3
                       id={`${idPrefix}${person.id}-name`}
                       className="ds-h3 m-0"

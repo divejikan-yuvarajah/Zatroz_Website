@@ -6,7 +6,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * Describes a service — not a client portal, subscription platform, or product.
  */
 export const customSoftwareDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "Software shaped around the way your business works",
   introduction:
     "Choose a tailored solution when requirements, workflows, or integrations cannot be supported well by existing products after practical alternatives have been assessed. Custom software is not automatically cheaper, faster, or safer than configuring or integrating what you already have — discovery decides the fit.",

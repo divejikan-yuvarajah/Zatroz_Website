@@ -40,7 +40,7 @@ export type HomeHeroRecord = {
  */
 export const homeHeroRecord: HomeHeroRecord = {
   id: "home-hero",
-  publicationState: "draft",
+  publicationState: "approved",
   eyebrow: "Software studio",
   headline: "Digital solutions. Built around your business.",
   supporting:

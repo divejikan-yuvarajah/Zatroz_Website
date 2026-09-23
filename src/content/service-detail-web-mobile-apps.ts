@@ -7,7 +7,7 @@ import type { ServiceDetailRecord } from "@/content/service-detail";
  * This marketing site stack is not automatically the client application stack.
  */
 export const webMobileAppsDetail = {
-  publicationState: "draft",
+  publicationState: "approved",
   heroTitle: "Applications built around the tasks that matter",
   introduction:
     "Turn a clear customer or team workflow into a usable web or mobile experience, starting with a focused first release. Choose a browser application, a phone-focused application, or a phased product — then agree who uses it and which journey comes first.",

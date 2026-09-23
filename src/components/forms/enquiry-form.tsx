@@ -14,6 +14,7 @@ import {
 import { SelectField } from "@/components/forms/select-field";
 import { TextArea } from "@/components/forms/text-area";
 import { TextInput } from "@/components/forms/text-input";
+import { captureBrowserEvent } from "@/lib/observability/capture";
 import { Button } from "@/components/ui/button";
 import { TextLink } from "@/components/ui/text-link";
 import {
@@ -148,7 +149,28 @@ export function EnquiryForm({
   const summaryId = `${idPrefix}error-summary`;
   const statusId = `${idPrefix}status`;
 
+  const contactStarted = useRef(false);
+
   function updateField(field: EnquiryFieldName, value: string) {
+    if (!contactStarted.current) {
+      contactStarted.current = true;
+      try {
+        captureBrowserEvent(
+          {
+            name: "contact_started",
+            routePath: "/contact",
+            properties: {
+              routeTemplate: "/contact",
+              placement: "contact",
+              outcome: "started",
+            },
+          },
+          "contact_started",
+        );
+      } catch {
+        // Starting the form must not depend on telemetry.
+      }
+    }
     setValues((current) => ({ ...current, [field]: value }));
     if (reported.has(field) || Object.keys(serverFieldErrors).length > 0) {
       setServerFieldErrors((current) => {
@@ -218,6 +240,24 @@ export function EnquiryForm({
       return;
     }
 
+    try {
+      captureBrowserEvent(
+        {
+          name: "contact_submit_attempted",
+          routePath: "/contact",
+          properties: {
+            routeTemplate: "/contact",
+            placement: "contact",
+            outcome: "attempted",
+            serviceKey: validation.value.service,
+          },
+        },
+        "contact_submit_attempted",
+      );
+    } catch {
+      // A blocked tracker must not stop submission.
+    }
+
     submitLock.current = true;
     setPhase("pending");
     setStatusTone("pending");
@@ -245,6 +285,22 @@ export function EnquiryForm({
   function applySubmitResult(result: EnquirySubmitResult) {
     switch (result.status) {
       case "accepted": {
+        try {
+          captureBrowserEvent(
+            {
+              name: "contact_accepted",
+              routePath: "/contact",
+              properties: {
+                routeTemplate: "/contact",
+                placement: "contact",
+                outcome: "accepted",
+              },
+            },
+            "contact_accepted",
+          );
+        } catch {
+          // Confirmation does not depend on a browser event.
+        }
         flushSync(() => {
           setPhase("accepted");
           setStatusTone("success");

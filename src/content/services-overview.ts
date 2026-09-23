@@ -81,7 +81,7 @@ export type PublicServicesOverview = {
  */
 export const servicesOverviewRecord: ServicesOverviewRecord = {
   id: "services-overview",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "Digital services built around your business.",
   supporting:
     "From a clearer online presence to tools that organise everyday work, we help you define a practical next step and build around it.",
@@ -131,7 +131,7 @@ export const servicesOverviewRecord: ServicesOverviewRecord = {
   deliveryHeading: "How we usually work",
   deliveryBody:
     "We clarify the need, agree an initial scope, build in reviewable steps, and hand over access with clear next actions. Timelines and support depend on the agreed proposal — not a fixed promise on this page.",
-  deliveryPublicationState: "draft",
+  deliveryPublicationState: "approved",
   workHeading: "Related work",
   workSupporting:
     "Approved project stories appear here when they are ready to publish.",

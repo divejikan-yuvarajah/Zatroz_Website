@@ -46,9 +46,9 @@ export type HomeEvidenceIntroRecord = {
  */
 export const homeEvidenceIntro: HomeEvidenceIntroRecord = {
   id: "home-evidence-intro",
-  publicationState: "draft",
+  publicationState: "approved",
   heading: "Why continue reading",
-  text: "Zatroz builds digital tools that help businesses sell, serve customers, and manage everyday work. Concrete proof items will appear here once founders approve verified claims.",
+  text: "Zatroz builds digital tools that help businesses sell, serve customers, and manage everyday work. Verified project stories appear here when they are published.",
 };
 
 /**

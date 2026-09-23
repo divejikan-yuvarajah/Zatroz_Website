@@ -52,7 +52,7 @@ export type PublicAutomationExample = {
  */
 export const homeAutomationExampleRecord: HomeAutomationExampleRecord = {
   id: "automation-example",
-  publicationState: "draft",
+  publicationState: "approved",
   workflowLabel: "Illustrative workflow",
   heading: "Less repetitive work. More room to focus.",
   supporting:

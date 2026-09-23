@@ -38,6 +38,7 @@ import { enforceEnquiryRateLimits } from "@/server/security/rate-limit";
 import { insertEnquiryDocument } from "@/server/repositories/enquiries";
 import { evaluateEnquiryReadiness } from "@/server/security/readiness";
 import { verifyEnquiryTurnstileToken } from "@/server/security/turnstile-verify";
+import { noteEnquiryAccepted } from "@/lib/observability/enquiry-acceptance";
 import { getDb } from "@/lib/mongodb/connection";
 import type { EnquiryDocument } from "@/lib/mongodb/models/types";
 import { resolveEmailConfig } from "@/lib/email/config";
@@ -320,6 +321,14 @@ export async function submitEnquiryAction(
     );
     return mapFailureToEnquiryResult(insertResult.category);
   }
+
+  noteEnquiryAccepted({
+    duplicated: insertResult.duplicated,
+    service: gate.normalized.service,
+    correlationId,
+    elapsedMs: Date.now() - started,
+    analyticsSink: env.ANALYTICS_SINK,
+  });
 
   if (insertResult.duplicated) {
     if (!insertResult.payloadFingerprintMatches) {
