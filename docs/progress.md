@@ -763,3 +763,12 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Publish revalidation covers sitemap and OG image paths.
 - Checks: recorded in `docs/quality/step-59.md`. Search Console / live crawler Not run.
 - Stop before Step 60 (performance).
+
+### Step 60 (2026-09-24)
+
+- Branch: `feature/60-performance` from `feature/59-seo`.
+- Local production timings: Home and Work medians fell from about 8.1s to under 50ms after a public-catalogue failure cooldown (same warmup-then-three-runs method). Services stayed fast. Contact stayed under 100ms.
+- Also request-scoped catalogue reuse and deferred GSAP reveal import.
+- Field Core Web Vitals, Lighthouse, and authenticated admin timings: Not run.
+- Checks recorded in `docs/quality/step-60.md`.
+- Stop before Step 61 (application security).

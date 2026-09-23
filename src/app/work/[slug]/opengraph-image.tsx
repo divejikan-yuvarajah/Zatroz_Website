@@ -26,70 +26,68 @@ export default async function WorkOpenGraphImage({ params }: OgImageProps) {
     : "Practical digital solutions for everyday work";
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        backgroundColor: "#F7F5F2",
+        padding: "72px 80px",
+      }}
+    >
       <div
         style={{
-          width: "100%",
-          height: "100%",
+          display: "flex",
+          width: "120px",
+          height: "8px",
+          backgroundColor: "#FF3B10",
+        }}
+      />
+      <div
+        style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          backgroundColor: "#F7F5F2",
-          padding: "72px 80px",
+          gap: "28px",
+          maxWidth: "960px",
         }}
       >
         <div
           style={{
-            display: "flex",
-            width: "120px",
-            height: "8px",
-            backgroundColor: "#FF3B10",
-          }}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "28px",
-            maxWidth: "960px",
+            fontSize: title.length > 48 ? 56 : 72,
+            fontWeight: 700,
+            color: "#111111",
+            letterSpacing: "-0.03em",
+            lineHeight: 1.1,
           }}
         >
-          <div
-            style={{
-              fontSize: title.length > 48 ? 56 : 72,
-              fontWeight: 700,
-              color: "#111111",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              fontSize: 32,
-              fontWeight: 500,
-              color: "#111111",
-              opacity: 0.7,
-              lineHeight: 1.35,
-            }}
-          >
-            {subtitle}
-          </div>
+          {title}
         </div>
         <div
           style={{
-            display: "flex",
-            fontSize: 28,
-            fontWeight: 600,
-            color: "#FF3B10",
-            letterSpacing: "0.02em",
+            fontSize: 32,
+            fontWeight: 500,
+            color: "#111111",
+            opacity: 0.7,
+            lineHeight: 1.35,
           }}
         >
-          {brand}
+          {subtitle}
         </div>
       </div>
-    ),
+      <div
+        style={{
+          display: "flex",
+          fontSize: 28,
+          fontWeight: 600,
+          color: "#FF3B10",
+          letterSpacing: "0.02em",
+        }}
+      >
+        {brand}
+      </div>
+    </div>,
     { ...size },
   );
 }
