@@ -34,13 +34,13 @@ Experimental `globalNotFound` was **not** enabled. Optional not-found illustrati
 
 ## Checks
 
-| Check                                                     | Result             |
-| --------------------------------------------------------- | ------------------ |
-| `npm run format`                                          | Passed |
-| `npm run check`                                           | Passed |
-| `npm run build`                                           | Passed |
-| Interactive 320px / 200% zoom / keyboard / reduced-motion | **Not run**        |
-| Production-mode HTTP status for random path / draft slug  | **Not run**        |
+| Check                                                     | Result      |
+| --------------------------------------------------------- | ----------- |
+| `npm run format`                                          | Passed      |
+| `npm run check`                                           | Passed      |
+| `npm run build`                                           | Passed      |
+| Interactive 320px / 200% zoom / keyboard / reduced-motion | **Not run** |
+| Production-mode HTTP status for random path / draft slug  | **Not run** |
 
 ## Honesty
 

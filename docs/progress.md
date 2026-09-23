@@ -772,3 +772,11 @@ These steps 11–24 are merged to `main`. Steps 25–46 and admin A01 are on sta
 - Field Core Web Vitals, Lighthouse, and authenticated admin timings: Not run.
 - Checks recorded in `docs/quality/step-60.md`.
 - Stop before Step 61 (application security).
+
+### Step 61 (2026-09-24)
+
+- Branch: `feature/61-security` from `feature/60-performance`.
+- Threat model and CSP notes in `docs/security/`.
+- Enforced limited CSP plus nosniff, referrer, frame, and permissions headers. Stricter script policy is report-only so Next.js inline scripts keep working without a nonce.
+- Checks recorded in `docs/quality/step-61.md`. `npm audit` reported 0 vulnerabilities. Remote Atlas settings Not run.
+- Stop before Step 62 (analytics and monitoring).
