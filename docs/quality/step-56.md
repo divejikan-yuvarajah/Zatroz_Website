@@ -17,14 +17,14 @@
 
 ## Checks
 
-| Check                                             | Result               |
-| ------------------------------------------------- | -------------------- |
-| `npm run format`                                  | Passed               |
-| `npm run check`                                   | Passed               |
-| `npm run build`                                   | Passed               |
+| Check                                             | Result                                          |
+| ------------------------------------------------- | ----------------------------------------------- |
+| `npm run format`                                  | Passed                                          |
+| `npm run check`                                   | Passed                                          |
+| `npm run build`                                   | Passed                                          |
 | GSAP client chunk size                            | ~123 KB (`0a6rwvb6eml_u.js` with ScrollTrigger) |
-| Manual reduced-motion toggle / no-JS / rapid menu | **Not run**          |
-| Throttled mobile main-thread scroll profile       | **Not run**          |
+| Manual reduced-motion toggle / no-JS / rapid menu | **Not run**                                     |
+| Throttled mobile main-thread scroll profile       | **Not run**                                     |
 
 ## Honesty
 

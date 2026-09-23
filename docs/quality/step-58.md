@@ -18,9 +18,9 @@
 
 | Check                 | Result                   |
 | --------------------- | ------------------------ |
-| `npm run format` | Passed |
-| `npm run check` | Passed |
-| `npm run build` | Passed |
+| `npm run format`      | Passed                   |
+| `npm run check`       | Passed                   |
+| `npm run build`       | Passed                   |
 | Live axe / Playwright | **Not run** (no harness) |
 | Screen reader session | **Not run**              |
 
